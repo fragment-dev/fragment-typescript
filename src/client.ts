@@ -32,6 +32,12 @@ import {
 } from './resources/invoices';
 import { Parties, Party, PartyCreateParams, PartyListResponse, PartySuccess } from './resources/parties';
 import {
+  Platform,
+  PlatformRetrieveResponse,
+  PlatformUpdateParams,
+  PlatformUpdateResponse,
+} from './resources/platform';
+import {
   Product,
   ProductCreateParams,
   ProductListResponse,
@@ -856,12 +862,14 @@ export class Fragment {
   invoices: API.Invoices = new API.Invoices(this);
   parties: API.Parties = new API.Parties(this);
   products: API.Products = new API.Products(this);
+  platform: API.Platform = new API.Platform(this);
 }
 
 Fragment.ExternalPayments = ExternalPayments;
 Fragment.Invoices = Invoices;
 Fragment.Parties = Parties;
 Fragment.Products = Products;
+Fragment.Platform = Platform;
 
 export declare namespace Fragment {
   export type RequestOptions = Opts.RequestOptions;
@@ -897,5 +905,12 @@ export declare namespace Fragment {
     type Seller as Seller,
     type ProductListResponse as ProductListResponse,
     type ProductCreateParams as ProductCreateParams,
+  };
+
+  export {
+    Platform as Platform,
+    type PlatformRetrieveResponse as PlatformRetrieveResponse,
+    type PlatformUpdateResponse as PlatformUpdateResponse,
+    type PlatformUpdateParams as PlatformUpdateParams,
   };
 }
