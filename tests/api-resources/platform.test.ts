@@ -8,10 +8,10 @@ const client = new Fragment({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource parties', () => {
+describe('resource platform', () => {
   // Prism tests are disabled
-  test.skip('create: only required params', async () => {
-    const responsePromise = client.parties.create({ externalId: 'party_ext_123' });
+  test.skip('retrieve', async () => {
+    const responsePromise = client.platform.retrieve();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -22,13 +22,8 @@ describe('resource parties', () => {
   });
 
   // Prism tests are disabled
-  test.skip('create: required and optional params', async () => {
-    const response = await client.parties.create({ externalId: 'party_ext_123', type: 'buyer' });
-  });
-
-  // Prism tests are disabled
-  test.skip('list', async () => {
-    const responsePromise = client.parties.list();
+  test.skip('update: only required params', async () => {
+    const responsePromise = client.platform.update({ displayName: 'Acme Corp' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -36,5 +31,10 @@ describe('resource parties', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('update: required and optional params', async () => {
+    const response = await client.platform.update({ displayName: 'Acme Corp' });
   });
 });
