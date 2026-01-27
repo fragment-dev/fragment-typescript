@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { Fragment } from 'fragment-typescript';
+import { Fragment } from '@fragment-dev/ts-node';
 
 const { stringifyQuery } = Fragment.prototype as any;
 

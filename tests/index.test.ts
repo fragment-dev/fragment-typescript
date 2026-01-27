@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIPromise } from 'fragment-typescript/core/api-promise';
+import { APIPromise } from '@fragment-dev/ts-node/core/api-promise';
 
 import util from 'node:util';
-import Fragment from 'fragment-typescript';
-import { APIUserAbortError } from 'fragment-typescript';
+import Fragment from '@fragment-dev/ts-node';
+import { APIUserAbortError } from '@fragment-dev/ts-node';
 const defaultFetch = fetch;
 
 describe('instantiate client', () => {
