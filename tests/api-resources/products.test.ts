@@ -36,7 +36,7 @@ describe('resource products', () => {
 
   // Prism tests are disabled
   test.skip('retrieve', async () => {
-    const responsePromise = client.products.retrieve('PROD_001');
+    const responsePromise = client.products.retrieve();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

@@ -3,7 +3,6 @@
 import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
-import { path } from '../internal/utils/path';
 
 export class Parties extends APIResource {
   /**
@@ -21,20 +20,6 @@ export class Parties extends APIResource {
   }
 
   /**
-   * Gets a party by external ID
-   *
-   * @example
-   * ```ts
-   * const partySuccess = await client.parties.retrieve(
-   *   'party_ext_123',
-   * );
-   * ```
-   */
-  retrieve(externalID: string, options?: RequestOptions): APIPromise<PartySuccess> {
-    return this._client.get(path`/parties/${externalID}`, options);
-  }
-
-  /**
    * Lists all parties for the workspace
    *
    * @example
@@ -44,6 +29,19 @@ export class Parties extends APIResource {
    */
   list(options?: RequestOptions): APIPromise<PartyListResponse> {
     return this._client.get('/parties', options);
+  }
+
+  /**
+   * Gets a party by external ID
+   *
+   * @example
+   * ```ts
+   * const partySuccess =
+   *   await client.parties.retrieveExternalID();
+   * ```
+   */
+  retrieveExternalID(options?: RequestOptions): APIPromise<PartySuccess> {
+    return this._client.get('/parties/:externalId', options);
   }
 }
 

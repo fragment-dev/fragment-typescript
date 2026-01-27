@@ -3,7 +3,6 @@
 import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
-import { path } from '../internal/utils/path';
 
 export class Products extends APIResource {
   /**
@@ -27,13 +26,11 @@ export class Products extends APIResource {
    *
    * @example
    * ```ts
-   * const productSuccess = await client.products.retrieve(
-   *   'PROD_001',
-   * );
+   * const productSuccess = await client.products.retrieve();
    * ```
    */
-  retrieve(code: string, options?: RequestOptions): APIPromise<ProductSuccess> {
-    return this._client.get(path`/products/${code}`, options);
+  retrieve(options?: RequestOptions): APIPromise<ProductSuccess> {
+    return this._client.get('/products/:code', options);
   }
 
   /**

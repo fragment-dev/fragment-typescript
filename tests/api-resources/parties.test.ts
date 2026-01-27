@@ -27,8 +27,8 @@ describe('resource parties', () => {
   });
 
   // Prism tests are disabled
-  test.skip('retrieve', async () => {
-    const responsePromise = client.parties.retrieve('party_ext_123');
+  test.skip('list', async () => {
+    const responsePromise = client.parties.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -39,8 +39,8 @@ describe('resource parties', () => {
   });
 
   // Prism tests are disabled
-  test.skip('list', async () => {
-    const responsePromise = client.parties.list();
+  test.skip('retrieveExternalID', async () => {
+    const responsePromise = client.parties.retrieveExternalID();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
