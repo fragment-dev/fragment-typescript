@@ -20,18 +20,6 @@ export class Parties extends APIResource {
   }
 
   /**
-   * Gets a party by external ID
-   *
-   * @example
-   * ```ts
-   * const partySuccess = await client.parties.retrieve();
-   * ```
-   */
-  retrieve(options?: RequestOptions): APIPromise<PartySuccess> {
-    return this._client.get('/parties/:externalId', options);
-  }
-
-  /**
    * Lists all parties for the workspace
    *
    * @example

@@ -21,18 +21,6 @@ export class Invoices extends APIResource {
   }
 
   /**
-   * Gets an invoice by ID
-   *
-   * @example
-   * ```ts
-   * const invoiceSuccess = await client.invoices.retrieve();
-   * ```
-   */
-  retrieve(options?: RequestOptions): APIPromise<InvoiceSuccess> {
-    return this._client.get('/invoices/:id', options);
-  }
-
-  /**
    * Lists all invoices for the workspace
    *
    * @example

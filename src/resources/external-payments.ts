@@ -25,19 +25,6 @@ export class ExternalPayments extends APIResource {
   }
 
   /**
-   * Gets an external payment by transaction ID
-   *
-   * @example
-   * ```ts
-   * const externalPaymentSuccess =
-   *   await client.externalPayments.retrieve();
-   * ```
-   */
-  retrieve(options?: RequestOptions): APIPromise<ExternalPaymentSuccess> {
-    return this._client.get('/external-payments/:transactionId', options);
-  }
-
-  /**
    * Lists all external payments for the workspace
    *
    * @example
