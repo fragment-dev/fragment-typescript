@@ -22,6 +22,18 @@ export class Products extends APIResource {
   }
 
   /**
+   * Gets a product by code
+   *
+   * @example
+   * ```ts
+   * const productSuccess = await client.products.retrieve();
+   * ```
+   */
+  retrieve(options?: RequestOptions): APIPromise<ProductSuccess> {
+    return this._client.get('/products/:code', options);
+  }
+
+  /**
    * Lists all products for the workspace
    *
    * @example
