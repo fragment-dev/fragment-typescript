@@ -42,6 +42,7 @@ import {
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
+import { toBase64 } from './internal/utils/base64';
 import { readEnv } from './internal/utils/env';
 import {
   type LogLevel,
@@ -250,6 +251,7 @@ export class Fragment {
       clientSecret: this.clientSecret,
       ...options,
     });
+    client.oAuth2AuthState = this.oAuth2AuthState;
     return client;
   }
 
@@ -266,6 +268,77 @@ export class Fragment {
 
   protected validateHeaders({ values, nulls }: NullableHeaders) {
     return;
+  }
+
+  private oAuth2AuthState:
+    | {
+        promise: Promise<{
+          access_token: string;
+          token_type: string;
+          expires_in: number;
+          expires_at: Date;
+          refresh_token?: string;
+        }>;
+        clientID: string;
+        clientSecret: string;
+      }
+    | undefined;
+  protected async authHeaders(opts: FinalRequestOptions): Promise<NullableHeaders | undefined> {
+    if (!this.clientID || !this.clientSecret) {
+      return undefined;
+    }
+
+    // Invalidate the cache if the token is expired
+    if (this.oAuth2AuthState && +(await this.oAuth2AuthState.promise).expires_at < Date.now()) {
+      this.oAuth2AuthState = undefined;
+    }
+
+    // Invalidate the cache if the relevant state has been changed
+    if (
+      this.oAuth2AuthState &&
+      this.oAuth2AuthState.clientID !== this.clientID &&
+      this.oAuth2AuthState.clientSecret !== this.clientSecret
+    ) {
+      this.oAuth2AuthState = undefined;
+    }
+
+    if (!this.oAuth2AuthState) {
+      this.oAuth2AuthState = {
+        promise: this.fetch(
+          this.buildURL('https://auth.us-west-2.fragment.dev/oauth2/token', {
+            grant_type: 'client_credentials',
+          }),
+          {
+            method: 'POST',
+            headers: {
+              Authorization: `Basic ${toBase64(`${this.clientID}:${this.clientSecret}`)}`,
+            },
+          },
+        ).then(async (res) => {
+          if (!res.ok) {
+            const errText = await res.text().catch(() => '');
+            const errJSON = errText ? safeJSON(errText) : undefined;
+            const errMessage = errJSON ? undefined : errText;
+            throw this.makeStatusError(res.status, errJSON, errMessage, res.headers);
+          }
+          const json = (await res.json()) as {
+            access_token: string;
+            token_type: string;
+            expires_in: number;
+            refresh_token?: string;
+          };
+          const now = new Date();
+          now.setSeconds(now.getSeconds() + json.expires_in);
+          return { ...json, expires_at: now };
+        }),
+        clientID: this.clientID,
+        clientSecret: this.clientSecret,
+      };
+    }
+
+    const token = await this.oAuth2AuthState.promise;
+
+    return buildHeaders([{ Authorization: `Bearer ${token.access_token}` }]);
   }
 
   /**
@@ -583,6 +656,13 @@ export class Fragment {
     if (shouldRetryHeader === 'true') return true;
     if (shouldRetryHeader === 'false') return false;
 
+    // Retry if the token has expired
+    const oAuth2Auth = await this.oAuth2AuthState?.promise;
+    if (response.status === 401 && oAuth2Auth && +oAuth2Auth.expires_at - Date.now() < 10 * 1000) {
+      this.oAuth2AuthState = undefined;
+      return true;
+    }
+
     // Retry on request timeouts.
     if (response.status === 408) return true;
 
@@ -705,6 +785,7 @@ export class Fragment {
         ...(options.timeout ? { 'X-Stainless-Timeout': String(Math.trunc(options.timeout / 1000)) } : {}),
         ...getPlatformHeaders(),
       },
+      await this.authHeaders(options),
       this._options.defaultHeaders,
       bodyHeaders,
       options.headers,
