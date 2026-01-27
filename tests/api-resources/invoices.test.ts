@@ -29,24 +29,13 @@ describe('resource invoices', () => {
       lineItems: [
         {
           amount: '1000',
+          currency_code: 'USD',
           description: 'Professional services for January 2026',
           payout_party: { platform: true },
           product_id: 'prod_1234567890',
         },
       ],
     });
-  });
-
-  // Prism tests are disabled
-  test.skip('retrieve', async () => {
-    const responsePromise = client.invoices.retrieve('inv_1234567890');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
   });
 
   // Prism tests are disabled
