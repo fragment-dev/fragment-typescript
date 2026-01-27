@@ -3,6 +3,7 @@
 import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Invoices extends APIResource {
   /**
@@ -18,6 +19,20 @@ export class Invoices extends APIResource {
    */
   create(body: InvoiceCreateParams, options?: RequestOptions): APIPromise<InvoiceSuccess> {
     return this._client.post('/invoices', { body, ...options });
+  }
+
+  /**
+   * Gets an invoice by ID
+   *
+   * @example
+   * ```ts
+   * const invoiceSuccess = await client.invoices.retrieve(
+   *   'inv_1234567890',
+   * );
+   * ```
+   */
+  retrieve(id: string, options?: RequestOptions): APIPromise<InvoiceSuccess> {
+    return this._client.get(path`/invoices/${id}`, options);
   }
 
   /**

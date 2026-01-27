@@ -11,7 +11,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 ## Installation
 
 ```sh
-npm install git+ssh://git@github.com:fragment-dev/fragment-typescript.git
+npm install git+ssh://git@github.com:stainless-sdks/fragment-typescript.git
 ```
 
 > [!NOTE]
@@ -25,17 +25,15 @@ The full API of this library can be found in [api.md](api.md).
 ```js
 import Fragment from 'fragment';
 
-const client = new Fragment({
-  environment: 'sandbox', // defaults to 'production'
-});
+const client = new Fragment();
 
 const externalPaymentSuccess = await client.externalPayments.create({
-  accountReference: 'ACC-001',
+  accountReference: 'ACC-2024-001',
   amount: '50000',
-  counterpartyId: 'party_123',
+  counterpartyId: 'party_ext_789',
   currency_code: 'USD',
-  invoiceId: 'inv_123',
-  transactionId: 'txn_example',
+  invoiceId: 'inv_1234567890',
+  transactionId: 'txn_external_123',
 });
 
 console.log(externalPaymentSuccess.data);
@@ -49,17 +47,15 @@ This library includes TypeScript definitions for all request params and response
 ```ts
 import Fragment from 'fragment';
 
-const client = new Fragment({
-  environment: 'sandbox', // defaults to 'production'
-});
+const client = new Fragment();
 
 const params: Fragment.ExternalPaymentCreateParams = {
-  accountReference: 'ACC-001',
+  accountReference: 'ACC-2024-001',
   amount: '50000',
-  counterpartyId: 'party_123',
+  counterpartyId: 'party_ext_789',
   currency_code: 'USD',
-  invoiceId: 'inv_123',
-  transactionId: 'txn_example',
+  invoiceId: 'inv_1234567890',
+  transactionId: 'txn_external_123',
 };
 const externalPaymentSuccess: Fragment.ExternalPaymentSuccess =
   await client.externalPayments.create(params);
@@ -77,12 +73,12 @@ a subclass of `APIError` will be thrown:
 ```ts
 const externalPaymentSuccess = await client.externalPayments
   .create({
-    accountReference: 'ACC-001',
+    accountReference: 'ACC-2024-001',
     amount: '50000',
-    counterpartyId: 'party_123',
+    counterpartyId: 'party_ext_789',
     currency_code: 'USD',
-    invoiceId: 'inv_123',
-    transactionId: 'txn_example',
+    invoiceId: 'inv_1234567890',
+    transactionId: 'txn_external_123',
   })
   .catch(async (err) => {
     if (err instanceof Fragment.APIError) {
@@ -125,12 +121,12 @@ const client = new Fragment({
 
 // Or, configure per-request:
 await client.externalPayments.create({
-  accountReference: 'ACC-001',
+  accountReference: 'ACC-2024-001',
   amount: '50000',
-  counterpartyId: 'party_123',
+  counterpartyId: 'party_ext_789',
   currency_code: 'USD',
-  invoiceId: 'inv_123',
-  transactionId: 'txn_example',
+  invoiceId: 'inv_1234567890',
+  transactionId: 'txn_external_123',
 }, {
   maxRetries: 5,
 });
@@ -149,12 +145,12 @@ const client = new Fragment({
 
 // Override per-request:
 await client.externalPayments.create({
-  accountReference: 'ACC-001',
+  accountReference: 'ACC-2024-001',
   amount: '50000',
-  counterpartyId: 'party_123',
+  counterpartyId: 'party_ext_789',
   currency_code: 'USD',
-  invoiceId: 'inv_123',
-  transactionId: 'txn_example',
+  invoiceId: 'inv_1234567890',
+  transactionId: 'txn_external_123',
 }, {
   timeout: 5 * 1000,
 });
@@ -180,12 +176,12 @@ const client = new Fragment();
 
 const response = await client.externalPayments
   .create({
-    accountReference: 'ACC-001',
+    accountReference: 'ACC-2024-001',
     amount: '50000',
-    counterpartyId: 'party_123',
+    counterpartyId: 'party_ext_789',
     currency_code: 'USD',
-    invoiceId: 'inv_123',
-    transactionId: 'txn_example',
+    invoiceId: 'inv_1234567890',
+    transactionId: 'txn_external_123',
   })
   .asResponse();
 console.log(response.headers.get('X-My-Header'));
@@ -193,12 +189,12 @@ console.log(response.statusText); // access the underlying Response object
 
 const { data: externalPaymentSuccess, response: raw } = await client.externalPayments
   .create({
-    accountReference: 'ACC-001',
+    accountReference: 'ACC-2024-001',
     amount: '50000',
-    counterpartyId: 'party_123',
+    counterpartyId: 'party_ext_789',
     currency_code: 'USD',
-    invoiceId: 'inv_123',
-    transactionId: 'txn_example',
+    invoiceId: 'inv_1234567890',
+    transactionId: 'txn_external_123',
   })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
@@ -392,7 +388,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/fragment-dev/fragment-typescript/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/fragment-typescript/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 
