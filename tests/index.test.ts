@@ -354,36 +354,13 @@ describe('instantiate client', () => {
     test('empty env variable', () => {
       process.env['FRAGMENT_BASE_URL'] = ''; // empty
       const client = new Fragment({ clientID: 'My Client ID', clientSecret: 'My Client Secret' });
-      expect(client.baseURL).toEqual('https://api.fragment.dev');
+      expect(client.baseURL).toEqual('https://api-payments.us-west-2.fragment.dev/*');
     });
 
     test('blank env variable', () => {
       process.env['FRAGMENT_BASE_URL'] = '  '; // blank
       const client = new Fragment({ clientID: 'My Client ID', clientSecret: 'My Client Secret' });
-      expect(client.baseURL).toEqual('https://api.fragment.dev');
-    });
-
-    test('env variable with environment', () => {
-      process.env['FRAGMENT_BASE_URL'] = 'https://example.com/from_env';
-
-      expect(
-        () =>
-          new Fragment({
-            clientID: 'My Client ID',
-            clientSecret: 'My Client Secret',
-            environment: 'production',
-          }),
-      ).toThrowErrorMatchingInlineSnapshot(
-        `"Ambiguous URL; The \`baseURL\` option (or FRAGMENT_BASE_URL env var) and the \`environment\` option are given. If you want to use the environment you must pass baseURL: null"`,
-      );
-
-      const client = new Fragment({
-        clientID: 'My Client ID',
-        clientSecret: 'My Client Secret',
-        baseURL: null,
-        environment: 'production',
-      });
-      expect(client.baseURL).toEqual('https://api.fragment.dev');
+      expect(client.baseURL).toEqual('https://api-payments.us-west-2.fragment.dev/*');
     });
 
     test('in request options', () => {

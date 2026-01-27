@@ -1,14 +1,5 @@
 # Changelog
 
-## 0.3.0 (2026-01-27)
-
-Full Changelog: [v0.2.0...v0.3.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.2.0...v0.3.0)
-
-### Features
-
-* Add Currency to ExternalPayment and Invoice.items ([2c099b1](https://github.com/fragment-dev/fragment-typescript/commit/2c099b1139b2c9d2cdf970bf5a407f4898cc073d))
-* **api:** manual updates ([101da2f](https://github.com/fragment-dev/fragment-typescript/commit/101da2f36e54628369a1027b36cd31e899c8070f))
-
 ## 0.2.0 (2026-01-27)
 
 Full Changelog: [v0.1.0...v0.2.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.1.0...v0.2.0)

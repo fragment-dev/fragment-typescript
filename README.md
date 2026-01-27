@@ -11,7 +11,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 ## Installation
 
 ```sh
-npm install git+ssh://git@github.com:fragment-dev/fragment-typescript.git
+npm install git+ssh://git@github.com:stainless-sdks/fragment-typescript.git
 ```
 
 > [!NOTE]
@@ -25,9 +25,7 @@ The full API of this library can be found in [api.md](api.md).
 ```js
 import Fragment from 'fragment';
 
-const client = new Fragment({
-  environment: 'sandbox', // defaults to 'production'
-});
+const client = new Fragment();
 
 const externalPaymentSuccess = await client.externalPayments.create({
   accountReference: 'ACC-001',
@@ -49,9 +47,7 @@ This library includes TypeScript definitions for all request params and response
 ```ts
 import Fragment from 'fragment';
 
-const client = new Fragment({
-  environment: 'sandbox', // defaults to 'production'
-});
+const client = new Fragment();
 
 const params: Fragment.ExternalPaymentCreateParams = {
   accountReference: 'ACC-001',
@@ -392,7 +388,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/fragment-dev/fragment-typescript/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/fragment-typescript/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 
