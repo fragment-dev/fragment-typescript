@@ -60,9 +60,14 @@ type Environment = keyof typeof environments;
 
 export interface ClientOptions {
   /**
-   * Defaults to process.env['FRAGMENT_API_KEY'].
+   * Defaults to process.env['FRAGMENT_CLIENT_ID'].
    */
-  apiKey?: string | null | undefined;
+  clientID?: string | undefined;
+
+  /**
+   * Defaults to process.env['FRAGMENT_CLIENT_SECRET'].
+   */
+  clientSecret?: string | undefined;
 
   /**
    * Specifies the environment to use for the API.
@@ -146,7 +151,8 @@ export interface ClientOptions {
  * API Client for interfacing with the Fragment API.
  */
 export class Fragment {
-  apiKey: string | null;
+  clientID: string;
+  clientSecret: string;
 
   baseURL: string;
   maxRetries: number;
@@ -163,7 +169,8 @@ export class Fragment {
   /**
    * API Client for interfacing with the Fragment API.
    *
-   * @param {string | null | undefined} [opts.apiKey=process.env['FRAGMENT_API_KEY'] ?? null]
+   * @param {string | undefined} [opts.clientID=process.env['FRAGMENT_CLIENT_ID'] ?? undefined]
+   * @param {string | undefined} [opts.clientSecret=process.env['FRAGMENT_CLIENT_SECRET'] ?? undefined]
    * @param {Environment} [opts.environment=production] - Specifies the environment URL to use for the API.
    * @param {string} [opts.baseURL=process.env['FRAGMENT_BASE_URL'] ?? https://api.fragment.dev] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
@@ -175,11 +182,24 @@ export class Fragment {
    */
   constructor({
     baseURL = readEnv('FRAGMENT_BASE_URL'),
-    apiKey = readEnv('FRAGMENT_API_KEY') ?? null,
+    clientID = readEnv('FRAGMENT_CLIENT_ID'),
+    clientSecret = readEnv('FRAGMENT_CLIENT_SECRET'),
     ...opts
   }: ClientOptions = {}) {
+    if (clientID === undefined) {
+      throw new Errors.FragmentError(
+        "The FRAGMENT_CLIENT_ID environment variable is missing or empty; either provide it, or instantiate the Fragment client with an clientID option, like new Fragment({ clientID: 'My Client ID' }).",
+      );
+    }
+    if (clientSecret === undefined) {
+      throw new Errors.FragmentError(
+        "The FRAGMENT_CLIENT_SECRET environment variable is missing or empty; either provide it, or instantiate the Fragment client with an clientSecret option, like new Fragment({ clientSecret: 'My Client Secret' }).",
+      );
+    }
+
     const options: ClientOptions = {
-      apiKey,
+      clientID,
+      clientSecret,
       ...opts,
       baseURL,
       environment: opts.environment ?? 'production',
@@ -208,7 +228,8 @@ export class Fragment {
 
     this._options = options;
 
-    this.apiKey = apiKey;
+    this.clientID = clientID;
+    this.clientSecret = clientSecret;
   }
 
   /**
@@ -225,7 +246,8 @@ export class Fragment {
       logLevel: this.logLevel,
       fetch: this.fetch,
       fetchOptions: this.fetchOptions,
-      apiKey: this.apiKey,
+      clientID: this.clientID,
+      clientSecret: this.clientSecret,
       ...options,
     });
     return client;
