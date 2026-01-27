@@ -251,7 +251,7 @@ export class Fragment {
       clientSecret: this.clientSecret,
       ...options,
     });
-    client.oAuth2AuthState = this.oAuth2AuthState;
+    client.oauth2AuthState = this.oauth2AuthState;
     return client;
   }
 
@@ -270,7 +270,7 @@ export class Fragment {
     return;
   }
 
-  private oAuth2AuthState:
+  private oauth2AuthState:
     | {
         promise: Promise<{
           access_token: string;
@@ -289,21 +289,21 @@ export class Fragment {
     }
 
     // Invalidate the cache if the token is expired
-    if (this.oAuth2AuthState && +(await this.oAuth2AuthState.promise).expires_at < Date.now()) {
-      this.oAuth2AuthState = undefined;
+    if (this.oauth2AuthState && +(await this.oauth2AuthState.promise).expires_at < Date.now()) {
+      this.oauth2AuthState = undefined;
     }
 
     // Invalidate the cache if the relevant state has been changed
     if (
-      this.oAuth2AuthState &&
-      this.oAuth2AuthState.clientID !== this.clientID &&
-      this.oAuth2AuthState.clientSecret !== this.clientSecret
+      this.oauth2AuthState &&
+      this.oauth2AuthState.clientID !== this.clientID &&
+      this.oauth2AuthState.clientSecret !== this.clientSecret
     ) {
-      this.oAuth2AuthState = undefined;
+      this.oauth2AuthState = undefined;
     }
 
-    if (!this.oAuth2AuthState) {
-      this.oAuth2AuthState = {
+    if (!this.oauth2AuthState) {
+      this.oauth2AuthState = {
         promise: this.fetch(
           this.buildURL('https://auth.us-west-2.fragment.dev/oauth2/token', {
             grant_type: 'client_credentials',
@@ -336,7 +336,7 @@ export class Fragment {
       };
     }
 
-    const token = await this.oAuth2AuthState.promise;
+    const token = await this.oauth2AuthState.promise;
 
     return buildHeaders([{ Authorization: `Bearer ${token.access_token}` }]);
   }
@@ -657,9 +657,9 @@ export class Fragment {
     if (shouldRetryHeader === 'false') return false;
 
     // Retry if the token has expired
-    const oAuth2Auth = await this.oAuth2AuthState?.promise;
-    if (response.status === 401 && oAuth2Auth && +oAuth2Auth.expires_at - Date.now() < 10 * 1000) {
-      this.oAuth2AuthState = undefined;
+    const oauth2Auth = await this.oauth2AuthState?.promise;
+    if (response.status === 401 && oauth2Auth && +oauth2Auth.expires_at - Date.now() < 10 * 1000) {
+      this.oauth2AuthState = undefined;
       return true;
     }
 
