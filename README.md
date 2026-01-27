@@ -28,12 +28,12 @@ import Fragment from 'fragment';
 const client = new Fragment();
 
 const externalPaymentSuccess = await client.externalPayments.create({
-  accountReference: 'ACC-2024-001',
+  accountReference: 'ACC-001',
   amount: '50000',
-  counterpartyId: 'party_ext_789',
+  counterpartyId: 'party_123',
   currency_code: 'USD',
-  invoiceId: 'inv_1234567890',
-  transactionId: 'txn_external_123',
+  invoiceId: 'inv_123',
+  transactionId: 'txn_example',
 });
 
 console.log(externalPaymentSuccess.data);
@@ -50,12 +50,12 @@ import Fragment from 'fragment';
 const client = new Fragment();
 
 const params: Fragment.ExternalPaymentCreateParams = {
-  accountReference: 'ACC-2024-001',
+  accountReference: 'ACC-001',
   amount: '50000',
-  counterpartyId: 'party_ext_789',
+  counterpartyId: 'party_123',
   currency_code: 'USD',
-  invoiceId: 'inv_1234567890',
-  transactionId: 'txn_external_123',
+  invoiceId: 'inv_123',
+  transactionId: 'txn_example',
 };
 const externalPaymentSuccess: Fragment.ExternalPaymentSuccess =
   await client.externalPayments.create(params);
@@ -73,12 +73,12 @@ a subclass of `APIError` will be thrown:
 ```ts
 const externalPaymentSuccess = await client.externalPayments
   .create({
-    accountReference: 'ACC-2024-001',
+    accountReference: 'ACC-001',
     amount: '50000',
-    counterpartyId: 'party_ext_789',
+    counterpartyId: 'party_123',
     currency_code: 'USD',
-    invoiceId: 'inv_1234567890',
-    transactionId: 'txn_external_123',
+    invoiceId: 'inv_123',
+    transactionId: 'txn_example',
   })
   .catch(async (err) => {
     if (err instanceof Fragment.APIError) {
@@ -121,12 +121,12 @@ const client = new Fragment({
 
 // Or, configure per-request:
 await client.externalPayments.create({
-  accountReference: 'ACC-2024-001',
+  accountReference: 'ACC-001',
   amount: '50000',
-  counterpartyId: 'party_ext_789',
+  counterpartyId: 'party_123',
   currency_code: 'USD',
-  invoiceId: 'inv_1234567890',
-  transactionId: 'txn_external_123',
+  invoiceId: 'inv_123',
+  transactionId: 'txn_example',
 }, {
   maxRetries: 5,
 });
@@ -145,12 +145,12 @@ const client = new Fragment({
 
 // Override per-request:
 await client.externalPayments.create({
-  accountReference: 'ACC-2024-001',
+  accountReference: 'ACC-001',
   amount: '50000',
-  counterpartyId: 'party_ext_789',
+  counterpartyId: 'party_123',
   currency_code: 'USD',
-  invoiceId: 'inv_1234567890',
-  transactionId: 'txn_external_123',
+  invoiceId: 'inv_123',
+  transactionId: 'txn_example',
 }, {
   timeout: 5 * 1000,
 });
@@ -176,12 +176,12 @@ const client = new Fragment();
 
 const response = await client.externalPayments
   .create({
-    accountReference: 'ACC-2024-001',
+    accountReference: 'ACC-001',
     amount: '50000',
-    counterpartyId: 'party_ext_789',
+    counterpartyId: 'party_123',
     currency_code: 'USD',
-    invoiceId: 'inv_1234567890',
-    transactionId: 'txn_external_123',
+    invoiceId: 'inv_123',
+    transactionId: 'txn_example',
   })
   .asResponse();
 console.log(response.headers.get('X-My-Header'));
@@ -189,12 +189,12 @@ console.log(response.statusText); // access the underlying Response object
 
 const { data: externalPaymentSuccess, response: raw } = await client.externalPayments
   .create({
-    accountReference: 'ACC-2024-001',
+    accountReference: 'ACC-001',
     amount: '50000',
-    counterpartyId: 'party_ext_789',
+    counterpartyId: 'party_123',
     currency_code: 'USD',
-    invoiceId: 'inv_1234567890',
-    transactionId: 'txn_external_123',
+    invoiceId: 'inv_123',
+    transactionId: 'txn_example',
   })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
