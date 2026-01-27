@@ -3,6 +3,7 @@
 import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class ExternalPayments extends APIResource {
   /**
@@ -25,6 +26,21 @@ export class ExternalPayments extends APIResource {
   }
 
   /**
+   * Gets an external payment by transaction ID
+   *
+   * @example
+   * ```ts
+   * const externalPaymentSuccess =
+   *   await client.externalPayments.retrieve(
+   *     'txn_external_123',
+   *   );
+   * ```
+   */
+  retrieve(transactionID: string, options?: RequestOptions): APIPromise<ExternalPaymentSuccess> {
+    return this._client.get(path`/external-payments/${transactionID}`, options);
+  }
+
+  /**
    * Lists all external payments for the workspace
    *
    * @example
@@ -35,19 +51,6 @@ export class ExternalPayments extends APIResource {
    */
   list(options?: RequestOptions): APIPromise<ExternalPaymentListResponse> {
     return this._client.get('/external-payments', options);
-  }
-
-  /**
-   * Gets an external payment by transaction ID
-   *
-   * @example
-   * ```ts
-   * const externalPaymentSuccess =
-   *   await client.externalPayments.retrieveTransactionID();
-   * ```
-   */
-  retrieveTransactionID(options?: RequestOptions): APIPromise<ExternalPaymentSuccess> {
-    return this._client.get('/external-payments/:transactionId', options);
   }
 }
 

@@ -3,6 +3,7 @@
 import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Invoices extends APIResource {
   /**
@@ -21,6 +22,20 @@ export class Invoices extends APIResource {
   }
 
   /**
+   * Gets an invoice by ID
+   *
+   * @example
+   * ```ts
+   * const invoiceSuccess = await client.invoices.retrieve(
+   *   'inv_1234567890',
+   * );
+   * ```
+   */
+  retrieve(id: string, options?: RequestOptions): APIPromise<InvoiceSuccess> {
+    return this._client.get(path`/invoices/${id}`, options);
+  }
+
+  /**
    * Lists all invoices for the workspace
    *
    * @example
@@ -30,18 +45,6 @@ export class Invoices extends APIResource {
    */
   list(options?: RequestOptions): APIPromise<InvoiceListResponse> {
     return this._client.get('/invoices', options);
-  }
-
-  /**
-   * Gets an invoice by ID
-   *
-   * @example
-   * ```ts
-   * const invoiceSuccess = await client.invoices.retrieveID();
-   * ```
-   */
-  retrieveID(options?: RequestOptions): APIPromise<InvoiceSuccess> {
-    return this._client.get('/invoices/:id', options);
   }
 }
 
@@ -111,14 +114,35 @@ export namespace Invoice {
     description: string;
 
     /**
-     * External ID of the party receiving payout
+     * The party receiving payout - either platform or a counter-party
      */
-    payout_party: string;
+    payout_party: LineItem.PlatformPayoutResponse | LineItem.CounterPartyPayoutResponse;
 
     /**
      * ID of the product/catalog item
      */
     product_id: string;
+  }
+
+  export namespace LineItem {
+    export interface PlatformPayoutResponse {
+      /**
+       * Set to true for platform payout
+       */
+      platform: true;
+    }
+
+    export interface CounterPartyPayoutResponse {
+      /**
+       * External ID of the party receiving payout
+       */
+      party_id: string;
+
+      /**
+       * Set to false or omit for counter-party payout
+       */
+      platform?: false;
+    }
   }
 }
 
@@ -170,14 +194,35 @@ export namespace InvoiceCreateParams {
     description: string;
 
     /**
-     * External ID of the party receiving payout
+     * The party receiving payout - either platform or a counter-party
      */
-    payout_party: string;
+    payout_party: LineItem.PlatformPayout | LineItem.CounterPartyPayout;
 
     /**
      * ID of the product/catalog item
      */
     product_id: string;
+  }
+
+  export namespace LineItem {
+    export interface PlatformPayout {
+      /**
+       * Set to true for platform payout
+       */
+      platform: true;
+    }
+
+    export interface CounterPartyPayout {
+      /**
+       * External ID of the party receiving payout
+       */
+      party_id: string;
+
+      /**
+       * Set to false or omit for counter-party payout
+       */
+      platform?: false;
+    }
   }
 }
 

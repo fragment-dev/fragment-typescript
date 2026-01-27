@@ -3,7 +3,8 @@
 import Fragment from 'fragment';
 
 const client = new Fragment({
-  apiKey: 'My API Key',
+  clientID: 'My Client ID',
+  clientSecret: 'My Client Secret',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
@@ -38,8 +39,8 @@ describe('resource externalPayments', () => {
   });
 
   // Prism tests are disabled
-  test.skip('list', async () => {
-    const responsePromise = client.externalPayments.list();
+  test.skip('retrieve', async () => {
+    const responsePromise = client.externalPayments.retrieve('txn_external_123');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -50,8 +51,8 @@ describe('resource externalPayments', () => {
   });
 
   // Prism tests are disabled
-  test.skip('retrieveTransactionID', async () => {
-    const responsePromise = client.externalPayments.retrieveTransactionID();
+  test.skip('list', async () => {
+    const responsePromise = client.externalPayments.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

@@ -6,6 +6,7 @@ const config: JestConfigWithTsJest = {
   transform: {
     '^.+\\.(t|j)sx?$': ['@swc/jest', { sourceMaps: 'inline' }],
   },
+  setupFilesAfterEnv: ['<rootDir>/tests/setup.ts'],
   moduleNameMapper: {
     '^fragment$': '<rootDir>/src/index.ts',
     '^fragment/(.*)$': '<rootDir>/src/$1',

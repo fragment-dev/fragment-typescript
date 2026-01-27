@@ -3,7 +3,8 @@
 import Fragment from 'fragment';
 
 const client = new Fragment({
-  apiKey: 'My API Key',
+  clientID: 'My Client ID',
+  clientSecret: 'My Client Secret',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
@@ -29,7 +30,7 @@ describe('resource invoices', () => {
         {
           amount: '1000',
           description: 'Professional services for January 2026',
-          payout_party: 'party_ext_456',
+          payout_party: { platform: true },
           product_id: 'prod_1234567890',
         },
       ],
@@ -37,8 +38,8 @@ describe('resource invoices', () => {
   });
 
   // Prism tests are disabled
-  test.skip('list', async () => {
-    const responsePromise = client.invoices.list();
+  test.skip('retrieve', async () => {
+    const responsePromise = client.invoices.retrieve('inv_1234567890');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -49,8 +50,8 @@ describe('resource invoices', () => {
   });
 
   // Prism tests are disabled
-  test.skip('retrieveID', async () => {
-    const responsePromise = client.invoices.retrieveID();
+  test.skip('list', async () => {
+    const responsePromise = client.invoices.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
