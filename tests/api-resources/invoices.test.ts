@@ -29,7 +29,7 @@ describe('resource invoices', () => {
         {
           amount: '1000',
           description: 'Professional services for January 2026',
-          payout_party: 'party_ext_456',
+          payout_party: { platform: true },
           product_id: 'prod_1234567890',
         },
       ],

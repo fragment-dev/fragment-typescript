@@ -111,14 +111,35 @@ export namespace Invoice {
     description: string;
 
     /**
-     * External ID of the party receiving payout
+     * The party receiving payout - either platform or a counter-party
      */
-    payout_party: string;
+    payout_party: LineItem.PlatformPayoutResponse | LineItem.CounterPartyPayoutResponse;
 
     /**
      * ID of the product/catalog item
      */
     product_id: string;
+  }
+
+  export namespace LineItem {
+    export interface PlatformPayoutResponse {
+      /**
+       * Set to true for platform payout
+       */
+      platform: true;
+    }
+
+    export interface CounterPartyPayoutResponse {
+      /**
+       * External ID of the party receiving payout
+       */
+      party_id: string;
+
+      /**
+       * Set to false or omit for counter-party payout
+       */
+      platform?: false;
+    }
   }
 }
 
@@ -170,14 +191,35 @@ export namespace InvoiceCreateParams {
     description: string;
 
     /**
-     * External ID of the party receiving payout
+     * The party receiving payout - either platform or a counter-party
      */
-    payout_party: string;
+    payout_party: LineItem.PlatformPayout | LineItem.CounterPartyPayout;
 
     /**
      * ID of the product/catalog item
      */
     product_id: string;
+  }
+
+  export namespace LineItem {
+    export interface PlatformPayout {
+      /**
+       * Set to true for platform payout
+       */
+      platform: true;
+    }
+
+    export interface CounterPartyPayout {
+      /**
+       * External ID of the party receiving payout
+       */
+      party_id: string;
+
+      /**
+       * Set to false or omit for counter-party payout
+       */
+      platform?: false;
+    }
   }
 }
 
