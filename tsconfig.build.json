@@ -5,8 +5,8 @@
   "compilerOptions": {
     "rootDir": "./dist/src",
     "paths": {
-      "fragment/*": ["./dist/src/*"],
-      "fragment": ["./dist/src/index.ts"]
+      "fragment-typescript/*": ["./dist/src/*"],
+      "fragment-typescript": ["./dist/src/index.ts"]
     },
     "noEmit": false,
     "declaration": true,

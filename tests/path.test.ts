@@ -1,4 +1,4 @@
-import { createPathTagFunction, encodeURIPath } from 'fragment/internal/utils/path';
+import { createPathTagFunction, encodeURIPath } from 'fragment-typescript/internal/utils/path';
 import { inspect } from 'node:util';
 import { runInNewContext } from 'node:vm';
 
