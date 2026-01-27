@@ -8,8 +8,8 @@ const config: JestConfigWithTsJest = {
   },
   setupFilesAfterEnv: ['<rootDir>/tests/setup.ts'],
   moduleNameMapper: {
-    '^fragment-typescript$': '<rootDir>/src/index.ts',
-    '^fragment-typescript/(.*)$': '<rootDir>/src/$1',
+    '^@fragment-dev/ts-node$': '<rootDir>/src/index.ts',
+    '^@fragment-dev/ts-node/(.*)$': '<rootDir>/src/$1',
   },
   modulePathIgnorePatterns: [
     '<rootDir>/ecosystem-tests/',

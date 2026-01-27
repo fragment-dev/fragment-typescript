@@ -55,12 +55,12 @@ $ cd fragment-typescript
 # With yarn
 $ yarn link
 $ cd ../my-package
-$ yarn link fragment-typescript
+$ yarn link @fragment-dev/ts-node
 
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global fragment-typescript
+$ pnpm link -—global @fragment-dev/ts-node
 ```
 
 ## Running tests
