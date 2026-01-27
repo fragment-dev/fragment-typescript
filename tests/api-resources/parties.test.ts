@@ -2,10 +2,7 @@
 
 import Fragment from 'fragment';
 
-const client = new Fragment({
-  apiKey: 'My API Key',
-  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
-});
+const client = new Fragment({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
 
 describe('resource parties', () => {
   // Prism tests are disabled
