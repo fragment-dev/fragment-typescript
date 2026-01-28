@@ -40,6 +40,17 @@ Methods:
 - <code title="get /parties/{externalId}">client.parties.<a href="./src/resources/parties.ts">retrieve</a>(externalID) -> PartySuccess</code>
 - <code title="get /parties">client.parties.<a href="./src/resources/parties.ts">list</a>() -> PartyListResponse</code>
 
+# Platform
+
+Types:
+
+- <code><a href="./src/resources/platform.ts">SuccessResponse</a></code>
+
+Methods:
+
+- <code title="get /platform">client.platform.<a href="./src/resources/platform.ts">retrieve</a>() -> SuccessResponse</code>
+- <code title="post /platform">client.platform.<a href="./src/resources/platform.ts">update</a>({ ...params }) -> SuccessResponse</code>
+
 # Products
 
 Types:
@@ -54,15 +65,3 @@ Methods:
 - <code title="post /products">client.products.<a href="./src/resources/products.ts">create</a>({ ...params }) -> ProductSuccess</code>
 - <code title="get /products/{code}">client.products.<a href="./src/resources/products.ts">retrieve</a>(code) -> ProductSuccess</code>
 - <code title="get /products">client.products.<a href="./src/resources/products.ts">list</a>() -> ProductListResponse</code>
-
-# Platform
-
-Types:
-
-- <code><a href="./src/resources/platform.ts">PlatformRetrieveResponse</a></code>
-- <code><a href="./src/resources/platform.ts">PlatformUpdateResponse</a></code>
-
-Methods:
-
-- <code title="get /platform">client.platform.<a href="./src/resources/platform.ts">retrieve</a>() -> PlatformRetrieveResponse</code>
-- <code title="post /platform">client.platform.<a href="./src/resources/platform.ts">update</a>({ ...params }) -> PlatformUpdateResponse</code>

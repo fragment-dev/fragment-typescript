@@ -1,5 +1,5 @@
-import { multipartFormRequestOptions, createForm } from 'fragment/internal/uploads';
-import { toFile } from 'fragment/core/uploads';
+import { multipartFormRequestOptions, createForm } from '@fragment-dev/ts-node/internal/uploads';
+import { toFile } from '@fragment-dev/ts-node/core/uploads';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {

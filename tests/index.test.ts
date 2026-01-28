@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIPromise } from 'fragment/core/api-promise';
+import { APIPromise } from '@fragment-dev/ts-node/core/api-promise';
 
 import util from 'node:util';
-import Fragment from 'fragment';
-import { APIUserAbortError } from 'fragment';
+import Fragment from '@fragment-dev/ts-node';
+import { APIUserAbortError } from '@fragment-dev/ts-node';
 const defaultFetch = fetch;
 
 describe('instantiate client', () => {
@@ -354,36 +354,13 @@ describe('instantiate client', () => {
     test('empty env variable', () => {
       process.env['FRAGMENT_BASE_URL'] = ''; // empty
       const client = new Fragment({ clientID: 'My Client ID', clientSecret: 'My Client Secret' });
-      expect(client.baseURL).toEqual('https://api.fragment.dev');
+      expect(client.baseURL).toEqual('https://api.us-west-2.fragment.dev/*');
     });
 
     test('blank env variable', () => {
       process.env['FRAGMENT_BASE_URL'] = '  '; // blank
       const client = new Fragment({ clientID: 'My Client ID', clientSecret: 'My Client Secret' });
-      expect(client.baseURL).toEqual('https://api.fragment.dev');
-    });
-
-    test('env variable with environment', () => {
-      process.env['FRAGMENT_BASE_URL'] = 'https://example.com/from_env';
-
-      expect(
-        () =>
-          new Fragment({
-            clientID: 'My Client ID',
-            clientSecret: 'My Client Secret',
-            environment: 'production',
-          }),
-      ).toThrowErrorMatchingInlineSnapshot(
-        `"Ambiguous URL; The \`baseURL\` option (or FRAGMENT_BASE_URL env var) and the \`environment\` option are given. If you want to use the environment you must pass baseURL: null"`,
-      );
-
-      const client = new Fragment({
-        clientID: 'My Client ID',
-        clientSecret: 'My Client Secret',
-        baseURL: null,
-        environment: 'production',
-      });
-      expect(client.baseURL).toEqual('https://api.fragment.dev');
+      expect(client.baseURL).toEqual('https://api.us-west-2.fragment.dev/*');
     });
 
     test('in request options', () => {

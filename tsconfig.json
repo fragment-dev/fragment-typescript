@@ -8,8 +8,8 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "paths": {
-      "fragment/*": ["./src/*"],
-      "fragment": ["./src/index.ts"]
+      "@fragment-dev/ts-node/*": ["./src/*"],
+      "@fragment-dev/ts-node": ["./src/index.ts"]
     },
     "noEmit": true,
 

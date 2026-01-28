@@ -25,7 +25,7 @@ export default tseslint.config(
         {
           patterns: [
             {
-              regex: '^fragment(/.*)?',
+              regex: '^@fragment-dev/ts-node(/.*)?',
               message: 'Use a relative import, not a package import.',
             },
           ],

@@ -31,12 +31,7 @@ import {
   Invoices,
 } from './resources/invoices';
 import { Parties, Party, PartyCreateParams, PartyListResponse, PartySuccess } from './resources/parties';
-import {
-  Platform,
-  PlatformRetrieveResponse,
-  PlatformUpdateParams,
-  PlatformUpdateResponse,
-} from './resources/platform';
+import { Platform, PlatformUpdateParams, SuccessResponse } from './resources/platform';
 import {
   Product,
   ProductCreateParams,
@@ -59,31 +54,16 @@ import {
 } from './internal/utils/log';
 import { isEmptyObj } from './internal/utils/values';
 
-const environments = {
-  production: 'https://api.fragment.dev',
-  sandbox: 'https://api-sandbox.fragment.dev',
-};
-type Environment = keyof typeof environments;
-
 export interface ClientOptions {
   /**
    * Defaults to process.env['FRAGMENT_CLIENT_ID'].
    */
-  clientID?: string | undefined;
+  clientID?: string | null | undefined;
 
   /**
    * Defaults to process.env['FRAGMENT_CLIENT_SECRET'].
    */
-  clientSecret?: string | undefined;
-
-  /**
-   * Specifies the environment to use for the API.
-   *
-   * Each environment maps to a different base URL:
-   * - `production` corresponds to `https://api.fragment.dev`
-   * - `sandbox` corresponds to `https://api-sandbox.fragment.dev`
-   */
-  environment?: Environment | undefined;
+  clientSecret?: string | null | undefined;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
@@ -158,8 +138,8 @@ export interface ClientOptions {
  * API Client for interfacing with the Fragment API.
  */
 export class Fragment {
-  clientID: string;
-  clientSecret: string;
+  clientID: string | null;
+  clientSecret: string | null;
 
   baseURL: string;
   maxRetries: number;
@@ -176,10 +156,9 @@ export class Fragment {
   /**
    * API Client for interfacing with the Fragment API.
    *
-   * @param {string | undefined} [opts.clientID=process.env['FRAGMENT_CLIENT_ID'] ?? undefined]
-   * @param {string | undefined} [opts.clientSecret=process.env['FRAGMENT_CLIENT_SECRET'] ?? undefined]
-   * @param {Environment} [opts.environment=production] - Specifies the environment URL to use for the API.
-   * @param {string} [opts.baseURL=process.env['FRAGMENT_BASE_URL'] ?? https://api.fragment.dev] - Override the default base URL for the API.
+   * @param {string | null | undefined} [opts.clientID=process.env['FRAGMENT_CLIENT_ID'] ?? null]
+   * @param {string | null | undefined} [opts.clientSecret=process.env['FRAGMENT_CLIENT_SECRET'] ?? null]
+   * @param {string} [opts.baseURL=process.env['FRAGMENT_BASE_URL'] ?? https://api.us-west-2.fragment.dev/*] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -189,36 +168,18 @@ export class Fragment {
    */
   constructor({
     baseURL = readEnv('FRAGMENT_BASE_URL'),
-    clientID = readEnv('FRAGMENT_CLIENT_ID'),
-    clientSecret = readEnv('FRAGMENT_CLIENT_SECRET'),
+    clientID = readEnv('FRAGMENT_CLIENT_ID') ?? null,
+    clientSecret = readEnv('FRAGMENT_CLIENT_SECRET') ?? null,
     ...opts
   }: ClientOptions = {}) {
-    if (clientID === undefined) {
-      throw new Errors.FragmentError(
-        "The FRAGMENT_CLIENT_ID environment variable is missing or empty; either provide it, or instantiate the Fragment client with an clientID option, like new Fragment({ clientID: 'My Client ID' }).",
-      );
-    }
-    if (clientSecret === undefined) {
-      throw new Errors.FragmentError(
-        "The FRAGMENT_CLIENT_SECRET environment variable is missing or empty; either provide it, or instantiate the Fragment client with an clientSecret option, like new Fragment({ clientSecret: 'My Client Secret' }).",
-      );
-    }
-
     const options: ClientOptions = {
       clientID,
       clientSecret,
       ...opts,
-      baseURL,
-      environment: opts.environment ?? 'production',
+      baseURL: baseURL || `https://api.us-west-2.fragment.dev/*`,
     };
 
-    if (baseURL && opts.environment) {
-      throw new Errors.FragmentError(
-        'Ambiguous URL; The `baseURL` option (or FRAGMENT_BASE_URL env var) and the `environment` option are given. If you want to use the environment you must pass baseURL: null',
-      );
-    }
-
-    this.baseURL = options.baseURL || environments[options.environment || 'production'];
+    this.baseURL = options.baseURL!;
     this.timeout = options.timeout ?? Fragment.DEFAULT_TIMEOUT /* 1 minute */;
     this.logger = options.logger ?? console;
     const defaultLogLevel = 'warn';
@@ -245,8 +206,7 @@ export class Fragment {
   withOptions(options: Partial<ClientOptions>): this {
     const client = new (this.constructor as any as new (props: ClientOptions) => typeof this)({
       ...this._options,
-      environment: options.environment ? options.environment : undefined,
-      baseURL: options.environment ? undefined : this.baseURL,
+      baseURL: this.baseURL,
       maxRetries: this.maxRetries,
       timeout: this.timeout,
       logger: this.logger,
@@ -265,7 +225,7 @@ export class Fragment {
    * Check whether the base URL is set to its default.
    */
   #baseURLOverridden(): boolean {
-    return this.baseURL !== environments[this._options.environment || 'production'];
+    return this.baseURL !== 'https://api.us-west-2.fragment.dev/*';
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
@@ -861,13 +821,14 @@ export class Fragment {
   externalPayments: API.ExternalPayments = new API.ExternalPayments(this);
   invoices: API.Invoices = new API.Invoices(this);
   parties: API.Parties = new API.Parties(this);
-  products: API.Products = new API.Products(this);
   platform: API.Platform = new API.Platform(this);
+  products: API.Products = new API.Products(this);
 }
 
 Fragment.ExternalPayments = ExternalPayments;
 Fragment.Invoices = Invoices;
 Fragment.Parties = Parties;
+Fragment.Platform = Platform;
 Fragment.Products = Products;
 Fragment.Platform = Platform;
 
@@ -899,18 +860,17 @@ export declare namespace Fragment {
   };
 
   export {
+    Platform as Platform,
+    type SuccessResponse as SuccessResponse,
+    type PlatformUpdateParams as PlatformUpdateParams,
+  };
+
+  export {
     Products as Products,
     type Product as Product,
     type ProductSuccess as ProductSuccess,
     type Seller as Seller,
     type ProductListResponse as ProductListResponse,
     type ProductCreateParams as ProductCreateParams,
-  };
-
-  export {
-    Platform as Platform,
-    type PlatformRetrieveResponse as PlatformRetrieveResponse,
-    type PlatformUpdateResponse as PlatformUpdateResponse,
-    type PlatformUpdateParams as PlatformUpdateParams,
   };
 }

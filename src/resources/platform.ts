@@ -10,10 +10,10 @@ export class Platform extends APIResource {
    *
    * @example
    * ```ts
-   * const platform = await client.platform.retrieve();
+   * const successResponse = await client.platform.retrieve();
    * ```
    */
-  retrieve(options?: RequestOptions): APIPromise<PlatformRetrieveResponse> {
+  retrieve(options?: RequestOptions): APIPromise<SuccessResponse> {
     return this._client.get('/platform', options);
   }
 
@@ -22,58 +22,24 @@ export class Platform extends APIResource {
    *
    * @example
    * ```ts
-   * const platform = await client.platform.update({
+   * const successResponse = await client.platform.update({
    *   displayName: 'Acme Corp',
    * });
    * ```
    */
-  update(body: PlatformUpdateParams, options?: RequestOptions): APIPromise<PlatformUpdateResponse> {
+  update(body: PlatformUpdateParams, options?: RequestOptions): APIPromise<SuccessResponse> {
     return this._client.post('/platform', { body, ...options });
   }
 }
 
-export interface PlatformRetrieveResponse {
+export interface SuccessResponse {
   /**
    * Platform object
    */
-  data: PlatformRetrieveResponse.Data;
+  data: SuccessResponse.Data;
 }
 
-export namespace PlatformRetrieveResponse {
-  /**
-   * Platform object
-   */
-  export interface Data {
-    /**
-     * ISO 8601 timestamp when the platform was created
-     */
-    created: string;
-
-    /**
-     * Display name for the platform
-     */
-    displayName: string;
-
-    /**
-     * Workspace ID this platform belongs to
-     */
-    workspaceId: string;
-
-    /**
-     * ISO 8601 timestamp when the platform was last modified
-     */
-    modified?: string;
-  }
-}
-
-export interface PlatformUpdateResponse {
-  /**
-   * Platform object
-   */
-  data: PlatformUpdateResponse.Data;
-}
-
-export namespace PlatformUpdateResponse {
+export namespace SuccessResponse {
   /**
    * Platform object
    */
@@ -108,9 +74,5 @@ export interface PlatformUpdateParams {
 }
 
 export declare namespace Platform {
-  export {
-    type PlatformRetrieveResponse as PlatformRetrieveResponse,
-    type PlatformUpdateResponse as PlatformUpdateResponse,
-    type PlatformUpdateParams as PlatformUpdateParams,
-  };
+  export { type SuccessResponse as SuccessResponse, type PlatformUpdateParams as PlatformUpdateParams };
 }
