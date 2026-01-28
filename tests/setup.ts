@@ -7,13 +7,11 @@
  * OAuth server.
  */
 
-import Fragment from 'fragment';
-import { buildHeaders } from 'fragment/internal/headers';
+import Fragment from '../src/index';
+import { buildHeaders } from '../src/internal/headers';
 
 // Mock auth headers to return a static Bearer token
 // This avoids the OAuth2 token fetch entirely
-const originalAuthHeaders = (Fragment.prototype as any).authHeaders;
-
 (Fragment.prototype as any).authHeaders = async function () {
   // Skip OAuth flow entirely and return mock auth header
   if (this.clientID && this.clientSecret) {
