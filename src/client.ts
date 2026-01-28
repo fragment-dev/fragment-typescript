@@ -18,21 +18,19 @@ import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
   ExternalPaymentCreateParams,
+  ExternalPaymentCreateResponse,
   ExternalPaymentListResponse,
-  ExternalPaymentSuccess,
+  ExternalPaymentRetrieveResponse,
   ExternalPayments,
 } from './resources/external-payments';
 import {
-  CreateInvoiceLineItemInput,
-  CreateInvoiceRequest,
-  Invoice,
   InvoiceCreateParams,
-  InvoiceLineItem,
-  InvoiceList,
-  InvoiceSuccess,
+  InvoiceCreateResponse,
+  InvoiceListResponse,
+  InvoiceRetrieveResponse,
   InvoiceUpdateParams,
+  InvoiceUpdateResponse,
   Invoices,
-  UpdateInvoiceRequest,
 } from './resources/invoices';
 import {
   Parties,
@@ -43,19 +41,15 @@ import {
 } from './resources/parties';
 import {
   Platform,
-  PlatformPayout,
-  PlatformResource,
-  PlatformSeller,
-  PlatformSuccess,
+  PlatformRetrieveResponse,
   PlatformUpdateParams,
-  UpdatePlatformDetailsRequest,
+  PlatformUpdateResponse,
 } from './resources/platform';
 import {
-  CreateProductRequest,
-  Product,
   ProductCreateParams,
-  ProductList,
-  ProductSuccess,
+  ProductCreateResponse,
+  ProductListResponse,
+  ProductRetrieveResponse,
   Products,
 } from './resources/products';
 import { type Fetch } from './internal/builtin-types';
@@ -839,14 +833,14 @@ export class Fragment {
   externalPayments: API.ExternalPayments = new API.ExternalPayments(this);
   invoices: API.Invoices = new API.Invoices(this);
   parties: API.Parties = new API.Parties(this);
-  platform: API.PlatformResource = new API.PlatformResource(this);
+  platform: API.Platform = new API.Platform(this);
   products: API.Products = new API.Products(this);
 }
 
 Fragment.ExternalPayments = ExternalPayments;
 Fragment.Invoices = Invoices;
 Fragment.Parties = Parties;
-Fragment.PlatformResource = PlatformResource;
+Fragment.Platform = Platform;
 Fragment.Products = Products;
 Fragment.Platform = Platform;
 
@@ -855,20 +849,18 @@ export declare namespace Fragment {
 
   export {
     ExternalPayments as ExternalPayments,
-    type ExternalPaymentSuccess as ExternalPaymentSuccess,
+    type ExternalPaymentCreateResponse as ExternalPaymentCreateResponse,
+    type ExternalPaymentRetrieveResponse as ExternalPaymentRetrieveResponse,
     type ExternalPaymentListResponse as ExternalPaymentListResponse,
     type ExternalPaymentCreateParams as ExternalPaymentCreateParams,
   };
 
   export {
     Invoices as Invoices,
-    type CreateInvoiceLineItemInput as CreateInvoiceLineItemInput,
-    type CreateInvoiceRequest as CreateInvoiceRequest,
-    type Invoice as Invoice,
-    type InvoiceLineItem as InvoiceLineItem,
-    type InvoiceList as InvoiceList,
-    type InvoiceSuccess as InvoiceSuccess,
-    type UpdateInvoiceRequest as UpdateInvoiceRequest,
+    type InvoiceCreateResponse as InvoiceCreateResponse,
+    type InvoiceRetrieveResponse as InvoiceRetrieveResponse,
+    type InvoiceUpdateResponse as InvoiceUpdateResponse,
+    type InvoiceListResponse as InvoiceListResponse,
     type InvoiceCreateParams as InvoiceCreateParams,
     type InvoiceUpdateParams as InvoiceUpdateParams,
   };
@@ -882,21 +874,17 @@ export declare namespace Fragment {
   };
 
   export {
-    PlatformResource as PlatformResource,
-    type Platform as Platform,
-    type PlatformPayout as PlatformPayout,
-    type PlatformSeller as PlatformSeller,
-    type PlatformSuccess as PlatformSuccess,
-    type UpdatePlatformDetailsRequest as UpdatePlatformDetailsRequest,
+    Platform as Platform,
+    type PlatformRetrieveResponse as PlatformRetrieveResponse,
+    type PlatformUpdateResponse as PlatformUpdateResponse,
     type PlatformUpdateParams as PlatformUpdateParams,
   };
 
   export {
     Products as Products,
-    type CreateProductRequest as CreateProductRequest,
-    type Product as Product,
-    type ProductList as ProductList,
-    type ProductSuccess as ProductSuccess,
+    type ProductCreateResponse as ProductCreateResponse,
+    type ProductRetrieveResponse as ProductRetrieveResponse,
+    type ProductListResponse as ProductListResponse,
     type ProductCreateParams as ProductCreateParams,
   };
 }

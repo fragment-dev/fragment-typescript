@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
-import * as PlatformAPI from './platform';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
@@ -12,14 +11,14 @@ export class Products extends APIResource {
    *
    * @example
    * ```ts
-   * const productSuccess = await client.products.create({
+   * const product = await client.products.create({
    *   code: 'PROD_001',
    *   description: 'Premium subscription service',
    *   seller: { soldByPlatform: true },
    * });
    * ```
    */
-  create(body: ProductCreateParams, options?: RequestOptions): APIPromise<ProductSuccess> {
+  create(body: ProductCreateParams, options?: RequestOptions): APIPromise<ProductCreateResponse> {
     return this._client.post('/products', { body, ...options });
   }
 
@@ -28,12 +27,10 @@ export class Products extends APIResource {
    *
    * @example
    * ```ts
-   * const productSuccess = await client.products.retrieve(
-   *   'PROD_001',
-   * );
+   * const product = await client.products.retrieve('PROD_001');
    * ```
    */
-  retrieve(code: string, options?: RequestOptions): APIPromise<ProductSuccess> {
+  retrieve(code: string, options?: RequestOptions): APIPromise<ProductRetrieveResponse> {
     return this._client.get(path`/products/${code}`, options);
   }
 
@@ -42,109 +39,207 @@ export class Products extends APIResource {
    *
    * @example
    * ```ts
-   * const productList = await client.products.list();
+   * const products = await client.products.list();
    * ```
    */
-  list(options?: RequestOptions): APIPromise<ProductList> {
+  list(options?: RequestOptions): APIPromise<ProductListResponse> {
     return this._client.get('/products', options);
   }
 }
 
-/**
- * Request body for creating a product
- */
-export interface CreateProductRequest {
+export interface ProductCreateResponse {
   /**
-   * Product code (unique identifier)
+   * Product object
    */
-  code: string;
-
-  /**
-   * Description of the product
-   */
-  description: string;
-
-  /**
-   * Seller information
-   */
-  seller: PlatformAPI.PlatformSeller | CreateProductRequest.CounterpartySeller;
+  data: ProductCreateResponse.Data;
 }
 
-export namespace CreateProductRequest {
-  export interface CounterpartySeller {
+export namespace ProductCreateResponse {
+  /**
+   * Product object
+   */
+  export interface Data {
     /**
-     * Type of the counterparty seller
+     * Product code (unique identifier)
      */
-    counterpartyType: string;
+    code: string;
 
     /**
-     * Indicates the product is sold by a counterparty
+     * ISO 8601 timestamp when the product was created
      */
-    soldByPlatform: false;
+    created: string;
+
+    /**
+     * Description of the product
+     */
+    description: string;
+
+    /**
+     * Seller information
+     */
+    seller: Data.PlatformSeller | Data.CounterpartySeller;
+
+    /**
+     * Version number for optimistic locking
+     */
+    updateVersion: number;
+
+    /**
+     * Workspace ID this product belongs to
+     */
+    workspaceId: string;
+  }
+
+  export namespace Data {
+    export interface PlatformSeller {
+      /**
+       * Indicates the product is sold by the platform
+       */
+      soldByPlatform: true;
+    }
+
+    export interface CounterpartySeller {
+      /**
+       * Type of the counterparty seller
+       */
+      counterpartyType: string;
+
+      /**
+       * Indicates the product is sold by a counterparty
+       */
+      soldByPlatform: false;
+    }
   }
 }
 
-/**
- * Product object
- */
-export interface Product {
+export interface ProductRetrieveResponse {
   /**
-   * Product code (unique identifier)
+   * Product object
    */
-  code: string;
-
-  /**
-   * ISO 8601 timestamp when the product was created
-   */
-  created: string;
-
-  /**
-   * Description of the product
-   */
-  description: string;
-
-  /**
-   * Seller information
-   */
-  seller: PlatformAPI.PlatformSeller | Product.CounterpartySeller;
-
-  /**
-   * Version number for optimistic locking
-   */
-  updateVersion: number;
-
-  /**
-   * Workspace ID this product belongs to
-   */
-  workspaceId: string;
+  data: ProductRetrieveResponse.Data;
 }
 
-export namespace Product {
-  export interface CounterpartySeller {
+export namespace ProductRetrieveResponse {
+  /**
+   * Product object
+   */
+  export interface Data {
     /**
-     * Type of the counterparty seller
+     * Product code (unique identifier)
      */
-    counterpartyType: string;
+    code: string;
 
     /**
-     * Indicates the product is sold by a counterparty
+     * ISO 8601 timestamp when the product was created
      */
-    soldByPlatform: false;
+    created: string;
+
+    /**
+     * Description of the product
+     */
+    description: string;
+
+    /**
+     * Seller information
+     */
+    seller: Data.PlatformSeller | Data.CounterpartySeller;
+
+    /**
+     * Version number for optimistic locking
+     */
+    updateVersion: number;
+
+    /**
+     * Workspace ID this product belongs to
+     */
+    workspaceId: string;
+  }
+
+  export namespace Data {
+    export interface PlatformSeller {
+      /**
+       * Indicates the product is sold by the platform
+       */
+      soldByPlatform: true;
+    }
+
+    export interface CounterpartySeller {
+      /**
+       * Type of the counterparty seller
+       */
+      counterpartyType: string;
+
+      /**
+       * Indicates the product is sold by a counterparty
+       */
+      soldByPlatform: false;
+    }
   }
 }
 
 /**
  * List of products
  */
-export interface ProductList {
-  data: Array<Product>;
+export interface ProductListResponse {
+  data: Array<ProductListResponse.Data>;
 }
 
-export interface ProductSuccess {
+export namespace ProductListResponse {
   /**
    * Product object
    */
-  data: Product;
+  export interface Data {
+    /**
+     * Product code (unique identifier)
+     */
+    code: string;
+
+    /**
+     * ISO 8601 timestamp when the product was created
+     */
+    created: string;
+
+    /**
+     * Description of the product
+     */
+    description: string;
+
+    /**
+     * Seller information
+     */
+    seller: Data.PlatformSeller | Data.CounterpartySeller;
+
+    /**
+     * Version number for optimistic locking
+     */
+    updateVersion: number;
+
+    /**
+     * Workspace ID this product belongs to
+     */
+    workspaceId: string;
+  }
+
+  export namespace Data {
+    export interface PlatformSeller {
+      /**
+       * Indicates the product is sold by the platform
+       */
+      soldByPlatform: true;
+    }
+
+    export interface CounterpartySeller {
+      /**
+       * Type of the counterparty seller
+       */
+      counterpartyType: string;
+
+      /**
+       * Indicates the product is sold by a counterparty
+       */
+      soldByPlatform: false;
+    }
+  }
 }
 
 export interface ProductCreateParams {
@@ -161,10 +256,17 @@ export interface ProductCreateParams {
   /**
    * Seller information
    */
-  seller: PlatformAPI.PlatformSeller | ProductCreateParams.CounterpartySeller;
+  seller: ProductCreateParams.PlatformSeller | ProductCreateParams.CounterpartySeller;
 }
 
 export namespace ProductCreateParams {
+  export interface PlatformSeller {
+    /**
+     * Indicates the product is sold by the platform
+     */
+    soldByPlatform: true;
+  }
+
   export interface CounterpartySeller {
     /**
      * Type of the counterparty seller
@@ -180,10 +282,9 @@ export namespace ProductCreateParams {
 
 export declare namespace Products {
   export {
-    type CreateProductRequest as CreateProductRequest,
-    type Product as Product,
-    type ProductList as ProductList,
-    type ProductSuccess as ProductSuccess,
+    type ProductCreateResponse as ProductCreateResponse,
+    type ProductRetrieveResponse as ProductRetrieveResponse,
+    type ProductListResponse as ProductListResponse,
     type ProductCreateParams as ProductCreateParams,
   };
 }

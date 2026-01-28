@@ -11,7 +11,7 @@ export class ExternalPayments extends APIResource {
    *
    * @example
    * ```ts
-   * const externalPaymentSuccess =
+   * const externalPayment =
    *   await client.externalPayments.create({
    *     accountReference: 'ACC-2024-001',
    *     amount: '50000',
@@ -22,7 +22,10 @@ export class ExternalPayments extends APIResource {
    *   });
    * ```
    */
-  create(body: ExternalPaymentCreateParams, options?: RequestOptions): APIPromise<ExternalPaymentSuccess> {
+  create(
+    body: ExternalPaymentCreateParams,
+    options?: RequestOptions,
+  ): APIPromise<ExternalPaymentCreateResponse> {
     return this._client.post('/external-payments', { body, ...options });
   }
 
@@ -31,13 +34,13 @@ export class ExternalPayments extends APIResource {
    *
    * @example
    * ```ts
-   * const externalPaymentSuccess =
+   * const externalPayment =
    *   await client.externalPayments.retrieve(
    *     'txn_external_123',
    *   );
    * ```
    */
-  retrieve(transactionID: string, options?: RequestOptions): APIPromise<ExternalPaymentSuccess> {
+  retrieve(transactionID: string, options?: RequestOptions): APIPromise<ExternalPaymentRetrieveResponse> {
     return this._client.get(path`/external-payments/${transactionID}`, options);
   }
 
@@ -55,14 +58,248 @@ export class ExternalPayments extends APIResource {
   }
 }
 
-export interface ExternalPaymentSuccess {
+export interface ExternalPaymentCreateResponse {
   /**
    * External payment object
    */
-  data: ExternalPaymentSuccess.Data;
+  data: ExternalPaymentCreateResponse.Data;
 }
 
-export namespace ExternalPaymentSuccess {
+export namespace ExternalPaymentCreateResponse {
+  /**
+   * External payment object
+   */
+  export interface Data {
+    /**
+     * Reference to the external account
+     */
+    accountReference: string;
+
+    /**
+     * Amount in smallest currency unit (represented as string for bigint)
+     */
+    amount: string;
+
+    /**
+     * External ID of the counterparty making the payment
+     */
+    counterpartyId: string;
+
+    /**
+     * ISO 8601 timestamp when the payment was created
+     */
+    created: string;
+
+    /**
+     * Currency code for the payment (ISO 4217 or crypto)
+     */
+    currencyCode:
+      | 'ADA'
+      | 'BTC'
+      | 'DAI'
+      | 'ETH'
+      | 'SOL'
+      | 'USDC'
+      | 'USDT'
+      | 'XLM'
+      | 'UNI'
+      | 'BCH'
+      | 'LTC'
+      | 'AAVE'
+      | 'LINK'
+      | 'MATIC'
+      | 'PTS'
+      | 'AED'
+      | 'AFN'
+      | 'ALL'
+      | 'AMD'
+      | 'ANG'
+      | 'AOA'
+      | 'ARS'
+      | 'AUD'
+      | 'AWG'
+      | 'AZN'
+      | 'BAM'
+      | 'BBD'
+      | 'BDT'
+      | 'BGN'
+      | 'BHD'
+      | 'BIF'
+      | 'BMD'
+      | 'BND'
+      | 'BOB'
+      | 'BRL'
+      | 'BSD'
+      | 'BTN'
+      | 'BWP'
+      | 'BYR'
+      | 'BZD'
+      | 'CAD'
+      | 'CDF'
+      | 'CHF'
+      | 'CLP'
+      | 'CNY'
+      | 'COP'
+      | 'CRC'
+      | 'CUC'
+      | 'CUP'
+      | 'CVE'
+      | 'CZK'
+      | 'DJF'
+      | 'DKK'
+      | 'DOP'
+      | 'DZD'
+      | 'EGP'
+      | 'ERN'
+      | 'ETB'
+      | 'EUR'
+      | 'FJD'
+      | 'FKP'
+      | 'GBP'
+      | 'GEL'
+      | 'GGP'
+      | 'GHS'
+      | 'GIP'
+      | 'GMD'
+      | 'GNF'
+      | 'GTQ'
+      | 'GYD'
+      | 'HKD'
+      | 'HNL'
+      | 'HRK'
+      | 'HTG'
+      | 'HUF'
+      | 'IDR'
+      | 'ILS'
+      | 'IMP'
+      | 'INR'
+      | 'IQD'
+      | 'IRR'
+      | 'ISK'
+      | 'JMD'
+      | 'JOD'
+      | 'JPY'
+      | 'KES'
+      | 'KGS'
+      | 'KHR'
+      | 'KMF'
+      | 'KPW'
+      | 'KRW'
+      | 'KWD'
+      | 'KYD'
+      | 'KZT'
+      | 'LAK'
+      | 'LBP'
+      | 'LKR'
+      | 'LRD'
+      | 'LSL'
+      | 'LYD'
+      | 'MAD'
+      | 'MDL'
+      | 'MGA'
+      | 'MKD'
+      | 'MMK'
+      | 'MNT'
+      | 'MOP'
+      | 'MUR'
+      | 'MVR'
+      | 'MWK'
+      | 'MXN'
+      | 'MYR'
+      | 'MZN'
+      | 'NAD'
+      | 'NGN'
+      | 'NIO'
+      | 'NOK'
+      | 'NPR'
+      | 'NZD'
+      | 'OMR'
+      | 'PAB'
+      | 'PEN'
+      | 'PGK'
+      | 'PHP'
+      | 'PKR'
+      | 'PLN'
+      | 'PYG'
+      | 'QAR'
+      | 'RON'
+      | 'RSD'
+      | 'RUB'
+      | 'RWF'
+      | 'SAR'
+      | 'SBD'
+      | 'SCR'
+      | 'SDG'
+      | 'SEK'
+      | 'SGD'
+      | 'SHP'
+      | 'SLL'
+      | 'SOS'
+      | 'SPL'
+      | 'SRD'
+      | 'SVC'
+      | 'SYP'
+      | 'STN'
+      | 'SZL'
+      | 'THB'
+      | 'TJS'
+      | 'TMT'
+      | 'TND'
+      | 'TOP'
+      | 'TRY'
+      | 'TTD'
+      | 'TVD'
+      | 'TWD'
+      | 'TZS'
+      | 'UAH'
+      | 'UGX'
+      | 'USD'
+      | 'UYU'
+      | 'UZS'
+      | 'VEF'
+      | 'VND'
+      | 'VUV'
+      | 'WST'
+      | 'XAF'
+      | 'XCD'
+      | 'XOF'
+      | 'XPF'
+      | 'YER'
+      | 'ZAR'
+      | 'ZMW'
+      | 'LOGICAL'
+      | 'CUSTOM';
+
+    /**
+     * ID of the invoice this payment is for
+     */
+    invoiceId: string;
+
+    /**
+     * Transaction ID (idempotency key)
+     */
+    transactionId: string;
+
+    /**
+     * Workspace ID this payment belongs to
+     */
+    workspaceId: string;
+
+    /**
+     * ISO 8601 timestamp when the payment was last modified
+     */
+    modified?: string;
+  }
+}
+
+export interface ExternalPaymentRetrieveResponse {
+  /**
+   * External payment object
+   */
+  data: ExternalPaymentRetrieveResponse.Data;
+}
+
+export namespace ExternalPaymentRetrieveResponse {
   /**
    * External payment object
    */
@@ -732,7 +969,8 @@ export interface ExternalPaymentCreateParams {
 
 export declare namespace ExternalPayments {
   export {
-    type ExternalPaymentSuccess as ExternalPaymentSuccess,
+    type ExternalPaymentCreateResponse as ExternalPaymentCreateResponse,
+    type ExternalPaymentRetrieveResponse as ExternalPaymentRetrieveResponse,
     type ExternalPaymentListResponse as ExternalPaymentListResponse,
     type ExternalPaymentCreateParams as ExternalPaymentCreateParams,
   };
