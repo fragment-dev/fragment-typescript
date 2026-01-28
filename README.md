@@ -24,7 +24,7 @@ import Fragment from '@fragment-dev/ts-node';
 
 const client = new Fragment();
 
-const externalPaymentSuccess = await client.externalPayments.create({
+const externalPayment = await client.externalPayments.create({
   accountReference: 'ACC-001',
   amount: '50000',
   counterpartyId: 'party_123',
@@ -33,7 +33,7 @@ const externalPaymentSuccess = await client.externalPayments.create({
   transactionId: 'txn_example',
 });
 
-console.log(externalPaymentSuccess.data);
+console.log(externalPayment.data);
 ```
 
 ### Request & Response types
@@ -54,7 +54,7 @@ const params: Fragment.ExternalPaymentCreateParams = {
   invoiceId: 'inv_123',
   transactionId: 'txn_example',
 };
-const externalPaymentSuccess: Fragment.ExternalPaymentSuccess =
+const externalPayment: Fragment.ExternalPaymentCreateResponse =
   await client.externalPayments.create(params);
 ```
 
@@ -68,7 +68,7 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const externalPaymentSuccess = await client.externalPayments
+const externalPayment = await client.externalPayments
   .create({
     accountReference: 'ACC-001',
     amount: '50000',
@@ -184,7 +184,7 @@ const response = await client.externalPayments
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: externalPaymentSuccess, response: raw } = await client.externalPayments
+const { data: externalPayment, response: raw } = await client.externalPayments
   .create({
     accountReference: 'ACC-001',
     amount: '50000',
@@ -195,7 +195,7 @@ const { data: externalPaymentSuccess, response: raw } = await client.externalPay
   })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(externalPaymentSuccess.data);
+console.log(externalPayment.data);
 ```
 
 ### Logging
