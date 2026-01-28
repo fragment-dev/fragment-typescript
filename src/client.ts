@@ -830,6 +830,7 @@ Fragment.Invoices = Invoices;
 Fragment.Parties = Parties;
 Fragment.Platform = Platform;
 Fragment.Products = Products;
+Fragment.Platform = Platform;
 
 export declare namespace Fragment {
   export type RequestOptions = Opts.RequestOptions;
