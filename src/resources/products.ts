@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
+import * as PlatformAPI from './platform';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
@@ -41,11 +42,45 @@ export class Products extends APIResource {
    *
    * @example
    * ```ts
-   * const products = await client.products.list();
+   * const productList = await client.products.list();
    * ```
    */
-  list(options?: RequestOptions): APIPromise<ProductListResponse> {
+  list(options?: RequestOptions): APIPromise<ProductList> {
     return this._client.get('/products', options);
+  }
+}
+
+/**
+ * Request body for creating a product
+ */
+export interface CreateProductRequest {
+  /**
+   * Product code (unique identifier)
+   */
+  code: string;
+
+  /**
+   * Description of the product
+   */
+  description: string;
+
+  /**
+   * Seller information
+   */
+  seller: PlatformAPI.PlatformSeller | CreateProductRequest.CounterpartySeller;
+}
+
+export namespace CreateProductRequest {
+  export interface CounterpartySeller {
+    /**
+     * Type of the counterparty seller
+     */
+    counterpartyType: string;
+
+    /**
+     * Indicates the product is sold by a counterparty
+     */
+    soldByPlatform: false;
   }
 }
 
@@ -71,7 +106,7 @@ export interface Product {
   /**
    * Seller information
    */
-  seller: Seller;
+  seller: PlatformAPI.PlatformSeller | Product.CounterpartySeller;
 
   /**
    * Version number for optimistic locking
@@ -84,26 +119,7 @@ export interface Product {
   workspaceId: string;
 }
 
-export interface ProductSuccess {
-  /**
-   * Product object
-   */
-  data: Product;
-}
-
-/**
- * Seller information
- */
-export type Seller = Seller.PlatformSeller | Seller.CounterpartySeller;
-
-export namespace Seller {
-  export interface PlatformSeller {
-    /**
-     * Indicates the product is sold by the platform
-     */
-    soldByPlatform: true;
-  }
-
+export namespace Product {
   export interface CounterpartySeller {
     /**
      * Type of the counterparty seller
@@ -120,8 +136,15 @@ export namespace Seller {
 /**
  * List of products
  */
-export interface ProductListResponse {
+export interface ProductList {
   data: Array<Product>;
+}
+
+export interface ProductSuccess {
+  /**
+   * Product object
+   */
+  data: Product;
 }
 
 export interface ProductCreateParams {
@@ -138,15 +161,29 @@ export interface ProductCreateParams {
   /**
    * Seller information
    */
-  seller: Seller;
+  seller: PlatformAPI.PlatformSeller | ProductCreateParams.CounterpartySeller;
+}
+
+export namespace ProductCreateParams {
+  export interface CounterpartySeller {
+    /**
+     * Type of the counterparty seller
+     */
+    counterpartyType: string;
+
+    /**
+     * Indicates the product is sold by a counterparty
+     */
+    soldByPlatform: false;
+  }
 }
 
 export declare namespace Products {
   export {
+    type CreateProductRequest as CreateProductRequest,
     type Product as Product,
+    type ProductList as ProductList,
     type ProductSuccess as ProductSuccess,
-    type Seller as Seller,
-    type ProductListResponse as ProductListResponse,
     type ProductCreateParams as ProductCreateParams,
   };
 }
