@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
+import * as PlatformAPI from './platform';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
@@ -67,12 +68,257 @@ export class Invoices extends APIResource {
    *
    * @example
    * ```ts
-   * const invoices = await client.invoices.list();
+   * const invoiceList = await client.invoices.list();
    * ```
    */
-  list(options?: RequestOptions): APIPromise<InvoiceListResponse> {
+  list(options?: RequestOptions): APIPromise<InvoiceList> {
     return this._client.get('/invoices', options);
   }
+}
+
+/**
+ * Line item data for creating within an invoice. The payInParty is automatically
+ * set to the invoice's buyerParty.
+ */
+export interface CreateInvoiceLineItemInput {
+  /**
+   * Amount in smallest currency unit (e.g., cents)
+   */
+  amount: string;
+
+  /**
+   * Currency code (ISO 4217 or crypto)
+   */
+  currencyCode:
+    | 'ADA'
+    | 'BTC'
+    | 'DAI'
+    | 'ETH'
+    | 'SOL'
+    | 'USDC'
+    | 'USDT'
+    | 'XLM'
+    | 'UNI'
+    | 'BCH'
+    | 'LTC'
+    | 'AAVE'
+    | 'LINK'
+    | 'MATIC'
+    | 'PTS'
+    | 'AED'
+    | 'AFN'
+    | 'ALL'
+    | 'AMD'
+    | 'ANG'
+    | 'AOA'
+    | 'ARS'
+    | 'AUD'
+    | 'AWG'
+    | 'AZN'
+    | 'BAM'
+    | 'BBD'
+    | 'BDT'
+    | 'BGN'
+    | 'BHD'
+    | 'BIF'
+    | 'BMD'
+    | 'BND'
+    | 'BOB'
+    | 'BRL'
+    | 'BSD'
+    | 'BTN'
+    | 'BWP'
+    | 'BYR'
+    | 'BZD'
+    | 'CAD'
+    | 'CDF'
+    | 'CHF'
+    | 'CLP'
+    | 'CNY'
+    | 'COP'
+    | 'CRC'
+    | 'CUC'
+    | 'CUP'
+    | 'CVE'
+    | 'CZK'
+    | 'DJF'
+    | 'DKK'
+    | 'DOP'
+    | 'DZD'
+    | 'EGP'
+    | 'ERN'
+    | 'ETB'
+    | 'EUR'
+    | 'FJD'
+    | 'FKP'
+    | 'GBP'
+    | 'GEL'
+    | 'GGP'
+    | 'GHS'
+    | 'GIP'
+    | 'GMD'
+    | 'GNF'
+    | 'GTQ'
+    | 'GYD'
+    | 'HKD'
+    | 'HNL'
+    | 'HRK'
+    | 'HTG'
+    | 'HUF'
+    | 'IDR'
+    | 'ILS'
+    | 'IMP'
+    | 'INR'
+    | 'IQD'
+    | 'IRR'
+    | 'ISK'
+    | 'JMD'
+    | 'JOD'
+    | 'JPY'
+    | 'KES'
+    | 'KGS'
+    | 'KHR'
+    | 'KMF'
+    | 'KPW'
+    | 'KRW'
+    | 'KWD'
+    | 'KYD'
+    | 'KZT'
+    | 'LAK'
+    | 'LBP'
+    | 'LKR'
+    | 'LRD'
+    | 'LSL'
+    | 'LYD'
+    | 'MAD'
+    | 'MDL'
+    | 'MGA'
+    | 'MKD'
+    | 'MMK'
+    | 'MNT'
+    | 'MOP'
+    | 'MUR'
+    | 'MVR'
+    | 'MWK'
+    | 'MXN'
+    | 'MYR'
+    | 'MZN'
+    | 'NAD'
+    | 'NGN'
+    | 'NIO'
+    | 'NOK'
+    | 'NPR'
+    | 'NZD'
+    | 'OMR'
+    | 'PAB'
+    | 'PEN'
+    | 'PGK'
+    | 'PHP'
+    | 'PKR'
+    | 'PLN'
+    | 'PYG'
+    | 'QAR'
+    | 'RON'
+    | 'RSD'
+    | 'RUB'
+    | 'RWF'
+    | 'SAR'
+    | 'SBD'
+    | 'SCR'
+    | 'SDG'
+    | 'SEK'
+    | 'SGD'
+    | 'SHP'
+    | 'SLL'
+    | 'SOS'
+    | 'SPL'
+    | 'SRD'
+    | 'SVC'
+    | 'SYP'
+    | 'STN'
+    | 'SZL'
+    | 'THB'
+    | 'TJS'
+    | 'TMT'
+    | 'TND'
+    | 'TOP'
+    | 'TRY'
+    | 'TTD'
+    | 'TVD'
+    | 'TWD'
+    | 'TZS'
+    | 'UAH'
+    | 'UGX'
+    | 'USD'
+    | 'UYU'
+    | 'UZS'
+    | 'VEF'
+    | 'VND'
+    | 'VUV'
+    | 'WST'
+    | 'XAF'
+    | 'XCD'
+    | 'XOF'
+    | 'XPF'
+    | 'YER'
+    | 'ZAR'
+    | 'ZMW'
+    | 'LOGICAL'
+    | 'CUSTOM';
+
+  /**
+   * Description of the line item
+   */
+  description: string;
+
+  /**
+   * The party receiving payout - either platform or a counter-party
+   */
+  payout_party: PlatformAPI.PlatformPayout | CreateInvoiceLineItemInput.CounterPartyPayout;
+
+  /**
+   * ID of the product/catalog item
+   */
+  product_id: string;
+}
+
+export namespace CreateInvoiceLineItemInput {
+  export interface CounterPartyPayout {
+    /**
+     * External ID of the party receiving payout
+     */
+    party_id: string;
+
+    /**
+     * Set to false or omit for counter-party payout
+     */
+    platform?: false;
+  }
+}
+
+/**
+ * Request body for creating an invoice
+ */
+export interface CreateInvoiceRequest {
+  /**
+   * External ID of the buyer party
+   */
+  buyerParty: string;
+
+  /**
+   * Idempotency key for the invoice
+   */
+  ik: string;
+
+  /**
+   * Optional list of line items to create with the invoice
+   */
+  lineItems?: Array<CreateInvoiceLineItemInput>;
+
+  /**
+   * Initial status of the invoice. Defaults to active if not specified.
+   */
+  status?: 'draft' | 'active';
 }
 
 /**
@@ -112,7 +358,7 @@ export interface Invoice {
   /**
    * List of line items associated with this invoice
    */
-  lineItems?: Array<Invoice.LineItem>;
+  lineItems?: Array<InvoiceLineItem>;
 
   /**
    * ISO 8601 timestamp when the invoice was last modified
@@ -120,25 +366,279 @@ export interface Invoice {
   modified?: string;
 }
 
-export namespace Invoice {
+/**
+ * Invoice line item object
+ */
+export interface InvoiceLineItem {
   /**
-   * Invoice line item object
+   * Unique identifier for the line item
    */
-  export interface LineItem {
+  id: string;
+
+  /**
+   * Amount in smallest currency unit (represented as string for bigint)
+   */
+  amount: string;
+
+  /**
+   * Currency code (ISO 4217 or crypto)
+   */
+  currencyCode:
+    | 'ADA'
+    | 'BTC'
+    | 'DAI'
+    | 'ETH'
+    | 'SOL'
+    | 'USDC'
+    | 'USDT'
+    | 'XLM'
+    | 'UNI'
+    | 'BCH'
+    | 'LTC'
+    | 'AAVE'
+    | 'LINK'
+    | 'MATIC'
+    | 'PTS'
+    | 'AED'
+    | 'AFN'
+    | 'ALL'
+    | 'AMD'
+    | 'ANG'
+    | 'AOA'
+    | 'ARS'
+    | 'AUD'
+    | 'AWG'
+    | 'AZN'
+    | 'BAM'
+    | 'BBD'
+    | 'BDT'
+    | 'BGN'
+    | 'BHD'
+    | 'BIF'
+    | 'BMD'
+    | 'BND'
+    | 'BOB'
+    | 'BRL'
+    | 'BSD'
+    | 'BTN'
+    | 'BWP'
+    | 'BYR'
+    | 'BZD'
+    | 'CAD'
+    | 'CDF'
+    | 'CHF'
+    | 'CLP'
+    | 'CNY'
+    | 'COP'
+    | 'CRC'
+    | 'CUC'
+    | 'CUP'
+    | 'CVE'
+    | 'CZK'
+    | 'DJF'
+    | 'DKK'
+    | 'DOP'
+    | 'DZD'
+    | 'EGP'
+    | 'ERN'
+    | 'ETB'
+    | 'EUR'
+    | 'FJD'
+    | 'FKP'
+    | 'GBP'
+    | 'GEL'
+    | 'GGP'
+    | 'GHS'
+    | 'GIP'
+    | 'GMD'
+    | 'GNF'
+    | 'GTQ'
+    | 'GYD'
+    | 'HKD'
+    | 'HNL'
+    | 'HRK'
+    | 'HTG'
+    | 'HUF'
+    | 'IDR'
+    | 'ILS'
+    | 'IMP'
+    | 'INR'
+    | 'IQD'
+    | 'IRR'
+    | 'ISK'
+    | 'JMD'
+    | 'JOD'
+    | 'JPY'
+    | 'KES'
+    | 'KGS'
+    | 'KHR'
+    | 'KMF'
+    | 'KPW'
+    | 'KRW'
+    | 'KWD'
+    | 'KYD'
+    | 'KZT'
+    | 'LAK'
+    | 'LBP'
+    | 'LKR'
+    | 'LRD'
+    | 'LSL'
+    | 'LYD'
+    | 'MAD'
+    | 'MDL'
+    | 'MGA'
+    | 'MKD'
+    | 'MMK'
+    | 'MNT'
+    | 'MOP'
+    | 'MUR'
+    | 'MVR'
+    | 'MWK'
+    | 'MXN'
+    | 'MYR'
+    | 'MZN'
+    | 'NAD'
+    | 'NGN'
+    | 'NIO'
+    | 'NOK'
+    | 'NPR'
+    | 'NZD'
+    | 'OMR'
+    | 'PAB'
+    | 'PEN'
+    | 'PGK'
+    | 'PHP'
+    | 'PKR'
+    | 'PLN'
+    | 'PYG'
+    | 'QAR'
+    | 'RON'
+    | 'RSD'
+    | 'RUB'
+    | 'RWF'
+    | 'SAR'
+    | 'SBD'
+    | 'SCR'
+    | 'SDG'
+    | 'SEK'
+    | 'SGD'
+    | 'SHP'
+    | 'SLL'
+    | 'SOS'
+    | 'SPL'
+    | 'SRD'
+    | 'SVC'
+    | 'SYP'
+    | 'STN'
+    | 'SZL'
+    | 'THB'
+    | 'TJS'
+    | 'TMT'
+    | 'TND'
+    | 'TOP'
+    | 'TRY'
+    | 'TTD'
+    | 'TVD'
+    | 'TWD'
+    | 'TZS'
+    | 'UAH'
+    | 'UGX'
+    | 'USD'
+    | 'UYU'
+    | 'UZS'
+    | 'VEF'
+    | 'VND'
+    | 'VUV'
+    | 'WST'
+    | 'XAF'
+    | 'XCD'
+    | 'XOF'
+    | 'XPF'
+    | 'YER'
+    | 'ZAR'
+    | 'ZMW'
+    | 'LOGICAL'
+    | 'CUSTOM';
+
+  /**
+   * Description of the line item
+   */
+  description: string;
+
+  /**
+   * The party receiving payout - either platform or a counter-party
+   */
+  payout_party: InvoiceLineItem.PlatformPayoutResponse | InvoiceLineItem.CounterPartyPayoutResponse;
+
+  /**
+   * ID of the product/catalog item
+   */
+  product_id: string;
+}
+
+export namespace InvoiceLineItem {
+  export interface PlatformPayoutResponse {
     /**
-     * Unique identifier for the line item
+     * Set to true for platform payout
      */
-    id: string;
+    platform: true;
+  }
+
+  export interface CounterPartyPayoutResponse {
+    /**
+     * External ID of the party receiving payout
+     */
+    party_id: string;
 
     /**
-     * Amount in smallest currency unit (represented as string for bigint)
+     * Set to false or omit for counter-party payout
+     */
+    platform?: false;
+  }
+}
+
+/**
+ * List of invoices
+ */
+export interface InvoiceList {
+  data: Array<Invoice>;
+}
+
+export interface InvoiceSuccess {
+  /**
+   * Invoice object
+   */
+  data: Invoice;
+}
+
+/**
+ * Request body for updating an invoice
+ */
+export interface UpdateInvoiceRequest {
+  /**
+   * List of line item operations to apply to the invoice
+   */
+  line_items_update: Array<
+    | UpdateInvoiceRequest.AddLineItemOperation
+    | UpdateInvoiceRequest.UpdateLineItemOperation
+    | UpdateInvoiceRequest.DeleteLineItemOperation
+  >;
+}
+
+export namespace UpdateInvoiceRequest {
+  /**
+   * Operation to add a new line item to an invoice
+   */
+  export interface AddLineItemOperation {
+    /**
+     * Amount in smallest currency unit (e.g., cents)
      */
     amount: string;
 
     /**
      * Currency code (ISO 4217 or crypto)
      */
-    currencyCode:
+    currency_code:
       | 'ADA'
       | 'BTC'
       | 'DAI'
@@ -321,9 +821,14 @@ export namespace Invoice {
     description: string;
 
     /**
+     * Operation type - add a new line item
+     */
+    op: 'add';
+
+    /**
      * The party receiving payout - either platform or a counter-party
      */
-    payout_party: LineItem.PlatformPayoutResponse | LineItem.CounterPartyPayoutResponse;
+    payout_party: PlatformAPI.PlatformPayout | AddLineItemOperation.CounterPartyPayout;
 
     /**
      * ID of the product/catalog item
@@ -331,15 +836,8 @@ export namespace Invoice {
     product_id: string;
   }
 
-  export namespace LineItem {
-    export interface PlatformPayoutResponse {
-      /**
-       * Set to true for platform payout
-       */
-      platform: true;
-    }
-
-    export interface CounterPartyPayoutResponse {
+  export namespace AddLineItemOperation {
+    export interface CounterPartyPayout {
       /**
        * External ID of the party receiving payout
        */
@@ -351,20 +849,41 @@ export namespace Invoice {
       platform?: false;
     }
   }
-}
 
-export interface InvoiceSuccess {
   /**
-   * Invoice object
+   * Operation to update an existing line item amount
    */
-  data: Invoice;
-}
+  export interface UpdateLineItemOperation {
+    /**
+     * ID of the line item to update
+     */
+    id: string;
 
-/**
- * List of invoices
- */
-export interface InvoiceListResponse {
-  data: Array<Invoice>;
+    /**
+     * New amount in smallest currency unit
+     */
+    amount: string;
+
+    /**
+     * Operation type - update an existing line item
+     */
+    op: 'update';
+  }
+
+  /**
+   * Operation to delete a line item from an invoice
+   */
+  export interface DeleteLineItemOperation {
+    /**
+     * ID of the line item to delete
+     */
+    id: string;
+
+    /**
+     * Operation type - delete an existing line item
+     */
+    op: 'delete';
+  }
 }
 
 export interface InvoiceCreateParams {
@@ -381,241 +900,12 @@ export interface InvoiceCreateParams {
   /**
    * Optional list of line items to create with the invoice
    */
-  lineItems?: Array<InvoiceCreateParams.LineItem>;
+  lineItems?: Array<CreateInvoiceLineItemInput>;
 
   /**
    * Initial status of the invoice. Defaults to active if not specified.
    */
   status?: 'draft' | 'active';
-}
-
-export namespace InvoiceCreateParams {
-  /**
-   * Line item data for creating within an invoice. The payInParty is automatically
-   * set to the invoice's buyerParty.
-   */
-  export interface LineItem {
-    /**
-     * Amount in smallest currency unit (e.g., cents)
-     */
-    amount: string;
-
-    /**
-     * Currency code (ISO 4217 or crypto)
-     */
-    currencyCode:
-      | 'ADA'
-      | 'BTC'
-      | 'DAI'
-      | 'ETH'
-      | 'SOL'
-      | 'USDC'
-      | 'USDT'
-      | 'XLM'
-      | 'UNI'
-      | 'BCH'
-      | 'LTC'
-      | 'AAVE'
-      | 'LINK'
-      | 'MATIC'
-      | 'PTS'
-      | 'AED'
-      | 'AFN'
-      | 'ALL'
-      | 'AMD'
-      | 'ANG'
-      | 'AOA'
-      | 'ARS'
-      | 'AUD'
-      | 'AWG'
-      | 'AZN'
-      | 'BAM'
-      | 'BBD'
-      | 'BDT'
-      | 'BGN'
-      | 'BHD'
-      | 'BIF'
-      | 'BMD'
-      | 'BND'
-      | 'BOB'
-      | 'BRL'
-      | 'BSD'
-      | 'BTN'
-      | 'BWP'
-      | 'BYR'
-      | 'BZD'
-      | 'CAD'
-      | 'CDF'
-      | 'CHF'
-      | 'CLP'
-      | 'CNY'
-      | 'COP'
-      | 'CRC'
-      | 'CUC'
-      | 'CUP'
-      | 'CVE'
-      | 'CZK'
-      | 'DJF'
-      | 'DKK'
-      | 'DOP'
-      | 'DZD'
-      | 'EGP'
-      | 'ERN'
-      | 'ETB'
-      | 'EUR'
-      | 'FJD'
-      | 'FKP'
-      | 'GBP'
-      | 'GEL'
-      | 'GGP'
-      | 'GHS'
-      | 'GIP'
-      | 'GMD'
-      | 'GNF'
-      | 'GTQ'
-      | 'GYD'
-      | 'HKD'
-      | 'HNL'
-      | 'HRK'
-      | 'HTG'
-      | 'HUF'
-      | 'IDR'
-      | 'ILS'
-      | 'IMP'
-      | 'INR'
-      | 'IQD'
-      | 'IRR'
-      | 'ISK'
-      | 'JMD'
-      | 'JOD'
-      | 'JPY'
-      | 'KES'
-      | 'KGS'
-      | 'KHR'
-      | 'KMF'
-      | 'KPW'
-      | 'KRW'
-      | 'KWD'
-      | 'KYD'
-      | 'KZT'
-      | 'LAK'
-      | 'LBP'
-      | 'LKR'
-      | 'LRD'
-      | 'LSL'
-      | 'LYD'
-      | 'MAD'
-      | 'MDL'
-      | 'MGA'
-      | 'MKD'
-      | 'MMK'
-      | 'MNT'
-      | 'MOP'
-      | 'MUR'
-      | 'MVR'
-      | 'MWK'
-      | 'MXN'
-      | 'MYR'
-      | 'MZN'
-      | 'NAD'
-      | 'NGN'
-      | 'NIO'
-      | 'NOK'
-      | 'NPR'
-      | 'NZD'
-      | 'OMR'
-      | 'PAB'
-      | 'PEN'
-      | 'PGK'
-      | 'PHP'
-      | 'PKR'
-      | 'PLN'
-      | 'PYG'
-      | 'QAR'
-      | 'RON'
-      | 'RSD'
-      | 'RUB'
-      | 'RWF'
-      | 'SAR'
-      | 'SBD'
-      | 'SCR'
-      | 'SDG'
-      | 'SEK'
-      | 'SGD'
-      | 'SHP'
-      | 'SLL'
-      | 'SOS'
-      | 'SPL'
-      | 'SRD'
-      | 'SVC'
-      | 'SYP'
-      | 'STN'
-      | 'SZL'
-      | 'THB'
-      | 'TJS'
-      | 'TMT'
-      | 'TND'
-      | 'TOP'
-      | 'TRY'
-      | 'TTD'
-      | 'TVD'
-      | 'TWD'
-      | 'TZS'
-      | 'UAH'
-      | 'UGX'
-      | 'USD'
-      | 'UYU'
-      | 'UZS'
-      | 'VEF'
-      | 'VND'
-      | 'VUV'
-      | 'WST'
-      | 'XAF'
-      | 'XCD'
-      | 'XOF'
-      | 'XPF'
-      | 'YER'
-      | 'ZAR'
-      | 'ZMW'
-      | 'LOGICAL'
-      | 'CUSTOM';
-
-    /**
-     * Description of the line item
-     */
-    description: string;
-
-    /**
-     * The party receiving payout - either platform or a counter-party
-     */
-    payout_party: LineItem.PlatformPayout | LineItem.CounterPartyPayout;
-
-    /**
-     * ID of the product/catalog item
-     */
-    product_id: string;
-  }
-
-  export namespace LineItem {
-    export interface PlatformPayout {
-      /**
-       * Set to true for platform payout
-       */
-      platform: true;
-    }
-
-    export interface CounterPartyPayout {
-      /**
-       * External ID of the party receiving payout
-       */
-      party_id: string;
-
-      /**
-       * Set to false or omit for counter-party payout
-       */
-      platform?: false;
-    }
-  }
 }
 
 export interface InvoiceUpdateParams {
@@ -832,7 +1122,7 @@ export namespace InvoiceUpdateParams {
     /**
      * The party receiving payout - either platform or a counter-party
      */
-    payout_party: AddLineItemOperation.PlatformPayout | AddLineItemOperation.CounterPartyPayout;
+    payout_party: PlatformAPI.PlatformPayout | AddLineItemOperation.CounterPartyPayout;
 
     /**
      * ID of the product/catalog item
@@ -841,13 +1131,6 @@ export namespace InvoiceUpdateParams {
   }
 
   export namespace AddLineItemOperation {
-    export interface PlatformPayout {
-      /**
-       * Set to true for platform payout
-       */
-      platform: true;
-    }
-
     export interface CounterPartyPayout {
       /**
        * External ID of the party receiving payout
@@ -899,9 +1182,13 @@ export namespace InvoiceUpdateParams {
 
 export declare namespace Invoices {
   export {
+    type CreateInvoiceLineItemInput as CreateInvoiceLineItemInput,
+    type CreateInvoiceRequest as CreateInvoiceRequest,
     type Invoice as Invoice,
+    type InvoiceLineItem as InvoiceLineItem,
+    type InvoiceList as InvoiceList,
     type InvoiceSuccess as InvoiceSuccess,
-    type InvoiceListResponse as InvoiceListResponse,
+    type UpdateInvoiceRequest as UpdateInvoiceRequest,
     type InvoiceCreateParams as InvoiceCreateParams,
     type InvoiceUpdateParams as InvoiceUpdateParams,
   };

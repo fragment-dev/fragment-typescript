@@ -2,32 +2,43 @@
 
 export {
   ExternalPayments,
-  type ExternalPayment,
   type ExternalPaymentSuccess,
   type ExternalPaymentListResponse,
   type ExternalPaymentCreateParams,
 } from './external-payments';
 export {
   Invoices,
+  type CreateInvoiceLineItemInput,
+  type CreateInvoiceRequest,
   type Invoice,
+  type InvoiceLineItem,
+  type InvoiceList,
   type InvoiceSuccess,
-  type InvoiceListResponse,
+  type UpdateInvoiceRequest,
   type InvoiceCreateParams,
   type InvoiceUpdateParams,
 } from './invoices';
 export {
   Parties,
-  type Party,
-  type PartySuccess,
+  type PartyCreateResponse,
+  type PartyRetrieveResponse,
   type PartyListResponse,
   type PartyCreateParams,
 } from './parties';
-export { Platform, type SuccessResponse, type PlatformUpdateParams } from './platform';
+export {
+  PlatformResource,
+  type Platform,
+  type PlatformPayout,
+  type PlatformSeller,
+  type PlatformSuccess,
+  type UpdatePlatformDetailsRequest,
+  type PlatformUpdateParams,
+} from './platform';
 export {
   Products,
+  type CreateProductRequest,
   type Product,
+  type ProductList,
   type ProductSuccess,
-  type Seller,
-  type ProductListResponse,
   type ProductCreateParams,
 } from './products';

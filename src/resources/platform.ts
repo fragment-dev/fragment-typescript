@@ -4,16 +4,16 @@ import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 
-export class Platform extends APIResource {
+export class PlatformResource extends APIResource {
   /**
    * Gets platform details for the workspace
    *
    * @example
    * ```ts
-   * const successResponse = await client.platform.retrieve();
+   * const platformSuccess = await client.platform.retrieve();
    * ```
    */
-  retrieve(options?: RequestOptions): APIPromise<SuccessResponse> {
+  retrieve(options?: RequestOptions): APIPromise<PlatformSuccess> {
     return this._client.get('/platform', options);
   }
 
@@ -22,48 +22,70 @@ export class Platform extends APIResource {
    *
    * @example
    * ```ts
-   * const successResponse = await client.platform.update({
+   * const platformSuccess = await client.platform.update({
    *   displayName: 'Acme Corp',
    * });
    * ```
    */
-  update(body: PlatformUpdateParams, options?: RequestOptions): APIPromise<SuccessResponse> {
+  update(body: PlatformUpdateParams, options?: RequestOptions): APIPromise<PlatformSuccess> {
     return this._client.post('/platform', { body, ...options });
   }
 }
 
-export interface SuccessResponse {
+/**
+ * Platform object
+ */
+export interface Platform {
   /**
-   * Platform object
+   * ISO 8601 timestamp when the platform was created
    */
-  data: SuccessResponse.Data;
+  created: string;
+
+  /**
+   * Display name for the platform
+   */
+  displayName: string;
+
+  /**
+   * Workspace ID this platform belongs to
+   */
+  workspaceId: string;
+
+  /**
+   * ISO 8601 timestamp when the platform was last modified
+   */
+  modified?: string;
 }
 
-export namespace SuccessResponse {
+export interface PlatformPayout {
+  /**
+   * Set to true for platform payout
+   */
+  platform: true;
+}
+
+export interface PlatformSeller {
+  /**
+   * Indicates the product is sold by the platform
+   */
+  soldByPlatform: true;
+}
+
+export interface PlatformSuccess {
   /**
    * Platform object
    */
-  export interface Data {
-    /**
-     * ISO 8601 timestamp when the platform was created
-     */
-    created: string;
+  data: Platform;
+}
 
-    /**
-     * Display name for the platform
-     */
-    displayName: string;
-
-    /**
-     * Workspace ID this platform belongs to
-     */
-    workspaceId: string;
-
-    /**
-     * ISO 8601 timestamp when the platform was last modified
-     */
-    modified?: string;
-  }
+/**
+ * Request body for updating platform details
+ */
+export interface UpdatePlatformDetailsRequest {
+  /**
+   * Display name for the platform
+   */
+  displayName: string;
 }
 
 export interface PlatformUpdateParams {
@@ -73,6 +95,13 @@ export interface PlatformUpdateParams {
   displayName: string;
 }
 
-export declare namespace Platform {
-  export { type SuccessResponse as SuccessResponse, type PlatformUpdateParams as PlatformUpdateParams };
+export declare namespace PlatformResource {
+  export {
+    type Platform as Platform,
+    type PlatformPayout as PlatformPayout,
+    type PlatformSeller as PlatformSeller,
+    type PlatformSuccess as PlatformSuccess,
+    type UpdatePlatformDetailsRequest as UpdatePlatformDetailsRequest,
+    type PlatformUpdateParams as PlatformUpdateParams,
+  };
 }
