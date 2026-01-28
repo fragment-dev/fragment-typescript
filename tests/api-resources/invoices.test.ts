@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Fragment from 'fragment';
+import Fragment from '@fragment-dev/ts-node';
 
 const client = new Fragment({
   clientID: 'My Client ID',
@@ -29,6 +29,7 @@ describe('resource invoices', () => {
       lineItems: [
         {
           amount: '1000',
+          currencyCode: 'USD',
           description: 'Professional services for January 2026',
           payout_party: { platform: true },
           product_id: 'prod_1234567890',

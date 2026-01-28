@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Fragment from 'fragment';
+import Fragment from '@fragment-dev/ts-node';
 
 const client = new Fragment({
   clientID: 'My Client ID',

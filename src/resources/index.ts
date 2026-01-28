@@ -21,6 +21,7 @@ export {
   type PartyListResponse,
   type PartyCreateParams,
 } from './parties';
+export { Platform, type SuccessResponse, type PlatformUpdateParams } from './platform';
 export {
   Platform,
   type PlatformRetrieveResponse,

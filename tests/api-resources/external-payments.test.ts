@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Fragment from 'fragment';
+import Fragment from '@fragment-dev/ts-node';
 
 const client = new Fragment({
   clientID: 'My Client ID',
@@ -15,6 +15,7 @@ describe('resource externalPayments', () => {
       accountReference: 'ACC-2024-001',
       amount: '50000',
       counterpartyId: 'party_ext_789',
+      currencyCode: 'USD',
       invoiceId: 'inv_1234567890',
       transactionId: 'txn_external_123',
     });
@@ -33,6 +34,7 @@ describe('resource externalPayments', () => {
       accountReference: 'ACC-2024-001',
       amount: '50000',
       counterpartyId: 'party_ext_789',
+      currencyCode: 'USD',
       invoiceId: 'inv_1234567890',
       transactionId: 'txn_external_123',
     });

@@ -40,6 +40,17 @@ Methods:
 - <code title="get /parties/{externalId}">client.parties.<a href="./src/resources/parties.ts">retrieve</a>(externalID) -> PartySuccess</code>
 - <code title="get /parties">client.parties.<a href="./src/resources/parties.ts">list</a>() -> PartyListResponse</code>
 
+# Platform
+
+Types:
+
+- <code><a href="./src/resources/platform.ts">SuccessResponse</a></code>
+
+Methods:
+
+- <code title="get /platform">client.platform.<a href="./src/resources/platform.ts">retrieve</a>() -> SuccessResponse</code>
+- <code title="post /platform">client.platform.<a href="./src/resources/platform.ts">update</a>({ ...params }) -> SuccessResponse</code>
+
 # Products
 
 Types:
