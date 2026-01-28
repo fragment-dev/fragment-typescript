@@ -13,6 +13,7 @@ export {
   type InvoiceSuccess,
   type InvoiceListResponse,
   type InvoiceCreateParams,
+  type InvoiceUpdateParams,
 } from './invoices';
 export {
   Parties,

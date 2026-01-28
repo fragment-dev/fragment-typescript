@@ -28,6 +28,7 @@ import {
   InvoiceCreateParams,
   InvoiceListResponse,
   InvoiceSuccess,
+  InvoiceUpdateParams,
   Invoices,
 } from './resources/invoices';
 import { Parties, Party, PartyCreateParams, PartyListResponse, PartySuccess } from './resources/parties';
@@ -849,6 +850,7 @@ export declare namespace Fragment {
     type InvoiceSuccess as InvoiceSuccess,
     type InvoiceListResponse as InvoiceListResponse,
     type InvoiceCreateParams as InvoiceCreateParams,
+    type InvoiceUpdateParams as InvoiceUpdateParams,
   };
 
   export {
