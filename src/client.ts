@@ -33,12 +33,6 @@ import {
 import { Parties, Party, PartyCreateParams, PartyListResponse, PartySuccess } from './resources/parties';
 import { Platform, PlatformUpdateParams, SuccessResponse } from './resources/platform';
 import {
-  Platform,
-  PlatformRetrieveResponse,
-  PlatformUpdateParams,
-  PlatformUpdateResponse,
-} from './resources/platform';
-import {
   Product,
   ProductCreateParams,
   ProductListResponse,
@@ -829,7 +823,6 @@ export class Fragment {
   parties: API.Parties = new API.Parties(this);
   platform: API.Platform = new API.Platform(this);
   products: API.Products = new API.Products(this);
-  platform: API.Platform = new API.Platform(this);
 }
 
 Fragment.ExternalPayments = ExternalPayments;
@@ -879,12 +872,5 @@ export declare namespace Fragment {
     type Seller as Seller,
     type ProductListResponse as ProductListResponse,
     type ProductCreateParams as ProductCreateParams,
-  };
-
-  export {
-    Platform as Platform,
-    type PlatformRetrieveResponse as PlatformRetrieveResponse,
-    type PlatformUpdateResponse as PlatformUpdateResponse,
-    type PlatformUpdateParams as PlatformUpdateParams,
   };
 }
