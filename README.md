@@ -28,7 +28,7 @@ const externalPaymentSuccess = await client.externalPayments.create({
   accountReference: 'ACC-001',
   amount: '50000',
   counterpartyId: 'party_123',
-  currency_code: 'USD',
+  currencyCode: 'USD',
   invoiceId: 'inv_123',
   transactionId: 'txn_example',
 });
@@ -50,7 +50,7 @@ const params: Fragment.ExternalPaymentCreateParams = {
   accountReference: 'ACC-001',
   amount: '50000',
   counterpartyId: 'party_123',
-  currency_code: 'USD',
+  currencyCode: 'USD',
   invoiceId: 'inv_123',
   transactionId: 'txn_example',
 };
@@ -73,7 +73,7 @@ const externalPaymentSuccess = await client.externalPayments
     accountReference: 'ACC-001',
     amount: '50000',
     counterpartyId: 'party_123',
-    currency_code: 'USD',
+    currencyCode: 'USD',
     invoiceId: 'inv_123',
     transactionId: 'txn_example',
   })
@@ -121,7 +121,7 @@ await client.externalPayments.create({
   accountReference: 'ACC-001',
   amount: '50000',
   counterpartyId: 'party_123',
-  currency_code: 'USD',
+  currencyCode: 'USD',
   invoiceId: 'inv_123',
   transactionId: 'txn_example',
 }, {
@@ -145,7 +145,7 @@ await client.externalPayments.create({
   accountReference: 'ACC-001',
   amount: '50000',
   counterpartyId: 'party_123',
-  currency_code: 'USD',
+  currencyCode: 'USD',
   invoiceId: 'inv_123',
   transactionId: 'txn_example',
 }, {
@@ -176,7 +176,7 @@ const response = await client.externalPayments
     accountReference: 'ACC-001',
     amount: '50000',
     counterpartyId: 'party_123',
-    currency_code: 'USD',
+    currencyCode: 'USD',
     invoiceId: 'inv_123',
     transactionId: 'txn_example',
   })
@@ -189,7 +189,7 @@ const { data: externalPaymentSuccess, response: raw } = await client.externalPay
     accountReference: 'ACC-001',
     amount: '50000',
     counterpartyId: 'party_123',
-    currency_code: 'USD',
+    currencyCode: 'USD',
     invoiceId: 'inv_123',
     transactionId: 'txn_example',
   })

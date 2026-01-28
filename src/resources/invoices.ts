@@ -111,7 +111,7 @@ export namespace Invoice {
     /**
      * Currency code for the line item (ISO 4217 or crypto)
      */
-    currency_code:
+    currencyCode:
       | 'ADA'
       | 'BTC'
       | 'DAI'
@@ -371,7 +371,7 @@ export namespace InvoiceCreateParams {
     /**
      * Currency code for the line item (ISO 4217 or crypto)
      */
-    currency_code:
+    currencyCode:
       | 'ADA'
       | 'BTC'
       | 'DAI'

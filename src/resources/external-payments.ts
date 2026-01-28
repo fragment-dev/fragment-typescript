@@ -16,7 +16,7 @@ export class ExternalPayments extends APIResource {
    *     accountReference: 'ACC-2024-001',
    *     amount: '50000',
    *     counterpartyId: 'party_ext_789',
-   *     currency_code: 'USD',
+   *     currencyCode: 'USD',
    *     invoiceId: 'inv_1234567890',
    *     transactionId: 'txn_external_123',
    *   });
@@ -82,7 +82,7 @@ export interface ExternalPayment {
   /**
    * Currency code for the payment (ISO 4217 or crypto)
    */
-  currency_code:
+  currencyCode:
     | 'ADA'
     | 'BTC'
     | 'DAI'
@@ -313,7 +313,7 @@ export interface ExternalPaymentCreateParams {
   /**
    * Currency code for the payment (ISO 4217 or crypto)
    */
-  currency_code:
+  currencyCode:
     | 'ADA'
     | 'BTC'
     | 'DAI'

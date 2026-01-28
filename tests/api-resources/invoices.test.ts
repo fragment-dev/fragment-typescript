@@ -29,7 +29,7 @@ describe('resource invoices', () => {
       lineItems: [
         {
           amount: '1000',
-          currency_code: 'USD',
+          currencyCode: 'USD',
           description: 'Professional services for January 2026',
           payout_party: { platform: true },
           product_id: 'prod_1234567890',
