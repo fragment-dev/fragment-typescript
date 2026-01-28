@@ -15,7 +15,7 @@ describe('resource externalPayments', () => {
       accountReference: 'ACC-2024-001',
       amount: '50000',
       counterpartyId: 'party_ext_789',
-      currency_code: 'USD',
+      currencyCode: 'USD',
       invoiceId: 'inv_1234567890',
       transactionId: 'txn_external_123',
     });
@@ -34,7 +34,7 @@ describe('resource externalPayments', () => {
       accountReference: 'ACC-2024-001',
       amount: '50000',
       counterpartyId: 'party_ext_789',
-      currency_code: 'USD',
+      currencyCode: 'USD',
       invoiceId: 'inv_1234567890',
       transactionId: 'txn_external_123',
     });
