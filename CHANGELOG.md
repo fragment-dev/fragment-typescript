@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.1 (2026-01-28)
+
+Full Changelog: [v0.3.0...v0.3.1](https://github.com/fragment-dev/fragment-typescript/compare/v0.3.0...v0.3.1)
+
+### Chores
+
+* update SDK settings ([f9c9e91](https://github.com/fragment-dev/fragment-typescript/commit/f9c9e911a12fc9b066d1ea946065d5fe6f335568))
+
 ## 0.3.0 (2026-01-28)
 
 Full Changelog: [v0.2.0...v0.3.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.2.0...v0.3.0)

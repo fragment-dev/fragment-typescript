@@ -11,14 +11,14 @@ export class Products extends APIResource {
    *
    * @example
    * ```ts
-   * const productSuccess = await client.products.create({
+   * const product = await client.products.create({
    *   code: 'PROD_001',
    *   description: 'Premium subscription service',
    *   seller: { soldByPlatform: true },
    * });
    * ```
    */
-  create(body: ProductCreateParams, options?: RequestOptions): APIPromise<ProductSuccess> {
+  create(body: ProductCreateParams, options?: RequestOptions): APIPromise<ProductCreateResponse> {
     return this._client.post('/products', { body, ...options });
   }
 
@@ -27,12 +27,10 @@ export class Products extends APIResource {
    *
    * @example
    * ```ts
-   * const productSuccess = await client.products.retrieve(
-   *   'PROD_001',
-   * );
+   * const product = await client.products.retrieve('PROD_001');
    * ```
    */
-  retrieve(code: string, options?: RequestOptions): APIPromise<ProductSuccess> {
+  retrieve(code: string, options?: RequestOptions): APIPromise<ProductRetrieveResponse> {
     return this._client.get(path`/products/${code}`, options);
   }
 
@@ -49,19 +47,206 @@ export class Products extends APIResource {
   }
 }
 
+export interface ProductCreateResponse {
+  /**
+   * Product object
+   */
+  data: ProductCreateResponse.Data;
+}
+
+export namespace ProductCreateResponse {
+  /**
+   * Product object
+   */
+  export interface Data {
+    /**
+     * Product code (unique identifier)
+     */
+    code: string;
+
+    /**
+     * ISO 8601 timestamp when the product was created
+     */
+    created: string;
+
+    /**
+     * Description of the product
+     */
+    description: string;
+
+    /**
+     * Seller information
+     */
+    seller: Data.PlatformSeller | Data.CounterpartySeller;
+
+    /**
+     * Version number for optimistic locking
+     */
+    updateVersion: number;
+
+    /**
+     * Workspace ID this product belongs to
+     */
+    workspaceId: string;
+  }
+
+  export namespace Data {
+    export interface PlatformSeller {
+      /**
+       * Indicates the product is sold by the platform
+       */
+      soldByPlatform: true;
+    }
+
+    export interface CounterpartySeller {
+      /**
+       * Type of the counterparty seller
+       */
+      counterpartyType: string;
+
+      /**
+       * Indicates the product is sold by a counterparty
+       */
+      soldByPlatform: false;
+    }
+  }
+}
+
+export interface ProductRetrieveResponse {
+  /**
+   * Product object
+   */
+  data: ProductRetrieveResponse.Data;
+}
+
+export namespace ProductRetrieveResponse {
+  /**
+   * Product object
+   */
+  export interface Data {
+    /**
+     * Product code (unique identifier)
+     */
+    code: string;
+
+    /**
+     * ISO 8601 timestamp when the product was created
+     */
+    created: string;
+
+    /**
+     * Description of the product
+     */
+    description: string;
+
+    /**
+     * Seller information
+     */
+    seller: Data.PlatformSeller | Data.CounterpartySeller;
+
+    /**
+     * Version number for optimistic locking
+     */
+    updateVersion: number;
+
+    /**
+     * Workspace ID this product belongs to
+     */
+    workspaceId: string;
+  }
+
+  export namespace Data {
+    export interface PlatformSeller {
+      /**
+       * Indicates the product is sold by the platform
+       */
+      soldByPlatform: true;
+    }
+
+    export interface CounterpartySeller {
+      /**
+       * Type of the counterparty seller
+       */
+      counterpartyType: string;
+
+      /**
+       * Indicates the product is sold by a counterparty
+       */
+      soldByPlatform: false;
+    }
+  }
+}
+
 /**
- * Product object
+ * List of products
  */
-export interface Product {
+export interface ProductListResponse {
+  data: Array<ProductListResponse.Data>;
+}
+
+export namespace ProductListResponse {
+  /**
+   * Product object
+   */
+  export interface Data {
+    /**
+     * Product code (unique identifier)
+     */
+    code: string;
+
+    /**
+     * ISO 8601 timestamp when the product was created
+     */
+    created: string;
+
+    /**
+     * Description of the product
+     */
+    description: string;
+
+    /**
+     * Seller information
+     */
+    seller: Data.PlatformSeller | Data.CounterpartySeller;
+
+    /**
+     * Version number for optimistic locking
+     */
+    updateVersion: number;
+
+    /**
+     * Workspace ID this product belongs to
+     */
+    workspaceId: string;
+  }
+
+  export namespace Data {
+    export interface PlatformSeller {
+      /**
+       * Indicates the product is sold by the platform
+       */
+      soldByPlatform: true;
+    }
+
+    export interface CounterpartySeller {
+      /**
+       * Type of the counterparty seller
+       */
+      counterpartyType: string;
+
+      /**
+       * Indicates the product is sold by a counterparty
+       */
+      soldByPlatform: false;
+    }
+  }
+}
+
+export interface ProductCreateParams {
   /**
    * Product code (unique identifier)
    */
   code: string;
-
-  /**
-   * ISO 8601 timestamp when the product was created
-   */
-  created: string;
 
   /**
    * Description of the product
@@ -71,32 +256,10 @@ export interface Product {
   /**
    * Seller information
    */
-  seller: Seller;
-
-  /**
-   * Version number for optimistic locking
-   */
-  updateVersion: number;
-
-  /**
-   * Workspace ID this product belongs to
-   */
-  workspaceId: string;
+  seller: ProductCreateParams.PlatformSeller | ProductCreateParams.CounterpartySeller;
 }
 
-export interface ProductSuccess {
-  /**
-   * Product object
-   */
-  data: Product;
-}
-
-/**
- * Seller information
- */
-export type Seller = Seller.PlatformSeller | Seller.CounterpartySeller;
-
-export namespace Seller {
+export namespace ProductCreateParams {
   export interface PlatformSeller {
     /**
      * Indicates the product is sold by the platform
@@ -117,35 +280,10 @@ export namespace Seller {
   }
 }
 
-/**
- * List of products
- */
-export interface ProductListResponse {
-  data: Array<Product>;
-}
-
-export interface ProductCreateParams {
-  /**
-   * Product code (unique identifier)
-   */
-  code: string;
-
-  /**
-   * Description of the product
-   */
-  description: string;
-
-  /**
-   * Seller information
-   */
-  seller: Seller;
-}
-
 export declare namespace Products {
   export {
-    type Product as Product,
-    type ProductSuccess as ProductSuccess,
-    type Seller as Seller,
+    type ProductCreateResponse as ProductCreateResponse,
+    type ProductRetrieveResponse as ProductRetrieveResponse,
     type ProductListResponse as ProductListResponse,
     type ProductCreateParams as ProductCreateParams,
   };

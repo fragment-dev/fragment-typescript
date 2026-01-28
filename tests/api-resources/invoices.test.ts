@@ -35,6 +35,7 @@ describe('resource invoices', () => {
           product_id: 'prod_1234567890',
         },
       ],
+      status: 'active',
     });
   });
 
@@ -48,6 +49,45 @@ describe('resource invoices', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('update: only required params', async () => {
+    const responsePromise = client.invoices.update('inv_1234567890', {
+      line_items_update: [
+        {
+          amount: '1000',
+          currency_code: 'USD',
+          description: 'Professional services for January 2026',
+          op: 'add',
+          payout_party: { platform: true },
+          product_id: 'prod_1234567890',
+        },
+      ],
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('update: required and optional params', async () => {
+    const response = await client.invoices.update('inv_1234567890', {
+      line_items_update: [
+        {
+          amount: '1000',
+          currency_code: 'USD',
+          description: 'Professional services for January 2026',
+          op: 'add',
+          payout_party: { platform: true },
+          product_id: 'prod_1234567890',
+        },
+      ],
+    });
   });
 
   // Prism tests are disabled

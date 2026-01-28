@@ -17,28 +17,40 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
-  ExternalPayment,
   ExternalPaymentCreateParams,
+  ExternalPaymentCreateResponse,
   ExternalPaymentListResponse,
-  ExternalPaymentSuccess,
+  ExternalPaymentRetrieveResponse,
   ExternalPayments,
 } from './resources/external-payments';
 import {
-  Invoice,
   InvoiceCreateParams,
+  InvoiceCreateResponse,
   InvoiceListResponse,
-  InvoiceSuccess,
+  InvoiceRetrieveResponse,
+  InvoiceUpdateParams,
+  InvoiceUpdateResponse,
   Invoices,
 } from './resources/invoices';
-import { Parties, Party, PartyCreateParams, PartyListResponse, PartySuccess } from './resources/parties';
-import { Platform, PlatformUpdateParams, SuccessResponse } from './resources/platform';
 import {
-  Product,
+  Parties,
+  PartyCreateParams,
+  PartyCreateResponse,
+  PartyListResponse,
+  PartyRetrieveResponse,
+} from './resources/parties';
+import {
+  Platform,
+  PlatformRetrieveResponse,
+  PlatformUpdateParams,
+  PlatformUpdateResponse,
+} from './resources/platform';
+import {
   ProductCreateParams,
+  ProductCreateResponse,
   ProductListResponse,
-  ProductSuccess,
+  ProductRetrieveResponse,
   Products,
-  Seller,
 } from './resources/products';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
@@ -837,39 +849,41 @@ export declare namespace Fragment {
 
   export {
     ExternalPayments as ExternalPayments,
-    type ExternalPayment as ExternalPayment,
-    type ExternalPaymentSuccess as ExternalPaymentSuccess,
+    type ExternalPaymentCreateResponse as ExternalPaymentCreateResponse,
+    type ExternalPaymentRetrieveResponse as ExternalPaymentRetrieveResponse,
     type ExternalPaymentListResponse as ExternalPaymentListResponse,
     type ExternalPaymentCreateParams as ExternalPaymentCreateParams,
   };
 
   export {
     Invoices as Invoices,
-    type Invoice as Invoice,
-    type InvoiceSuccess as InvoiceSuccess,
+    type InvoiceCreateResponse as InvoiceCreateResponse,
+    type InvoiceRetrieveResponse as InvoiceRetrieveResponse,
+    type InvoiceUpdateResponse as InvoiceUpdateResponse,
     type InvoiceListResponse as InvoiceListResponse,
     type InvoiceCreateParams as InvoiceCreateParams,
+    type InvoiceUpdateParams as InvoiceUpdateParams,
   };
 
   export {
     Parties as Parties,
-    type Party as Party,
-    type PartySuccess as PartySuccess,
+    type PartyCreateResponse as PartyCreateResponse,
+    type PartyRetrieveResponse as PartyRetrieveResponse,
     type PartyListResponse as PartyListResponse,
     type PartyCreateParams as PartyCreateParams,
   };
 
   export {
     Platform as Platform,
-    type SuccessResponse as SuccessResponse,
+    type PlatformRetrieveResponse as PlatformRetrieveResponse,
+    type PlatformUpdateResponse as PlatformUpdateResponse,
     type PlatformUpdateParams as PlatformUpdateParams,
   };
 
   export {
     Products as Products,
-    type Product as Product,
-    type ProductSuccess as ProductSuccess,
-    type Seller as Seller,
+    type ProductCreateResponse as ProductCreateResponse,
+    type ProductRetrieveResponse as ProductRetrieveResponse,
     type ProductListResponse as ProductListResponse,
     type ProductCreateParams as ProductCreateParams,
   };

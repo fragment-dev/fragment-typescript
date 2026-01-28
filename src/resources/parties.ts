@@ -11,12 +11,12 @@ export class Parties extends APIResource {
    *
    * @example
    * ```ts
-   * const partySuccess = await client.parties.create({
+   * const party = await client.parties.create({
    *   externalId: 'party_ext_123',
    * });
    * ```
    */
-  create(body: PartyCreateParams, options?: RequestOptions): APIPromise<PartySuccess> {
+  create(body: PartyCreateParams, options?: RequestOptions): APIPromise<PartyCreateResponse> {
     return this._client.post('/parties', { body, ...options });
   }
 
@@ -25,12 +25,12 @@ export class Parties extends APIResource {
    *
    * @example
    * ```ts
-   * const partySuccess = await client.parties.retrieve(
+   * const party = await client.parties.retrieve(
    *   'party_ext_123',
    * );
    * ```
    */
-  retrieve(externalID: string, options?: RequestOptions): APIPromise<PartySuccess> {
+  retrieve(externalID: string, options?: RequestOptions): APIPromise<PartyRetrieveResponse> {
     return this._client.get(path`/parties/${externalID}`, options);
   }
 
@@ -47,33 +47,76 @@ export class Parties extends APIResource {
   }
 }
 
-/**
- * Party object
- */
-export interface Party {
-  /**
-   * External ID for the party
-   */
-  externalId: string;
-
-  /**
-   * Type of the counterparty
-   */
-  counterPartyType?: string;
-}
-
-export interface PartySuccess {
+export interface PartyCreateResponse {
   /**
    * Party object
    */
-  data: Party;
+  data: PartyCreateResponse.Data;
+}
+
+export namespace PartyCreateResponse {
+  /**
+   * Party object
+   */
+  export interface Data {
+    /**
+     * External ID for the party
+     */
+    externalId: string;
+
+    /**
+     * Type of the counterparty
+     */
+    counterPartyType?: string;
+  }
+}
+
+export interface PartyRetrieveResponse {
+  /**
+   * Party object
+   */
+  data: PartyRetrieveResponse.Data;
+}
+
+export namespace PartyRetrieveResponse {
+  /**
+   * Party object
+   */
+  export interface Data {
+    /**
+     * External ID for the party
+     */
+    externalId: string;
+
+    /**
+     * Type of the counterparty
+     */
+    counterPartyType?: string;
+  }
 }
 
 /**
  * List of parties
  */
 export interface PartyListResponse {
-  data: Array<Party>;
+  data: Array<PartyListResponse.Data>;
+}
+
+export namespace PartyListResponse {
+  /**
+   * Party object
+   */
+  export interface Data {
+    /**
+     * External ID for the party
+     */
+    externalId: string;
+
+    /**
+     * Type of the counterparty
+     */
+    counterPartyType?: string;
+  }
 }
 
 export interface PartyCreateParams {
@@ -90,8 +133,8 @@ export interface PartyCreateParams {
 
 export declare namespace Parties {
   export {
-    type Party as Party,
-    type PartySuccess as PartySuccess,
+    type PartyCreateResponse as PartyCreateResponse,
+    type PartyRetrieveResponse as PartyRetrieveResponse,
     type PartyListResponse as PartyListResponse,
     type PartyCreateParams as PartyCreateParams,
   };
