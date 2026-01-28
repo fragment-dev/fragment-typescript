@@ -109,7 +109,7 @@ export namespace Invoice {
     amount: string;
 
     /**
-     * Currency code (ISO 4217 or crypto)
+     * Currency code for the line item (ISO 4217 or crypto)
      */
     currencyCode:
       | 'ADA'
@@ -355,11 +355,6 @@ export interface InvoiceCreateParams {
    * Optional list of line items to create with the invoice
    */
   lineItems?: Array<InvoiceCreateParams.LineItem>;
-
-  /**
-   * Initial status of the invoice. Defaults to active if not specified.
-   */
-  status?: 'draft' | 'active';
 }
 
 export namespace InvoiceCreateParams {
@@ -374,7 +369,7 @@ export namespace InvoiceCreateParams {
     amount: string;
 
     /**
-     * Currency code (ISO 4217 or crypto)
+     * Currency code for the line item (ISO 4217 or crypto)
      */
     currencyCode:
       | 'ADA'

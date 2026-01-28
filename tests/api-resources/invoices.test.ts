@@ -35,7 +35,6 @@ describe('resource invoices', () => {
           product_id: 'prod_1234567890',
         },
       ],
-      status: 'active',
     });
   });
 
