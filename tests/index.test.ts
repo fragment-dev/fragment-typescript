@@ -354,13 +354,13 @@ describe('instantiate client', () => {
     test('empty env variable', () => {
       process.env['FRAGMENT_BASE_URL'] = ''; // empty
       const client = new Fragment({ clientID: 'My Client ID', clientSecret: 'My Client Secret' });
-      expect(client.baseURL).toEqual('https://api-payments.us-west-2.fragment.dev/*');
+      expect(client.baseURL).toEqual('https://api.us-west-2.fragment.dev/*');
     });
 
     test('blank env variable', () => {
       process.env['FRAGMENT_BASE_URL'] = '  '; // blank
       const client = new Fragment({ clientID: 'My Client ID', clientSecret: 'My Client Secret' });
-      expect(client.baseURL).toEqual('https://api-payments.us-west-2.fragment.dev/*');
+      expect(client.baseURL).toEqual('https://api.us-west-2.fragment.dev/*');
     });
 
     test('in request options', () => {
