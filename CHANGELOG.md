@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.4.0 (2026-01-30)
+
+Full Changelog: [v0.3.1...v0.4.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.3.1...v0.4.0)
+
+### Features
+
+* **api:** manual updates ([bea696c](https://github.com/fragment-dev/fragment-typescript/commit/bea696ced9886a6eb7c65f65bbfbf1dcec625b4a))
+
+
+### Bug Fixes
+
+* **client:** send grant_type as application/x-www-form-urlencoded ([0db84d8](https://github.com/fragment-dev/fragment-typescript/commit/0db84d87f650d1f5f79c2071f0fd8f38ef4fa556))
+
+
+### Chores
+
+* update SDK settings ([3393111](https://github.com/fragment-dev/fragment-typescript/commit/33931111458dbb6bd0ac4be0e0b2be26bb048716))
+* update SDK settings ([64d6e43](https://github.com/fragment-dev/fragment-typescript/commit/64d6e434de456aa323f736911761464249984537))
+* update SDK settings ([79c8f25](https://github.com/fragment-dev/fragment-typescript/commit/79c8f2501171e11e430611985e66bed35d749cc5))
+
 ## 0.3.1 (2026-01-28)
 
 Full Changelog: [v0.3.0...v0.3.1](https://github.com/fragment-dev/fragment-typescript/compare/v0.3.0...v0.3.1)

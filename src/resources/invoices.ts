@@ -13,7 +13,7 @@ export class Invoices extends APIResource {
    * ```ts
    * const invoice = await client.invoices.create({
    *   buyerParty: 'party_ext_789',
-   *   ik: 'invoice_2024_001',
+   *   invoiceId: 'invoice_2024_001',
    * });
    * ```
    */
@@ -101,11 +101,6 @@ export namespace InvoiceCreateResponse {
      * ISO 8601 timestamp when the invoice was created
      */
     created: string;
-
-    /**
-     * Idempotency key for the invoice
-     */
-    ik: string;
 
     /**
      * The status of the invoice
@@ -390,11 +385,6 @@ export namespace InvoiceRetrieveResponse {
     created: string;
 
     /**
-     * Idempotency key for the invoice
-     */
-    ik: string;
-
-    /**
      * The status of the invoice
      */
     status: 'draft' | 'active' | 'closed' | 'void' | 'failed';
@@ -675,11 +665,6 @@ export namespace InvoiceUpdateResponse {
      * ISO 8601 timestamp when the invoice was created
      */
     created: string;
-
-    /**
-     * Idempotency key for the invoice
-     */
-    ik: string;
 
     /**
      * The status of the invoice
@@ -964,11 +949,6 @@ export namespace InvoiceListResponse {
     created: string;
 
     /**
-     * Idempotency key for the invoice
-     */
-    ik: string;
-
-    /**
      * The status of the invoice
      */
     status: 'draft' | 'active' | 'closed' | 'void' | 'failed';
@@ -1230,9 +1210,10 @@ export interface InvoiceCreateParams {
   buyerParty: string;
 
   /**
-   * Idempotency key for the invoice
+   * Unique identifier for the invoice. Make this the canonical ID from your system
+   * for the transaction.
    */
-  ik: string;
+  invoiceId: string;
 
   /**
    * Optional list of line items to create with the invoice

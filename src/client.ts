@@ -170,7 +170,7 @@ export class Fragment {
    *
    * @param {string | null | undefined} [opts.clientID=process.env['FRAGMENT_CLIENT_ID'] ?? null]
    * @param {string | null | undefined} [opts.clientSecret=process.env['FRAGMENT_CLIENT_SECRET'] ?? null]
-   * @param {string} [opts.baseURL=process.env['FRAGMENT_BASE_URL'] ?? https://api.us-west-2.fragment.dev/*] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['FRAGMENT_BASE_URL'] ?? https://api.us-west-2.fragment.dev] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -188,7 +188,7 @@ export class Fragment {
       clientID,
       clientSecret,
       ...opts,
-      baseURL: baseURL || `https://api.us-west-2.fragment.dev/*`,
+      baseURL: baseURL || `https://api.us-west-2.fragment.dev`,
     };
 
     this.baseURL = options.baseURL!;
@@ -237,7 +237,7 @@ export class Fragment {
    * Check whether the base URL is set to its default.
    */
   #baseURLOverridden(): boolean {
-    return this.baseURL !== 'https://api.us-west-2.fragment.dev/*';
+    return this.baseURL !== 'https://api.us-west-2.fragment.dev';
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
@@ -282,17 +282,14 @@ export class Fragment {
 
     if (!this.oauth2AuthState) {
       this.oauth2AuthState = {
-        promise: this.fetch(
-          this.buildURL('https://auth.us-west-2.fragment.dev/oauth2/token', {
-            grant_type: 'client_credentials',
-          }),
-          {
-            method: 'POST',
-            headers: {
-              Authorization: `Basic ${toBase64(`${this.clientID}:${this.clientSecret}`)}`,
-            },
+        promise: this.fetch('https://auth.us-west-2.fragment.dev/oauth2/token', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization: `Basic ${toBase64(`${this.clientID}:${this.clientSecret}`)}`,
           },
-        ).then(async (res) => {
+          body: 'grant_type=client_credentials',
+        }).then(async (res) => {
           if (!res.ok) {
             const errText = await res.text().catch(() => '');
             const errJSON = errText ? safeJSON(errText) : undefined;
