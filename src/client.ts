@@ -270,7 +270,7 @@ export class Fragment {
 
     if (!this.oauth2AuthState) {
       this.oauth2AuthState = {
-        promise: this.fetch('https://auth.us-west-2.fragment.dev/oauth2/token', {
+        promise: this.fetch(this.buildURL('https://auth.us-west-2.fragment.dev/oauth2/token', {}), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
