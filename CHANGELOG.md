@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.5.1 (2026-02-02)
+
+Full Changelog: [v0.5.0...v0.5.1](https://github.com/fragment-dev/fragment-typescript/compare/v0.5.0...v0.5.1)
+
+### Bug Fixes
+
+* **client/oauth:** send grant_type in the right location ([cc24525](https://github.com/fragment-dev/fragment-typescript/commit/cc24525249f89744109c5b2354e75e47cad9ba97))
+* **client:** avoid memory leak with abort signals ([bebe3a1](https://github.com/fragment-dev/fragment-typescript/commit/bebe3a14064ce8a0fba49100293e66ed2288b5fb))
+
+
+### Chores
+
+* **client:** do not parse responses with empty content-length ([cc1e414](https://github.com/fragment-dev/fragment-typescript/commit/cc1e414803881ebc41a2da46e10ffb5c59db4959))
+
 ## 0.5.0 (2026-02-02)
 
 Full Changelog: [v0.4.0...v0.5.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.4.0...v0.5.0)

@@ -270,7 +270,7 @@ export class Fragment {
 
     if (!this.oauth2AuthState) {
       this.oauth2AuthState = {
-        promise: this.fetch('https://auth.us-west-2.fragment.dev/oauth2/token', {
+        promise: this.fetch(this.buildURL('https://auth.us-west-2.fragment.dev/oauth2/token', {}), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -583,9 +583,10 @@ export class Fragment {
     controller: AbortController,
   ): Promise<Response> {
     const { signal, method, ...options } = init || {};
-    if (signal) signal.addEventListener('abort', () => controller.abort());
+    const abort = controller.abort.bind(controller);
+    if (signal) signal.addEventListener('abort', abort, { once: true });
 
-    const timeout = setTimeout(() => controller.abort(), ms);
+    const timeout = setTimeout(abort, ms);
 
     const isReadableBody =
       ((globalThis as any).ReadableStream && options.body instanceof (globalThis as any).ReadableStream) ||
