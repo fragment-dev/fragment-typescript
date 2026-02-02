@@ -24,16 +24,22 @@ import Fragment from '@fragment-dev/ts-node';
 
 const client = new Fragment();
 
-const externalPayment = await client.externalPayments.create({
-  accountReference: 'ACC-001',
-  amount: '50000',
-  counterpartyId: 'party_123',
-  currencyCode: 'USD',
-  invoiceId: 'inv_123',
-  transactionId: 'txn_example',
+const invoice = await client.invoices.create({
+  buyerUser: 'user_ext_789',
+  invoiceId: 'invoice_2024_001',
+  lineItems: [
+    {
+      payout_user: { platform: true },
+      product_id: 'prod_1234567890',
+      amount: '1000',
+      currencyCode: 'USD',
+      description: 'Professional services for January 2026',
+    },
+  ],
+  status: 'active',
 });
 
-console.log(externalPayment.data);
+console.log(invoice.data);
 ```
 
 ### Request & Response types
@@ -46,16 +52,21 @@ import Fragment from '@fragment-dev/ts-node';
 
 const client = new Fragment();
 
-const params: Fragment.ExternalPaymentCreateParams = {
-  accountReference: 'ACC-001',
-  amount: '50000',
-  counterpartyId: 'party_123',
-  currencyCode: 'USD',
-  invoiceId: 'inv_123',
-  transactionId: 'txn_example',
+const params: Fragment.InvoiceCreateParams = {
+  buyerUser: 'user_ext_789',
+  invoiceId: 'invoice_2024_001',
+  lineItems: [
+    {
+      payout_user: { platform: true },
+      product_id: 'prod_1234567890',
+      amount: '1000',
+      currencyCode: 'USD',
+      description: 'Professional services for January 2026',
+    },
+  ],
+  status: 'active',
 };
-const externalPayment: Fragment.ExternalPaymentCreateResponse =
-  await client.externalPayments.create(params);
+const invoice: Fragment.InvoiceCreateResponse = await client.invoices.create(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -68,14 +79,20 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const externalPayment = await client.externalPayments
+const invoice = await client.invoices
   .create({
-    accountReference: 'ACC-001',
-    amount: '50000',
-    counterpartyId: 'party_123',
-    currencyCode: 'USD',
-    invoiceId: 'inv_123',
-    transactionId: 'txn_example',
+    buyerUser: 'user_ext_789',
+    invoiceId: 'invoice_2024_001',
+    lineItems: [
+      {
+        payout_user: { platform: true },
+        product_id: 'prod_1234567890',
+        amount: '1000',
+        currencyCode: 'USD',
+        description: 'Professional services for January 2026',
+      },
+    ],
+    status: 'active',
   })
   .catch(async (err) => {
     if (err instanceof Fragment.APIError) {
@@ -117,13 +134,17 @@ const client = new Fragment({
 });
 
 // Or, configure per-request:
-await client.externalPayments.create({
-  accountReference: 'ACC-001',
-  amount: '50000',
-  counterpartyId: 'party_123',
+await client.invoices.create({
+  buyerUser: 'user_ext_789',
+  invoiceId: 'invoice_2024_001',
+  lineItems: [{
+  payout_user: { platform: true },
+  product_id: 'prod_1234567890',
+  amount: '1000',
   currencyCode: 'USD',
-  invoiceId: 'inv_123',
-  transactionId: 'txn_example',
+  description: 'Professional services for January 2026',
+}],
+  status: 'active',
 }, {
   maxRetries: 5,
 });
@@ -141,13 +162,17 @@ const client = new Fragment({
 });
 
 // Override per-request:
-await client.externalPayments.create({
-  accountReference: 'ACC-001',
-  amount: '50000',
-  counterpartyId: 'party_123',
+await client.invoices.create({
+  buyerUser: 'user_ext_789',
+  invoiceId: 'invoice_2024_001',
+  lineItems: [{
+  payout_user: { platform: true },
+  product_id: 'prod_1234567890',
+  amount: '1000',
   currencyCode: 'USD',
-  invoiceId: 'inv_123',
-  transactionId: 'txn_example',
+  description: 'Professional services for January 2026',
+}],
+  status: 'active',
 }, {
   timeout: 5 * 1000,
 });
@@ -171,31 +196,43 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 ```ts
 const client = new Fragment();
 
-const response = await client.externalPayments
+const response = await client.invoices
   .create({
-    accountReference: 'ACC-001',
-    amount: '50000',
-    counterpartyId: 'party_123',
-    currencyCode: 'USD',
-    invoiceId: 'inv_123',
-    transactionId: 'txn_example',
+    buyerUser: 'user_ext_789',
+    invoiceId: 'invoice_2024_001',
+    lineItems: [
+      {
+        payout_user: { platform: true },
+        product_id: 'prod_1234567890',
+        amount: '1000',
+        currencyCode: 'USD',
+        description: 'Professional services for January 2026',
+      },
+    ],
+    status: 'active',
   })
   .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: externalPayment, response: raw } = await client.externalPayments
+const { data: invoice, response: raw } = await client.invoices
   .create({
-    accountReference: 'ACC-001',
-    amount: '50000',
-    counterpartyId: 'party_123',
-    currencyCode: 'USD',
-    invoiceId: 'inv_123',
-    transactionId: 'txn_example',
+    buyerUser: 'user_ext_789',
+    invoiceId: 'invoice_2024_001',
+    lineItems: [
+      {
+        payout_user: { platform: true },
+        product_id: 'prod_1234567890',
+        amount: '1000',
+        currencyCode: 'USD',
+        description: 'Professional services for January 2026',
+      },
+    ],
+    status: 'active',
   })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(externalPayment.data);
+console.log(invoice.data);
 ```
 
 ### Logging
@@ -275,7 +312,7 @@ parameter. This library doesn't validate at runtime that the request matches the
 send will be sent as-is.
 
 ```ts
-client.externalPayments.create({
+client.invoices.create({
   // ...
   // @ts-expect-error baz is not yet public
   baz: 'undocumented option',

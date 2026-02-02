@@ -17,28 +17,15 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
-  ExternalPaymentCreateParams,
-  ExternalPaymentCreateResponse,
-  ExternalPaymentListResponse,
-  ExternalPaymentRetrieveResponse,
-  ExternalPayments,
-} from './resources/external-payments';
-import {
   InvoiceCreateParams,
   InvoiceCreateResponse,
+  InvoiceListHistoryResponse,
   InvoiceListResponse,
   InvoiceRetrieveResponse,
   InvoiceUpdateParams,
   InvoiceUpdateResponse,
   Invoices,
 } from './resources/invoices';
-import {
-  Parties,
-  PartyCreateParams,
-  PartyCreateResponse,
-  PartyListResponse,
-  PartyRetrieveResponse,
-} from './resources/parties';
 import {
   Platform,
   PlatformRetrieveResponse,
@@ -52,6 +39,7 @@ import {
   ProductRetrieveResponse,
   Products,
 } from './resources/products';
+import { UserCreateParams, UserCreateResponse, UserListResponse, Users } from './resources/users';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -830,29 +818,19 @@ export class Fragment {
 
   static toFile = Uploads.toFile;
 
-  externalPayments: API.ExternalPayments = new API.ExternalPayments(this);
   invoices: API.Invoices = new API.Invoices(this);
-  parties: API.Parties = new API.Parties(this);
   platform: API.Platform = new API.Platform(this);
   products: API.Products = new API.Products(this);
+  users: API.Users = new API.Users(this);
 }
 
-Fragment.ExternalPayments = ExternalPayments;
 Fragment.Invoices = Invoices;
-Fragment.Parties = Parties;
 Fragment.Platform = Platform;
 Fragment.Products = Products;
+Fragment.Users = Users;
 
 export declare namespace Fragment {
   export type RequestOptions = Opts.RequestOptions;
-
-  export {
-    ExternalPayments as ExternalPayments,
-    type ExternalPaymentCreateResponse as ExternalPaymentCreateResponse,
-    type ExternalPaymentRetrieveResponse as ExternalPaymentRetrieveResponse,
-    type ExternalPaymentListResponse as ExternalPaymentListResponse,
-    type ExternalPaymentCreateParams as ExternalPaymentCreateParams,
-  };
 
   export {
     Invoices as Invoices,
@@ -860,16 +838,9 @@ export declare namespace Fragment {
     type InvoiceRetrieveResponse as InvoiceRetrieveResponse,
     type InvoiceUpdateResponse as InvoiceUpdateResponse,
     type InvoiceListResponse as InvoiceListResponse,
+    type InvoiceListHistoryResponse as InvoiceListHistoryResponse,
     type InvoiceCreateParams as InvoiceCreateParams,
     type InvoiceUpdateParams as InvoiceUpdateParams,
-  };
-
-  export {
-    Parties as Parties,
-    type PartyCreateResponse as PartyCreateResponse,
-    type PartyRetrieveResponse as PartyRetrieveResponse,
-    type PartyListResponse as PartyListResponse,
-    type PartyCreateParams as PartyCreateParams,
   };
 
   export {
@@ -885,5 +856,12 @@ export declare namespace Fragment {
     type ProductRetrieveResponse as ProductRetrieveResponse,
     type ProductListResponse as ProductListResponse,
     type ProductCreateParams as ProductCreateParams,
+  };
+
+  export {
+    Users as Users,
+    type UserCreateResponse as UserCreateResponse,
+    type UserListResponse as UserListResponse,
+    type UserCreateParams as UserCreateParams,
   };
 }

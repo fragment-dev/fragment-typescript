@@ -77,7 +77,7 @@ export namespace ProductCreateResponse {
     /**
      * Seller information
      */
-    seller: Data.PlatformSeller | Data.CounterpartySeller;
+    seller: Data.PlatformSeller | Data.UserSeller;
 
     /**
      * Version number for optimistic locking
@@ -98,14 +98,14 @@ export namespace ProductCreateResponse {
       soldByPlatform: true;
     }
 
-    export interface CounterpartySeller {
+    export interface UserSeller {
       /**
-       * Type of the counterparty seller
+       * Role of the user
        */
-      counterpartyType: string;
+      role: string;
 
       /**
-       * Indicates the product is sold by a counterparty
+       * Indicates the product is sold by a user
        */
       soldByPlatform: false;
     }
@@ -142,7 +142,7 @@ export namespace ProductRetrieveResponse {
     /**
      * Seller information
      */
-    seller: Data.PlatformSeller | Data.CounterpartySeller;
+    seller: Data.PlatformSeller | Data.UserSeller;
 
     /**
      * Version number for optimistic locking
@@ -163,14 +163,14 @@ export namespace ProductRetrieveResponse {
       soldByPlatform: true;
     }
 
-    export interface CounterpartySeller {
+    export interface UserSeller {
       /**
-       * Type of the counterparty seller
+       * Role of the user
        */
-      counterpartyType: string;
+      role: string;
 
       /**
-       * Indicates the product is sold by a counterparty
+       * Indicates the product is sold by a user
        */
       soldByPlatform: false;
     }
@@ -207,7 +207,7 @@ export namespace ProductListResponse {
     /**
      * Seller information
      */
-    seller: Data.PlatformSeller | Data.CounterpartySeller;
+    seller: Data.PlatformSeller | Data.UserSeller;
 
     /**
      * Version number for optimistic locking
@@ -228,14 +228,14 @@ export namespace ProductListResponse {
       soldByPlatform: true;
     }
 
-    export interface CounterpartySeller {
+    export interface UserSeller {
       /**
-       * Type of the counterparty seller
+       * Role of the user
        */
-      counterpartyType: string;
+      role: string;
 
       /**
-       * Indicates the product is sold by a counterparty
+       * Indicates the product is sold by a user
        */
       soldByPlatform: false;
     }
@@ -256,7 +256,7 @@ export interface ProductCreateParams {
   /**
    * Seller information
    */
-  seller: ProductCreateParams.PlatformSeller | ProductCreateParams.CounterpartySeller;
+  seller: ProductCreateParams.PlatformSeller | ProductCreateParams.UserSeller;
 }
 
 export namespace ProductCreateParams {
@@ -267,14 +267,14 @@ export namespace ProductCreateParams {
     soldByPlatform: true;
   }
 
-  export interface CounterpartySeller {
+  export interface UserSeller {
     /**
-     * Type of the counterparty seller
+     * Role of the user
      */
-    counterpartyType: string;
+    role: string;
 
     /**
-     * Indicates the product is sold by a counterparty
+     * Indicates the product is sold by a user
      */
     soldByPlatform: false;
   }

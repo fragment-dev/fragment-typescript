@@ -1,17 +1,3 @@
-# ExternalPayments
-
-Types:
-
-- <code><a href="./src/resources/external-payments.ts">ExternalPaymentCreateResponse</a></code>
-- <code><a href="./src/resources/external-payments.ts">ExternalPaymentRetrieveResponse</a></code>
-- <code><a href="./src/resources/external-payments.ts">ExternalPaymentListResponse</a></code>
-
-Methods:
-
-- <code title="post /external-payments">client.externalPayments.<a href="./src/resources/external-payments.ts">create</a>({ ...params }) -> ExternalPaymentCreateResponse</code>
-- <code title="get /external-payments/{transactionId}">client.externalPayments.<a href="./src/resources/external-payments.ts">retrieve</a>(transactionID) -> ExternalPaymentRetrieveResponse</code>
-- <code title="get /external-payments">client.externalPayments.<a href="./src/resources/external-payments.ts">list</a>() -> ExternalPaymentListResponse</code>
-
 # Invoices
 
 Types:
@@ -20,6 +6,7 @@ Types:
 - <code><a href="./src/resources/invoices.ts">InvoiceRetrieveResponse</a></code>
 - <code><a href="./src/resources/invoices.ts">InvoiceUpdateResponse</a></code>
 - <code><a href="./src/resources/invoices.ts">InvoiceListResponse</a></code>
+- <code><a href="./src/resources/invoices.ts">InvoiceListHistoryResponse</a></code>
 
 Methods:
 
@@ -27,20 +14,7 @@ Methods:
 - <code title="get /invoices/{id}">client.invoices.<a href="./src/resources/invoices.ts">retrieve</a>(id) -> InvoiceRetrieveResponse</code>
 - <code title="post /invoices/{id}">client.invoices.<a href="./src/resources/invoices.ts">update</a>(id, { ...params }) -> InvoiceUpdateResponse</code>
 - <code title="get /invoices">client.invoices.<a href="./src/resources/invoices.ts">list</a>() -> InvoiceListResponse</code>
-
-# Parties
-
-Types:
-
-- <code><a href="./src/resources/parties.ts">PartyCreateResponse</a></code>
-- <code><a href="./src/resources/parties.ts">PartyRetrieveResponse</a></code>
-- <code><a href="./src/resources/parties.ts">PartyListResponse</a></code>
-
-Methods:
-
-- <code title="post /parties">client.parties.<a href="./src/resources/parties.ts">create</a>({ ...params }) -> PartyCreateResponse</code>
-- <code title="get /parties/{externalId}">client.parties.<a href="./src/resources/parties.ts">retrieve</a>(externalID) -> PartyRetrieveResponse</code>
-- <code title="get /parties">client.parties.<a href="./src/resources/parties.ts">list</a>() -> PartyListResponse</code>
+- <code title="get /invoices/{id}/history">client.invoices.<a href="./src/resources/invoices.ts">listHistory</a>(id) -> InvoiceListHistoryResponse</code>
 
 # Platform
 
@@ -67,3 +41,15 @@ Methods:
 - <code title="post /products">client.products.<a href="./src/resources/products.ts">create</a>({ ...params }) -> ProductCreateResponse</code>
 - <code title="get /products/{code}">client.products.<a href="./src/resources/products.ts">retrieve</a>(code) -> ProductRetrieveResponse</code>
 - <code title="get /products">client.products.<a href="./src/resources/products.ts">list</a>() -> ProductListResponse</code>
+
+# Users
+
+Types:
+
+- <code><a href="./src/resources/users.ts">UserCreateResponse</a></code>
+- <code><a href="./src/resources/users.ts">UserListResponse</a></code>
+
+Methods:
+
+- <code title="post /users">client.users.<a href="./src/resources/users.ts">create</a>({ ...params }) -> UserCreateResponse</code>
+- <code title="get /users">client.users.<a href="./src/resources/users.ts">list</a>() -> UserListResponse</code>
