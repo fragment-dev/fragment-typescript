@@ -14,7 +14,6 @@ export class Products extends APIResource {
    * const product = await client.products.create({
    *   code: 'PROD_001',
    *   description: 'Premium subscription service',
-   *   seller: { soldByPlatform: true },
    * });
    * ```
    */
@@ -60,7 +59,12 @@ export namespace ProductCreateResponse {
    */
   export interface Data {
     /**
-     * Product code (unique identifier)
+     * Unique identifier for the product
+     */
+    id: string;
+
+    /**
+     * User-defined product identifier.
      */
     code: string;
 
@@ -75,9 +79,14 @@ export namespace ProductCreateResponse {
     description: string;
 
     /**
-     * Seller information
+     * User roles that can pay for this product
      */
-    seller: Data.PlatformSeller | Data.UserSeller;
+    paid_by_roles: Array<Data.PaidByRole>;
+
+    /**
+     * User roles that receive payment for this product
+     */
+    paid_to_roles: Array<Data.PaidToRole>;
 
     /**
      * Version number for optimistic locking
@@ -91,23 +100,34 @@ export namespace ProductCreateResponse {
   }
 
   export namespace Data {
-    export interface PlatformSeller {
+    /**
+     * Reference to a role by its unique ID
+     */
+    export interface PaidByRole {
       /**
-       * Indicates the product is sold by the platform
+       * The unique ID of the role
        */
-      soldByPlatform: true;
+      id: string;
+
+      /**
+       * The name of the role
+       */
+      name: string;
     }
 
-    export interface UserSeller {
+    /**
+     * Reference to a role by its unique ID
+     */
+    export interface PaidToRole {
       /**
-       * Role of the user
+       * The unique ID of the role
        */
-      role: string;
+      id: string;
 
       /**
-       * Indicates the product is sold by a user
+       * The name of the role
        */
-      soldByPlatform: false;
+      name: string;
     }
   }
 }
@@ -125,7 +145,12 @@ export namespace ProductRetrieveResponse {
    */
   export interface Data {
     /**
-     * Product code (unique identifier)
+     * Unique identifier for the product
+     */
+    id: string;
+
+    /**
+     * User-defined product identifier.
      */
     code: string;
 
@@ -140,9 +165,14 @@ export namespace ProductRetrieveResponse {
     description: string;
 
     /**
-     * Seller information
+     * User roles that can pay for this product
      */
-    seller: Data.PlatformSeller | Data.UserSeller;
+    paid_by_roles: Array<Data.PaidByRole>;
+
+    /**
+     * User roles that receive payment for this product
+     */
+    paid_to_roles: Array<Data.PaidToRole>;
 
     /**
      * Version number for optimistic locking
@@ -156,23 +186,34 @@ export namespace ProductRetrieveResponse {
   }
 
   export namespace Data {
-    export interface PlatformSeller {
+    /**
+     * Reference to a role by its unique ID
+     */
+    export interface PaidByRole {
       /**
-       * Indicates the product is sold by the platform
+       * The unique ID of the role
        */
-      soldByPlatform: true;
+      id: string;
+
+      /**
+       * The name of the role
+       */
+      name: string;
     }
 
-    export interface UserSeller {
+    /**
+     * Reference to a role by its unique ID
+     */
+    export interface PaidToRole {
       /**
-       * Role of the user
+       * The unique ID of the role
        */
-      role: string;
+      id: string;
 
       /**
-       * Indicates the product is sold by a user
+       * The name of the role
        */
-      soldByPlatform: false;
+      name: string;
     }
   }
 }
@@ -190,7 +231,12 @@ export namespace ProductListResponse {
    */
   export interface Data {
     /**
-     * Product code (unique identifier)
+     * Unique identifier for the product
+     */
+    id: string;
+
+    /**
+     * User-defined product identifier.
      */
     code: string;
 
@@ -205,9 +251,14 @@ export namespace ProductListResponse {
     description: string;
 
     /**
-     * Seller information
+     * User roles that can pay for this product
      */
-    seller: Data.PlatformSeller | Data.UserSeller;
+    paid_by_roles: Array<Data.PaidByRole>;
+
+    /**
+     * User roles that receive payment for this product
+     */
+    paid_to_roles: Array<Data.PaidToRole>;
 
     /**
      * Version number for optimistic locking
@@ -221,23 +272,34 @@ export namespace ProductListResponse {
   }
 
   export namespace Data {
-    export interface PlatformSeller {
+    /**
+     * Reference to a role by its unique ID
+     */
+    export interface PaidByRole {
       /**
-       * Indicates the product is sold by the platform
+       * The unique ID of the role
        */
-      soldByPlatform: true;
+      id: string;
+
+      /**
+       * The name of the role
+       */
+      name: string;
     }
 
-    export interface UserSeller {
+    /**
+     * Reference to a role by its unique ID
+     */
+    export interface PaidToRole {
       /**
-       * Role of the user
+       * The unique ID of the role
        */
-      role: string;
+      id: string;
 
       /**
-       * Indicates the product is sold by a user
+       * The name of the role
        */
-      soldByPlatform: false;
+      name: string;
     }
   }
 }
@@ -254,29 +316,45 @@ export interface ProductCreateParams {
   description: string;
 
   /**
-   * Seller information
+   * Roles that can pay for this product. Reference roles by id or name. At least one
+   * of paid_by_roles or paid_to_roles must be provided.
    */
-  seller: ProductCreateParams.PlatformSeller | ProductCreateParams.UserSeller;
+  paid_by_roles?: Array<ProductCreateParams.RoleMatchByID | ProductCreateParams.RoleMatchByName>;
+
+  /**
+   * Roles that receive payment for this product. Reference roles by id or name. At
+   * least one of paid_by_roles or paid_to_roles must be provided.
+   */
+  paid_to_roles?: Array<ProductCreateParams.RoleMatchByID | ProductCreateParams.RoleMatchByName>;
 }
 
 export namespace ProductCreateParams {
-  export interface PlatformSeller {
+  export interface RoleMatchByID {
     /**
-     * Indicates the product is sold by the platform
+     * The unique ID of the role
      */
-    soldByPlatform: true;
+    id: string;
   }
 
-  export interface UserSeller {
+  export interface RoleMatchByName {
     /**
-     * Role of the user
+     * The name of the role
      */
-    role: string;
+    name: string;
+  }
 
+  export interface RoleMatchByID {
     /**
-     * Indicates the product is sold by a user
+     * The unique ID of the role
      */
-    soldByPlatform: false;
+    id: string;
+  }
+
+  export interface RoleMatchByName {
+    /**
+     * The name of the role
+     */
+    name: string;
   }
 }
 

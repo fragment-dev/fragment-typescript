@@ -14,7 +14,6 @@ describe('resource products', () => {
     const responsePromise = client.products.create({
       code: 'PROD_001',
       description: 'Premium subscription service',
-      seller: { soldByPlatform: true },
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -30,7 +29,8 @@ describe('resource products', () => {
     const response = await client.products.create({
       code: 'PROD_001',
       description: 'Premium subscription service',
-      seller: { soldByPlatform: true },
+      paid_by_roles: [{ name: 'buyer' }],
+      paid_to_roles: [{ name: 'seller' }],
     });
   });
 
