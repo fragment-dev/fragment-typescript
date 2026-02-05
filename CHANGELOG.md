@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.2 (2026-02-05)
+
+Full Changelog: [v0.5.1...v0.5.2](https://github.com/fragment-dev/fragment-typescript/compare/v0.5.1...v0.5.2)
+
+### Chores
+
+* **client:** restructure abort controller binding ([f74b632](https://github.com/fragment-dev/fragment-typescript/commit/f74b63247435f623a5769ffd111f26ac873c0f35))
+
 ## 0.5.1 (2026-02-02)
 
 Full Changelog: [v0.5.0...v0.5.1](https://github.com/fragment-dev/fragment-typescript/compare/v0.5.0...v0.5.1)
