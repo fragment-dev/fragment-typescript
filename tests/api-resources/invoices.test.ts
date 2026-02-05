@@ -12,15 +12,15 @@ describe('resource invoices', () => {
   // Prism tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.invoices.create({
-      buyerUser: 'user_ext_789',
       invoiceId: 'invoice_2024_001',
       lineItems: [
         {
           amount: '1000',
           currencyCode: 'USD',
           description: 'Professional services for January 2026',
-          payout_user: { platform: true },
           product_id: 'prod_1234567890',
+          type: 'payout',
+          user_id: 'user_ext_456',
         },
       ],
     });
@@ -36,15 +36,15 @@ describe('resource invoices', () => {
   // Prism tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.invoices.create({
-      buyerUser: 'user_ext_789',
       invoiceId: 'invoice_2024_001',
       lineItems: [
         {
           amount: '1000',
           currencyCode: 'USD',
           description: 'Professional services for January 2026',
-          payout_user: { platform: true },
           product_id: 'prod_1234567890',
+          type: 'payout',
+          user_id: 'user_ext_456',
         },
       ],
       status: 'active',
@@ -72,8 +72,9 @@ describe('resource invoices', () => {
           currency_code: 'USD',
           description: 'Professional services for January 2026',
           op: 'add',
-          payout_user: { platform: true },
           product_id: 'prod_1234567890',
+          type: 'payout',
+          user_id: 'user_ext_456',
         },
       ],
     });
@@ -95,8 +96,9 @@ describe('resource invoices', () => {
           currency_code: 'USD',
           description: 'Professional services for January 2026',
           op: 'add',
-          payout_user: { platform: true },
           product_id: 'prod_1234567890',
+          type: 'payout',
+          user_id: 'user_ext_456',
         },
       ],
     });

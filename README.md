@@ -25,15 +25,15 @@ import Fragment from '@fragment-dev/ts-node';
 const client = new Fragment();
 
 const invoice = await client.invoices.create({
-  buyerUser: 'user_ext_789',
   invoiceId: 'invoice_2024_001',
   lineItems: [
     {
-      payout_user: { platform: true },
+      type: 'payout',
       product_id: 'prod_1234567890',
       amount: '1000',
       currencyCode: 'USD',
       description: 'Professional services for January 2026',
+      user_id: 'user_ext_456',
     },
   ],
   status: 'active',
@@ -53,15 +53,15 @@ import Fragment from '@fragment-dev/ts-node';
 const client = new Fragment();
 
 const params: Fragment.InvoiceCreateParams = {
-  buyerUser: 'user_ext_789',
   invoiceId: 'invoice_2024_001',
   lineItems: [
     {
-      payout_user: { platform: true },
+      type: 'payout',
       product_id: 'prod_1234567890',
       amount: '1000',
       currencyCode: 'USD',
       description: 'Professional services for January 2026',
+      user_id: 'user_ext_456',
     },
   ],
   status: 'active',
@@ -81,15 +81,15 @@ a subclass of `APIError` will be thrown:
 ```ts
 const invoice = await client.invoices
   .create({
-    buyerUser: 'user_ext_789',
     invoiceId: 'invoice_2024_001',
     lineItems: [
       {
-        payout_user: { platform: true },
+        type: 'payout',
         product_id: 'prod_1234567890',
         amount: '1000',
         currencyCode: 'USD',
         description: 'Professional services for January 2026',
+        user_id: 'user_ext_456',
       },
     ],
     status: 'active',
@@ -135,14 +135,14 @@ const client = new Fragment({
 
 // Or, configure per-request:
 await client.invoices.create({
-  buyerUser: 'user_ext_789',
   invoiceId: 'invoice_2024_001',
   lineItems: [{
-  payout_user: { platform: true },
+  type: 'payout',
   product_id: 'prod_1234567890',
   amount: '1000',
   currencyCode: 'USD',
   description: 'Professional services for January 2026',
+  user_id: 'user_ext_456',
 }],
   status: 'active',
 }, {
@@ -163,14 +163,14 @@ const client = new Fragment({
 
 // Override per-request:
 await client.invoices.create({
-  buyerUser: 'user_ext_789',
   invoiceId: 'invoice_2024_001',
   lineItems: [{
-  payout_user: { platform: true },
+  type: 'payout',
   product_id: 'prod_1234567890',
   amount: '1000',
   currencyCode: 'USD',
   description: 'Professional services for January 2026',
+  user_id: 'user_ext_456',
 }],
   status: 'active',
 }, {
@@ -198,15 +198,15 @@ const client = new Fragment();
 
 const response = await client.invoices
   .create({
-    buyerUser: 'user_ext_789',
     invoiceId: 'invoice_2024_001',
     lineItems: [
       {
-        payout_user: { platform: true },
+        type: 'payout',
         product_id: 'prod_1234567890',
         amount: '1000',
         currencyCode: 'USD',
         description: 'Professional services for January 2026',
+        user_id: 'user_ext_456',
       },
     ],
     status: 'active',
@@ -217,15 +217,15 @@ console.log(response.statusText); // access the underlying Response object
 
 const { data: invoice, response: raw } = await client.invoices
   .create({
-    buyerUser: 'user_ext_789',
     invoiceId: 'invoice_2024_001',
     lineItems: [
       {
-        payout_user: { platform: true },
+        type: 'payout',
         product_id: 'prod_1234567890',
         amount: '1000',
         currencyCode: 'USD',
         description: 'Professional services for January 2026',
+        user_id: 'user_ext_456',
       },
     ],
     status: 'active',

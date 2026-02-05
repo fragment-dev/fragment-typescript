@@ -12,15 +12,15 @@ export class Invoices extends APIResource {
    * @example
    * ```ts
    * const invoice = await client.invoices.create({
-   *   buyerUser: 'user_ext_789',
    *   invoiceId: 'invoice_2024_001',
    *   lineItems: [
    *     {
    *       amount: '1000',
    *       currencyCode: 'USD',
    *       description: 'Professional services for January 2026',
-   *       payout_user: { platform: true },
    *       product_id: 'prod_1234567890',
+   *       type: 'payout',
+   *       user_id: 'user_ext_456',
    *     },
    *   ],
    * });
@@ -59,8 +59,9 @@ export class Invoices extends APIResource {
    *         description:
    *           'Professional services for January 2026',
    *         op: 'add',
-   *         payout_user: { platform: true },
    *         product_id: 'prod_1234567890',
+   *         type: 'payout',
+   *         user_id: 'user_ext_456',
    *       },
    *     ],
    *   },
@@ -116,11 +117,6 @@ export namespace InvoiceCreateResponse {
     id: string;
 
     /**
-     * External ID of the buyer user
-     */
-    buyerUser: string;
-
-    /**
      * ISO 8601 timestamp when the invoice was created
      */
     created: string;
@@ -347,35 +343,19 @@ export namespace InvoiceCreateResponse {
       description: string;
 
       /**
-       * The user receiving payout - either platform or a user
-       */
-      payout_user: LineItem.PlatformPayoutResponse | LineItem.UserPayoutResponse;
-
-      /**
        * ID of the product/catalog item
        */
       product_id: string;
-    }
 
-    export namespace LineItem {
-      export interface PlatformPayoutResponse {
-        /**
-         * Set to true for platform payout
-         */
-        platform: true;
-      }
+      /**
+       * The type of the line item
+       */
+      type: 'payin' | 'payout';
 
-      export interface UserPayoutResponse {
-        /**
-         * External ID of the user receiving payout
-         */
-        user_id: string;
-
-        /**
-         * Set to false or omit for user payout
-         */
-        platform?: false;
-      }
+      /**
+       * External ID of the user associated with this line item
+       */
+      user_id: string;
     }
   }
 }
@@ -398,11 +378,6 @@ export namespace InvoiceRetrieveResponse {
     id: string;
 
     /**
-     * External ID of the buyer user
-     */
-    buyerUser: string;
-
-    /**
      * ISO 8601 timestamp when the invoice was created
      */
     created: string;
@@ -629,35 +604,19 @@ export namespace InvoiceRetrieveResponse {
       description: string;
 
       /**
-       * The user receiving payout - either platform or a user
-       */
-      payout_user: LineItem.PlatformPayoutResponse | LineItem.UserPayoutResponse;
-
-      /**
        * ID of the product/catalog item
        */
       product_id: string;
-    }
 
-    export namespace LineItem {
-      export interface PlatformPayoutResponse {
-        /**
-         * Set to true for platform payout
-         */
-        platform: true;
-      }
+      /**
+       * The type of the line item
+       */
+      type: 'payin' | 'payout';
 
-      export interface UserPayoutResponse {
-        /**
-         * External ID of the user receiving payout
-         */
-        user_id: string;
-
-        /**
-         * Set to false or omit for user payout
-         */
-        platform?: false;
-      }
+      /**
+       * External ID of the user associated with this line item
+       */
+      user_id: string;
     }
   }
 }
@@ -680,11 +639,6 @@ export namespace InvoiceUpdateResponse {
     id: string;
 
     /**
-     * External ID of the buyer user
-     */
-    buyerUser: string;
-
-    /**
      * ISO 8601 timestamp when the invoice was created
      */
     created: string;
@@ -911,35 +865,19 @@ export namespace InvoiceUpdateResponse {
       description: string;
 
       /**
-       * The user receiving payout - either platform or a user
-       */
-      payout_user: LineItem.PlatformPayoutResponse | LineItem.UserPayoutResponse;
-
-      /**
        * ID of the product/catalog item
        */
       product_id: string;
-    }
 
-    export namespace LineItem {
-      export interface PlatformPayoutResponse {
-        /**
-         * Set to true for platform payout
-         */
-        platform: true;
-      }
+      /**
+       * The type of the line item
+       */
+      type: 'payin' | 'payout';
 
-      export interface UserPayoutResponse {
-        /**
-         * External ID of the user receiving payout
-         */
-        user_id: string;
-
-        /**
-         * Set to false or omit for user payout
-         */
-        platform?: false;
-      }
+      /**
+       * External ID of the user associated with this line item
+       */
+      user_id: string;
     }
   }
 }
@@ -962,11 +900,6 @@ export namespace InvoiceListResponse {
     id: string;
 
     /**
-     * External ID of the buyer user
-     */
-    buyerUser: string;
-
-    /**
      * ISO 8601 timestamp when the invoice was created
      */
     created: string;
@@ -1193,35 +1126,19 @@ export namespace InvoiceListResponse {
       description: string;
 
       /**
-       * The user receiving payout - either platform or a user
-       */
-      payout_user: LineItem.PlatformPayoutResponse | LineItem.UserPayoutResponse;
-
-      /**
        * ID of the product/catalog item
        */
       product_id: string;
-    }
 
-    export namespace LineItem {
-      export interface PlatformPayoutResponse {
-        /**
-         * Set to true for platform payout
-         */
-        platform: true;
-      }
+      /**
+       * The type of the line item
+       */
+      type: 'payin' | 'payout';
 
-      export interface UserPayoutResponse {
-        /**
-         * External ID of the user receiving payout
-         */
-        user_id: string;
-
-        /**
-         * Set to false or omit for user payout
-         */
-        platform?: false;
-      }
+      /**
+       * External ID of the user associated with this line item
+       */
+      user_id: string;
     }
   }
 }
@@ -1242,11 +1159,6 @@ export namespace InvoiceListHistoryResponse {
      * Unique identifier for the invoice
      */
     id: string;
-
-    /**
-     * External ID of the buyer user
-     */
-    buyerUser: string;
 
     /**
      * ISO 8601 timestamp when the invoice was created
@@ -1498,35 +1410,19 @@ export namespace InvoiceListHistoryResponse {
         description: string;
 
         /**
-         * The user receiving payout - either platform or a user
-         */
-        payout_user: Item.PlatformPayoutResponse | Item.UserPayoutResponse;
-
-        /**
          * ID of the product/catalog item
          */
         product_id: string;
-      }
 
-      export namespace Item {
-        export interface PlatformPayoutResponse {
-          /**
-           * Set to true for platform payout
-           */
-          platform: true;
-        }
+        /**
+         * The type of the line item
+         */
+        type: 'payin' | 'payout';
 
-        export interface UserPayoutResponse {
-          /**
-           * External ID of the user receiving payout
-           */
-          user_id: string;
-
-          /**
-           * Set to false or omit for user payout
-           */
-          platform?: false;
-        }
+        /**
+         * External ID of the user associated with this line item
+         */
+        user_id: string;
       }
     }
 
@@ -1760,35 +1656,19 @@ export namespace InvoiceListHistoryResponse {
         description: string;
 
         /**
-         * The user receiving payout - either platform or a user
-         */
-        payout_user: Item.PlatformPayoutResponse | Item.UserPayoutResponse;
-
-        /**
          * ID of the product/catalog item
          */
         product_id: string;
-      }
 
-      export namespace Item {
-        export interface PlatformPayoutResponse {
-          /**
-           * Set to true for platform payout
-           */
-          platform: true;
-        }
+        /**
+         * The type of the line item
+         */
+        type: 'payin' | 'payout';
 
-        export interface UserPayoutResponse {
-          /**
-           * External ID of the user receiving payout
-           */
-          user_id: string;
-
-          /**
-           * Set to false or omit for user payout
-           */
-          platform?: false;
-        }
+        /**
+         * External ID of the user associated with this line item
+         */
+        user_id: string;
       }
     }
 
@@ -1992,45 +1872,24 @@ export namespace InvoiceListHistoryResponse {
       description: string;
 
       /**
-       * The user receiving payout - either platform or a user
-       */
-      payout_user: LineItem.PlatformPayoutResponse | LineItem.UserPayoutResponse;
-
-      /**
        * ID of the product/catalog item
        */
       product_id: string;
-    }
 
-    export namespace LineItem {
-      export interface PlatformPayoutResponse {
-        /**
-         * Set to true for platform payout
-         */
-        platform: true;
-      }
+      /**
+       * The type of the line item
+       */
+      type: 'payin' | 'payout';
 
-      export interface UserPayoutResponse {
-        /**
-         * External ID of the user receiving payout
-         */
-        user_id: string;
-
-        /**
-         * Set to false or omit for user payout
-         */
-        platform?: false;
-      }
+      /**
+       * External ID of the user associated with this line item
+       */
+      user_id: string;
     }
   }
 }
 
 export interface InvoiceCreateParams {
-  /**
-   * External ID of the buyer user
-   */
-  buyerUser: string;
-
   /**
    * Unique identifier for the invoice. Make this the canonical ID from your system
    * for the transaction.
@@ -2050,8 +1909,7 @@ export interface InvoiceCreateParams {
 
 export namespace InvoiceCreateParams {
   /**
-   * Line item data for creating within an invoice. The payInUser is automatically
-   * set to the invoice's buyerUser.
+   * Line item data for creating within an invoice.
    */
   export interface LineItem {
     /**
@@ -2245,35 +2103,19 @@ export namespace InvoiceCreateParams {
     description: string;
 
     /**
-     * The user receiving payout - either platform or a user
-     */
-    payout_user: LineItem.PlatformPayoutInput | LineItem.UserPayoutInput;
-
-    /**
      * ID of the product/catalog item
      */
     product_id: string;
-  }
 
-  export namespace LineItem {
-    export interface PlatformPayoutInput {
-      /**
-       * Set to true for platform payout
-       */
-      platform: true;
-    }
+    /**
+     * The type of the line item
+     */
+    type: 'payin' | 'payout';
 
-    export interface UserPayoutInput {
-      /**
-       * External ID of the user receiving payout
-       */
-      user_id: string;
-
-      /**
-       * Set to false or omit for user payout
-       */
-      platform?: false;
-    }
+    /**
+     * External ID of the user associated with this line item
+     */
+    user_id: string;
   }
 }
 
@@ -2489,35 +2331,19 @@ export namespace InvoiceUpdateParams {
     op: 'add';
 
     /**
-     * The user receiving payout - either platform or a user
-     */
-    payout_user: AddLineItemOperation.PlatformPayoutInput | AddLineItemOperation.UserPayoutInput;
-
-    /**
      * ID of the product/catalog item
      */
     product_id: string;
-  }
 
-  export namespace AddLineItemOperation {
-    export interface PlatformPayoutInput {
-      /**
-       * Set to true for platform payout
-       */
-      platform: true;
-    }
+    /**
+     * The type of the line item
+     */
+    type: 'payin' | 'payout';
 
-    export interface UserPayoutInput {
-      /**
-       * External ID of the user receiving payout
-       */
-      user_id: string;
-
-      /**
-       * Set to false or omit for user payout
-       */
-      platform?: false;
-    }
+    /**
+     * External ID of the user associated with this line item
+     */
+    user_id: string;
   }
 
   /**

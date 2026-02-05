@@ -46,6 +46,11 @@ export namespace UserCreateResponse {
    */
   export interface Data {
     /**
+     * Unique user ID
+     */
+    id: string;
+
+    /**
      * External ID for the user
      */
     externalId: string;
@@ -69,6 +74,11 @@ export namespace UserListResponse {
    * User object
    */
   export interface Data {
+    /**
+     * Unique user ID
+     */
+    id: string;
+
     /**
      * External ID for the user
      */
