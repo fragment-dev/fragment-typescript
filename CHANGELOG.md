@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.6.1 (2026-02-06)
+
+Full Changelog: [v0.6.0...v0.6.1](https://github.com/fragment-dev/fragment-typescript/compare/v0.6.0...v0.6.1)
+
+### Bug Fixes
+
+* **client:** avoid removing abort listener too early ([1fdcc6e](https://github.com/fragment-dev/fragment-typescript/commit/1fdcc6ed6c623383de0a015ab8abacf67d6a6e4f))
+
+
+### Chores
+
+* **internal:** upgrade pnpm ([f7c4830](https://github.com/fragment-dev/fragment-typescript/commit/f7c4830e7d60214451fa5174eca0820bb819595c))
+
 ## 0.6.0 (2026-02-05)
 
 Full Changelog: [v0.5.2...v0.6.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.5.2...v0.6.0)
