@@ -47,7 +47,6 @@ describe('resource invoices', () => {
           user_id: 'user_ext_456',
         },
       ],
-      status: 'active',
     });
   });
 
@@ -77,6 +76,7 @@ describe('resource invoices', () => {
           user_id: 'user_ext_456',
         },
       ],
+      version: 1,
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -101,6 +101,7 @@ describe('resource invoices', () => {
           user_id: 'user_ext_456',
         },
       ],
+      version: 1,
     });
   });
 

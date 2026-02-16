@@ -42,6 +42,18 @@ Methods:
 - <code title="get /products/{code}">client.products.<a href="./src/resources/products.ts">retrieve</a>(code) -> ProductRetrieveResponse</code>
 - <code title="get /products">client.products.<a href="./src/resources/products.ts">list</a>() -> ProductListResponse</code>
 
+# Roles
+
+Types:
+
+- <code><a href="./src/resources/roles.ts">RoleCreateResponse</a></code>
+- <code><a href="./src/resources/roles.ts">RoleListResponse</a></code>
+
+Methods:
+
+- <code title="post /roles">client.roles.<a href="./src/resources/roles.ts">create</a>({ ...params }) -> RoleCreateResponse</code>
+- <code title="get /roles">client.roles.<a href="./src/resources/roles.ts">list</a>() -> RoleListResponse</code>
+
 # Users
 
 Types:
