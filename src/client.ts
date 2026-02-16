@@ -39,6 +39,7 @@ import {
   ProductRetrieveResponse,
   Products,
 } from './resources/products';
+import { RoleCreateParams, RoleCreateResponse, RoleListResponse, Roles } from './resources/roles';
 import { UserCreateParams, UserCreateResponse, UserListResponse, Users } from './resources/users';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
@@ -825,12 +826,14 @@ export class Fragment {
   invoices: API.Invoices = new API.Invoices(this);
   platform: API.Platform = new API.Platform(this);
   products: API.Products = new API.Products(this);
+  roles: API.Roles = new API.Roles(this);
   users: API.Users = new API.Users(this);
 }
 
 Fragment.Invoices = Invoices;
 Fragment.Platform = Platform;
 Fragment.Products = Products;
+Fragment.Roles = Roles;
 Fragment.Users = Users;
 
 export declare namespace Fragment {
@@ -860,6 +863,13 @@ export declare namespace Fragment {
     type ProductRetrieveResponse as ProductRetrieveResponse,
     type ProductListResponse as ProductListResponse,
     type ProductCreateParams as ProductCreateParams,
+  };
+
+  export {
+    Roles as Roles,
+    type RoleCreateResponse as RoleCreateResponse,
+    type RoleListResponse as RoleListResponse,
+    type RoleCreateParams as RoleCreateParams,
   };
 
   export {
