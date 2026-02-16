@@ -1,6 +1,6 @@
 {
   "name": "@fragment-dev/ts-node",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "The official TypeScript library for the Fragment API",
   "author": "Fragment <>",
   "types": "dist/index.d.ts",
