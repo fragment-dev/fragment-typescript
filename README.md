@@ -36,7 +36,6 @@ const invoice = await client.invoices.create({
       user_id: 'user_ext_456',
     },
   ],
-  status: 'active',
 });
 
 console.log(invoice.data);
@@ -64,7 +63,6 @@ const params: Fragment.InvoiceCreateParams = {
       user_id: 'user_ext_456',
     },
   ],
-  status: 'active',
 };
 const invoice: Fragment.InvoiceCreateResponse = await client.invoices.create(params);
 ```
@@ -92,7 +90,6 @@ const invoice = await client.invoices
         user_id: 'user_ext_456',
       },
     ],
-    status: 'active',
   })
   .catch(async (err) => {
     if (err instanceof Fragment.APIError) {
@@ -134,18 +131,14 @@ const client = new Fragment({
 });
 
 // Or, configure per-request:
-await client.invoices.create({
-  invoiceId: 'invoice_2024_001',
-  lineItems: [{
+await client.invoices.create({ invoiceId: 'invoice_2024_001', lineItems: [{
   type: 'payout',
   product_id: 'prod_1234567890',
   amount: '1000',
   currencyCode: 'USD',
   description: 'Professional services for January 2026',
   user_id: 'user_ext_456',
-}],
-  status: 'active',
-}, {
+}] }, {
   maxRetries: 5,
 });
 ```
@@ -162,18 +155,14 @@ const client = new Fragment({
 });
 
 // Override per-request:
-await client.invoices.create({
-  invoiceId: 'invoice_2024_001',
-  lineItems: [{
+await client.invoices.create({ invoiceId: 'invoice_2024_001', lineItems: [{
   type: 'payout',
   product_id: 'prod_1234567890',
   amount: '1000',
   currencyCode: 'USD',
   description: 'Professional services for January 2026',
   user_id: 'user_ext_456',
-}],
-  status: 'active',
-}, {
+}] }, {
   timeout: 5 * 1000,
 });
 ```
@@ -209,7 +198,6 @@ const response = await client.invoices
         user_id: 'user_ext_456',
       },
     ],
-    status: 'active',
   })
   .asResponse();
 console.log(response.headers.get('X-My-Header'));
@@ -228,7 +216,6 @@ const { data: invoice, response: raw } = await client.invoices
         user_id: 'user_ext_456',
       },
     ],
-    status: 'active',
   })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));

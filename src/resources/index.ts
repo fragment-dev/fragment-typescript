@@ -23,4 +23,5 @@ export {
   type ProductListResponse,
   type ProductCreateParams,
 } from './products';
+export { Roles, type RoleCreateResponse, type RoleListResponse, type RoleCreateParams } from './roles';
 export { Users, type UserCreateResponse, type UserListResponse, type UserCreateParams } from './users';

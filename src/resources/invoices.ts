@@ -31,7 +31,7 @@ export class Invoices extends APIResource {
   }
 
   /**
-   * Gets an invoice by ID
+   * Gets an invoice by ID with balance details
    *
    * @example
    * ```ts
@@ -64,6 +64,7 @@ export class Invoices extends APIResource {
    *         user_id: 'user_ext_456',
    *       },
    *     ],
+   *     version: 1,
    *   },
    * );
    * ```
@@ -124,7 +125,13 @@ export namespace InvoiceCreateResponse {
     /**
      * The status of the invoice
      */
-    status: 'draft' | 'active' | 'closed' | 'void' | 'failed';
+    status: 'active';
+
+    /**
+     * The current version of the invoice. Pass this value when updating to ensure
+     * thread safety.
+     */
+    version: number;
 
     /**
      * Workspace ID this invoice belongs to
@@ -362,20 +369,25 @@ export namespace InvoiceCreateResponse {
 
 export interface InvoiceRetrieveResponse {
   /**
-   * Invoice object
+   * Invoice with balance details
    */
   data: InvoiceRetrieveResponse.Data;
 }
 
 export namespace InvoiceRetrieveResponse {
   /**
-   * Invoice object
+   * Invoice with balance details
    */
   export interface Data {
     /**
      * Unique identifier for the invoice
      */
     id: string;
+
+    /**
+     * Invoice-level balances by currency: payins, payouts, and net (payins - payouts)
+     */
+    balances: Array<Data.Balance>;
 
     /**
      * ISO 8601 timestamp when the invoice was created
@@ -385,7 +397,18 @@ export namespace InvoiceRetrieveResponse {
     /**
      * The status of the invoice
      */
-    status: 'draft' | 'active' | 'closed' | 'void' | 'failed';
+    status: 'active';
+
+    /**
+     * Users/parties involved in the invoice
+     */
+    users: Array<Data.User>;
+
+    /**
+     * The current version of the invoice. Pass this value when updating to ensure
+     * thread safety.
+     */
+    version: number;
 
     /**
      * Workspace ID this invoice belongs to
@@ -404,6 +427,152 @@ export namespace InvoiceRetrieveResponse {
   }
 
   export namespace Data {
+    export interface Balance {
+      /**
+       * Currency code
+       */
+      currency: string;
+
+      net: Balance.Net;
+
+      payins: Balance.Payins;
+
+      payouts: Balance.Payouts;
+    }
+
+    export namespace Balance {
+      export interface Net {
+        /**
+         * Actual amount (represented as string)
+         */
+        actual: string;
+
+        /**
+         * Expected amount (represented as string)
+         */
+        expected: string;
+
+        /**
+         * Remaining amount (expected - actual, represented as string)
+         */
+        remaining: string;
+      }
+
+      export interface Payins {
+        /**
+         * Actual amount (represented as string)
+         */
+        actual: string;
+
+        /**
+         * Expected amount (represented as string)
+         */
+        expected: string;
+
+        /**
+         * Remaining amount (expected - actual, represented as string)
+         */
+        remaining: string;
+      }
+
+      export interface Payouts {
+        /**
+         * Actual amount (represented as string)
+         */
+        actual: string;
+
+        /**
+         * Expected amount (represented as string)
+         */
+        expected: string;
+
+        /**
+         * Remaining amount (expected - actual, represented as string)
+         */
+        remaining: string;
+      }
+    }
+
+    export interface User {
+      /**
+       * User/party ID
+       */
+      id: string;
+
+      /**
+       * Per-currency balance breakdown for this user
+       */
+      balances: Array<User.Balance>;
+    }
+
+    export namespace User {
+      export interface Balance {
+        /**
+         * Currency code
+         */
+        currency: string;
+
+        net: Balance.Net;
+
+        payins: Balance.Payins;
+
+        payouts: Balance.Payouts;
+      }
+
+      export namespace Balance {
+        export interface Net {
+          /**
+           * Actual amount (represented as string)
+           */
+          actual: string;
+
+          /**
+           * Expected amount (represented as string)
+           */
+          expected: string;
+
+          /**
+           * Remaining amount (expected - actual, represented as string)
+           */
+          remaining: string;
+        }
+
+        export interface Payins {
+          /**
+           * Actual amount (represented as string)
+           */
+          actual: string;
+
+          /**
+           * Expected amount (represented as string)
+           */
+          expected: string;
+
+          /**
+           * Remaining amount (expected - actual, represented as string)
+           */
+          remaining: string;
+        }
+
+        export interface Payouts {
+          /**
+           * Actual amount (represented as string)
+           */
+          actual: string;
+
+          /**
+           * Expected amount (represented as string)
+           */
+          expected: string;
+
+          /**
+           * Remaining amount (expected - actual, represented as string)
+           */
+          remaining: string;
+        }
+      }
+    }
+
     /**
      * Invoice line item object
      */
@@ -646,7 +815,13 @@ export namespace InvoiceUpdateResponse {
     /**
      * The status of the invoice
      */
-    status: 'draft' | 'active' | 'closed' | 'void' | 'failed';
+    status: 'active';
+
+    /**
+     * The current version of the invoice. Pass this value when updating to ensure
+     * thread safety.
+     */
+    version: number;
 
     /**
      * Workspace ID this invoice belongs to
@@ -907,7 +1082,13 @@ export namespace InvoiceListResponse {
     /**
      * The status of the invoice
      */
-    status: 'draft' | 'active' | 'closed' | 'void' | 'failed';
+    status: 'active';
+
+    /**
+     * The current version of the invoice. Pass this value when updating to ensure
+     * thread safety.
+     */
+    version: number;
 
     /**
      * Workspace ID this invoice belongs to
@@ -1168,7 +1349,7 @@ export namespace InvoiceListHistoryResponse {
     /**
      * The status of the invoice
      */
-    status: 'draft' | 'active' | 'closed' | 'void' | 'failed';
+    status: 'active';
 
     /**
      * Version number of this invoice snapshot
@@ -1435,7 +1616,12 @@ export namespace InvoiceListHistoryResponse {
       /**
        * New amount after the update
        */
-      amount: string;
+      new_amount: string;
+
+      /**
+       * Amount before the update
+       */
+      old_amount: string;
 
       /**
        * A line item was updated
@@ -1900,11 +2086,6 @@ export interface InvoiceCreateParams {
    * List of line items to create with the invoice
    */
   lineItems: Array<InvoiceCreateParams.LineItem>;
-
-  /**
-   * Initial status of the invoice. Defaults to active if not specified.
-   */
-  status?: 'draft' | 'active';
 }
 
 export namespace InvoiceCreateParams {
@@ -2128,6 +2309,12 @@ export interface InvoiceUpdateParams {
     | InvoiceUpdateParams.UpdateLineItemOperation
     | InvoiceUpdateParams.DeleteLineItemOperation
   >;
+
+  /**
+   * The version of the invoice being updated. Must match the current version for the
+   * update to succeed.
+   */
+  version: number;
 }
 
 export namespace InvoiceUpdateParams {
