@@ -2,6 +2,7 @@
 
 Types:
 
+- <code><a href="./src/resources/external-accounts.ts">ExternalAccount</a></code>
 - <code><a href="./src/resources/external-accounts.ts">ExternalAccountCreateResponse</a></code>
 - <code><a href="./src/resources/external-accounts.ts">ExternalAccountListResponse</a></code>
 
@@ -14,6 +15,7 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/invoices.ts">Invoice</a></code>
 - <code><a href="./src/resources/invoices.ts">InvoiceCreateResponse</a></code>
 - <code><a href="./src/resources/invoices.ts">InvoiceRetrieveResponse</a></code>
 - <code><a href="./src/resources/invoices.ts">InvoiceUpdateResponse</a></code>
@@ -32,6 +34,7 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/platform.ts">Platform</a></code>
 - <code><a href="./src/resources/platform.ts">PlatformRetrieveResponse</a></code>
 - <code><a href="./src/resources/platform.ts">PlatformUpdateResponse</a></code>
 
@@ -44,6 +47,7 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/products.ts">Product</a></code>
 - <code><a href="./src/resources/products.ts">ProductCreateResponse</a></code>
 - <code><a href="./src/resources/products.ts">ProductRetrieveResponse</a></code>
 - <code><a href="./src/resources/products.ts">ProductListResponse</a></code>
@@ -58,6 +62,7 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/roles.ts">Role</a></code>
 - <code><a href="./src/resources/roles.ts">RoleCreateResponse</a></code>
 - <code><a href="./src/resources/roles.ts">RoleListResponse</a></code>
 
@@ -70,6 +75,7 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/transactions.ts">Transaction</a></code>
 - <code><a href="./src/resources/transactions.ts">TransactionCreateResponse</a></code>
 - <code><a href="./src/resources/transactions.ts">TransactionListResponse</a></code>
 
@@ -82,6 +88,7 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/users.ts">User</a></code>
 - <code><a href="./src/resources/users.ts">UserCreateResponse</a></code>
 - <code><a href="./src/resources/users.ts">UserListResponse</a></code>
 
