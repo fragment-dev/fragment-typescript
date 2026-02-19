@@ -17,14 +17,12 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
-  ExternalAccount,
   ExternalAccountCreateParams,
   ExternalAccountCreateResponse,
   ExternalAccountListResponse,
   ExternalAccounts,
 } from './resources/external-accounts';
 import {
-  Invoice,
   InvoiceCreateParams,
   InvoiceCreateResponse,
   InvoiceListHistoryResponse,
@@ -36,29 +34,26 @@ import {
 } from './resources/invoices';
 import {
   Platform,
-  PlatformResource,
   PlatformRetrieveResponse,
   PlatformUpdateParams,
   PlatformUpdateResponse,
 } from './resources/platform';
 import {
-  Product,
   ProductCreateParams,
   ProductCreateResponse,
   ProductListResponse,
   ProductRetrieveResponse,
   Products,
 } from './resources/products';
-import { Role, RoleCreateParams, RoleCreateResponse, RoleListResponse, Roles } from './resources/roles';
+import { RoleCreateParams, RoleCreateResponse, RoleListResponse, Roles } from './resources/roles';
 import {
-  Transaction,
   TransactionCreateParams,
   TransactionCreateResponse,
   TransactionListParams,
   TransactionListResponse,
   Transactions,
 } from './resources/transactions';
-import { User, UserCreateParams, UserCreateResponse, UserListResponse, Users } from './resources/users';
+import { UserCreateParams, UserCreateResponse, UserListResponse, Users } from './resources/users';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -851,7 +846,7 @@ export class Fragment {
 
   externalAccounts: API.ExternalAccounts = new API.ExternalAccounts(this);
   invoices: API.Invoices = new API.Invoices(this);
-  platform: API.PlatformResource = new API.PlatformResource(this);
+  platform: API.Platform = new API.Platform(this);
   products: API.Products = new API.Products(this);
   roles: API.Roles = new API.Roles(this);
   transactions: API.Transactions = new API.Transactions(this);
@@ -860,7 +855,7 @@ export class Fragment {
 
 Fragment.ExternalAccounts = ExternalAccounts;
 Fragment.Invoices = Invoices;
-Fragment.PlatformResource = PlatformResource;
+Fragment.Platform = Platform;
 Fragment.Products = Products;
 Fragment.Roles = Roles;
 Fragment.Transactions = Transactions;
@@ -871,7 +866,6 @@ export declare namespace Fragment {
 
   export {
     ExternalAccounts as ExternalAccounts,
-    type ExternalAccount as ExternalAccount,
     type ExternalAccountCreateResponse as ExternalAccountCreateResponse,
     type ExternalAccountListResponse as ExternalAccountListResponse,
     type ExternalAccountCreateParams as ExternalAccountCreateParams,
@@ -879,7 +873,6 @@ export declare namespace Fragment {
 
   export {
     Invoices as Invoices,
-    type Invoice as Invoice,
     type InvoiceCreateResponse as InvoiceCreateResponse,
     type InvoiceRetrieveResponse as InvoiceRetrieveResponse,
     type InvoiceUpdateResponse as InvoiceUpdateResponse,
@@ -890,8 +883,7 @@ export declare namespace Fragment {
   };
 
   export {
-    PlatformResource as PlatformResource,
-    type Platform as Platform,
+    Platform as Platform,
     type PlatformRetrieveResponse as PlatformRetrieveResponse,
     type PlatformUpdateResponse as PlatformUpdateResponse,
     type PlatformUpdateParams as PlatformUpdateParams,
@@ -899,7 +891,6 @@ export declare namespace Fragment {
 
   export {
     Products as Products,
-    type Product as Product,
     type ProductCreateResponse as ProductCreateResponse,
     type ProductRetrieveResponse as ProductRetrieveResponse,
     type ProductListResponse as ProductListResponse,
@@ -908,7 +899,6 @@ export declare namespace Fragment {
 
   export {
     Roles as Roles,
-    type Role as Role,
     type RoleCreateResponse as RoleCreateResponse,
     type RoleListResponse as RoleListResponse,
     type RoleCreateParams as RoleCreateParams,
@@ -916,7 +906,6 @@ export declare namespace Fragment {
 
   export {
     Transactions as Transactions,
-    type Transaction as Transaction,
     type TransactionCreateResponse as TransactionCreateResponse,
     type TransactionListResponse as TransactionListResponse,
     type TransactionCreateParams as TransactionCreateParams,
@@ -925,7 +914,6 @@ export declare namespace Fragment {
 
   export {
     Users as Users,
-    type User as User,
     type UserCreateResponse as UserCreateResponse,
     type UserListResponse as UserListResponse,
     type UserCreateParams as UserCreateParams,

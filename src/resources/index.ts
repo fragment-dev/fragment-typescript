@@ -2,14 +2,12 @@
 
 export {
   ExternalAccounts,
-  type ExternalAccount,
   type ExternalAccountCreateResponse,
   type ExternalAccountListResponse,
   type ExternalAccountCreateParams,
 } from './external-accounts';
 export {
   Invoices,
-  type Invoice,
   type InvoiceCreateResponse,
   type InvoiceRetrieveResponse,
   type InvoiceUpdateResponse,
@@ -19,39 +17,24 @@ export {
   type InvoiceUpdateParams,
 } from './invoices';
 export {
-  PlatformResource,
-  type Platform,
+  Platform,
   type PlatformRetrieveResponse,
   type PlatformUpdateResponse,
   type PlatformUpdateParams,
 } from './platform';
 export {
   Products,
-  type Product,
   type ProductCreateResponse,
   type ProductRetrieveResponse,
   type ProductListResponse,
   type ProductCreateParams,
 } from './products';
-export {
-  Roles,
-  type Role,
-  type RoleCreateResponse,
-  type RoleListResponse,
-  type RoleCreateParams,
-} from './roles';
+export { Roles, type RoleCreateResponse, type RoleListResponse, type RoleCreateParams } from './roles';
 export {
   Transactions,
-  type Transaction,
   type TransactionCreateResponse,
   type TransactionListResponse,
   type TransactionCreateParams,
   type TransactionListParams,
 } from './transactions';
-export {
-  Users,
-  type User,
-  type UserCreateResponse,
-  type UserListResponse,
-  type UserCreateParams,
-} from './users';
+export { Users, type UserCreateResponse, type UserListResponse, type UserCreateParams } from './users';

@@ -46,102 +46,262 @@ export class Products extends APIResource {
   }
 }
 
-/**
- * Product object
- */
-export interface Product {
-  /**
-   * Unique identifier for the product
-   */
-  id: string;
-
-  /**
-   * User-defined product identifier.
-   */
-  code: string;
-
-  /**
-   * ISO 8601 timestamp when the product was created
-   */
-  created: string;
-
-  /**
-   * Description of the product
-   */
-  description: string;
-
-  /**
-   * User roles that can pay for this product
-   */
-  paid_by_roles: Array<Product.PaidByRole>;
-
-  /**
-   * User roles that receive payment for this product
-   */
-  paid_to_roles: Array<Product.PaidToRole>;
-
-  /**
-   * Version number for optimistic locking
-   */
-  updateVersion: number;
-
-  /**
-   * Workspace ID this product belongs to
-   */
-  workspaceId: string;
-}
-
-export namespace Product {
-  /**
-   * Reference to a role by its unique ID
-   */
-  export interface PaidByRole {
-    /**
-     * The unique ID of the role
-     */
-    id: string;
-
-    /**
-     * The name of the role
-     */
-    name: string;
-  }
-
-  /**
-   * Reference to a role by its unique ID
-   */
-  export interface PaidToRole {
-    /**
-     * The unique ID of the role
-     */
-    id: string;
-
-    /**
-     * The name of the role
-     */
-    name: string;
-  }
-}
-
 export interface ProductCreateResponse {
   /**
    * Product object
    */
-  data: Product;
+  data: ProductCreateResponse.Data;
+}
+
+export namespace ProductCreateResponse {
+  /**
+   * Product object
+   */
+  export interface Data {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+
+    /**
+     * User-defined product identifier.
+     */
+    code: string;
+
+    /**
+     * ISO 8601 timestamp when the product was created
+     */
+    created: string;
+
+    /**
+     * Description of the product
+     */
+    description: string;
+
+    /**
+     * User roles that can pay for this product
+     */
+    paid_by_roles: Array<Data.PaidByRole>;
+
+    /**
+     * User roles that receive payment for this product
+     */
+    paid_to_roles: Array<Data.PaidToRole>;
+
+    /**
+     * Version number for optimistic locking
+     */
+    updateVersion: number;
+
+    /**
+     * Workspace ID this product belongs to
+     */
+    workspaceId: string;
+  }
+
+  export namespace Data {
+    /**
+     * Reference to a role by its unique ID
+     */
+    export interface PaidByRole {
+      /**
+       * The unique ID of the role
+       */
+      id: string;
+
+      /**
+       * The name of the role
+       */
+      name: string;
+    }
+
+    /**
+     * Reference to a role by its unique ID
+     */
+    export interface PaidToRole {
+      /**
+       * The unique ID of the role
+       */
+      id: string;
+
+      /**
+       * The name of the role
+       */
+      name: string;
+    }
+  }
 }
 
 export interface ProductRetrieveResponse {
   /**
    * Product object
    */
-  data: Product;
+  data: ProductRetrieveResponse.Data;
+}
+
+export namespace ProductRetrieveResponse {
+  /**
+   * Product object
+   */
+  export interface Data {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+
+    /**
+     * User-defined product identifier.
+     */
+    code: string;
+
+    /**
+     * ISO 8601 timestamp when the product was created
+     */
+    created: string;
+
+    /**
+     * Description of the product
+     */
+    description: string;
+
+    /**
+     * User roles that can pay for this product
+     */
+    paid_by_roles: Array<Data.PaidByRole>;
+
+    /**
+     * User roles that receive payment for this product
+     */
+    paid_to_roles: Array<Data.PaidToRole>;
+
+    /**
+     * Version number for optimistic locking
+     */
+    updateVersion: number;
+
+    /**
+     * Workspace ID this product belongs to
+     */
+    workspaceId: string;
+  }
+
+  export namespace Data {
+    /**
+     * Reference to a role by its unique ID
+     */
+    export interface PaidByRole {
+      /**
+       * The unique ID of the role
+       */
+      id: string;
+
+      /**
+       * The name of the role
+       */
+      name: string;
+    }
+
+    /**
+     * Reference to a role by its unique ID
+     */
+    export interface PaidToRole {
+      /**
+       * The unique ID of the role
+       */
+      id: string;
+
+      /**
+       * The name of the role
+       */
+      name: string;
+    }
+  }
 }
 
 /**
  * List of products
  */
 export interface ProductListResponse {
-  data: Array<Product>;
+  data: Array<ProductListResponse.Data>;
+}
+
+export namespace ProductListResponse {
+  /**
+   * Product object
+   */
+  export interface Data {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+
+    /**
+     * User-defined product identifier.
+     */
+    code: string;
+
+    /**
+     * ISO 8601 timestamp when the product was created
+     */
+    created: string;
+
+    /**
+     * Description of the product
+     */
+    description: string;
+
+    /**
+     * User roles that can pay for this product
+     */
+    paid_by_roles: Array<Data.PaidByRole>;
+
+    /**
+     * User roles that receive payment for this product
+     */
+    paid_to_roles: Array<Data.PaidToRole>;
+
+    /**
+     * Version number for optimistic locking
+     */
+    updateVersion: number;
+
+    /**
+     * Workspace ID this product belongs to
+     */
+    workspaceId: string;
+  }
+
+  export namespace Data {
+    /**
+     * Reference to a role by its unique ID
+     */
+    export interface PaidByRole {
+      /**
+       * The unique ID of the role
+       */
+      id: string;
+
+      /**
+       * The name of the role
+       */
+      name: string;
+    }
+
+    /**
+     * Reference to a role by its unique ID
+     */
+    export interface PaidToRole {
+      /**
+       * The unique ID of the role
+       */
+      id: string;
+
+      /**
+       * The name of the role
+       */
+      name: string;
+    }
+  }
 }
 
 export interface ProductCreateParams {
@@ -200,7 +360,6 @@ export namespace ProductCreateParams {
 
 export declare namespace Products {
   export {
-    type Product as Product,
     type ProductCreateResponse as ProductCreateResponse,
     type ProductRetrieveResponse as ProductRetrieveResponse,
     type ProductListResponse as ProductListResponse,

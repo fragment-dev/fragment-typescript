@@ -38,38 +38,62 @@ export class ExternalAccounts extends APIResource {
   }
 }
 
-/**
- * External account object
- */
-export interface ExternalAccount {
-  /**
-   * Fragment-generated unique ID for the external account
-   */
-  id: string;
-
-  /**
-   * User-provided external ID
-   */
-  external_id: string;
-
-  /**
-   * Human-readable name for the external account
-   */
-  name: string;
-}
-
 export interface ExternalAccountCreateResponse {
   /**
    * External account object
    */
-  data: ExternalAccount;
+  data: ExternalAccountCreateResponse.Data;
+}
+
+export namespace ExternalAccountCreateResponse {
+  /**
+   * External account object
+   */
+  export interface Data {
+    /**
+     * Fragment-generated unique ID for the external account
+     */
+    id: string;
+
+    /**
+     * User-provided external ID
+     */
+    external_id: string;
+
+    /**
+     * Human-readable name for the external account
+     */
+    name: string;
+  }
 }
 
 /**
  * List of external accounts
  */
 export interface ExternalAccountListResponse {
-  data: Array<ExternalAccount>;
+  data: Array<ExternalAccountListResponse.Data>;
+}
+
+export namespace ExternalAccountListResponse {
+  /**
+   * External account object
+   */
+  export interface Data {
+    /**
+     * Fragment-generated unique ID for the external account
+     */
+    id: string;
+
+    /**
+     * User-provided external ID
+     */
+    external_id: string;
+
+    /**
+     * Human-readable name for the external account
+     */
+    name: string;
+  }
 }
 
 export interface ExternalAccountCreateParams {
@@ -86,7 +110,6 @@ export interface ExternalAccountCreateParams {
 
 export declare namespace ExternalAccounts {
   export {
-    type ExternalAccount as ExternalAccount,
     type ExternalAccountCreateResponse as ExternalAccountCreateResponse,
     type ExternalAccountListResponse as ExternalAccountListResponse,
     type ExternalAccountCreateParams as ExternalAccountCreateParams,
