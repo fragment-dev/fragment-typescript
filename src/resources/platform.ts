@@ -4,7 +4,7 @@ import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 
-export class Platform extends APIResource {
+export class PlatformResource extends APIResource {
   /**
    * Gets platform details for the workspace
    *
@@ -32,72 +32,43 @@ export class Platform extends APIResource {
   }
 }
 
+/**
+ * Platform object
+ */
+export interface Platform {
+  /**
+   * ISO 8601 timestamp when the platform was created
+   */
+  created: string;
+
+  /**
+   * Display name for the platform
+   */
+  displayName: string;
+
+  /**
+   * Workspace ID this platform belongs to
+   */
+  workspaceId: string;
+
+  /**
+   * ISO 8601 timestamp when the platform was last modified
+   */
+  modified?: string;
+}
+
 export interface PlatformRetrieveResponse {
   /**
    * Platform object
    */
-  data: PlatformRetrieveResponse.Data;
-}
-
-export namespace PlatformRetrieveResponse {
-  /**
-   * Platform object
-   */
-  export interface Data {
-    /**
-     * ISO 8601 timestamp when the platform was created
-     */
-    created: string;
-
-    /**
-     * Display name for the platform
-     */
-    displayName: string;
-
-    /**
-     * Workspace ID this platform belongs to
-     */
-    workspaceId: string;
-
-    /**
-     * ISO 8601 timestamp when the platform was last modified
-     */
-    modified?: string;
-  }
+  data: Platform;
 }
 
 export interface PlatformUpdateResponse {
   /**
    * Platform object
    */
-  data: PlatformUpdateResponse.Data;
-}
-
-export namespace PlatformUpdateResponse {
-  /**
-   * Platform object
-   */
-  export interface Data {
-    /**
-     * ISO 8601 timestamp when the platform was created
-     */
-    created: string;
-
-    /**
-     * Display name for the platform
-     */
-    displayName: string;
-
-    /**
-     * Workspace ID this platform belongs to
-     */
-    workspaceId: string;
-
-    /**
-     * ISO 8601 timestamp when the platform was last modified
-     */
-    modified?: string;
-  }
+  data: Platform;
 }
 
 export interface PlatformUpdateParams {
@@ -107,8 +78,9 @@ export interface PlatformUpdateParams {
   displayName: string;
 }
 
-export declare namespace Platform {
+export declare namespace PlatformResource {
   export {
+    type Platform as Platform,
     type PlatformRetrieveResponse as PlatformRetrieveResponse,
     type PlatformUpdateResponse as PlatformUpdateResponse,
     type PlatformUpdateParams as PlatformUpdateParams,

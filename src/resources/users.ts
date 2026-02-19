@@ -33,62 +33,38 @@ export class Users extends APIResource {
   }
 }
 
+/**
+ * User object
+ */
+export interface User {
+  /**
+   * Unique user ID
+   */
+  id: string;
+
+  /**
+   * External ID for the user
+   */
+  externalId: string;
+
+  /**
+   * Role of the user
+   */
+  role: string;
+}
+
 export interface UserCreateResponse {
   /**
    * User object
    */
-  data: UserCreateResponse.Data;
-}
-
-export namespace UserCreateResponse {
-  /**
-   * User object
-   */
-  export interface Data {
-    /**
-     * Unique user ID
-     */
-    id: string;
-
-    /**
-     * External ID for the user
-     */
-    externalId: string;
-
-    /**
-     * Role of the user
-     */
-    role: string;
-  }
+  data: User;
 }
 
 /**
  * List of users
  */
 export interface UserListResponse {
-  data: Array<UserListResponse.Data>;
-}
-
-export namespace UserListResponse {
-  /**
-   * User object
-   */
-  export interface Data {
-    /**
-     * Unique user ID
-     */
-    id: string;
-
-    /**
-     * External ID for the user
-     */
-    externalId: string;
-
-    /**
-     * Role of the user
-     */
-    role: string;
-  }
+  data: Array<User>;
 }
 
 export interface UserCreateParams {
@@ -105,6 +81,7 @@ export interface UserCreateParams {
 
 export declare namespace Users {
   export {
+    type User as User,
     type UserCreateResponse as UserCreateResponse,
     type UserListResponse as UserListResponse,
     type UserCreateParams as UserCreateParams,
