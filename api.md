@@ -1,3 +1,15 @@
+# ExternalAccounts
+
+Types:
+
+- <code><a href="./src/resources/external-accounts.ts">ExternalAccountCreateResponse</a></code>
+- <code><a href="./src/resources/external-accounts.ts">ExternalAccountListResponse</a></code>
+
+Methods:
+
+- <code title="post /external-accounts">client.externalAccounts.<a href="./src/resources/external-accounts.ts">create</a>({ ...params }) -> ExternalAccountCreateResponse</code>
+- <code title="get /external-accounts">client.externalAccounts.<a href="./src/resources/external-accounts.ts">list</a>() -> ExternalAccountListResponse</code>
+
 # Invoices
 
 Types:
@@ -53,6 +65,18 @@ Methods:
 
 - <code title="post /roles">client.roles.<a href="./src/resources/roles.ts">create</a>({ ...params }) -> RoleCreateResponse</code>
 - <code title="get /roles">client.roles.<a href="./src/resources/roles.ts">list</a>() -> RoleListResponse</code>
+
+# Transactions
+
+Types:
+
+- <code><a href="./src/resources/transactions.ts">TransactionCreateResponse</a></code>
+- <code><a href="./src/resources/transactions.ts">TransactionListResponse</a></code>
+
+Methods:
+
+- <code title="post /transactions">client.transactions.<a href="./src/resources/transactions.ts">create</a>({ ...params }) -> TransactionCreateResponse</code>
+- <code title="get /transactions">client.transactions.<a href="./src/resources/transactions.ts">list</a>({ ...params }) -> TransactionListResponse</code>
 
 # Users
 

@@ -17,6 +17,12 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
+  ExternalAccountCreateParams,
+  ExternalAccountCreateResponse,
+  ExternalAccountListResponse,
+  ExternalAccounts,
+} from './resources/external-accounts';
+import {
   InvoiceCreateParams,
   InvoiceCreateResponse,
   InvoiceListHistoryResponse,
@@ -40,6 +46,13 @@ import {
   Products,
 } from './resources/products';
 import { RoleCreateParams, RoleCreateResponse, RoleListResponse, Roles } from './resources/roles';
+import {
+  TransactionCreateParams,
+  TransactionCreateResponse,
+  TransactionListParams,
+  TransactionListResponse,
+  Transactions,
+} from './resources/transactions';
 import { UserCreateParams, UserCreateResponse, UserListResponse, Users } from './resources/users';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
@@ -831,22 +844,33 @@ export class Fragment {
 
   static toFile = Uploads.toFile;
 
+  externalAccounts: API.ExternalAccounts = new API.ExternalAccounts(this);
   invoices: API.Invoices = new API.Invoices(this);
   platform: API.Platform = new API.Platform(this);
   products: API.Products = new API.Products(this);
   roles: API.Roles = new API.Roles(this);
+  transactions: API.Transactions = new API.Transactions(this);
   users: API.Users = new API.Users(this);
 }
 
+Fragment.ExternalAccounts = ExternalAccounts;
 Fragment.Invoices = Invoices;
 Fragment.Platform = Platform;
 Fragment.Products = Products;
 Fragment.Roles = Roles;
+Fragment.Transactions = Transactions;
 Fragment.Users = Users;
 Fragment.Platform = Platform;
 
 export declare namespace Fragment {
   export type RequestOptions = Opts.RequestOptions;
+
+  export {
+    ExternalAccounts as ExternalAccounts,
+    type ExternalAccountCreateResponse as ExternalAccountCreateResponse,
+    type ExternalAccountListResponse as ExternalAccountListResponse,
+    type ExternalAccountCreateParams as ExternalAccountCreateParams,
+  };
 
   export {
     Invoices as Invoices,
@@ -879,6 +903,14 @@ export declare namespace Fragment {
     type RoleCreateResponse as RoleCreateResponse,
     type RoleListResponse as RoleListResponse,
     type RoleCreateParams as RoleCreateParams,
+  };
+
+  export {
+    Transactions as Transactions,
+    type TransactionCreateResponse as TransactionCreateResponse,
+    type TransactionListResponse as TransactionListResponse,
+    type TransactionCreateParams as TransactionCreateParams,
+    type TransactionListParams as TransactionListParams,
   };
 
   export {
