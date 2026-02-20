@@ -30,52 +30,33 @@ export class Roles extends APIResource {
   }
 }
 
+/**
+ * Role object
+ */
+export interface Role {
+  /**
+   * Unique role ID
+   */
+  id: string;
+
+  /**
+   * Name of the role
+   */
+  role: string;
+}
+
 export interface RoleCreateResponse {
   /**
    * Role object
    */
-  data: RoleCreateResponse.Data;
-}
-
-export namespace RoleCreateResponse {
-  /**
-   * Role object
-   */
-  export interface Data {
-    /**
-     * Unique role ID
-     */
-    id: string;
-
-    /**
-     * Name of the role
-     */
-    role: string;
-  }
+  data: Role;
 }
 
 /**
  * List of roles
  */
 export interface RoleListResponse {
-  data: Array<RoleListResponse.Data>;
-}
-
-export namespace RoleListResponse {
-  /**
-   * Role object
-   */
-  export interface Data {
-    /**
-     * Unique role ID
-     */
-    id: string;
-
-    /**
-     * Name of the role
-     */
-    role: string;
-  }
+  data: Array<Role>;
 }
 
 export interface RoleCreateParams {
@@ -87,6 +68,7 @@ export interface RoleCreateParams {
 
 export declare namespace Roles {
   export {
+    type Role as Role,
     type RoleCreateResponse as RoleCreateResponse,
     type RoleListResponse as RoleListResponse,
     type RoleCreateParams as RoleCreateParams,
