@@ -9,7 +9,7 @@ const client = new Fragment({
 });
 
 describe('resource invoices', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.invoices.create({
       invoiceId: 'invoice_2024_001',
@@ -33,7 +33,7 @@ describe('resource invoices', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.invoices.create({
       invoiceId: 'invoice_2024_001',
@@ -50,7 +50,7 @@ describe('resource invoices', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieve', async () => {
     const responsePromise = client.invoices.retrieve('inv_1234567890');
     const rawResponse = await responsePromise.asResponse();
@@ -62,7 +62,7 @@ describe('resource invoices', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('update: only required params', async () => {
     const responsePromise = client.invoices.update('inv_1234567890', {
       line_items_update: [
@@ -87,7 +87,7 @@ describe('resource invoices', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('update: required and optional params', async () => {
     const response = await client.invoices.update('inv_1234567890', {
       line_items_update: [
@@ -105,7 +105,7 @@ describe('resource invoices', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.invoices.list();
     const rawResponse = await responsePromise.asResponse();
@@ -117,7 +117,7 @@ describe('resource invoices', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('listHistory', async () => {
     const responsePromise = client.invoices.listHistory('inv_1234567890');
     const rawResponse = await responsePromise.asResponse();

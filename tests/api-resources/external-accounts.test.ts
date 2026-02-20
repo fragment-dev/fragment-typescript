@@ -9,7 +9,7 @@ const client = new Fragment({
 });
 
 describe('resource externalAccounts', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.externalAccounts.create({
       external_id: 'ext_acc_123',
@@ -24,7 +24,7 @@ describe('resource externalAccounts', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.externalAccounts.create({
       external_id: 'ext_acc_123',
@@ -32,7 +32,7 @@ describe('resource externalAccounts', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.externalAccounts.list();
     const rawResponse = await responsePromise.asResponse();
