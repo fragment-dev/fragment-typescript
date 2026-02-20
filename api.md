@@ -66,12 +66,14 @@ Types:
 - <code><a href="./src/resources/transactions.ts">TransactionCreateResponse</a></code>
 - <code><a href="./src/resources/transactions.ts">TransactionRetrieveResponse</a></code>
 - <code><a href="./src/resources/transactions.ts">TransactionListResponse</a></code>
+- <code><a href="./src/resources/transactions.ts">TransactionCreateAllocationsResponse</a></code>
 
 Methods:
 
 - <code title="post /transactions">client.transactions.<a href="./src/resources/transactions.ts">create</a>({ ...params }) -> TransactionCreateResponse</code>
 - <code title="get /transactions/{id}">client.transactions.<a href="./src/resources/transactions.ts">retrieve</a>(id) -> TransactionRetrieveResponse</code>
 - <code title="get /transactions">client.transactions.<a href="./src/resources/transactions.ts">list</a>({ ...params }) -> TransactionListResponse</code>
+- <code title="post /transactions/{id}/allocations">client.transactions.<a href="./src/resources/transactions.ts">createAllocations</a>(id, { ...params }) -> TransactionCreateAllocationsResponse</code>
 
 # Users
 

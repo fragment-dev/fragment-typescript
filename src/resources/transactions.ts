@@ -38,7 +38,7 @@ export class Transactions extends APIResource {
    * @example
    * ```ts
    * const transaction = await client.transactions.retrieve(
-   *   'txn_1234567890',
+   *   'txn_abc123',
    * );
    * ```
    */
@@ -59,6 +59,37 @@ export class Transactions extends APIResource {
     options?: RequestOptions,
   ): APIPromise<TransactionListResponse> {
     return this._client.get('/transactions', { query, ...options });
+  }
+
+  /**
+   * Updates allocations on an existing transaction
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.transactions.createAllocations(
+   *     'txn_abc123',
+   *     {
+   *       allocation_updates: [
+   *         {
+   *           amount: '1000',
+   *           invoice_id: 'inv_abc123',
+   *           op: 'add',
+   *           type: 'invoice_payin',
+   *           user: { id: 'user_abc123' },
+   *         },
+   *       ],
+   *       version: 0,
+   *     },
+   *   );
+   * ```
+   */
+  createAllocations(
+    id: string,
+    body: TransactionCreateAllocationsParams,
+    options?: RequestOptions,
+  ): APIPromise<TransactionCreateAllocationsResponse> {
+    return this._client.post(path`/transactions/${id}/allocations`, { body, ...options });
   }
 }
 
@@ -367,6 +398,13 @@ export interface TransactionListResponse {
   data: Array<Transaction>;
 }
 
+export interface TransactionCreateAllocationsResponse {
+  /**
+   * Transaction object.
+   */
+  data: Transaction;
+}
+
 export interface TransactionCreateParams {
   /**
    * Account reference. Provide id, external_id, or both.
@@ -651,13 +689,87 @@ export interface TransactionListParams {
   reconciliation_status?: 'reconciled' | 'unreconciled';
 }
 
+export interface TransactionCreateAllocationsParams {
+  /**
+   * Allocation operations to apply
+   */
+  allocation_updates: Array<
+    | TransactionCreateAllocationsParams.AddAllocationOperation
+    | TransactionCreateAllocationsParams.DeleteAllocationOperation
+  >;
+
+  /**
+   * Current transaction version for optimistic concurrency control
+   */
+  version: number;
+}
+
+export namespace TransactionCreateAllocationsParams {
+  export interface AddAllocationOperation {
+    /**
+     * Amount to allocate in smallest currency unit as stringified bigint.
+     */
+    amount: string;
+
+    /**
+     * The invoice to allocate against.
+     */
+    invoice_id: string;
+
+    /**
+     * Add a new allocation
+     */
+    op: 'add';
+
+    /**
+     * The type of allocation.
+     */
+    type: 'invoice_payin' | 'invoice_payout';
+
+    /**
+     * User reference. Provide either id or external_id.
+     */
+    user: AddAllocationOperation.ID | AddAllocationOperation.ExternalID;
+  }
+
+  export namespace AddAllocationOperation {
+    export interface ID {
+      /**
+       * Internal user ID.
+       */
+      id: string;
+    }
+
+    export interface ExternalID {
+      /**
+       * External user ID.
+       */
+      external_id: string;
+    }
+  }
+
+  export interface DeleteAllocationOperation {
+    /**
+     * The ID of the allocation to remove.
+     */
+    id: string;
+
+    /**
+     * Delete an allocation
+     */
+    op: 'delete';
+  }
+}
+
 export declare namespace Transactions {
   export {
     type Transaction as Transaction,
     type TransactionCreateResponse as TransactionCreateResponse,
     type TransactionRetrieveResponse as TransactionRetrieveResponse,
     type TransactionListResponse as TransactionListResponse,
+    type TransactionCreateAllocationsResponse as TransactionCreateAllocationsResponse,
     type TransactionCreateParams as TransactionCreateParams,
     type TransactionListParams as TransactionListParams,
+    type TransactionCreateAllocationsParams as TransactionCreateAllocationsParams,
   };
 }
