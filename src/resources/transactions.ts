@@ -3,6 +3,7 @@
 import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Transactions extends APIResource {
   /**
@@ -32,6 +33,20 @@ export class Transactions extends APIResource {
   }
 
   /**
+   * Gets a transaction by ID
+   *
+   * @example
+   * ```ts
+   * const transaction = await client.transactions.retrieve(
+   *   'txn_1234567890',
+   * );
+   * ```
+   */
+  retrieve(id: string, options?: RequestOptions): APIPromise<TransactionRetrieveResponse> {
+    return this._client.get(path`/transactions/${id}`, options);
+  }
+
+  /**
    * Lists all transactions for the workspace
    *
    * @example
@@ -47,590 +62,309 @@ export class Transactions extends APIResource {
   }
 }
 
-export interface TransactionCreateResponse {
+/**
+ * Transaction object.
+ */
+export interface Transaction {
   /**
-   * Transaction object.
+   * User-facing encoded transaction ID.
    */
-  data: TransactionCreateResponse.Data;
+  id: string;
+
+  account: Transaction.Account;
+
+  allocations: Array<Transaction.Allocation>;
+
+  /**
+   * Amount in smallest currency unit as stringified bigint (can be positive or
+   * negative).
+   */
+  amount: string;
+
+  /**
+   * Creation timestamp.
+   */
+  created: string;
+
+  /**
+   * Currency code (ISO 4217 or crypto)
+   */
+  currency:
+    | 'ADA'
+    | 'BTC'
+    | 'DAI'
+    | 'ETH'
+    | 'SOL'
+    | 'USDC'
+    | 'USDT'
+    | 'USDG'
+    | 'EURC'
+    | 'CADC'
+    | 'CADT'
+    | 'XLM'
+    | 'UNI'
+    | 'BCH'
+    | 'LTC'
+    | 'AAVE'
+    | 'LINK'
+    | 'MATIC'
+    | 'PTS'
+    | 'AED'
+    | 'AFN'
+    | 'ALL'
+    | 'AMD'
+    | 'ANG'
+    | 'AOA'
+    | 'ARS'
+    | 'AUD'
+    | 'AWG'
+    | 'AZN'
+    | 'BAM'
+    | 'BBD'
+    | 'BDT'
+    | 'BGN'
+    | 'BHD'
+    | 'BIF'
+    | 'BMD'
+    | 'BND'
+    | 'BOB'
+    | 'BRL'
+    | 'BSD'
+    | 'BTN'
+    | 'BWP'
+    | 'BYR'
+    | 'BZD'
+    | 'CAD'
+    | 'CDF'
+    | 'CHF'
+    | 'CLP'
+    | 'CNY'
+    | 'COP'
+    | 'CRC'
+    | 'CUC'
+    | 'CUP'
+    | 'CVE'
+    | 'CZK'
+    | 'DJF'
+    | 'DKK'
+    | 'DOP'
+    | 'DZD'
+    | 'EGP'
+    | 'ERN'
+    | 'ETB'
+    | 'EUR'
+    | 'FJD'
+    | 'FKP'
+    | 'GBP'
+    | 'GEL'
+    | 'GGP'
+    | 'GHS'
+    | 'GIP'
+    | 'GMD'
+    | 'GNF'
+    | 'GTQ'
+    | 'GYD'
+    | 'HKD'
+    | 'HNL'
+    | 'HRK'
+    | 'HTG'
+    | 'HUF'
+    | 'IDR'
+    | 'ILS'
+    | 'IMP'
+    | 'INR'
+    | 'IQD'
+    | 'IRR'
+    | 'ISK'
+    | 'JMD'
+    | 'JOD'
+    | 'JPY'
+    | 'KES'
+    | 'KGS'
+    | 'KHR'
+    | 'KMF'
+    | 'KPW'
+    | 'KRW'
+    | 'KWD'
+    | 'KYD'
+    | 'KZT'
+    | 'LAK'
+    | 'LBP'
+    | 'LKR'
+    | 'LRD'
+    | 'LSL'
+    | 'LYD'
+    | 'MAD'
+    | 'MDL'
+    | 'MGA'
+    | 'MKD'
+    | 'MMK'
+    | 'MNT'
+    | 'MOP'
+    | 'MUR'
+    | 'MVR'
+    | 'MWK'
+    | 'MXN'
+    | 'MYR'
+    | 'MZN'
+    | 'NAD'
+    | 'NGN'
+    | 'NIO'
+    | 'NOK'
+    | 'NPR'
+    | 'NZD'
+    | 'OMR'
+    | 'PAB'
+    | 'PEN'
+    | 'PGK'
+    | 'PHP'
+    | 'PKR'
+    | 'PLN'
+    | 'PYG'
+    | 'QAR'
+    | 'RON'
+    | 'RSD'
+    | 'RUB'
+    | 'RWF'
+    | 'SAR'
+    | 'SBD'
+    | 'SCR'
+    | 'SDG'
+    | 'SEK'
+    | 'SGD'
+    | 'SHP'
+    | 'SLL'
+    | 'SOS'
+    | 'SPL'
+    | 'SRD'
+    | 'SVC'
+    | 'SYP'
+    | 'STN'
+    | 'SZL'
+    | 'THB'
+    | 'TJS'
+    | 'TMT'
+    | 'TND'
+    | 'TOP'
+    | 'TRY'
+    | 'TTD'
+    | 'TVD'
+    | 'TWD'
+    | 'TZS'
+    | 'UAH'
+    | 'UGX'
+    | 'USD'
+    | 'UYU'
+    | 'UZS'
+    | 'VEF'
+    | 'VND'
+    | 'VUV'
+    | 'WST'
+    | 'XAF'
+    | 'XCD'
+    | 'XOF'
+    | 'XPF'
+    | 'YER'
+    | 'ZAR'
+    | 'ZMW'
+    | 'LOGICAL'
+    | 'CUSTOM';
+
+  /**
+   * External idempotency key provided by the user.
+   */
+  external_id: string;
+
+  /**
+   * Posted timestamp in ISO 8601 format.
+   */
+  posted: string;
+
+  /**
+   * Read-only amount not yet allocated.
+   */
+  unallocated_amount: string;
+
+  /**
+   * Last modified timestamp.
+   */
+  modified?: string;
 }
 
-export namespace TransactionCreateResponse {
-  /**
-   * Transaction object.
-   */
-  export interface Data {
+export namespace Transaction {
+  export interface Account {
     /**
-     * User-facing encoded transaction ID.
+     * User-facing encoded account ID.
      */
     id: string;
 
-    account: Data.Account;
-
-    allocations: Array<Data.Allocation>;
-
     /**
-     * Amount in smallest currency unit as stringified bigint (can be positive or
-     * negative).
+     * External account reference ID.
+     */
+    external_id: string;
+  }
+
+  /**
+   * Transaction allocation against an invoice.
+   */
+  export interface Allocation {
+    /**
+     * Amount to allocate in smallest currency unit as stringified bigint.
      */
     amount: string;
 
     /**
-     * Creation timestamp.
+     * The invoice to allocate against.
      */
-    created: string;
+    invoice_id: string;
 
     /**
-     * Currency code (ISO 4217 or crypto)
+     * The type of allocation.
      */
-    currency:
-      | 'ADA'
-      | 'BTC'
-      | 'DAI'
-      | 'ETH'
-      | 'SOL'
-      | 'USDC'
-      | 'USDT'
-      | 'USDG'
-      | 'EURC'
-      | 'CADC'
-      | 'CADT'
-      | 'XLM'
-      | 'UNI'
-      | 'BCH'
-      | 'LTC'
-      | 'AAVE'
-      | 'LINK'
-      | 'MATIC'
-      | 'PTS'
-      | 'AED'
-      | 'AFN'
-      | 'ALL'
-      | 'AMD'
-      | 'ANG'
-      | 'AOA'
-      | 'ARS'
-      | 'AUD'
-      | 'AWG'
-      | 'AZN'
-      | 'BAM'
-      | 'BBD'
-      | 'BDT'
-      | 'BGN'
-      | 'BHD'
-      | 'BIF'
-      | 'BMD'
-      | 'BND'
-      | 'BOB'
-      | 'BRL'
-      | 'BSD'
-      | 'BTN'
-      | 'BWP'
-      | 'BYR'
-      | 'BZD'
-      | 'CAD'
-      | 'CDF'
-      | 'CHF'
-      | 'CLP'
-      | 'CNY'
-      | 'COP'
-      | 'CRC'
-      | 'CUC'
-      | 'CUP'
-      | 'CVE'
-      | 'CZK'
-      | 'DJF'
-      | 'DKK'
-      | 'DOP'
-      | 'DZD'
-      | 'EGP'
-      | 'ERN'
-      | 'ETB'
-      | 'EUR'
-      | 'FJD'
-      | 'FKP'
-      | 'GBP'
-      | 'GEL'
-      | 'GGP'
-      | 'GHS'
-      | 'GIP'
-      | 'GMD'
-      | 'GNF'
-      | 'GTQ'
-      | 'GYD'
-      | 'HKD'
-      | 'HNL'
-      | 'HRK'
-      | 'HTG'
-      | 'HUF'
-      | 'IDR'
-      | 'ILS'
-      | 'IMP'
-      | 'INR'
-      | 'IQD'
-      | 'IRR'
-      | 'ISK'
-      | 'JMD'
-      | 'JOD'
-      | 'JPY'
-      | 'KES'
-      | 'KGS'
-      | 'KHR'
-      | 'KMF'
-      | 'KPW'
-      | 'KRW'
-      | 'KWD'
-      | 'KYD'
-      | 'KZT'
-      | 'LAK'
-      | 'LBP'
-      | 'LKR'
-      | 'LRD'
-      | 'LSL'
-      | 'LYD'
-      | 'MAD'
-      | 'MDL'
-      | 'MGA'
-      | 'MKD'
-      | 'MMK'
-      | 'MNT'
-      | 'MOP'
-      | 'MUR'
-      | 'MVR'
-      | 'MWK'
-      | 'MXN'
-      | 'MYR'
-      | 'MZN'
-      | 'NAD'
-      | 'NGN'
-      | 'NIO'
-      | 'NOK'
-      | 'NPR'
-      | 'NZD'
-      | 'OMR'
-      | 'PAB'
-      | 'PEN'
-      | 'PGK'
-      | 'PHP'
-      | 'PKR'
-      | 'PLN'
-      | 'PYG'
-      | 'QAR'
-      | 'RON'
-      | 'RSD'
-      | 'RUB'
-      | 'RWF'
-      | 'SAR'
-      | 'SBD'
-      | 'SCR'
-      | 'SDG'
-      | 'SEK'
-      | 'SGD'
-      | 'SHP'
-      | 'SLL'
-      | 'SOS'
-      | 'SPL'
-      | 'SRD'
-      | 'SVC'
-      | 'SYP'
-      | 'STN'
-      | 'SZL'
-      | 'THB'
-      | 'TJS'
-      | 'TMT'
-      | 'TND'
-      | 'TOP'
-      | 'TRY'
-      | 'TTD'
-      | 'TVD'
-      | 'TWD'
-      | 'TZS'
-      | 'UAH'
-      | 'UGX'
-      | 'USD'
-      | 'UYU'
-      | 'UZS'
-      | 'VEF'
-      | 'VND'
-      | 'VUV'
-      | 'WST'
-      | 'XAF'
-      | 'XCD'
-      | 'XOF'
-      | 'XPF'
-      | 'YER'
-      | 'ZAR'
-      | 'ZMW'
-      | 'LOGICAL'
-      | 'CUSTOM';
+    type: 'invoice_payin' | 'invoice_payout';
 
     /**
-     * External idempotency key provided by the user.
+     * User reference. Provide either id or external_id.
      */
-    external_id: string;
-
-    /**
-     * Posted timestamp in ISO 8601 format.
-     */
-    posted: string;
-
-    /**
-     * Read-only amount not yet allocated.
-     */
-    unallocated_amount: string;
-
-    /**
-     * Last modified timestamp.
-     */
-    modified?: string;
+    user: Allocation.ID | Allocation.ExternalID;
   }
 
-  export namespace Data {
-    export interface Account {
+  export namespace Allocation {
+    export interface ID {
       /**
-       * User-facing encoded account ID.
+       * Internal user ID.
        */
       id: string;
+    }
 
+    export interface ExternalID {
       /**
-       * External account reference ID.
+       * External user ID.
        */
       external_id: string;
     }
-
-    /**
-     * Transaction allocation against an invoice.
-     */
-    export interface Allocation {
-      /**
-       * Amount to allocate in smallest currency unit as stringified bigint.
-       */
-      amount: string;
-
-      /**
-       * The invoice to allocate against.
-       */
-      invoice_id: string;
-
-      /**
-       * The type of allocation.
-       */
-      type: 'invoice_payin' | 'invoice_payout';
-
-      /**
-       * User reference. Provide either id or external_id.
-       */
-      user: Allocation.ID | Allocation.ExternalID;
-    }
-
-    export namespace Allocation {
-      export interface ID {
-        /**
-         * Internal user ID.
-         */
-        id: string;
-      }
-
-      export interface ExternalID {
-        /**
-         * External user ID.
-         */
-        external_id: string;
-      }
-    }
   }
+}
+
+export interface TransactionCreateResponse {
+  /**
+   * Transaction object.
+   */
+  data: Transaction;
+}
+
+export interface TransactionRetrieveResponse {
+  /**
+   * Transaction object.
+   */
+  data: Transaction;
 }
 
 /**
  * List of transactions
  */
 export interface TransactionListResponse {
-  data: Array<TransactionListResponse.Data>;
-}
-
-export namespace TransactionListResponse {
-  /**
-   * Transaction object.
-   */
-  export interface Data {
-    /**
-     * User-facing encoded transaction ID.
-     */
-    id: string;
-
-    account: Data.Account;
-
-    allocations: Array<Data.Allocation>;
-
-    /**
-     * Amount in smallest currency unit as stringified bigint (can be positive or
-     * negative).
-     */
-    amount: string;
-
-    /**
-     * Creation timestamp.
-     */
-    created: string;
-
-    /**
-     * Currency code (ISO 4217 or crypto)
-     */
-    currency:
-      | 'ADA'
-      | 'BTC'
-      | 'DAI'
-      | 'ETH'
-      | 'SOL'
-      | 'USDC'
-      | 'USDT'
-      | 'USDG'
-      | 'EURC'
-      | 'CADC'
-      | 'CADT'
-      | 'XLM'
-      | 'UNI'
-      | 'BCH'
-      | 'LTC'
-      | 'AAVE'
-      | 'LINK'
-      | 'MATIC'
-      | 'PTS'
-      | 'AED'
-      | 'AFN'
-      | 'ALL'
-      | 'AMD'
-      | 'ANG'
-      | 'AOA'
-      | 'ARS'
-      | 'AUD'
-      | 'AWG'
-      | 'AZN'
-      | 'BAM'
-      | 'BBD'
-      | 'BDT'
-      | 'BGN'
-      | 'BHD'
-      | 'BIF'
-      | 'BMD'
-      | 'BND'
-      | 'BOB'
-      | 'BRL'
-      | 'BSD'
-      | 'BTN'
-      | 'BWP'
-      | 'BYR'
-      | 'BZD'
-      | 'CAD'
-      | 'CDF'
-      | 'CHF'
-      | 'CLP'
-      | 'CNY'
-      | 'COP'
-      | 'CRC'
-      | 'CUC'
-      | 'CUP'
-      | 'CVE'
-      | 'CZK'
-      | 'DJF'
-      | 'DKK'
-      | 'DOP'
-      | 'DZD'
-      | 'EGP'
-      | 'ERN'
-      | 'ETB'
-      | 'EUR'
-      | 'FJD'
-      | 'FKP'
-      | 'GBP'
-      | 'GEL'
-      | 'GGP'
-      | 'GHS'
-      | 'GIP'
-      | 'GMD'
-      | 'GNF'
-      | 'GTQ'
-      | 'GYD'
-      | 'HKD'
-      | 'HNL'
-      | 'HRK'
-      | 'HTG'
-      | 'HUF'
-      | 'IDR'
-      | 'ILS'
-      | 'IMP'
-      | 'INR'
-      | 'IQD'
-      | 'IRR'
-      | 'ISK'
-      | 'JMD'
-      | 'JOD'
-      | 'JPY'
-      | 'KES'
-      | 'KGS'
-      | 'KHR'
-      | 'KMF'
-      | 'KPW'
-      | 'KRW'
-      | 'KWD'
-      | 'KYD'
-      | 'KZT'
-      | 'LAK'
-      | 'LBP'
-      | 'LKR'
-      | 'LRD'
-      | 'LSL'
-      | 'LYD'
-      | 'MAD'
-      | 'MDL'
-      | 'MGA'
-      | 'MKD'
-      | 'MMK'
-      | 'MNT'
-      | 'MOP'
-      | 'MUR'
-      | 'MVR'
-      | 'MWK'
-      | 'MXN'
-      | 'MYR'
-      | 'MZN'
-      | 'NAD'
-      | 'NGN'
-      | 'NIO'
-      | 'NOK'
-      | 'NPR'
-      | 'NZD'
-      | 'OMR'
-      | 'PAB'
-      | 'PEN'
-      | 'PGK'
-      | 'PHP'
-      | 'PKR'
-      | 'PLN'
-      | 'PYG'
-      | 'QAR'
-      | 'RON'
-      | 'RSD'
-      | 'RUB'
-      | 'RWF'
-      | 'SAR'
-      | 'SBD'
-      | 'SCR'
-      | 'SDG'
-      | 'SEK'
-      | 'SGD'
-      | 'SHP'
-      | 'SLL'
-      | 'SOS'
-      | 'SPL'
-      | 'SRD'
-      | 'SVC'
-      | 'SYP'
-      | 'STN'
-      | 'SZL'
-      | 'THB'
-      | 'TJS'
-      | 'TMT'
-      | 'TND'
-      | 'TOP'
-      | 'TRY'
-      | 'TTD'
-      | 'TVD'
-      | 'TWD'
-      | 'TZS'
-      | 'UAH'
-      | 'UGX'
-      | 'USD'
-      | 'UYU'
-      | 'UZS'
-      | 'VEF'
-      | 'VND'
-      | 'VUV'
-      | 'WST'
-      | 'XAF'
-      | 'XCD'
-      | 'XOF'
-      | 'XPF'
-      | 'YER'
-      | 'ZAR'
-      | 'ZMW'
-      | 'LOGICAL'
-      | 'CUSTOM';
-
-    /**
-     * External idempotency key provided by the user.
-     */
-    external_id: string;
-
-    /**
-     * Posted timestamp in ISO 8601 format.
-     */
-    posted: string;
-
-    /**
-     * Read-only amount not yet allocated.
-     */
-    unallocated_amount: string;
-
-    /**
-     * Last modified timestamp.
-     */
-    modified?: string;
-  }
-
-  export namespace Data {
-    export interface Account {
-      /**
-       * User-facing encoded account ID.
-       */
-      id: string;
-
-      /**
-       * External account reference ID.
-       */
-      external_id: string;
-    }
-
-    /**
-     * Transaction allocation against an invoice.
-     */
-    export interface Allocation {
-      /**
-       * Amount to allocate in smallest currency unit as stringified bigint.
-       */
-      amount: string;
-
-      /**
-       * The invoice to allocate against.
-       */
-      invoice_id: string;
-
-      /**
-       * The type of allocation.
-       */
-      type: 'invoice_payin' | 'invoice_payout';
-
-      /**
-       * User reference. Provide either id or external_id.
-       */
-      user: Allocation.ID | Allocation.ExternalID;
-    }
-
-    export namespace Allocation {
-      export interface ID {
-        /**
-         * Internal user ID.
-         */
-        id: string;
-      }
-
-      export interface ExternalID {
-        /**
-         * External user ID.
-         */
-        external_id: string;
-      }
-    }
-  }
+  data: Array<Transaction>;
 }
 
 export interface TransactionCreateParams {
@@ -919,7 +653,9 @@ export interface TransactionListParams {
 
 export declare namespace Transactions {
   export {
+    type Transaction as Transaction,
     type TransactionCreateResponse as TransactionCreateResponse,
+    type TransactionRetrieveResponse as TransactionRetrieveResponse,
     type TransactionListResponse as TransactionListResponse,
     type TransactionCreateParams as TransactionCreateParams,
     type TransactionListParams as TransactionListParams,
