@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.8.0 (2026-02-20)
+
+Full Changelog: [v0.7.0...v0.8.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.7.0...v0.8.0)
+
+### Features
+
+* **api:** update SDK from prod (02129bd3c8d07cabd99ba1849b1ce21f4a73c752) ([44b3532](https://github.com/fragment-dev/fragment-typescript/commit/44b3532d1dc4afc7470d3ebcac467fd78cb2d1fc))
+* **api:** update SDK from prod (041a7148982b6eb68cdc510d139846bb9acf48f9) ([d292e4d](https://github.com/fragment-dev/fragment-typescript/commit/d292e4de32e5e1f08823d86ea6a6d4239cd75f83))
+* **api:** update SDK from prod (bafb7c5c7699ca57dac84e441c66bd40b1d9ba93) ([a600697](https://github.com/fragment-dev/fragment-typescript/commit/a600697bb2239af5a2d1dac858d3f4fbdb088972))
+* **api:** update SDK from prod (dc1f471db694468a6bfd4a3b15c6af34a19fbc3e) ([5843bca](https://github.com/fragment-dev/fragment-typescript/commit/5843bcaa4546f4381cf16ccb3b03871600a5547f))
+* **api:** update SDK from prod (f13cfc23ac55aaae9d293cb5cbb431e4fe2e98a4) ([c81c3f1](https://github.com/fragment-dev/fragment-typescript/commit/c81c3f1916389045739817870dcf80e281cb5e24))
+
+
+### Bug Fixes
+
+* remove stale Fragment.Platform reference ([#16](https://github.com/fragment-dev/fragment-typescript/issues/16)) ([6be0584](https://github.com/fragment-dev/fragment-typescript/commit/6be0584a7806f601e6f050e5ce7b0901da47d85d))
+
+
+### Chores
+
+* **internal/client:** fix form-urlencoded requests ([bf9e668](https://github.com/fragment-dev/fragment-typescript/commit/bf9e6680282d31a50ee29c6424e659c0bcb909d3))
+* **internal:** remove mock server code ([aaaf1ae](https://github.com/fragment-dev/fragment-typescript/commit/aaaf1ae0f936161f3e91f5743b65abfab3b0ad8a))
+* update mock server docs ([a598585](https://github.com/fragment-dev/fragment-typescript/commit/a598585f19d574aa2e26e91bec3a8dae3cf64c63))
+
 ## 0.7.0 (2026-02-16)
 
 Full Changelog: [v0.6.1...v0.7.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.6.1...v0.7.0)

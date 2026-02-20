@@ -9,7 +9,7 @@ const client = new Fragment({
 });
 
 describe('resource roles', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.roles.create({ role: 'admin' });
     const rawResponse = await responsePromise.asResponse();
@@ -21,12 +21,12 @@ describe('resource roles', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.roles.create({ role: 'admin' });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.roles.list();
     const rawResponse = await responsePromise.asResponse();

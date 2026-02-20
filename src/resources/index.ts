@@ -1,7 +1,15 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 export {
+  ExternalAccounts,
+  type ExternalAccount,
+  type ExternalAccountCreateResponse,
+  type ExternalAccountListResponse,
+  type ExternalAccountCreateParams,
+} from './external-accounts';
+export {
   Invoices,
+  type Invoice,
   type InvoiceCreateResponse,
   type InvoiceRetrieveResponse,
   type InvoiceUpdateResponse,
@@ -11,17 +19,35 @@ export {
   type InvoiceUpdateParams,
 } from './invoices';
 export {
-  Platform,
-  type PlatformRetrieveResponse,
-  type PlatformUpdateResponse,
-  type PlatformUpdateParams,
-} from './platform';
-export {
   Products,
+  type Product,
   type ProductCreateResponse,
   type ProductRetrieveResponse,
   type ProductListResponse,
   type ProductCreateParams,
 } from './products';
-export { Roles, type RoleCreateResponse, type RoleListResponse, type RoleCreateParams } from './roles';
-export { Users, type UserCreateResponse, type UserListResponse, type UserCreateParams } from './users';
+export {
+  Roles,
+  type Role,
+  type RoleCreateResponse,
+  type RoleListResponse,
+  type RoleCreateParams,
+} from './roles';
+export {
+  Transactions,
+  type Transaction,
+  type TransactionCreateResponse,
+  type TransactionRetrieveResponse,
+  type TransactionListResponse,
+  type TransactionCreateAllocationsResponse,
+  type TransactionCreateParams,
+  type TransactionListParams,
+  type TransactionCreateAllocationsParams,
+} from './transactions';
+export {
+  Users,
+  type User,
+  type UserCreateResponse,
+  type UserListResponse,
+  type UserCreateParams,
+} from './users';
