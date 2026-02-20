@@ -317,6 +317,11 @@ export interface Transaction {
   unallocated_amount: string;
 
   /**
+   * Current version of the transaction, used for optimistic concurrency control.
+   */
+  version: number;
+
+  /**
    * Last modified timestamp.
    */
   modified?: string;
