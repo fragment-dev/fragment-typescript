@@ -39,8 +39,10 @@ export {
   type TransactionCreateResponse,
   type TransactionRetrieveResponse,
   type TransactionListResponse,
+  type TransactionCreateAllocationsResponse,
   type TransactionCreateParams,
   type TransactionListParams,
+  type TransactionCreateAllocationsParams,
 } from './transactions';
 export {
   Users,

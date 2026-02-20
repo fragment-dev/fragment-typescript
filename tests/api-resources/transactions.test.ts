@@ -56,7 +56,7 @@ describe('resource transactions', () => {
 
   // Mock server tests are disabled
   test.skip('retrieve', async () => {
-    const responsePromise = client.transactions.retrieve('txn_1234567890');
+    const responsePromise = client.transactions.retrieve('txn_abc123');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -87,5 +87,44 @@ describe('resource transactions', () => {
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Fragment.NotFoundError);
+  });
+
+  // Mock server tests are disabled
+  test.skip('createAllocations: only required params', async () => {
+    const responsePromise = client.transactions.createAllocations('txn_abc123', {
+      allocation_updates: [
+        {
+          amount: '1000',
+          invoice_id: 'inv_abc123',
+          op: 'add',
+          type: 'invoice_payin',
+          user: { id: 'user_abc123' },
+        },
+      ],
+      version: 0,
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('createAllocations: required and optional params', async () => {
+    const response = await client.transactions.createAllocations('txn_abc123', {
+      allocation_updates: [
+        {
+          amount: '1000',
+          invoice_id: 'inv_abc123',
+          op: 'add',
+          type: 'invoice_payin',
+          user: { id: 'user_abc123' },
+        },
+      ],
+      version: 0,
+    });
   });
 });
