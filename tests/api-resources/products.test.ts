@@ -9,7 +9,7 @@ const client = new Fragment({
 });
 
 describe('resource products', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.products.create({
       code: 'PROD_001',
@@ -24,7 +24,7 @@ describe('resource products', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.products.create({
       code: 'PROD_001',
@@ -34,7 +34,7 @@ describe('resource products', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieve', async () => {
     const responsePromise = client.products.retrieve('PROD_001');
     const rawResponse = await responsePromise.asResponse();
@@ -46,7 +46,7 @@ describe('resource products', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.products.list();
     const rawResponse = await responsePromise.asResponse();

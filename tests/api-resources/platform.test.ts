@@ -9,7 +9,7 @@ const client = new Fragment({
 });
 
 describe('resource platform', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieve', async () => {
     const responsePromise = client.platform.retrieve();
     const rawResponse = await responsePromise.asResponse();
@@ -21,7 +21,7 @@ describe('resource platform', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('update: only required params', async () => {
     const responsePromise = client.platform.update({ displayName: 'Acme Corp' });
     const rawResponse = await responsePromise.asResponse();
@@ -33,7 +33,7 @@ describe('resource platform', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('update: required and optional params', async () => {
     const response = await client.platform.update({ displayName: 'Acme Corp' });
   });
