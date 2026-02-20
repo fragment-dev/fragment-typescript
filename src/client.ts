@@ -857,7 +857,6 @@ Fragment.Products = Products;
 Fragment.Roles = Roles;
 Fragment.Transactions = Transactions;
 Fragment.Users = Users;
-Fragment.Platform = Platform;
 
 export declare namespace Fragment {
   export type RequestOptions = Opts.RequestOptions;
