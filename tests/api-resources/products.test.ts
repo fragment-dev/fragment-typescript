@@ -11,10 +11,7 @@ const client = new Fragment({
 describe('resource products', () => {
   // Mock server tests are disabled
   test.skip('create: only required params', async () => {
-    const responsePromise = client.products.create({
-      code: 'PROD_001',
-      description: 'Premium subscription service',
-    });
+    const responsePromise = client.products.create({ code: 'PROD_001' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
