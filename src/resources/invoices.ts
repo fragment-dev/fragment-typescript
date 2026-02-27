@@ -21,7 +21,6 @@ export class Invoices extends APIResource {
    *       description: 'Professional services for January 2026',
    *       product_id: 'prod_1234567890',
    *       type: 'payout',
-   *       user_id: 'user_ext_456',
    *     },
    *   ],
    * });
@@ -1085,7 +1084,8 @@ export interface InvoiceCreateParams {
 
 export namespace InvoiceCreateParams {
   /**
-   * Line item data for creating within an invoice.
+   * Line item data for creating within an invoice. Exactly one of `user` or
+   * `user_id` must be provided. `user_id` is deprecated; use `user` instead.
    */
   export interface LineItem {
     /**
@@ -1292,10 +1292,28 @@ export namespace InvoiceCreateParams {
      */
     type: 'payin' | 'payout';
 
+    user?: LineItem.ID | LineItem.ExternalID;
+
     /**
-     * External ID of the user associated with this line item
+     * @deprecated External ID of the user associated with this line item
      */
-    user_id: string;
+    user_id?: string;
+  }
+
+  export namespace LineItem {
+    export interface ID {
+      /**
+       * FRAGMENT generated ID of the user associated with this line item
+       */
+      id: string;
+    }
+
+    export interface ExternalID {
+      /**
+       * External ID of the user associated with this line item
+       */
+      externalId: string;
+    }
   }
 }
 
