@@ -20,7 +20,6 @@ describe('resource invoices', () => {
           description: 'Professional services for January 2026',
           product_id: 'prod_1234567890',
           type: 'payout',
-          user_id: 'user_ext_456',
         },
       ],
     });
@@ -44,6 +43,7 @@ describe('resource invoices', () => {
           description: 'Professional services for January 2026',
           product_id: 'prod_1234567890',
           type: 'payout',
+          user: { id: 'user_abc123' },
           user_id: 'user_ext_456',
         },
       ],
