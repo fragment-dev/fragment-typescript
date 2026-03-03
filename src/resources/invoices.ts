@@ -61,7 +61,6 @@ export class Invoices extends APIResource {
    *         op: 'add',
    *         product_id: 'prod_1234567890',
    *         type: 'payout',
-   *         user_id: 'user_ext_456',
    *       },
    *     ],
    *     version: 1,
@@ -1548,10 +1547,28 @@ export namespace InvoiceUpdateParams {
      */
     type: 'payin' | 'payout';
 
+    user?: AddLineItemOperation.ID | AddLineItemOperation.ExternalID;
+
     /**
-     * External ID of the user associated with this line item
+     * @deprecated External ID of the user associated with this line item
      */
-    user_id: string;
+    user_id?: string;
+  }
+
+  export namespace AddLineItemOperation {
+    export interface ID {
+      /**
+       * FRAGMENT generated ID of the user associated with this line item
+       */
+      id: string;
+    }
+
+    export interface ExternalID {
+      /**
+       * External ID of the user associated with this line item
+       */
+      externalId: string;
+    }
   }
 
   /**
