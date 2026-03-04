@@ -6,6 +6,9 @@ import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
+/**
+ * Invoice management operations
+ */
 export class Invoices extends APIResource {
   /**
    * Creates a new invoice

@@ -4,6 +4,9 @@ import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 
+/**
+ * Role management operations
+ */
 export class Roles extends APIResource {
   /**
    * Creates a new role
