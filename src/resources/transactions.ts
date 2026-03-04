@@ -5,6 +5,9 @@ import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
+/**
+ * Transaction sync operations
+ */
 export class Transactions extends APIResource {
   /**
    * Syncs a transaction, optionally with allocations

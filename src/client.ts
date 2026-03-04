@@ -834,9 +834,21 @@ export class Fragment {
   static toFile = Uploads.toFile;
 
   externalAccounts: API.ExternalAccounts = new API.ExternalAccounts(this);
+  /**
+   * Invoice management operations
+   */
   invoices: API.Invoices = new API.Invoices(this);
+  /**
+   * Product management operations
+   */
   products: API.Products = new API.Products(this);
+  /**
+   * Role management operations
+   */
   roles: API.Roles = new API.Roles(this);
+  /**
+   * Transaction sync operations
+   */
   transactions: API.Transactions = new API.Transactions(this);
   users: API.Users = new API.Users(this);
 }
