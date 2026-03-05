@@ -1305,16 +1305,16 @@ export namespace InvoiceCreateParams {
   export namespace LineItem {
     export interface ID {
       /**
-       * FRAGMENT generated ID of the user associated with this line item
+       * FRAGMENT generated ID of the user
        */
       id: string;
     }
 
     export interface ExternalID {
       /**
-       * External ID of the user associated with this line item
+       * External ID of the user
        */
-      externalId: string;
+      external_id: string;
     }
   }
 }
@@ -1561,16 +1561,16 @@ export namespace InvoiceUpdateParams {
   export namespace AddLineItemOperation {
     export interface ID {
       /**
-       * FRAGMENT generated ID of the user associated with this line item
+       * FRAGMENT generated ID of the user
        */
       id: string;
     }
 
     export interface ExternalID {
       /**
-       * External ID of the user associated with this line item
+       * External ID of the user
        */
-      externalId: string;
+      external_id: string;
     }
   }
 
