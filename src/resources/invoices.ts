@@ -122,6 +122,11 @@ export interface Invoice {
   status: 'active';
 
   /**
+   * Metadata tags for this invoice
+   */
+  tags: Array<Invoice.Tag>;
+
+  /**
    * The current version of the invoice. Pass this value when updating to ensure
    * thread safety.
    */
@@ -144,6 +149,21 @@ export interface Invoice {
 }
 
 export namespace Invoice {
+  /**
+   * A key-value tag pair
+   */
+  export interface Tag {
+    /**
+     * Tag key
+     */
+    key: string;
+
+    /**
+     * Tag value
+     */
+    value: string;
+  }
+
   /**
    * Invoice line item object
    */
@@ -353,6 +373,11 @@ export namespace Invoice {
     product_id: string;
 
     /**
+     * Metadata tags for this line item
+     */
+    tags: Array<LineItem.Tag>;
+
+    /**
      * The type of the line item
      */
     type: 'payin' | 'payout';
@@ -361,6 +386,23 @@ export namespace Invoice {
      * External ID of the user associated with this line item
      */
     user_id: string;
+  }
+
+  export namespace LineItem {
+    /**
+     * A key-value tag pair
+     */
+    export interface Tag {
+      /**
+       * Tag key
+       */
+      key: string;
+
+      /**
+       * Tag value
+       */
+      value: string;
+    }
   }
 }
 
@@ -803,6 +845,11 @@ export namespace InvoiceListHistoryResponse {
         product_id: string;
 
         /**
+         * Metadata tags for this line item
+         */
+        tags: Array<Item.Tag>;
+
+        /**
          * The type of the line item
          */
         type: 'payin' | 'payout';
@@ -811,6 +858,23 @@ export namespace InvoiceListHistoryResponse {
          * External ID of the user associated with this line item
          */
         user_id: string;
+      }
+
+      export namespace Item {
+        /**
+         * A key-value tag pair
+         */
+        export interface Tag {
+          /**
+           * Tag key
+           */
+          key: string;
+
+          /**
+           * Tag value
+           */
+          value: string;
+        }
       }
     }
 
@@ -1058,6 +1122,11 @@ export namespace InvoiceListHistoryResponse {
         product_id: string;
 
         /**
+         * Metadata tags for this line item
+         */
+        tags: Array<Item.Tag>;
+
+        /**
          * The type of the line item
          */
         type: 'payin' | 'payout';
@@ -1066,6 +1135,23 @@ export namespace InvoiceListHistoryResponse {
          * External ID of the user associated with this line item
          */
         user_id: string;
+      }
+
+      export namespace Item {
+        /**
+         * A key-value tag pair
+         */
+        export interface Tag {
+          /**
+           * Tag key
+           */
+          key: string;
+
+          /**
+           * Tag value
+           */
+          value: string;
+        }
       }
     }
   }
@@ -1082,6 +1168,11 @@ export interface InvoiceCreateParams {
    * List of line items to create with the invoice
    */
   lineItems: Array<InvoiceCreateParams.LineItem>;
+
+  /**
+   * Optional metadata tags for this invoice
+   */
+  tags?: Array<InvoiceCreateParams.Tag>;
 }
 
 export namespace InvoiceCreateParams {
@@ -1294,6 +1385,11 @@ export namespace InvoiceCreateParams {
      */
     type: 'payin' | 'payout';
 
+    /**
+     * Optional metadata tags for this line item
+     */
+    tags?: Array<LineItem.Tag>;
+
     user?: LineItem.ID | LineItem.ExternalID;
 
     /**
@@ -1303,6 +1399,23 @@ export namespace InvoiceCreateParams {
   }
 
   export namespace LineItem {
+    /**
+     * A key-value tag pair for metadata
+     */
+    export interface Tag {
+      /**
+       * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
+       * 50 characters.
+       */
+      key: string;
+
+      /**
+       * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
+       * 200 characters.
+       */
+      value: string;
+    }
+
     export interface ID {
       /**
        * FRAGMENT generated ID of the user
@@ -1316,6 +1429,23 @@ export namespace InvoiceCreateParams {
        */
       external_id: string;
     }
+  }
+
+  /**
+   * A key-value tag pair for metadata
+   */
+  export interface Tag {
+    /**
+     * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
+     * 50 characters.
+     */
+    key: string;
+
+    /**
+     * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
+     * 200 characters.
+     */
+    value: string;
   }
 }
 
@@ -1550,6 +1680,11 @@ export namespace InvoiceUpdateParams {
      */
     type: 'payin' | 'payout';
 
+    /**
+     * Optional metadata tags for this line item
+     */
+    tags?: Array<AddLineItemOperation.Tag>;
+
     user?: AddLineItemOperation.ID | AddLineItemOperation.ExternalID;
 
     /**
@@ -1559,6 +1694,23 @@ export namespace InvoiceUpdateParams {
   }
 
   export namespace AddLineItemOperation {
+    /**
+     * A key-value tag pair for metadata
+     */
+    export interface Tag {
+      /**
+       * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
+       * 50 characters.
+       */
+      key: string;
+
+      /**
+       * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
+       * 200 characters.
+       */
+      value: string;
+    }
+
     export interface ID {
       /**
        * FRAGMENT generated ID of the user
