@@ -11,7 +11,7 @@ const client = new Fragment({
 describe('resource users', () => {
   // Mock server tests are disabled
   test.skip('create: only required params', async () => {
-    const responsePromise = client.users.create({ externalId: 'user_ext_123', role: 'admin' });
+    const responsePromise = client.users.create({ role: 'admin' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -23,7 +23,11 @@ describe('resource users', () => {
 
   // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
-    const response = await client.users.create({ externalId: 'user_ext_123', role: 'admin' });
+    const response = await client.users.create({
+      role: 'admin',
+      external_id: 'user_ext_123',
+      externalId: 'user_ext_123',
+    });
   });
 
   // Mock server tests are disabled
