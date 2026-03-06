@@ -60,7 +60,7 @@ $ yarn link @fragment-dev/ts-node
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global @fragment-dev/ts-node
+$ pnpm link --global @fragment-dev/ts-node
 ```
 
 ## Running tests

@@ -6,28 +6,22 @@ import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
+/**
+ * Invoice management operations
+ */
 export class Invoices extends APIResource {
   /**
    * Creates a new invoice
    *
    * @example
    * ```ts
-   * const invoice = await client.invoices.create({
-   *   invoiceId: 'invoice_2024_001',
-   *   lineItems: [
-   *     {
-   *       amount: '1000',
-   *       currencyCode: 'USD',
-   *       description: 'Professional services for January 2026',
-   *       product_id: 'prod_1234567890',
-   *       type: 'payout',
-   *       user_id: 'user_ext_456',
-   *     },
-   *   ],
-   * });
+   * const invoice = await client.invoices.create();
    * ```
    */
-  create(body: InvoiceCreateParams, options?: RequestOptions): APIPromise<InvoiceCreateResponse> {
+  create(
+    body: InvoiceCreateParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<InvoiceCreateResponse> {
     return this._client.post('/invoices', { body, ...options });
   }
 
@@ -62,7 +56,6 @@ export class Invoices extends APIResource {
    *         op: 'add',
    *         product_id: 'prod_1234567890',
    *         type: 'payout',
-   *         user_id: 'user_ext_456',
    *       },
    *     ],
    *     version: 1,
@@ -121,6 +114,11 @@ export interface Invoice {
   status: 'active';
 
   /**
+   * Metadata tags for this invoice
+   */
+  tags: Array<Invoice.Tag>;
+
+  /**
    * The current version of the invoice. Pass this value when updating to ensure
    * thread safety.
    */
@@ -129,10 +127,20 @@ export interface Invoice {
   /**
    * Workspace ID this invoice belongs to
    */
+  workspace_id: string;
+
+  /**
+   * @deprecated Workspace ID this invoice belongs to
+   */
   workspaceId: string;
 
   /**
    * List of line items associated with this invoice
+   */
+  line_items?: Array<Invoice.LineItem>;
+
+  /**
+   * @deprecated List of line items associated with this invoice
    */
   lineItems?: Array<Invoice.LineItem>;
 
@@ -143,6 +151,21 @@ export interface Invoice {
 }
 
 export namespace Invoice {
+  /**
+   * A key-value tag pair
+   */
+  export interface Tag {
+    /**
+     * Tag key
+     */
+    key: string;
+
+    /**
+     * Tag value
+     */
+    value: string;
+  }
+
   /**
    * Invoice line item object
    */
@@ -159,6 +182,190 @@ export namespace Invoice {
 
     /**
      * Currency code (ISO 4217 or crypto)
+     */
+    currency_code:
+      | 'ADA'
+      | 'BTC'
+      | 'DAI'
+      | 'ETH'
+      | 'SOL'
+      | 'USDC'
+      | 'USDT'
+      | 'USDG'
+      | 'EURC'
+      | 'CADC'
+      | 'CADT'
+      | 'XLM'
+      | 'UNI'
+      | 'BCH'
+      | 'LTC'
+      | 'AAVE'
+      | 'LINK'
+      | 'MATIC'
+      | 'PTS'
+      | 'AED'
+      | 'AFN'
+      | 'ALL'
+      | 'AMD'
+      | 'ANG'
+      | 'AOA'
+      | 'ARS'
+      | 'AUD'
+      | 'AWG'
+      | 'AZN'
+      | 'BAM'
+      | 'BBD'
+      | 'BDT'
+      | 'BGN'
+      | 'BHD'
+      | 'BIF'
+      | 'BMD'
+      | 'BND'
+      | 'BOB'
+      | 'BRL'
+      | 'BSD'
+      | 'BTN'
+      | 'BWP'
+      | 'BYR'
+      | 'BZD'
+      | 'CAD'
+      | 'CDF'
+      | 'CHF'
+      | 'CLP'
+      | 'CNY'
+      | 'COP'
+      | 'CRC'
+      | 'CUC'
+      | 'CUP'
+      | 'CVE'
+      | 'CZK'
+      | 'DJF'
+      | 'DKK'
+      | 'DOP'
+      | 'DZD'
+      | 'EGP'
+      | 'ERN'
+      | 'ETB'
+      | 'EUR'
+      | 'FJD'
+      | 'FKP'
+      | 'GBP'
+      | 'GEL'
+      | 'GGP'
+      | 'GHS'
+      | 'GIP'
+      | 'GMD'
+      | 'GNF'
+      | 'GTQ'
+      | 'GYD'
+      | 'HKD'
+      | 'HNL'
+      | 'HRK'
+      | 'HTG'
+      | 'HUF'
+      | 'IDR'
+      | 'ILS'
+      | 'IMP'
+      | 'INR'
+      | 'IQD'
+      | 'IRR'
+      | 'ISK'
+      | 'JMD'
+      | 'JOD'
+      | 'JPY'
+      | 'KES'
+      | 'KGS'
+      | 'KHR'
+      | 'KMF'
+      | 'KPW'
+      | 'KRW'
+      | 'KWD'
+      | 'KYD'
+      | 'KZT'
+      | 'LAK'
+      | 'LBP'
+      | 'LKR'
+      | 'LRD'
+      | 'LSL'
+      | 'LYD'
+      | 'MAD'
+      | 'MDL'
+      | 'MGA'
+      | 'MKD'
+      | 'MMK'
+      | 'MNT'
+      | 'MOP'
+      | 'MUR'
+      | 'MVR'
+      | 'MWK'
+      | 'MXN'
+      | 'MYR'
+      | 'MZN'
+      | 'NAD'
+      | 'NGN'
+      | 'NIO'
+      | 'NOK'
+      | 'NPR'
+      | 'NZD'
+      | 'OMR'
+      | 'PAB'
+      | 'PEN'
+      | 'PGK'
+      | 'PHP'
+      | 'PKR'
+      | 'PLN'
+      | 'PYG'
+      | 'QAR'
+      | 'RON'
+      | 'RSD'
+      | 'RUB'
+      | 'RWF'
+      | 'SAR'
+      | 'SBD'
+      | 'SCR'
+      | 'SDG'
+      | 'SEK'
+      | 'SGD'
+      | 'SHP'
+      | 'SLL'
+      | 'SOS'
+      | 'SPL'
+      | 'SRD'
+      | 'SVC'
+      | 'SYP'
+      | 'STN'
+      | 'SZL'
+      | 'THB'
+      | 'TJS'
+      | 'TMT'
+      | 'TND'
+      | 'TOP'
+      | 'TRY'
+      | 'TTD'
+      | 'TVD'
+      | 'TWD'
+      | 'TZS'
+      | 'UAH'
+      | 'UGX'
+      | 'USD'
+      | 'UYU'
+      | 'UZS'
+      | 'VEF'
+      | 'VND'
+      | 'VUV'
+      | 'WST'
+      | 'XAF'
+      | 'XCD'
+      | 'XOF'
+      | 'XPF'
+      | 'YER'
+      | 'ZAR'
+      | 'ZMW'
+      | 'LOGICAL'
+      | 'CUSTOM';
+
+    /**
+     * @deprecated Currency code (ISO 4217 or crypto)
      */
     currencyCode:
       | 'ADA'
@@ -352,6 +559,11 @@ export namespace Invoice {
     product_id: string;
 
     /**
+     * Metadata tags for this line item
+     */
+    tags: Array<LineItem.Tag>;
+
+    /**
      * The type of the line item
      */
     type: 'payin' | 'payout';
@@ -360,6 +572,448 @@ export namespace Invoice {
      * External ID of the user associated with this line item
      */
     user_id: string;
+  }
+
+  export namespace LineItem {
+    /**
+     * A key-value tag pair
+     */
+    export interface Tag {
+      /**
+       * Tag key
+       */
+      key: string;
+
+      /**
+       * Tag value
+       */
+      value: string;
+    }
+  }
+
+  /**
+   * Invoice line item object
+   */
+  export interface LineItem {
+    /**
+     * Unique identifier for the line item
+     */
+    id: string;
+
+    /**
+     * Amount in smallest currency unit (represented as string for bigint)
+     */
+    amount: string;
+
+    /**
+     * Currency code (ISO 4217 or crypto)
+     */
+    currency_code:
+      | 'ADA'
+      | 'BTC'
+      | 'DAI'
+      | 'ETH'
+      | 'SOL'
+      | 'USDC'
+      | 'USDT'
+      | 'USDG'
+      | 'EURC'
+      | 'CADC'
+      | 'CADT'
+      | 'XLM'
+      | 'UNI'
+      | 'BCH'
+      | 'LTC'
+      | 'AAVE'
+      | 'LINK'
+      | 'MATIC'
+      | 'PTS'
+      | 'AED'
+      | 'AFN'
+      | 'ALL'
+      | 'AMD'
+      | 'ANG'
+      | 'AOA'
+      | 'ARS'
+      | 'AUD'
+      | 'AWG'
+      | 'AZN'
+      | 'BAM'
+      | 'BBD'
+      | 'BDT'
+      | 'BGN'
+      | 'BHD'
+      | 'BIF'
+      | 'BMD'
+      | 'BND'
+      | 'BOB'
+      | 'BRL'
+      | 'BSD'
+      | 'BTN'
+      | 'BWP'
+      | 'BYR'
+      | 'BZD'
+      | 'CAD'
+      | 'CDF'
+      | 'CHF'
+      | 'CLP'
+      | 'CNY'
+      | 'COP'
+      | 'CRC'
+      | 'CUC'
+      | 'CUP'
+      | 'CVE'
+      | 'CZK'
+      | 'DJF'
+      | 'DKK'
+      | 'DOP'
+      | 'DZD'
+      | 'EGP'
+      | 'ERN'
+      | 'ETB'
+      | 'EUR'
+      | 'FJD'
+      | 'FKP'
+      | 'GBP'
+      | 'GEL'
+      | 'GGP'
+      | 'GHS'
+      | 'GIP'
+      | 'GMD'
+      | 'GNF'
+      | 'GTQ'
+      | 'GYD'
+      | 'HKD'
+      | 'HNL'
+      | 'HRK'
+      | 'HTG'
+      | 'HUF'
+      | 'IDR'
+      | 'ILS'
+      | 'IMP'
+      | 'INR'
+      | 'IQD'
+      | 'IRR'
+      | 'ISK'
+      | 'JMD'
+      | 'JOD'
+      | 'JPY'
+      | 'KES'
+      | 'KGS'
+      | 'KHR'
+      | 'KMF'
+      | 'KPW'
+      | 'KRW'
+      | 'KWD'
+      | 'KYD'
+      | 'KZT'
+      | 'LAK'
+      | 'LBP'
+      | 'LKR'
+      | 'LRD'
+      | 'LSL'
+      | 'LYD'
+      | 'MAD'
+      | 'MDL'
+      | 'MGA'
+      | 'MKD'
+      | 'MMK'
+      | 'MNT'
+      | 'MOP'
+      | 'MUR'
+      | 'MVR'
+      | 'MWK'
+      | 'MXN'
+      | 'MYR'
+      | 'MZN'
+      | 'NAD'
+      | 'NGN'
+      | 'NIO'
+      | 'NOK'
+      | 'NPR'
+      | 'NZD'
+      | 'OMR'
+      | 'PAB'
+      | 'PEN'
+      | 'PGK'
+      | 'PHP'
+      | 'PKR'
+      | 'PLN'
+      | 'PYG'
+      | 'QAR'
+      | 'RON'
+      | 'RSD'
+      | 'RUB'
+      | 'RWF'
+      | 'SAR'
+      | 'SBD'
+      | 'SCR'
+      | 'SDG'
+      | 'SEK'
+      | 'SGD'
+      | 'SHP'
+      | 'SLL'
+      | 'SOS'
+      | 'SPL'
+      | 'SRD'
+      | 'SVC'
+      | 'SYP'
+      | 'STN'
+      | 'SZL'
+      | 'THB'
+      | 'TJS'
+      | 'TMT'
+      | 'TND'
+      | 'TOP'
+      | 'TRY'
+      | 'TTD'
+      | 'TVD'
+      | 'TWD'
+      | 'TZS'
+      | 'UAH'
+      | 'UGX'
+      | 'USD'
+      | 'UYU'
+      | 'UZS'
+      | 'VEF'
+      | 'VND'
+      | 'VUV'
+      | 'WST'
+      | 'XAF'
+      | 'XCD'
+      | 'XOF'
+      | 'XPF'
+      | 'YER'
+      | 'ZAR'
+      | 'ZMW'
+      | 'LOGICAL'
+      | 'CUSTOM';
+
+    /**
+     * @deprecated Currency code (ISO 4217 or crypto)
+     */
+    currencyCode:
+      | 'ADA'
+      | 'BTC'
+      | 'DAI'
+      | 'ETH'
+      | 'SOL'
+      | 'USDC'
+      | 'USDT'
+      | 'USDG'
+      | 'EURC'
+      | 'CADC'
+      | 'CADT'
+      | 'XLM'
+      | 'UNI'
+      | 'BCH'
+      | 'LTC'
+      | 'AAVE'
+      | 'LINK'
+      | 'MATIC'
+      | 'PTS'
+      | 'AED'
+      | 'AFN'
+      | 'ALL'
+      | 'AMD'
+      | 'ANG'
+      | 'AOA'
+      | 'ARS'
+      | 'AUD'
+      | 'AWG'
+      | 'AZN'
+      | 'BAM'
+      | 'BBD'
+      | 'BDT'
+      | 'BGN'
+      | 'BHD'
+      | 'BIF'
+      | 'BMD'
+      | 'BND'
+      | 'BOB'
+      | 'BRL'
+      | 'BSD'
+      | 'BTN'
+      | 'BWP'
+      | 'BYR'
+      | 'BZD'
+      | 'CAD'
+      | 'CDF'
+      | 'CHF'
+      | 'CLP'
+      | 'CNY'
+      | 'COP'
+      | 'CRC'
+      | 'CUC'
+      | 'CUP'
+      | 'CVE'
+      | 'CZK'
+      | 'DJF'
+      | 'DKK'
+      | 'DOP'
+      | 'DZD'
+      | 'EGP'
+      | 'ERN'
+      | 'ETB'
+      | 'EUR'
+      | 'FJD'
+      | 'FKP'
+      | 'GBP'
+      | 'GEL'
+      | 'GGP'
+      | 'GHS'
+      | 'GIP'
+      | 'GMD'
+      | 'GNF'
+      | 'GTQ'
+      | 'GYD'
+      | 'HKD'
+      | 'HNL'
+      | 'HRK'
+      | 'HTG'
+      | 'HUF'
+      | 'IDR'
+      | 'ILS'
+      | 'IMP'
+      | 'INR'
+      | 'IQD'
+      | 'IRR'
+      | 'ISK'
+      | 'JMD'
+      | 'JOD'
+      | 'JPY'
+      | 'KES'
+      | 'KGS'
+      | 'KHR'
+      | 'KMF'
+      | 'KPW'
+      | 'KRW'
+      | 'KWD'
+      | 'KYD'
+      | 'KZT'
+      | 'LAK'
+      | 'LBP'
+      | 'LKR'
+      | 'LRD'
+      | 'LSL'
+      | 'LYD'
+      | 'MAD'
+      | 'MDL'
+      | 'MGA'
+      | 'MKD'
+      | 'MMK'
+      | 'MNT'
+      | 'MOP'
+      | 'MUR'
+      | 'MVR'
+      | 'MWK'
+      | 'MXN'
+      | 'MYR'
+      | 'MZN'
+      | 'NAD'
+      | 'NGN'
+      | 'NIO'
+      | 'NOK'
+      | 'NPR'
+      | 'NZD'
+      | 'OMR'
+      | 'PAB'
+      | 'PEN'
+      | 'PGK'
+      | 'PHP'
+      | 'PKR'
+      | 'PLN'
+      | 'PYG'
+      | 'QAR'
+      | 'RON'
+      | 'RSD'
+      | 'RUB'
+      | 'RWF'
+      | 'SAR'
+      | 'SBD'
+      | 'SCR'
+      | 'SDG'
+      | 'SEK'
+      | 'SGD'
+      | 'SHP'
+      | 'SLL'
+      | 'SOS'
+      | 'SPL'
+      | 'SRD'
+      | 'SVC'
+      | 'SYP'
+      | 'STN'
+      | 'SZL'
+      | 'THB'
+      | 'TJS'
+      | 'TMT'
+      | 'TND'
+      | 'TOP'
+      | 'TRY'
+      | 'TTD'
+      | 'TVD'
+      | 'TWD'
+      | 'TZS'
+      | 'UAH'
+      | 'UGX'
+      | 'USD'
+      | 'UYU'
+      | 'UZS'
+      | 'VEF'
+      | 'VND'
+      | 'VUV'
+      | 'WST'
+      | 'XAF'
+      | 'XCD'
+      | 'XOF'
+      | 'XPF'
+      | 'YER'
+      | 'ZAR'
+      | 'ZMW'
+      | 'LOGICAL'
+      | 'CUSTOM';
+
+    /**
+     * Description of the line item
+     */
+    description: string;
+
+    /**
+     * ID of the product/catalog item
+     */
+    product_id: string;
+
+    /**
+     * Metadata tags for this line item
+     */
+    tags: Array<LineItem.Tag>;
+
+    /**
+     * The type of the line item
+     */
+    type: 'payin' | 'payout';
+
+    /**
+     * External ID of the user associated with this line item
+     */
+    user_id: string;
+  }
+
+  export namespace LineItem {
+    /**
+     * A key-value tag pair
+     */
+    export interface Tag {
+      /**
+       * Tag key
+       */
+      key: string;
+
+      /**
+       * Tag value
+       */
+      value: string;
+    }
   }
 }
 
@@ -610,6 +1264,190 @@ export namespace InvoiceListHistoryResponse {
         /**
          * Currency code (ISO 4217 or crypto)
          */
+        currency_code:
+          | 'ADA'
+          | 'BTC'
+          | 'DAI'
+          | 'ETH'
+          | 'SOL'
+          | 'USDC'
+          | 'USDT'
+          | 'USDG'
+          | 'EURC'
+          | 'CADC'
+          | 'CADT'
+          | 'XLM'
+          | 'UNI'
+          | 'BCH'
+          | 'LTC'
+          | 'AAVE'
+          | 'LINK'
+          | 'MATIC'
+          | 'PTS'
+          | 'AED'
+          | 'AFN'
+          | 'ALL'
+          | 'AMD'
+          | 'ANG'
+          | 'AOA'
+          | 'ARS'
+          | 'AUD'
+          | 'AWG'
+          | 'AZN'
+          | 'BAM'
+          | 'BBD'
+          | 'BDT'
+          | 'BGN'
+          | 'BHD'
+          | 'BIF'
+          | 'BMD'
+          | 'BND'
+          | 'BOB'
+          | 'BRL'
+          | 'BSD'
+          | 'BTN'
+          | 'BWP'
+          | 'BYR'
+          | 'BZD'
+          | 'CAD'
+          | 'CDF'
+          | 'CHF'
+          | 'CLP'
+          | 'CNY'
+          | 'COP'
+          | 'CRC'
+          | 'CUC'
+          | 'CUP'
+          | 'CVE'
+          | 'CZK'
+          | 'DJF'
+          | 'DKK'
+          | 'DOP'
+          | 'DZD'
+          | 'EGP'
+          | 'ERN'
+          | 'ETB'
+          | 'EUR'
+          | 'FJD'
+          | 'FKP'
+          | 'GBP'
+          | 'GEL'
+          | 'GGP'
+          | 'GHS'
+          | 'GIP'
+          | 'GMD'
+          | 'GNF'
+          | 'GTQ'
+          | 'GYD'
+          | 'HKD'
+          | 'HNL'
+          | 'HRK'
+          | 'HTG'
+          | 'HUF'
+          | 'IDR'
+          | 'ILS'
+          | 'IMP'
+          | 'INR'
+          | 'IQD'
+          | 'IRR'
+          | 'ISK'
+          | 'JMD'
+          | 'JOD'
+          | 'JPY'
+          | 'KES'
+          | 'KGS'
+          | 'KHR'
+          | 'KMF'
+          | 'KPW'
+          | 'KRW'
+          | 'KWD'
+          | 'KYD'
+          | 'KZT'
+          | 'LAK'
+          | 'LBP'
+          | 'LKR'
+          | 'LRD'
+          | 'LSL'
+          | 'LYD'
+          | 'MAD'
+          | 'MDL'
+          | 'MGA'
+          | 'MKD'
+          | 'MMK'
+          | 'MNT'
+          | 'MOP'
+          | 'MUR'
+          | 'MVR'
+          | 'MWK'
+          | 'MXN'
+          | 'MYR'
+          | 'MZN'
+          | 'NAD'
+          | 'NGN'
+          | 'NIO'
+          | 'NOK'
+          | 'NPR'
+          | 'NZD'
+          | 'OMR'
+          | 'PAB'
+          | 'PEN'
+          | 'PGK'
+          | 'PHP'
+          | 'PKR'
+          | 'PLN'
+          | 'PYG'
+          | 'QAR'
+          | 'RON'
+          | 'RSD'
+          | 'RUB'
+          | 'RWF'
+          | 'SAR'
+          | 'SBD'
+          | 'SCR'
+          | 'SDG'
+          | 'SEK'
+          | 'SGD'
+          | 'SHP'
+          | 'SLL'
+          | 'SOS'
+          | 'SPL'
+          | 'SRD'
+          | 'SVC'
+          | 'SYP'
+          | 'STN'
+          | 'SZL'
+          | 'THB'
+          | 'TJS'
+          | 'TMT'
+          | 'TND'
+          | 'TOP'
+          | 'TRY'
+          | 'TTD'
+          | 'TVD'
+          | 'TWD'
+          | 'TZS'
+          | 'UAH'
+          | 'UGX'
+          | 'USD'
+          | 'UYU'
+          | 'UZS'
+          | 'VEF'
+          | 'VND'
+          | 'VUV'
+          | 'WST'
+          | 'XAF'
+          | 'XCD'
+          | 'XOF'
+          | 'XPF'
+          | 'YER'
+          | 'ZAR'
+          | 'ZMW'
+          | 'LOGICAL'
+          | 'CUSTOM';
+
+        /**
+         * @deprecated Currency code (ISO 4217 or crypto)
+         */
         currencyCode:
           | 'ADA'
           | 'BTC'
@@ -802,6 +1640,11 @@ export namespace InvoiceListHistoryResponse {
         product_id: string;
 
         /**
+         * Metadata tags for this line item
+         */
+        tags: Array<Item.Tag>;
+
+        /**
          * The type of the line item
          */
         type: 'payin' | 'payout';
@@ -810,6 +1653,23 @@ export namespace InvoiceListHistoryResponse {
          * External ID of the user associated with this line item
          */
         user_id: string;
+      }
+
+      export namespace Item {
+        /**
+         * A key-value tag pair
+         */
+        export interface Tag {
+          /**
+           * Tag key
+           */
+          key: string;
+
+          /**
+           * Tag value
+           */
+          value: string;
+        }
       }
     }
 
@@ -865,6 +1725,190 @@ export namespace InvoiceListHistoryResponse {
         /**
          * Currency code (ISO 4217 or crypto)
          */
+        currency_code:
+          | 'ADA'
+          | 'BTC'
+          | 'DAI'
+          | 'ETH'
+          | 'SOL'
+          | 'USDC'
+          | 'USDT'
+          | 'USDG'
+          | 'EURC'
+          | 'CADC'
+          | 'CADT'
+          | 'XLM'
+          | 'UNI'
+          | 'BCH'
+          | 'LTC'
+          | 'AAVE'
+          | 'LINK'
+          | 'MATIC'
+          | 'PTS'
+          | 'AED'
+          | 'AFN'
+          | 'ALL'
+          | 'AMD'
+          | 'ANG'
+          | 'AOA'
+          | 'ARS'
+          | 'AUD'
+          | 'AWG'
+          | 'AZN'
+          | 'BAM'
+          | 'BBD'
+          | 'BDT'
+          | 'BGN'
+          | 'BHD'
+          | 'BIF'
+          | 'BMD'
+          | 'BND'
+          | 'BOB'
+          | 'BRL'
+          | 'BSD'
+          | 'BTN'
+          | 'BWP'
+          | 'BYR'
+          | 'BZD'
+          | 'CAD'
+          | 'CDF'
+          | 'CHF'
+          | 'CLP'
+          | 'CNY'
+          | 'COP'
+          | 'CRC'
+          | 'CUC'
+          | 'CUP'
+          | 'CVE'
+          | 'CZK'
+          | 'DJF'
+          | 'DKK'
+          | 'DOP'
+          | 'DZD'
+          | 'EGP'
+          | 'ERN'
+          | 'ETB'
+          | 'EUR'
+          | 'FJD'
+          | 'FKP'
+          | 'GBP'
+          | 'GEL'
+          | 'GGP'
+          | 'GHS'
+          | 'GIP'
+          | 'GMD'
+          | 'GNF'
+          | 'GTQ'
+          | 'GYD'
+          | 'HKD'
+          | 'HNL'
+          | 'HRK'
+          | 'HTG'
+          | 'HUF'
+          | 'IDR'
+          | 'ILS'
+          | 'IMP'
+          | 'INR'
+          | 'IQD'
+          | 'IRR'
+          | 'ISK'
+          | 'JMD'
+          | 'JOD'
+          | 'JPY'
+          | 'KES'
+          | 'KGS'
+          | 'KHR'
+          | 'KMF'
+          | 'KPW'
+          | 'KRW'
+          | 'KWD'
+          | 'KYD'
+          | 'KZT'
+          | 'LAK'
+          | 'LBP'
+          | 'LKR'
+          | 'LRD'
+          | 'LSL'
+          | 'LYD'
+          | 'MAD'
+          | 'MDL'
+          | 'MGA'
+          | 'MKD'
+          | 'MMK'
+          | 'MNT'
+          | 'MOP'
+          | 'MUR'
+          | 'MVR'
+          | 'MWK'
+          | 'MXN'
+          | 'MYR'
+          | 'MZN'
+          | 'NAD'
+          | 'NGN'
+          | 'NIO'
+          | 'NOK'
+          | 'NPR'
+          | 'NZD'
+          | 'OMR'
+          | 'PAB'
+          | 'PEN'
+          | 'PGK'
+          | 'PHP'
+          | 'PKR'
+          | 'PLN'
+          | 'PYG'
+          | 'QAR'
+          | 'RON'
+          | 'RSD'
+          | 'RUB'
+          | 'RWF'
+          | 'SAR'
+          | 'SBD'
+          | 'SCR'
+          | 'SDG'
+          | 'SEK'
+          | 'SGD'
+          | 'SHP'
+          | 'SLL'
+          | 'SOS'
+          | 'SPL'
+          | 'SRD'
+          | 'SVC'
+          | 'SYP'
+          | 'STN'
+          | 'SZL'
+          | 'THB'
+          | 'TJS'
+          | 'TMT'
+          | 'TND'
+          | 'TOP'
+          | 'TRY'
+          | 'TTD'
+          | 'TVD'
+          | 'TWD'
+          | 'TZS'
+          | 'UAH'
+          | 'UGX'
+          | 'USD'
+          | 'UYU'
+          | 'UZS'
+          | 'VEF'
+          | 'VND'
+          | 'VUV'
+          | 'WST'
+          | 'XAF'
+          | 'XCD'
+          | 'XOF'
+          | 'XPF'
+          | 'YER'
+          | 'ZAR'
+          | 'ZMW'
+          | 'LOGICAL'
+          | 'CUSTOM';
+
+        /**
+         * @deprecated Currency code (ISO 4217 or crypto)
+         */
         currencyCode:
           | 'ADA'
           | 'BTC'
@@ -1057,6 +2101,11 @@ export namespace InvoiceListHistoryResponse {
         product_id: string;
 
         /**
+         * Metadata tags for this line item
+         */
+        tags: Array<Item.Tag>;
+
+        /**
          * The type of the line item
          */
         type: 'payin' | 'payout';
@@ -1065,6 +2114,23 @@ export namespace InvoiceListHistoryResponse {
          * External ID of the user associated with this line item
          */
         user_id: string;
+      }
+
+      export namespace Item {
+        /**
+         * A key-value tag pair
+         */
+        export interface Tag {
+          /**
+           * Tag key
+           */
+          key: string;
+
+          /**
+           * Tag value
+           */
+          value: string;
+        }
       }
     }
   }
@@ -1075,17 +2141,35 @@ export interface InvoiceCreateParams {
    * Unique identifier for the invoice. Make this the canonical ID from your system
    * for the transaction.
    */
-  invoiceId: string;
+  invoice_id?: string;
+
+  /**
+   * @deprecated Unique identifier for the invoice. Make this the canonical ID from
+   * your system for the transaction.
+   */
+  invoiceId?: string;
 
   /**
    * List of line items to create with the invoice
    */
-  lineItems: Array<InvoiceCreateParams.LineItem>;
+  line_items?: Array<InvoiceCreateParams.LineItem>;
+
+  /**
+   * @deprecated List of line items to create with the invoice
+   */
+  lineItems?: Array<InvoiceCreateParams.LineItem>;
+
+  /**
+   * Optional metadata tags for this invoice
+   */
+  tags?: Array<InvoiceCreateParams.Tag>;
 }
 
 export namespace InvoiceCreateParams {
   /**
-   * Line item data for creating within an invoice.
+   * Line item data for creating within an invoice. Exactly one of `currency_code` or
+   * `currencyCode` (deprecated) must be provided. Exactly one of `user` or `user_id`
+   * must be provided. `user_id` is deprecated; use `user` instead.
    */
   export interface LineItem {
     /**
@@ -1094,9 +2178,24 @@ export namespace InvoiceCreateParams {
     amount: string;
 
     /**
+     * Description of the line item
+     */
+    description: string;
+
+    /**
+     * ID of the product/catalog item
+     */
+    product_id: string;
+
+    /**
+     * The type of the line item
+     */
+    type: 'payin' | 'payout';
+
+    /**
      * Currency code (ISO 4217 or crypto)
      */
-    currencyCode:
+    currency_code?:
       | 'ADA'
       | 'BTC'
       | 'DAI'
@@ -1278,6 +2377,247 @@ export namespace InvoiceCreateParams {
       | 'CUSTOM';
 
     /**
+     * @deprecated Currency code (ISO 4217 or crypto)
+     */
+    currencyCode?:
+      | 'ADA'
+      | 'BTC'
+      | 'DAI'
+      | 'ETH'
+      | 'SOL'
+      | 'USDC'
+      | 'USDT'
+      | 'USDG'
+      | 'EURC'
+      | 'CADC'
+      | 'CADT'
+      | 'XLM'
+      | 'UNI'
+      | 'BCH'
+      | 'LTC'
+      | 'AAVE'
+      | 'LINK'
+      | 'MATIC'
+      | 'PTS'
+      | 'AED'
+      | 'AFN'
+      | 'ALL'
+      | 'AMD'
+      | 'ANG'
+      | 'AOA'
+      | 'ARS'
+      | 'AUD'
+      | 'AWG'
+      | 'AZN'
+      | 'BAM'
+      | 'BBD'
+      | 'BDT'
+      | 'BGN'
+      | 'BHD'
+      | 'BIF'
+      | 'BMD'
+      | 'BND'
+      | 'BOB'
+      | 'BRL'
+      | 'BSD'
+      | 'BTN'
+      | 'BWP'
+      | 'BYR'
+      | 'BZD'
+      | 'CAD'
+      | 'CDF'
+      | 'CHF'
+      | 'CLP'
+      | 'CNY'
+      | 'COP'
+      | 'CRC'
+      | 'CUC'
+      | 'CUP'
+      | 'CVE'
+      | 'CZK'
+      | 'DJF'
+      | 'DKK'
+      | 'DOP'
+      | 'DZD'
+      | 'EGP'
+      | 'ERN'
+      | 'ETB'
+      | 'EUR'
+      | 'FJD'
+      | 'FKP'
+      | 'GBP'
+      | 'GEL'
+      | 'GGP'
+      | 'GHS'
+      | 'GIP'
+      | 'GMD'
+      | 'GNF'
+      | 'GTQ'
+      | 'GYD'
+      | 'HKD'
+      | 'HNL'
+      | 'HRK'
+      | 'HTG'
+      | 'HUF'
+      | 'IDR'
+      | 'ILS'
+      | 'IMP'
+      | 'INR'
+      | 'IQD'
+      | 'IRR'
+      | 'ISK'
+      | 'JMD'
+      | 'JOD'
+      | 'JPY'
+      | 'KES'
+      | 'KGS'
+      | 'KHR'
+      | 'KMF'
+      | 'KPW'
+      | 'KRW'
+      | 'KWD'
+      | 'KYD'
+      | 'KZT'
+      | 'LAK'
+      | 'LBP'
+      | 'LKR'
+      | 'LRD'
+      | 'LSL'
+      | 'LYD'
+      | 'MAD'
+      | 'MDL'
+      | 'MGA'
+      | 'MKD'
+      | 'MMK'
+      | 'MNT'
+      | 'MOP'
+      | 'MUR'
+      | 'MVR'
+      | 'MWK'
+      | 'MXN'
+      | 'MYR'
+      | 'MZN'
+      | 'NAD'
+      | 'NGN'
+      | 'NIO'
+      | 'NOK'
+      | 'NPR'
+      | 'NZD'
+      | 'OMR'
+      | 'PAB'
+      | 'PEN'
+      | 'PGK'
+      | 'PHP'
+      | 'PKR'
+      | 'PLN'
+      | 'PYG'
+      | 'QAR'
+      | 'RON'
+      | 'RSD'
+      | 'RUB'
+      | 'RWF'
+      | 'SAR'
+      | 'SBD'
+      | 'SCR'
+      | 'SDG'
+      | 'SEK'
+      | 'SGD'
+      | 'SHP'
+      | 'SLL'
+      | 'SOS'
+      | 'SPL'
+      | 'SRD'
+      | 'SVC'
+      | 'SYP'
+      | 'STN'
+      | 'SZL'
+      | 'THB'
+      | 'TJS'
+      | 'TMT'
+      | 'TND'
+      | 'TOP'
+      | 'TRY'
+      | 'TTD'
+      | 'TVD'
+      | 'TWD'
+      | 'TZS'
+      | 'UAH'
+      | 'UGX'
+      | 'USD'
+      | 'UYU'
+      | 'UZS'
+      | 'VEF'
+      | 'VND'
+      | 'VUV'
+      | 'WST'
+      | 'XAF'
+      | 'XCD'
+      | 'XOF'
+      | 'XPF'
+      | 'YER'
+      | 'ZAR'
+      | 'ZMW'
+      | 'LOGICAL'
+      | 'CUSTOM';
+
+    /**
+     * Optional metadata tags for this line item
+     */
+    tags?: Array<LineItem.Tag>;
+
+    user?: LineItem.ID | LineItem.ExternalID;
+
+    /**
+     * @deprecated External ID of the user associated with this line item
+     */
+    user_id?: string;
+  }
+
+  export namespace LineItem {
+    /**
+     * A key-value tag pair for metadata
+     */
+    export interface Tag {
+      /**
+       * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
+       * 50 characters.
+       */
+      key: string;
+
+      /**
+       * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
+       * 200 characters.
+       */
+      value: string;
+    }
+
+    export interface ID {
+      /**
+       * FRAGMENT generated ID of the user
+       */
+      id: string;
+    }
+
+    export interface ExternalID {
+      /**
+       * External ID of the user
+       */
+      external_id: string;
+    }
+  }
+
+  /**
+   * Line item data for creating within an invoice. Exactly one of `currency_code` or
+   * `currencyCode` (deprecated) must be provided. Exactly one of `user` or `user_id`
+   * must be provided. `user_id` is deprecated; use `user` instead.
+   */
+  export interface LineItem {
+    /**
+     * Amount in smallest currency unit (e.g., cents)
+     */
+    amount: string;
+
+    /**
      * Description of the line item
      */
     description: string;
@@ -1293,9 +2633,434 @@ export namespace InvoiceCreateParams {
     type: 'payin' | 'payout';
 
     /**
-     * External ID of the user associated with this line item
+     * Currency code (ISO 4217 or crypto)
      */
-    user_id: string;
+    currency_code?:
+      | 'ADA'
+      | 'BTC'
+      | 'DAI'
+      | 'ETH'
+      | 'SOL'
+      | 'USDC'
+      | 'USDT'
+      | 'USDG'
+      | 'EURC'
+      | 'CADC'
+      | 'CADT'
+      | 'XLM'
+      | 'UNI'
+      | 'BCH'
+      | 'LTC'
+      | 'AAVE'
+      | 'LINK'
+      | 'MATIC'
+      | 'PTS'
+      | 'AED'
+      | 'AFN'
+      | 'ALL'
+      | 'AMD'
+      | 'ANG'
+      | 'AOA'
+      | 'ARS'
+      | 'AUD'
+      | 'AWG'
+      | 'AZN'
+      | 'BAM'
+      | 'BBD'
+      | 'BDT'
+      | 'BGN'
+      | 'BHD'
+      | 'BIF'
+      | 'BMD'
+      | 'BND'
+      | 'BOB'
+      | 'BRL'
+      | 'BSD'
+      | 'BTN'
+      | 'BWP'
+      | 'BYR'
+      | 'BZD'
+      | 'CAD'
+      | 'CDF'
+      | 'CHF'
+      | 'CLP'
+      | 'CNY'
+      | 'COP'
+      | 'CRC'
+      | 'CUC'
+      | 'CUP'
+      | 'CVE'
+      | 'CZK'
+      | 'DJF'
+      | 'DKK'
+      | 'DOP'
+      | 'DZD'
+      | 'EGP'
+      | 'ERN'
+      | 'ETB'
+      | 'EUR'
+      | 'FJD'
+      | 'FKP'
+      | 'GBP'
+      | 'GEL'
+      | 'GGP'
+      | 'GHS'
+      | 'GIP'
+      | 'GMD'
+      | 'GNF'
+      | 'GTQ'
+      | 'GYD'
+      | 'HKD'
+      | 'HNL'
+      | 'HRK'
+      | 'HTG'
+      | 'HUF'
+      | 'IDR'
+      | 'ILS'
+      | 'IMP'
+      | 'INR'
+      | 'IQD'
+      | 'IRR'
+      | 'ISK'
+      | 'JMD'
+      | 'JOD'
+      | 'JPY'
+      | 'KES'
+      | 'KGS'
+      | 'KHR'
+      | 'KMF'
+      | 'KPW'
+      | 'KRW'
+      | 'KWD'
+      | 'KYD'
+      | 'KZT'
+      | 'LAK'
+      | 'LBP'
+      | 'LKR'
+      | 'LRD'
+      | 'LSL'
+      | 'LYD'
+      | 'MAD'
+      | 'MDL'
+      | 'MGA'
+      | 'MKD'
+      | 'MMK'
+      | 'MNT'
+      | 'MOP'
+      | 'MUR'
+      | 'MVR'
+      | 'MWK'
+      | 'MXN'
+      | 'MYR'
+      | 'MZN'
+      | 'NAD'
+      | 'NGN'
+      | 'NIO'
+      | 'NOK'
+      | 'NPR'
+      | 'NZD'
+      | 'OMR'
+      | 'PAB'
+      | 'PEN'
+      | 'PGK'
+      | 'PHP'
+      | 'PKR'
+      | 'PLN'
+      | 'PYG'
+      | 'QAR'
+      | 'RON'
+      | 'RSD'
+      | 'RUB'
+      | 'RWF'
+      | 'SAR'
+      | 'SBD'
+      | 'SCR'
+      | 'SDG'
+      | 'SEK'
+      | 'SGD'
+      | 'SHP'
+      | 'SLL'
+      | 'SOS'
+      | 'SPL'
+      | 'SRD'
+      | 'SVC'
+      | 'SYP'
+      | 'STN'
+      | 'SZL'
+      | 'THB'
+      | 'TJS'
+      | 'TMT'
+      | 'TND'
+      | 'TOP'
+      | 'TRY'
+      | 'TTD'
+      | 'TVD'
+      | 'TWD'
+      | 'TZS'
+      | 'UAH'
+      | 'UGX'
+      | 'USD'
+      | 'UYU'
+      | 'UZS'
+      | 'VEF'
+      | 'VND'
+      | 'VUV'
+      | 'WST'
+      | 'XAF'
+      | 'XCD'
+      | 'XOF'
+      | 'XPF'
+      | 'YER'
+      | 'ZAR'
+      | 'ZMW'
+      | 'LOGICAL'
+      | 'CUSTOM';
+
+    /**
+     * @deprecated Currency code (ISO 4217 or crypto)
+     */
+    currencyCode?:
+      | 'ADA'
+      | 'BTC'
+      | 'DAI'
+      | 'ETH'
+      | 'SOL'
+      | 'USDC'
+      | 'USDT'
+      | 'USDG'
+      | 'EURC'
+      | 'CADC'
+      | 'CADT'
+      | 'XLM'
+      | 'UNI'
+      | 'BCH'
+      | 'LTC'
+      | 'AAVE'
+      | 'LINK'
+      | 'MATIC'
+      | 'PTS'
+      | 'AED'
+      | 'AFN'
+      | 'ALL'
+      | 'AMD'
+      | 'ANG'
+      | 'AOA'
+      | 'ARS'
+      | 'AUD'
+      | 'AWG'
+      | 'AZN'
+      | 'BAM'
+      | 'BBD'
+      | 'BDT'
+      | 'BGN'
+      | 'BHD'
+      | 'BIF'
+      | 'BMD'
+      | 'BND'
+      | 'BOB'
+      | 'BRL'
+      | 'BSD'
+      | 'BTN'
+      | 'BWP'
+      | 'BYR'
+      | 'BZD'
+      | 'CAD'
+      | 'CDF'
+      | 'CHF'
+      | 'CLP'
+      | 'CNY'
+      | 'COP'
+      | 'CRC'
+      | 'CUC'
+      | 'CUP'
+      | 'CVE'
+      | 'CZK'
+      | 'DJF'
+      | 'DKK'
+      | 'DOP'
+      | 'DZD'
+      | 'EGP'
+      | 'ERN'
+      | 'ETB'
+      | 'EUR'
+      | 'FJD'
+      | 'FKP'
+      | 'GBP'
+      | 'GEL'
+      | 'GGP'
+      | 'GHS'
+      | 'GIP'
+      | 'GMD'
+      | 'GNF'
+      | 'GTQ'
+      | 'GYD'
+      | 'HKD'
+      | 'HNL'
+      | 'HRK'
+      | 'HTG'
+      | 'HUF'
+      | 'IDR'
+      | 'ILS'
+      | 'IMP'
+      | 'INR'
+      | 'IQD'
+      | 'IRR'
+      | 'ISK'
+      | 'JMD'
+      | 'JOD'
+      | 'JPY'
+      | 'KES'
+      | 'KGS'
+      | 'KHR'
+      | 'KMF'
+      | 'KPW'
+      | 'KRW'
+      | 'KWD'
+      | 'KYD'
+      | 'KZT'
+      | 'LAK'
+      | 'LBP'
+      | 'LKR'
+      | 'LRD'
+      | 'LSL'
+      | 'LYD'
+      | 'MAD'
+      | 'MDL'
+      | 'MGA'
+      | 'MKD'
+      | 'MMK'
+      | 'MNT'
+      | 'MOP'
+      | 'MUR'
+      | 'MVR'
+      | 'MWK'
+      | 'MXN'
+      | 'MYR'
+      | 'MZN'
+      | 'NAD'
+      | 'NGN'
+      | 'NIO'
+      | 'NOK'
+      | 'NPR'
+      | 'NZD'
+      | 'OMR'
+      | 'PAB'
+      | 'PEN'
+      | 'PGK'
+      | 'PHP'
+      | 'PKR'
+      | 'PLN'
+      | 'PYG'
+      | 'QAR'
+      | 'RON'
+      | 'RSD'
+      | 'RUB'
+      | 'RWF'
+      | 'SAR'
+      | 'SBD'
+      | 'SCR'
+      | 'SDG'
+      | 'SEK'
+      | 'SGD'
+      | 'SHP'
+      | 'SLL'
+      | 'SOS'
+      | 'SPL'
+      | 'SRD'
+      | 'SVC'
+      | 'SYP'
+      | 'STN'
+      | 'SZL'
+      | 'THB'
+      | 'TJS'
+      | 'TMT'
+      | 'TND'
+      | 'TOP'
+      | 'TRY'
+      | 'TTD'
+      | 'TVD'
+      | 'TWD'
+      | 'TZS'
+      | 'UAH'
+      | 'UGX'
+      | 'USD'
+      | 'UYU'
+      | 'UZS'
+      | 'VEF'
+      | 'VND'
+      | 'VUV'
+      | 'WST'
+      | 'XAF'
+      | 'XCD'
+      | 'XOF'
+      | 'XPF'
+      | 'YER'
+      | 'ZAR'
+      | 'ZMW'
+      | 'LOGICAL'
+      | 'CUSTOM';
+
+    /**
+     * Optional metadata tags for this line item
+     */
+    tags?: Array<LineItem.Tag>;
+
+    user?: LineItem.ID | LineItem.ExternalID;
+
+    /**
+     * @deprecated External ID of the user associated with this line item
+     */
+    user_id?: string;
+  }
+
+  export namespace LineItem {
+    /**
+     * A key-value tag pair for metadata
+     */
+    export interface Tag {
+      /**
+       * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
+       * 50 characters.
+       */
+      key: string;
+
+      /**
+       * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
+       * 200 characters.
+       */
+      value: string;
+    }
+
+    export interface ID {
+      /**
+       * FRAGMENT generated ID of the user
+       */
+      id: string;
+    }
+
+    export interface ExternalID {
+      /**
+       * External ID of the user
+       */
+      external_id: string;
+    }
+  }
+
+  /**
+   * A key-value tag pair for metadata
+   */
+  export interface Tag {
+    /**
+     * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
+     * 50 characters.
+     */
+    key: string;
+
+    /**
+     * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
+     * 200 characters.
+     */
+    value: string;
   }
 }
 
@@ -1531,9 +3296,49 @@ export namespace InvoiceUpdateParams {
     type: 'payin' | 'payout';
 
     /**
-     * External ID of the user associated with this line item
+     * Optional metadata tags for this line item
      */
-    user_id: string;
+    tags?: Array<AddLineItemOperation.Tag>;
+
+    user?: AddLineItemOperation.ID | AddLineItemOperation.ExternalID;
+
+    /**
+     * @deprecated External ID of the user associated with this line item
+     */
+    user_id?: string;
+  }
+
+  export namespace AddLineItemOperation {
+    /**
+     * A key-value tag pair for metadata
+     */
+    export interface Tag {
+      /**
+       * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
+       * 50 characters.
+       */
+      key: string;
+
+      /**
+       * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
+       * 200 characters.
+       */
+      value: string;
+    }
+
+    export interface ID {
+      /**
+       * FRAGMENT generated ID of the user
+       */
+      id: string;
+    }
+
+    export interface ExternalID {
+      /**
+       * External ID of the user
+       */
+      external_id: string;
+    }
   }
 
   /**

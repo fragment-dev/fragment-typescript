@@ -5,6 +5,9 @@ import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
+/**
+ * Product management operations
+ */
 export class Products extends APIResource {
   /**
    * Creates a new product
@@ -13,7 +16,6 @@ export class Products extends APIResource {
    * ```ts
    * const product = await client.products.create({
    *   code: 'PROD_001',
-   *   description: 'Premium subscription service',
    * });
    * ```
    */
@@ -66,11 +68,6 @@ export interface Product {
   created: string;
 
   /**
-   * Description of the product
-   */
-  description: string;
-
-  /**
    * User roles that can pay for this product
    */
   paid_by_roles: Array<Product.PaidByRole>;
@@ -83,12 +80,27 @@ export interface Product {
   /**
    * Version number for optimistic locking
    */
+  update_version: number;
+
+  /**
+   * @deprecated Version number for optimistic locking
+   */
   updateVersion: number;
 
   /**
    * Workspace ID this product belongs to
    */
+  workspace_id: string;
+
+  /**
+   * @deprecated Workspace ID this product belongs to
+   */
   workspaceId: string;
+
+  /**
+   * Description of the product
+   */
+  description?: string;
 }
 
 export namespace Product {
@@ -153,7 +165,7 @@ export interface ProductCreateParams {
   /**
    * Description of the product
    */
-  description: string;
+  description?: string;
 
   /**
    * Roles that can pay for this product. Reference roles by id or name. At least one

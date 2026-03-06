@@ -5,6 +5,9 @@ import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
+/**
+ * Transaction sync operations
+ */
 export class Transactions extends APIResource {
   /**
    * Syncs a transaction, optionally with allocations
@@ -359,25 +362,15 @@ export namespace Transaction {
      */
     type: 'invoice_payin' | 'invoice_payout';
 
-    /**
-     * User reference. Provide either id or external_id.
-     */
-    user: Allocation.ID | Allocation.ExternalID;
+    user: Allocation.User;
   }
 
   export namespace Allocation {
-    export interface ID {
+    export interface User {
       /**
-       * Internal user ID.
+       * FRAGMENT generated ID of the user
        */
       id: string;
-    }
-
-    export interface ExternalID {
-      /**
-       * External user ID.
-       */
-      external_id: string;
     }
   }
 }
@@ -657,23 +650,20 @@ export namespace TransactionCreateParams {
      */
     type: 'invoice_payin' | 'invoice_payout';
 
-    /**
-     * User reference. Provide either id or external_id.
-     */
     user: Allocation.ID | Allocation.ExternalID;
   }
 
   export namespace Allocation {
     export interface ID {
       /**
-       * Internal user ID.
+       * FRAGMENT generated ID of the user
        */
       id: string;
     }
 
     export interface ExternalID {
       /**
-       * External user ID.
+       * External ID of the user
        */
       external_id: string;
     }
@@ -731,23 +721,20 @@ export namespace TransactionCreateAllocationsParams {
      */
     type: 'invoice_payin' | 'invoice_payout';
 
-    /**
-     * User reference. Provide either id or external_id.
-     */
     user: AddAllocationOperation.ID | AddAllocationOperation.ExternalID;
   }
 
   export namespace AddAllocationOperation {
     export interface ID {
       /**
-       * Internal user ID.
+       * FRAGMENT generated ID of the user
        */
       id: string;
     }
 
     export interface ExternalID {
       /**
-       * External user ID.
+       * External ID of the user
        */
       external_id: string;
     }
