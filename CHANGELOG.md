@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.10.0 (2026-03-06)
+
+Full Changelog: [v0.9.0...v0.10.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.9.0...v0.10.0)
+
+### Features
+
+* **api:** update SDK from prod (1c845e9cebd1bd4a20412a587d5da0b2b2297932) ([11bcc29](https://github.com/fragment-dev/fragment-typescript/commit/11bcc297a91bf1208eead767526f78ad43ad82e6))
+* **api:** update SDK from prod (220e8ac65390cfb3ecb02c0782f6fdc487330eb6) ([6020620](https://github.com/fragment-dev/fragment-typescript/commit/6020620df39da98da1ae0f23022783a6fe6e034a))
+* **api:** update SDK from prod (5e74af7746e480f849a4ce975e055c18e363ae3c) ([6956958](https://github.com/fragment-dev/fragment-typescript/commit/6956958621a896779d21cc9e01f1e1d1cc78ec8f))
+* **api:** update SDK from prod (85a20f53715da2d6cac9bd99aed04dc0d926085a) ([396bd74](https://github.com/fragment-dev/fragment-typescript/commit/396bd741a15a8383109343e8e97a6adaec753299))
+* **api:** update SDK from prod (9924c80a76e93623f97868eed66329e7b59f86a1) ([684eb11](https://github.com/fragment-dev/fragment-typescript/commit/684eb114ddfca19bc2a3bd7b5da6287262cbf4e9))
+* **api:** update SDK from prod (b30e63af1a25df1c73581c71d53ebd4e73d9cbfc) ([421aae9](https://github.com/fragment-dev/fragment-typescript/commit/421aae924211c89c29bbb6dd24886a02c977379d))
+
+
+### Bug Fixes
+
+* **docs/contributing:** correct pnpm link command ([4535e70](https://github.com/fragment-dev/fragment-typescript/commit/4535e70bc56431ca92461ac2689e5569d101880a))
+
+
+### Chores
+
+* **internal:** codegen related update ([a79b091](https://github.com/fragment-dev/fragment-typescript/commit/a79b091a6efceac0c50843cea98931111966621a))
+* **internal:** move stringifyQuery implementation to internal function ([321e072](https://github.com/fragment-dev/fragment-typescript/commit/321e072d60ca36534b8874b046508e4e1bccd467))
+* **internal:** upgrade pnpm version ([f07d673](https://github.com/fragment-dev/fragment-typescript/commit/f07d673fc36c43f829353a7e25f6a9e555e96db0))
+
 ## 0.9.0 (2026-02-20)
 
 Full Changelog: [v0.8.0...v0.9.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.8.0...v0.9.0)
