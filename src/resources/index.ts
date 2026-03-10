@@ -14,9 +14,11 @@ export {
   type InvoiceRetrieveResponse,
   type InvoiceUpdateResponse,
   type InvoiceListResponse,
+  type InvoiceCreateSearchResponse,
   type InvoiceListHistoryResponse,
   type InvoiceCreateParams,
   type InvoiceUpdateParams,
+  type InvoiceCreateSearchParams,
 } from './invoices';
 export {
   Products,
@@ -40,6 +42,7 @@ export {
   type TransactionRetrieveResponse,
   type TransactionListResponse,
   type TransactionCreateAllocationsResponse,
+  type TransactionListHistoryResponse,
   type TransactionCreateParams,
   type TransactionListParams,
   type TransactionCreateAllocationsParams,
