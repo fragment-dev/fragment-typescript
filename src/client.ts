@@ -28,11 +28,11 @@ import {
   Invoice,
   InvoiceCreateParams,
   InvoiceCreateResponse,
-  InvoiceCreateSearchParams,
-  InvoiceCreateSearchResponse,
   InvoiceListHistoryResponse,
   InvoiceListResponse,
   InvoiceRetrieveResponse,
+  InvoiceSearchParams,
+  InvoiceSearchResponse,
   InvoiceUpdateParams,
   InvoiceUpdateResponse,
   Invoices,
@@ -56,6 +56,8 @@ import {
   TransactionListParams,
   TransactionListResponse,
   TransactionRetrieveResponse,
+  TransactionSearchParams,
+  TransactionSearchResponse,
   Transactions,
 } from './resources/transactions';
 import { User, UserCreateParams, UserCreateResponse, UserListResponse, Users } from './resources/users';
@@ -882,11 +884,11 @@ export declare namespace Fragment {
     type InvoiceRetrieveResponse as InvoiceRetrieveResponse,
     type InvoiceUpdateResponse as InvoiceUpdateResponse,
     type InvoiceListResponse as InvoiceListResponse,
-    type InvoiceCreateSearchResponse as InvoiceCreateSearchResponse,
     type InvoiceListHistoryResponse as InvoiceListHistoryResponse,
+    type InvoiceSearchResponse as InvoiceSearchResponse,
     type InvoiceCreateParams as InvoiceCreateParams,
     type InvoiceUpdateParams as InvoiceUpdateParams,
-    type InvoiceCreateSearchParams as InvoiceCreateSearchParams,
+    type InvoiceSearchParams as InvoiceSearchParams,
   };
 
   export {
@@ -914,9 +916,11 @@ export declare namespace Fragment {
     type TransactionListResponse as TransactionListResponse,
     type TransactionCreateAllocationsResponse as TransactionCreateAllocationsResponse,
     type TransactionListHistoryResponse as TransactionListHistoryResponse,
+    type TransactionSearchResponse as TransactionSearchResponse,
     type TransactionCreateParams as TransactionCreateParams,
     type TransactionListParams as TransactionListParams,
     type TransactionCreateAllocationsParams as TransactionCreateAllocationsParams,
+    type TransactionSearchParams as TransactionSearchParams,
   };
 
   export {

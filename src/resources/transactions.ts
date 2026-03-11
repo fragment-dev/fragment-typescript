@@ -109,6 +109,20 @@ export class Transactions extends APIResource {
   listHistory(transaction: string, options?: RequestOptions): APIPromise<TransactionListHistoryResponse> {
     return this._client.get(path`/transactions/${transaction}/history`, options);
   }
+
+  /**
+   * Searches transaction allocations by filter criteria
+   *
+   * @example
+   * ```ts
+   * const response = await client.transactions.search({
+   *   filter: { invoice_id: { any: ['inv_abc123'] } },
+   * });
+   * ```
+   */
+  search(body: TransactionSearchParams, options?: RequestOptions): APIPromise<TransactionSearchResponse> {
+    return this._client.post('/transactions/allocations/search', { body, ...options });
+  }
 }
 
 /**
@@ -535,6 +549,71 @@ export namespace TransactionListHistoryResponse {
   }
 }
 
+/**
+ * Search results for transaction allocations.
+ */
+export interface TransactionSearchResponse {
+  data: Array<TransactionSearchResponse.Data>;
+}
+
+export namespace TransactionSearchResponse {
+  /**
+   * A flattened allocation with a reference to its parent transaction.
+   */
+  export interface Data {
+    /**
+     * Allocation ID.
+     */
+    id: string;
+
+    /**
+     * Amount to allocate in smallest currency unit as stringified bigint.
+     */
+    amount: string;
+
+    /**
+     * The invoice to allocate against.
+     */
+    invoice_id: string;
+
+    /**
+     * Reference to the parent transaction.
+     */
+    transaction: Data.Transaction;
+
+    /**
+     * The type of allocation.
+     */
+    type: 'invoice_payin' | 'invoice_payout';
+
+    user: Data.User;
+  }
+
+  export namespace Data {
+    /**
+     * Reference to the parent transaction.
+     */
+    export interface Transaction {
+      /**
+       * Encoded transaction ID.
+       */
+      id: string;
+
+      /**
+       * External transaction ID.
+       */
+      external_id: string;
+    }
+
+    export interface User {
+      /**
+       * FRAGMENT generated ID of the user
+       */
+      id: string;
+    }
+  }
+}
+
 export interface TransactionCreateParams {
   /**
    * Account reference. Provide id, external_id, or both.
@@ -885,6 +964,31 @@ export namespace TransactionCreateAllocationsParams {
   }
 }
 
+export interface TransactionSearchParams {
+  /**
+   * Filter criteria for searching transaction allocations.
+   */
+  filter: TransactionSearchParams.Filter;
+}
+
+export namespace TransactionSearchParams {
+  /**
+   * Filter criteria for searching transaction allocations.
+   */
+  export interface Filter {
+    invoice_id: Filter.InvoiceID;
+  }
+
+  export namespace Filter {
+    export interface InvoiceID {
+      /**
+       * Match allocations where invoice_id is any of these values (OR).
+       */
+      any: Array<string>;
+    }
+  }
+}
+
 export declare namespace Transactions {
   export {
     type Transaction as Transaction,
@@ -893,8 +997,10 @@ export declare namespace Transactions {
     type TransactionListResponse as TransactionListResponse,
     type TransactionCreateAllocationsResponse as TransactionCreateAllocationsResponse,
     type TransactionListHistoryResponse as TransactionListHistoryResponse,
+    type TransactionSearchResponse as TransactionSearchResponse,
     type TransactionCreateParams as TransactionCreateParams,
     type TransactionListParams as TransactionListParams,
     type TransactionCreateAllocationsParams as TransactionCreateAllocationsParams,
+    type TransactionSearchParams as TransactionSearchParams,
   };
 }
