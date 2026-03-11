@@ -141,4 +141,27 @@ describe('resource invoices', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
+
+  // Mock server tests are disabled
+  test.skip('search: only required params', async () => {
+    const responsePromise = client.invoices.search({
+      filter: {},
+      page_info: {},
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('search: required and optional params', async () => {
+    const response = await client.invoices.search({
+      filter: { tags: { all: [{ key: 'env', value: 'prod' }], any: [{ key: 'region', value: 'us-*' }] } },
+      page_info: { after: 'after', limit: 20 },
+    });
+  });
 });

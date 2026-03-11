@@ -31,6 +31,8 @@ import {
   InvoiceListHistoryResponse,
   InvoiceListResponse,
   InvoiceRetrieveResponse,
+  InvoiceSearchParams,
+  InvoiceSearchResponse,
   InvoiceUpdateParams,
   InvoiceUpdateResponse,
   Invoices,
@@ -50,9 +52,12 @@ import {
   TransactionCreateAllocationsResponse,
   TransactionCreateParams,
   TransactionCreateResponse,
+  TransactionListHistoryResponse,
   TransactionListParams,
   TransactionListResponse,
   TransactionRetrieveResponse,
+  TransactionSearchParams,
+  TransactionSearchResponse,
   Transactions,
 } from './resources/transactions';
 import { User, UserCreateParams, UserCreateResponse, UserListResponse, Users } from './resources/users';
@@ -356,8 +361,9 @@ export class Fragment {
       : new URL(baseURL + (baseURL.endsWith('/') && path.startsWith('/') ? path.slice(1) : path));
 
     const defaultQuery = this.defaultQuery();
-    if (!isEmptyObj(defaultQuery)) {
-      query = { ...defaultQuery, ...query };
+    const pathQuery = Object.fromEntries(url.searchParams);
+    if (!isEmptyObj(defaultQuery) || !isEmptyObj(pathQuery)) {
+      query = { ...pathQuery, ...defaultQuery, ...query };
     }
 
     if (typeof query === 'object' && query && !Array.isArray(query)) {
@@ -673,9 +679,9 @@ export class Fragment {
       }
     }
 
-    // If the API asks us to wait a certain amount of time (and it's a reasonable amount),
-    // just do what it says, but otherwise calculate a default
-    if (!(timeoutMillis && 0 <= timeoutMillis && timeoutMillis < 60 * 1000)) {
+    // If the API asks us to wait a certain amount of time, just do what it
+    // says, but otherwise calculate a default
+    if (timeoutMillis === undefined) {
       const maxRetries = options.maxRetries ?? this.maxRetries;
       timeoutMillis = this.calculateDefaultRetryTimeoutMillis(retriesRemaining, maxRetries);
     }
@@ -879,8 +885,10 @@ export declare namespace Fragment {
     type InvoiceUpdateResponse as InvoiceUpdateResponse,
     type InvoiceListResponse as InvoiceListResponse,
     type InvoiceListHistoryResponse as InvoiceListHistoryResponse,
+    type InvoiceSearchResponse as InvoiceSearchResponse,
     type InvoiceCreateParams as InvoiceCreateParams,
     type InvoiceUpdateParams as InvoiceUpdateParams,
+    type InvoiceSearchParams as InvoiceSearchParams,
   };
 
   export {
@@ -907,9 +915,12 @@ export declare namespace Fragment {
     type TransactionRetrieveResponse as TransactionRetrieveResponse,
     type TransactionListResponse as TransactionListResponse,
     type TransactionCreateAllocationsResponse as TransactionCreateAllocationsResponse,
+    type TransactionListHistoryResponse as TransactionListHistoryResponse,
+    type TransactionSearchResponse as TransactionSearchResponse,
     type TransactionCreateParams as TransactionCreateParams,
     type TransactionListParams as TransactionListParams,
     type TransactionCreateAllocationsParams as TransactionCreateAllocationsParams,
+    type TransactionSearchParams as TransactionSearchParams,
   };
 
   export {

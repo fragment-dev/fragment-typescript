@@ -21,6 +21,7 @@ Types:
 - <code><a href="./src/resources/invoices.ts">InvoiceUpdateResponse</a></code>
 - <code><a href="./src/resources/invoices.ts">InvoiceListResponse</a></code>
 - <code><a href="./src/resources/invoices.ts">InvoiceListHistoryResponse</a></code>
+- <code><a href="./src/resources/invoices.ts">InvoiceSearchResponse</a></code>
 
 Methods:
 
@@ -29,6 +30,7 @@ Methods:
 - <code title="post /invoices/{id}">client.invoices.<a href="./src/resources/invoices.ts">update</a>(id, { ...params }) -> InvoiceUpdateResponse</code>
 - <code title="get /invoices">client.invoices.<a href="./src/resources/invoices.ts">list</a>() -> InvoiceListResponse</code>
 - <code title="get /invoices/{id}/history">client.invoices.<a href="./src/resources/invoices.ts">listHistory</a>(id) -> InvoiceListHistoryResponse</code>
+- <code title="post /invoices/search">client.invoices.<a href="./src/resources/invoices.ts">search</a>({ ...params }) -> InvoiceSearchResponse</code>
 
 # Products
 
@@ -67,6 +69,8 @@ Types:
 - <code><a href="./src/resources/transactions.ts">TransactionRetrieveResponse</a></code>
 - <code><a href="./src/resources/transactions.ts">TransactionListResponse</a></code>
 - <code><a href="./src/resources/transactions.ts">TransactionCreateAllocationsResponse</a></code>
+- <code><a href="./src/resources/transactions.ts">TransactionListHistoryResponse</a></code>
+- <code><a href="./src/resources/transactions.ts">TransactionSearchResponse</a></code>
 
 Methods:
 
@@ -74,6 +78,8 @@ Methods:
 - <code title="get /transactions/{id}">client.transactions.<a href="./src/resources/transactions.ts">retrieve</a>(id) -> TransactionRetrieveResponse</code>
 - <code title="get /transactions">client.transactions.<a href="./src/resources/transactions.ts">list</a>({ ...params }) -> TransactionListResponse</code>
 - <code title="post /transactions/{id}/allocations">client.transactions.<a href="./src/resources/transactions.ts">createAllocations</a>(id, { ...params }) -> TransactionCreateAllocationsResponse</code>
+- <code title="get /transactions/{transaction}/history">client.transactions.<a href="./src/resources/transactions.ts">listHistory</a>(transaction) -> TransactionListHistoryResponse</code>
+- <code title="post /transactions/allocations/search">client.transactions.<a href="./src/resources/transactions.ts">search</a>({ ...params }) -> TransactionSearchResponse</code>
 
 # Users
 

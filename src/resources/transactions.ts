@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
+import * as TransactionsAPI from './transactions';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
@@ -93,6 +94,34 @@ export class Transactions extends APIResource {
     options?: RequestOptions,
   ): APIPromise<TransactionCreateAllocationsResponse> {
     return this._client.post(path`/transactions/${id}/allocations`, { body, ...options });
+  }
+
+  /**
+   * Gets the version history of a transaction
+   *
+   * @example
+   * ```ts
+   * const response = await client.transactions.listHistory(
+   *   'txn_abc123',
+   * );
+   * ```
+   */
+  listHistory(transaction: string, options?: RequestOptions): APIPromise<TransactionListHistoryResponse> {
+    return this._client.get(path`/transactions/${transaction}/history`, options);
+  }
+
+  /**
+   * Searches transaction allocations by filter criteria
+   *
+   * @example
+   * ```ts
+   * const response = await client.transactions.search({
+   *   filter: { invoice_id: { any: ['inv_abc123'] } },
+   * });
+   * ```
+   */
+  search(body: TransactionSearchParams, options?: RequestOptions): APIPromise<TransactionSearchResponse> {
+    return this._client.post('/transactions/allocations/search', { body, ...options });
   }
 }
 
@@ -401,6 +430,188 @@ export interface TransactionCreateAllocationsResponse {
    * Transaction object.
    */
   data: Transaction;
+}
+
+/**
+ * Version history of a transaction
+ */
+export interface TransactionListHistoryResponse {
+  data: Array<TransactionListHistoryResponse.Data>;
+}
+
+export namespace TransactionListHistoryResponse {
+  /**
+   * A versioned snapshot of a transaction
+   */
+  export interface Data extends Omit<TransactionsAPI.Transaction, 'version'> {
+    /**
+     * Allocation changes applied in this version. Absent on version 1 (initial
+     * creation). Each entry describes an allocation that was added or deleted.
+     */
+    diff?: Array<Data.AddAllocationDiffEntry | Data.DeleteAllocationDiffEntry>;
+
+    /**
+     * Version number of this transaction snapshot.
+     */
+    version?: number;
+  }
+
+  export namespace Data {
+    export interface AddAllocationDiffEntry {
+      /**
+       * Transaction allocation against an invoice.
+       */
+      item: AddAllocationDiffEntry.Item;
+
+      /**
+       * An allocation was added
+       */
+      op: 'add';
+    }
+
+    export namespace AddAllocationDiffEntry {
+      /**
+       * Transaction allocation against an invoice.
+       */
+      export interface Item {
+        /**
+         * Amount to allocate in smallest currency unit as stringified bigint.
+         */
+        amount: string;
+
+        /**
+         * The invoice to allocate against.
+         */
+        invoice_id: string;
+
+        /**
+         * The type of allocation.
+         */
+        type: 'invoice_payin' | 'invoice_payout';
+
+        user: Item.User;
+      }
+
+      export namespace Item {
+        export interface User {
+          /**
+           * FRAGMENT generated ID of the user
+           */
+          id: string;
+        }
+      }
+    }
+
+    export interface DeleteAllocationDiffEntry {
+      /**
+       * Transaction allocation against an invoice.
+       */
+      item: DeleteAllocationDiffEntry.Item;
+
+      /**
+       * An allocation was deleted
+       */
+      op: 'delete';
+    }
+
+    export namespace DeleteAllocationDiffEntry {
+      /**
+       * Transaction allocation against an invoice.
+       */
+      export interface Item {
+        /**
+         * Amount to allocate in smallest currency unit as stringified bigint.
+         */
+        amount: string;
+
+        /**
+         * The invoice to allocate against.
+         */
+        invoice_id: string;
+
+        /**
+         * The type of allocation.
+         */
+        type: 'invoice_payin' | 'invoice_payout';
+
+        user: Item.User;
+      }
+
+      export namespace Item {
+        export interface User {
+          /**
+           * FRAGMENT generated ID of the user
+           */
+          id: string;
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Search results for transaction allocations.
+ */
+export interface TransactionSearchResponse {
+  data: Array<TransactionSearchResponse.Data>;
+}
+
+export namespace TransactionSearchResponse {
+  /**
+   * A flattened allocation with a reference to its parent transaction.
+   */
+  export interface Data {
+    /**
+     * Allocation ID.
+     */
+    id: string;
+
+    /**
+     * Amount to allocate in smallest currency unit as stringified bigint.
+     */
+    amount: string;
+
+    /**
+     * The invoice to allocate against.
+     */
+    invoice_id: string;
+
+    /**
+     * Reference to the parent transaction.
+     */
+    transaction: Data.Transaction;
+
+    /**
+     * The type of allocation.
+     */
+    type: 'invoice_payin' | 'invoice_payout';
+
+    user: Data.User;
+  }
+
+  export namespace Data {
+    /**
+     * Reference to the parent transaction.
+     */
+    export interface Transaction {
+      /**
+       * Encoded transaction ID.
+       */
+      id: string;
+
+      /**
+       * External transaction ID.
+       */
+      external_id: string;
+    }
+
+    export interface User {
+      /**
+       * FRAGMENT generated ID of the user
+       */
+      id: string;
+    }
+  }
 }
 
 export interface TransactionCreateParams {
@@ -753,6 +964,31 @@ export namespace TransactionCreateAllocationsParams {
   }
 }
 
+export interface TransactionSearchParams {
+  /**
+   * Filter criteria for searching transaction allocations.
+   */
+  filter: TransactionSearchParams.Filter;
+}
+
+export namespace TransactionSearchParams {
+  /**
+   * Filter criteria for searching transaction allocations.
+   */
+  export interface Filter {
+    invoice_id: Filter.InvoiceID;
+  }
+
+  export namespace Filter {
+    export interface InvoiceID {
+      /**
+       * Match allocations where invoice_id is any of these values (OR).
+       */
+      any: Array<string>;
+    }
+  }
+}
+
 export declare namespace Transactions {
   export {
     type Transaction as Transaction,
@@ -760,8 +996,11 @@ export declare namespace Transactions {
     type TransactionRetrieveResponse as TransactionRetrieveResponse,
     type TransactionListResponse as TransactionListResponse,
     type TransactionCreateAllocationsResponse as TransactionCreateAllocationsResponse,
+    type TransactionListHistoryResponse as TransactionListHistoryResponse,
+    type TransactionSearchResponse as TransactionSearchResponse,
     type TransactionCreateParams as TransactionCreateParams,
     type TransactionListParams as TransactionListParams,
     type TransactionCreateAllocationsParams as TransactionCreateAllocationsParams,
+    type TransactionSearchParams as TransactionSearchParams,
   };
 }

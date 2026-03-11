@@ -127,4 +127,33 @@ describe('resource transactions', () => {
       version: 0,
     });
   });
+
+  // Mock server tests are disabled
+  test.skip('listHistory', async () => {
+    const responsePromise = client.transactions.listHistory('txn_abc123');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('search: only required params', async () => {
+    const responsePromise = client.transactions.search({ filter: { invoice_id: { any: ['inv_abc123'] } } });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('search: required and optional params', async () => {
+    const response = await client.transactions.search({ filter: { invoice_id: { any: ['inv_abc123'] } } });
+  });
 });

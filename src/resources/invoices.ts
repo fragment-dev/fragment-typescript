@@ -92,6 +92,21 @@ export class Invoices extends APIResource {
   listHistory(id: string, options?: RequestOptions): APIPromise<InvoiceListHistoryResponse> {
     return this._client.get(path`/invoices/${id}/history`, options);
   }
+
+  /**
+   * Searches invoices
+   *
+   * @example
+   * ```ts
+   * const response = await client.invoices.search({
+   *   filter: {},
+   *   page_info: {},
+   * });
+   * ```
+   */
+  search(body: InvoiceSearchParams, options?: RequestOptions): APIPromise<InvoiceSearchResponse> {
+    return this._client.post('/invoices/search', { body, ...options });
+  }
 }
 
 /**
@@ -2136,6 +2151,39 @@ export namespace InvoiceListHistoryResponse {
   }
 }
 
+/**
+ * Response body for searching invoices
+ */
+export interface InvoiceSearchResponse {
+  data: InvoiceSearchResponse.Data;
+}
+
+export namespace InvoiceSearchResponse {
+  export interface Data {
+    /**
+     * List of invoices matching the search criteria
+     */
+    invoices: Array<InvoicesAPI.Invoice>;
+
+    /**
+     * Pagination cursors.
+     */
+    page_info: Data.PageInfo;
+  }
+
+  export namespace Data {
+    /**
+     * Pagination cursors.
+     */
+    export interface PageInfo {
+      /**
+       * Cursor to fetch the next page of results
+       */
+      next_cursor?: string;
+    }
+  }
+}
+
 export interface InvoiceCreateParams {
   /**
    * Unique identifier for the invoice. Make this the canonical ID from your system
@@ -3377,6 +3425,100 @@ export namespace InvoiceUpdateParams {
   }
 }
 
+export interface InvoiceSearchParams {
+  /**
+   * Filter criteria for the search
+   */
+  filter: InvoiceSearchParams.Filter;
+
+  /**
+   * Pagination parameters
+   */
+  page_info: InvoiceSearchParams.PageInfo;
+}
+
+export namespace InvoiceSearchParams {
+  /**
+   * Filter criteria for the search
+   */
+  export interface Filter {
+    /**
+     * Tag-based filter criteria. When both `any` and `all` are provided, results must
+     * match every entry in `all` AND at least one entry in `any`.
+     */
+    tags?: Filter.Tags;
+  }
+
+  export namespace Filter {
+    /**
+     * Tag-based filter criteria. When both `any` and `all` are provided, results must
+     * match every entry in `all` AND at least one entry in `any`.
+     */
+    export interface Tags {
+      /**
+       * Returns invoices matching every specified tag (AND).
+       */
+      all?: Array<Tags.All>;
+
+      /**
+       * Returns invoices matching at least one of the specified tags (OR).
+       */
+      any?: Array<Tags.Any>;
+    }
+
+    export namespace Tags {
+      /**
+       * A tag filter.
+       */
+      export interface All {
+        /**
+         * Tag key to filter on. Must be an exact match; wildcards are not supported.
+         */
+        key: string;
+
+        /**
+         * Tag value pattern to filter on. Supports wildcards: `*` matches any characters,
+         * `?` matches a single character. Use `\*` or `\?` to match literal asterisks or
+         * question marks. Use `*` to match any value for the given key.
+         */
+        value: string;
+      }
+
+      /**
+       * A tag filter.
+       */
+      export interface Any {
+        /**
+         * Tag key to filter on. Must be an exact match; wildcards are not supported.
+         */
+        key: string;
+
+        /**
+         * Tag value pattern to filter on. Supports wildcards: `*` matches any characters,
+         * `?` matches a single character. Use `\*` or `\?` to match literal asterisks or
+         * question marks. Use `*` to match any value for the given key.
+         */
+        value: string;
+      }
+    }
+  }
+
+  /**
+   * Pagination parameters
+   */
+  export interface PageInfo {
+    /**
+     * Cursor for fetching the next page of results
+     */
+    after?: string;
+
+    /**
+     * Number of results to return. Defaults to 20.
+     */
+    limit?: number;
+  }
+}
+
 export declare namespace Invoices {
   export {
     type Invoice as Invoice,
@@ -3385,7 +3527,9 @@ export declare namespace Invoices {
     type InvoiceUpdateResponse as InvoiceUpdateResponse,
     type InvoiceListResponse as InvoiceListResponse,
     type InvoiceListHistoryResponse as InvoiceListHistoryResponse,
+    type InvoiceSearchResponse as InvoiceSearchResponse,
     type InvoiceCreateParams as InvoiceCreateParams,
     type InvoiceUpdateParams as InvoiceUpdateParams,
+    type InvoiceSearchParams as InvoiceSearchParams,
   };
 }

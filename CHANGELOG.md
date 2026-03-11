@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.11.0 (2026-03-11)
+
+Full Changelog: [v0.10.0...v0.11.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.10.0...v0.11.0)
+
+### Features
+
+* **api:** update SDK from prod (1b76bfcb7da068f20abd5c64ea192f91ab0d22e3) ([164087e](https://github.com/fragment-dev/fragment-typescript/commit/164087ea5608ec447eaed989607d4aeb845ef753))
+* **api:** update SDK from prod (1ece54d1e3c816fc1a22c91c85ec64ff88cb2281) ([36235e5](https://github.com/fragment-dev/fragment-typescript/commit/36235e557ea2d4f6ba05002650082322e927f1ef))
+
+
+### Bug Fixes
+
+* **client:** preserve URL params already embedded in path ([de97dd7](https://github.com/fragment-dev/fragment-typescript/commit/de97dd7f4e659ba05083959156ef1df14566efbc))
+
+
+### Chores
+
+* **ci:** skip uploading artifacts on stainless-internal branches ([fe62b95](https://github.com/fragment-dev/fragment-typescript/commit/fe62b950648d495cf8cebda25a6a424d5f4966af))
+* **internal:** codegen related update ([1b59673](https://github.com/fragment-dev/fragment-typescript/commit/1b59673d62ddf2d38d2a07dcdb1673c241d7b374))
+* **internal:** update dependencies to address dependabot vulnerabilities ([2ff638b](https://github.com/fragment-dev/fragment-typescript/commit/2ff638be7487a0945a4de8c69e63ccf5c0aa3c40))
+
 ## 0.10.0 (2026-03-06)
 
 Full Changelog: [v0.9.0...v0.10.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.9.0...v0.10.0)
