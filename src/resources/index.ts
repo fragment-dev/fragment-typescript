@@ -14,11 +14,11 @@ export {
   type InvoiceRetrieveResponse,
   type InvoiceUpdateResponse,
   type InvoiceListResponse,
-  type InvoiceCreateSearchResponse,
   type InvoiceListHistoryResponse,
+  type InvoiceSearchResponse,
   type InvoiceCreateParams,
   type InvoiceUpdateParams,
-  type InvoiceCreateSearchParams,
+  type InvoiceSearchParams,
 } from './invoices';
 export {
   Products,
@@ -43,9 +43,11 @@ export {
   type TransactionListResponse,
   type TransactionCreateAllocationsResponse,
   type TransactionListHistoryResponse,
+  type TransactionSearchResponse,
   type TransactionCreateParams,
   type TransactionListParams,
   type TransactionCreateAllocationsParams,
+  type TransactionSearchParams,
 } from './transactions';
 export {
   Users,

@@ -80,24 +80,6 @@ export class Invoices extends APIResource {
   }
 
   /**
-   * Searches invoices
-   *
-   * @example
-   * ```ts
-   * const response = await client.invoices.createSearch({
-   *   filter: {},
-   *   page_info: {},
-   * });
-   * ```
-   */
-  createSearch(
-    body: InvoiceCreateSearchParams,
-    options?: RequestOptions,
-  ): APIPromise<InvoiceCreateSearchResponse> {
-    return this._client.post('/invoices/search', { body, ...options });
-  }
-
-  /**
    * Gets the version history of an invoice
    *
    * @example
@@ -109,6 +91,21 @@ export class Invoices extends APIResource {
    */
   listHistory(id: string, options?: RequestOptions): APIPromise<InvoiceListHistoryResponse> {
     return this._client.get(path`/invoices/${id}/history`, options);
+  }
+
+  /**
+   * Searches invoices
+   *
+   * @example
+   * ```ts
+   * const response = await client.invoices.search({
+   *   filter: {},
+   *   page_info: {},
+   * });
+   * ```
+   */
+  search(body: InvoiceSearchParams, options?: RequestOptions): APIPromise<InvoiceSearchResponse> {
+    return this._client.post('/invoices/search', { body, ...options });
   }
 }
 
@@ -1229,39 +1226,6 @@ export interface InvoiceListResponse {
 }
 
 /**
- * Response body for searching invoices
- */
-export interface InvoiceCreateSearchResponse {
-  data: InvoiceCreateSearchResponse.Data;
-}
-
-export namespace InvoiceCreateSearchResponse {
-  export interface Data {
-    /**
-     * List of invoices matching the search criteria
-     */
-    invoices: Array<InvoicesAPI.Invoice>;
-
-    /**
-     * Pagination cursors.
-     */
-    page_info: Data.PageInfo;
-  }
-
-  export namespace Data {
-    /**
-     * Pagination cursors.
-     */
-    export interface PageInfo {
-      /**
-       * Cursor to fetch the next page of results
-       */
-      next_cursor?: string;
-    }
-  }
-}
-
-/**
  * Version history of an invoice
  */
 export interface InvoiceListHistoryResponse {
@@ -2183,6 +2147,39 @@ export namespace InvoiceListHistoryResponse {
           value: string;
         }
       }
+    }
+  }
+}
+
+/**
+ * Response body for searching invoices
+ */
+export interface InvoiceSearchResponse {
+  data: InvoiceSearchResponse.Data;
+}
+
+export namespace InvoiceSearchResponse {
+  export interface Data {
+    /**
+     * List of invoices matching the search criteria
+     */
+    invoices: Array<InvoicesAPI.Invoice>;
+
+    /**
+     * Pagination cursors.
+     */
+    page_info: Data.PageInfo;
+  }
+
+  export namespace Data {
+    /**
+     * Pagination cursors.
+     */
+    export interface PageInfo {
+      /**
+       * Cursor to fetch the next page of results
+       */
+      next_cursor?: string;
     }
   }
 }
@@ -3428,19 +3425,19 @@ export namespace InvoiceUpdateParams {
   }
 }
 
-export interface InvoiceCreateSearchParams {
+export interface InvoiceSearchParams {
   /**
    * Filter criteria for the search
    */
-  filter: InvoiceCreateSearchParams.Filter;
+  filter: InvoiceSearchParams.Filter;
 
   /**
    * Pagination parameters
    */
-  page_info: InvoiceCreateSearchParams.PageInfo;
+  page_info: InvoiceSearchParams.PageInfo;
 }
 
-export namespace InvoiceCreateSearchParams {
+export namespace InvoiceSearchParams {
   /**
    * Filter criteria for the search
    */
@@ -3529,10 +3526,10 @@ export declare namespace Invoices {
     type InvoiceRetrieveResponse as InvoiceRetrieveResponse,
     type InvoiceUpdateResponse as InvoiceUpdateResponse,
     type InvoiceListResponse as InvoiceListResponse,
-    type InvoiceCreateSearchResponse as InvoiceCreateSearchResponse,
     type InvoiceListHistoryResponse as InvoiceListHistoryResponse,
+    type InvoiceSearchResponse as InvoiceSearchResponse,
     type InvoiceCreateParams as InvoiceCreateParams,
     type InvoiceUpdateParams as InvoiceUpdateParams,
-    type InvoiceCreateSearchParams as InvoiceCreateSearchParams,
+    type InvoiceSearchParams as InvoiceSearchParams,
   };
 }
