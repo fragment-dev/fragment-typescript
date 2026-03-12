@@ -418,6 +418,11 @@ export namespace Transaction {
        * FRAGMENT generated ID of the user
        */
       id: string;
+
+      /**
+       * External ID of the user
+       */
+      external_id?: string;
     }
   }
 }
@@ -516,6 +521,11 @@ export namespace TransactionListHistoryResponse {
            * FRAGMENT generated ID of the user
            */
           id: string;
+
+          /**
+           * External ID of the user
+           */
+          external_id?: string;
         }
       }
     }
@@ -561,6 +571,11 @@ export namespace TransactionListHistoryResponse {
            * FRAGMENT generated ID of the user
            */
           id: string;
+
+          /**
+           * External ID of the user
+           */
+          external_id?: string;
         }
       }
     }
@@ -633,6 +648,11 @@ export namespace TransactionSearchResponse {
            * FRAGMENT generated ID of the user
            */
           id: string;
+
+          /**
+           * External ID of the user
+           */
+          external_id?: string;
         }
       }
     }
@@ -678,6 +698,11 @@ export namespace TransactionSearchResponse {
            * FRAGMENT generated ID of the user
            */
           id: string;
+
+          /**
+           * External ID of the user
+           */
+          external_id?: string;
         }
       }
     }
@@ -745,6 +770,11 @@ export namespace TransactionSearchAllocationsResponse {
        * FRAGMENT generated ID of the user
        */
       id: string;
+
+      /**
+       * External ID of the user
+       */
+      external_id?: string;
     }
   }
 }
