@@ -44,10 +44,12 @@ export {
   type TransactionCreateAllocationsResponse,
   type TransactionListHistoryResponse,
   type TransactionSearchResponse,
+  type TransactionSearchAllocationsResponse,
   type TransactionCreateParams,
   type TransactionListParams,
   type TransactionCreateAllocationsParams,
   type TransactionSearchParams,
+  type TransactionSearchAllocationsParams,
 } from './transactions';
 export {
   Users,
