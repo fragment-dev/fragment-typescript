@@ -24,20 +24,12 @@ import Fragment from '@fragment-dev/ts-node';
 
 const client = new Fragment();
 
-const response = await client.transactions.createAllocations('txn_abc123', {
-  allocation_updates: [
-    {
-      amount: '1000',
-      invoice_id: 'inv_abc123',
-      op: 'add',
-      type: 'invoice_payin',
-      user: { id: 'user_abc123' },
-    },
-  ],
-  version: 1,
+const externalAccount = await client.externalAccounts.create({
+  external_id: 'ext_acc_123',
+  name: 'Checking Account',
 });
 
-console.log(response.data);
+console.log(externalAccount.data);
 ```
 
 ### Request & Response types
@@ -50,20 +42,12 @@ import Fragment from '@fragment-dev/ts-node';
 
 const client = new Fragment();
 
-const params: Fragment.TransactionCreateAllocationsParams = {
-  allocation_updates: [
-    {
-      amount: '1000',
-      invoice_id: 'inv_abc123',
-      op: 'add',
-      type: 'invoice_payin',
-      user: { id: 'user_abc123' },
-    },
-  ],
-  version: 1,
+const params: Fragment.ExternalAccountCreateParams = {
+  external_id: 'ext_acc_123',
+  name: 'Checking Account',
 };
-const response: Fragment.TransactionCreateAllocationsResponse =
-  await client.transactions.createAllocations('txn_abc123', params);
+const externalAccount: Fragment.ExternalAccountCreateResponse =
+  await client.externalAccounts.create(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -76,19 +60,8 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const response = await client.transactions
-  .createAllocations('txn_abc123', {
-    allocation_updates: [
-      {
-        amount: '1000',
-        invoice_id: 'inv_abc123',
-        op: 'add',
-        type: 'invoice_payin',
-        user: { id: 'user_abc123' },
-      },
-    ],
-    version: 1,
-  })
+const externalAccount = await client.externalAccounts
+  .create({ external_id: 'ext_acc_123', name: 'Checking Account' })
   .catch(async (err) => {
     if (err instanceof Fragment.APIError) {
       console.log(err.status); // 400
@@ -129,13 +102,7 @@ const client = new Fragment({
 });
 
 // Or, configure per-request:
-await client.transactions.createAllocations('txn_abc123', { allocation_updates: [{
-  amount: '1000',
-  invoice_id: 'inv_abc123',
-  op: 'add',
-  type: 'invoice_payin',
-  user: { id: 'user_abc123' },
-}], version: 1 }, {
+await client.externalAccounts.create({ external_id: 'ext_acc_123', name: 'Checking Account' }, {
   maxRetries: 5,
 });
 ```
@@ -152,13 +119,7 @@ const client = new Fragment({
 });
 
 // Override per-request:
-await client.transactions.createAllocations('txn_abc123', { allocation_updates: [{
-  amount: '1000',
-  invoice_id: 'inv_abc123',
-  op: 'add',
-  type: 'invoice_payin',
-  user: { id: 'user_abc123' },
-}], version: 1 }, {
+await client.externalAccounts.create({ external_id: 'ext_acc_123', name: 'Checking Account' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -181,39 +142,17 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 ```ts
 const client = new Fragment();
 
-const response = await client.transactions
-  .createAllocations('txn_abc123', {
-    allocation_updates: [
-      {
-        amount: '1000',
-        invoice_id: 'inv_abc123',
-        op: 'add',
-        type: 'invoice_payin',
-        user: { id: 'user_abc123' },
-      },
-    ],
-    version: 1,
-  })
+const response = await client.externalAccounts
+  .create({ external_id: 'ext_acc_123', name: 'Checking Account' })
   .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: response, response: raw } = await client.transactions
-  .createAllocations('txn_abc123', {
-    allocation_updates: [
-      {
-        amount: '1000',
-        invoice_id: 'inv_abc123',
-        op: 'add',
-        type: 'invoice_payin',
-        user: { id: 'user_abc123' },
-      },
-    ],
-    version: 1,
-  })
+const { data: externalAccount, response: raw } = await client.externalAccounts
+  .create({ external_id: 'ext_acc_123', name: 'Checking Account' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(response.data);
+console.log(externalAccount.data);
 ```
 
 ### Logging
@@ -293,7 +232,7 @@ parameter. This library doesn't validate at runtime that the request matches the
 send will be sent as-is.
 
 ```ts
-client.transactions.createAllocations({
+client.externalAccounts.create({
   // ...
   // @ts-expect-error baz is not yet public
   baz: 'undocumented option',
