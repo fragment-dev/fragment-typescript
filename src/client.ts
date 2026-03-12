@@ -56,6 +56,8 @@ import {
   TransactionListParams,
   TransactionListResponse,
   TransactionRetrieveResponse,
+  TransactionSearchAllocationsParams,
+  TransactionSearchAllocationsResponse,
   TransactionSearchParams,
   TransactionSearchResponse,
   Transactions,
@@ -917,10 +919,12 @@ export declare namespace Fragment {
     type TransactionCreateAllocationsResponse as TransactionCreateAllocationsResponse,
     type TransactionListHistoryResponse as TransactionListHistoryResponse,
     type TransactionSearchResponse as TransactionSearchResponse,
+    type TransactionSearchAllocationsResponse as TransactionSearchAllocationsResponse,
     type TransactionCreateParams as TransactionCreateParams,
     type TransactionListParams as TransactionListParams,
     type TransactionCreateAllocationsParams as TransactionCreateAllocationsParams,
     type TransactionSearchParams as TransactionSearchParams,
+    type TransactionSearchAllocationsParams as TransactionSearchAllocationsParams,
   };
 
   export {

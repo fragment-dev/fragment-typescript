@@ -111,16 +111,34 @@ export class Transactions extends APIResource {
   }
 
   /**
-   * Searches transaction allocations by filter criteria
+   * Searches transactions by filter criteria
    *
    * @example
    * ```ts
    * const response = await client.transactions.search({
-   *   filter: { invoice_id: { any: ['inv_abc123'] } },
+   *   filter: { account: { any: [{}] } },
    * });
    * ```
    */
   search(body: TransactionSearchParams, options?: RequestOptions): APIPromise<TransactionSearchResponse> {
+    return this._client.post('/transactions/search', { body, ...options });
+  }
+
+  /**
+   * Searches transaction allocations by filter criteria
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.transactions.searchAllocations({
+   *     filter: { invoice_id: { any: ['inv_abc123'] } },
+   *   });
+   * ```
+   */
+  searchAllocations(
+    body: TransactionSearchAllocationsParams,
+    options?: RequestOptions,
+  ): APIPromise<TransactionSearchAllocationsResponse> {
     return this._client.post('/transactions/allocations/search', { body, ...options });
   }
 }
@@ -550,13 +568,130 @@ export namespace TransactionListHistoryResponse {
 }
 
 /**
- * Search results for transaction allocations.
+ * Search results for transactions.
  */
 export interface TransactionSearchResponse {
   data: Array<TransactionSearchResponse.Data>;
 }
 
 export namespace TransactionSearchResponse {
+  /**
+   * A versioned snapshot of a transaction
+   */
+  export interface Data extends Omit<TransactionsAPI.Transaction, 'version'> {
+    /**
+     * Allocation changes applied in this version. Absent on version 1 (initial
+     * creation). Each entry describes an allocation that was added or deleted.
+     */
+    diff?: Array<Data.AddAllocationDiffEntry | Data.DeleteAllocationDiffEntry>;
+
+    /**
+     * Version number of this transaction snapshot.
+     */
+    version?: number;
+  }
+
+  export namespace Data {
+    export interface AddAllocationDiffEntry {
+      /**
+       * Transaction allocation against an invoice.
+       */
+      item: AddAllocationDiffEntry.Item;
+
+      /**
+       * An allocation was added
+       */
+      op: 'add';
+    }
+
+    export namespace AddAllocationDiffEntry {
+      /**
+       * Transaction allocation against an invoice.
+       */
+      export interface Item {
+        /**
+         * Amount to allocate in smallest currency unit as stringified bigint.
+         */
+        amount: string;
+
+        /**
+         * The invoice to allocate against.
+         */
+        invoice_id: string;
+
+        /**
+         * The type of allocation.
+         */
+        type: 'invoice_payin' | 'invoice_payout';
+
+        user: Item.User;
+      }
+
+      export namespace Item {
+        export interface User {
+          /**
+           * FRAGMENT generated ID of the user
+           */
+          id: string;
+        }
+      }
+    }
+
+    export interface DeleteAllocationDiffEntry {
+      /**
+       * Transaction allocation against an invoice.
+       */
+      item: DeleteAllocationDiffEntry.Item;
+
+      /**
+       * An allocation was deleted
+       */
+      op: 'delete';
+    }
+
+    export namespace DeleteAllocationDiffEntry {
+      /**
+       * Transaction allocation against an invoice.
+       */
+      export interface Item {
+        /**
+         * Amount to allocate in smallest currency unit as stringified bigint.
+         */
+        amount: string;
+
+        /**
+         * The invoice to allocate against.
+         */
+        invoice_id: string;
+
+        /**
+         * The type of allocation.
+         */
+        type: 'invoice_payin' | 'invoice_payout';
+
+        user: Item.User;
+      }
+
+      export namespace Item {
+        export interface User {
+          /**
+           * FRAGMENT generated ID of the user
+           */
+          id: string;
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Search results for transaction allocations.
+ */
+export interface TransactionSearchAllocationsResponse {
+  data: Array<TransactionSearchAllocationsResponse.Data>;
+}
+
+export namespace TransactionSearchAllocationsResponse {
   /**
    * A flattened allocation with a reference to its parent transaction.
    */
@@ -966,12 +1101,54 @@ export namespace TransactionCreateAllocationsParams {
 
 export interface TransactionSearchParams {
   /**
-   * Filter criteria for searching transaction allocations.
+   * Filter criteria for searching transactions.
    */
   filter: TransactionSearchParams.Filter;
 }
 
 export namespace TransactionSearchParams {
+  /**
+   * Filter criteria for searching transactions.
+   */
+  export interface Filter {
+    account: Filter.Account;
+  }
+
+  export namespace Filter {
+    export interface Account {
+      /**
+       * Match transactions belonging to any of these accounts (OR).
+       */
+      any: Array<Account.Any>;
+    }
+
+    export namespace Account {
+      /**
+       * Account reference. Provide id, external_id, or both.
+       */
+      export interface Any {
+        /**
+         * User-facing encoded account ID.
+         */
+        id?: string;
+
+        /**
+         * External account reference ID.
+         */
+        external_id?: string;
+      }
+    }
+  }
+}
+
+export interface TransactionSearchAllocationsParams {
+  /**
+   * Filter criteria for searching transaction allocations.
+   */
+  filter: TransactionSearchAllocationsParams.Filter;
+}
+
+export namespace TransactionSearchAllocationsParams {
   /**
    * Filter criteria for searching transaction allocations.
    */
@@ -998,9 +1175,11 @@ export declare namespace Transactions {
     type TransactionCreateAllocationsResponse as TransactionCreateAllocationsResponse,
     type TransactionListHistoryResponse as TransactionListHistoryResponse,
     type TransactionSearchResponse as TransactionSearchResponse,
+    type TransactionSearchAllocationsResponse as TransactionSearchAllocationsResponse,
     type TransactionCreateParams as TransactionCreateParams,
     type TransactionListParams as TransactionListParams,
     type TransactionCreateAllocationsParams as TransactionCreateAllocationsParams,
     type TransactionSearchParams as TransactionSearchParams,
+    type TransactionSearchAllocationsParams as TransactionSearchAllocationsParams,
   };
 }
