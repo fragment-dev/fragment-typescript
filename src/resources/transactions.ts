@@ -37,7 +37,7 @@ export class Transactions extends APIResource {
   }
 
   /**
-   * Gets a transaction by ID
+   * Gets a transaction by ID or external ID
    *
    * @example
    * ```ts
@@ -46,8 +46,8 @@ export class Transactions extends APIResource {
    * );
    * ```
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<TransactionRetrieveResponse> {
-    return this._client.get(path`/transactions/${id}`, options);
+  retrieve(transactionRef: string, options?: RequestOptions): APIPromise<TransactionRetrieveResponse> {
+    return this._client.get(path`/transactions/${transactionRef}`, options);
   }
 
   /**
@@ -89,11 +89,11 @@ export class Transactions extends APIResource {
    * ```
    */
   createAllocations(
-    id: string,
+    transactionRef: string,
     body: TransactionCreateAllocationsParams,
     options?: RequestOptions,
   ): APIPromise<TransactionCreateAllocationsResponse> {
-    return this._client.post(path`/transactions/${id}/allocations`, { body, ...options });
+    return this._client.post(path`/transactions/${transactionRef}/allocations`, { body, ...options });
   }
 
   /**
@@ -106,8 +106,8 @@ export class Transactions extends APIResource {
    * );
    * ```
    */
-  listHistory(transaction: string, options?: RequestOptions): APIPromise<TransactionListHistoryResponse> {
-    return this._client.get(path`/transactions/${transaction}/history`, options);
+  listHistory(transactionRef: string, options?: RequestOptions): APIPromise<TransactionListHistoryResponse> {
+    return this._client.get(path`/transactions/${transactionRef}/history`, options);
   }
 
   /**
