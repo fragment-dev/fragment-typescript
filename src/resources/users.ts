@@ -10,7 +10,10 @@ export class Users extends APIResource {
    *
    * @example
    * ```ts
-   * const user = await client.users.create({ role: 'admin' });
+   * const user = await client.users.create({
+   *   external_id: 'user_ext_123',
+   *   role: 'admin',
+   * });
    * ```
    */
   create(body: UserCreateParams, options?: RequestOptions): APIPromise<UserCreateResponse> {
@@ -45,11 +48,6 @@ export interface User {
   external_id: string;
 
   /**
-   * @deprecated External ID for the user
-   */
-  externalId: string;
-
-  /**
    * Role of the user
    */
   role: string;
@@ -71,19 +69,14 @@ export interface UserListResponse {
 
 export interface UserCreateParams {
   /**
+   * External ID for the user
+   */
+  external_id: string;
+
+  /**
    * Role of the user
    */
   role: string;
-
-  /**
-   * External ID for the user
-   */
-  external_id?: string;
-
-  /**
-   * @deprecated External ID for the user
-   */
-  externalId?: string;
 }
 
 export declare namespace Users {

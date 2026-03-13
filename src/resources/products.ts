@@ -83,19 +83,9 @@ export interface Product {
   update_version: number;
 
   /**
-   * @deprecated Version number for optimistic locking
-   */
-  updateVersion: number;
-
-  /**
    * Workspace ID this product belongs to
    */
   workspace_id: string;
-
-  /**
-   * @deprecated Workspace ID this product belongs to
-   */
-  workspaceId: string;
 
   /**
    * Description of the product

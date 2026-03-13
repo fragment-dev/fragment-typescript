@@ -10,8 +10,19 @@ const client = new Fragment({
 
 describe('resource invoices', () => {
   // Mock server tests are disabled
-  test.skip('create', async () => {
-    const responsePromise = client.invoices.create();
+  test.skip('create: only required params', async () => {
+    const responsePromise = client.invoices.create({
+      invoice_id: 'invoice_2024_001',
+      line_items: [
+        {
+          amount: '1000',
+          description: 'Professional services for January 2026',
+          product_id: 'prod_1234567890',
+          type: 'payout',
+          user: { id: 'user_abc123' },
+        },
+      ],
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -22,44 +33,22 @@ describe('resource invoices', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('create: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.invoices.create(
+  test.skip('create: required and optional params', async () => {
+    const response = await client.invoices.create({
+      invoice_id: 'invoice_2024_001',
+      line_items: [
         {
-          invoice_id: 'invoice_2024_001',
-          invoiceId: 'invoice_2024_001',
-          line_items: [
-            {
-              amount: '1000',
-              description: 'Professional services for January 2026',
-              product_id: 'prod_1234567890',
-              type: 'payout',
-              currency_code: 'USD',
-              currencyCode: 'USD',
-              tags: [{ key: 'region', value: 'us-east' }],
-              user: { id: 'user_abc123' },
-              user_id: 'user_ext_456',
-            },
-          ],
-          lineItems: [
-            {
-              amount: '1000',
-              description: 'Professional services for January 2026',
-              product_id: 'prod_1234567890',
-              type: 'payout',
-              currency_code: 'USD',
-              currencyCode: 'USD',
-              tags: [{ key: 'region', value: 'us-east' }],
-              user: { id: 'user_abc123' },
-              user_id: 'user_ext_456',
-            },
-          ],
+          amount: '1000',
+          description: 'Professional services for January 2026',
+          product_id: 'prod_1234567890',
+          type: 'payout',
+          user: { id: 'user_abc123' },
+          currency_code: 'USD',
           tags: [{ key: 'region', value: 'us-east' }],
         },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(Fragment.NotFoundError);
+      ],
+      tags: [{ key: 'region', value: 'us-east' }],
+    });
   });
 
   // Mock server tests are disabled
@@ -85,6 +74,7 @@ describe('resource invoices', () => {
           op: 'add',
           product_id: 'prod_1234567890',
           type: 'payout',
+          user: { id: 'user_abc123' },
         },
       ],
       version: 1,
@@ -109,9 +99,8 @@ describe('resource invoices', () => {
           op: 'add',
           product_id: 'prod_1234567890',
           type: 'payout',
-          tags: [{ key: 'region', value: 'us-east' }],
           user: { id: 'user_abc123' },
-          user_id: 'user_ext_456',
+          tags: [{ key: 'region', value: 'us-east' }],
         },
       ],
       version: 1,
