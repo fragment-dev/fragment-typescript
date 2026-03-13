@@ -737,6 +737,11 @@ export namespace TransactionSearchAllocationsResponse {
     invoice_id: string;
 
     /**
+     * Posted timestamp of the parent transaction in ISO 8601 format.
+     */
+    posted: string;
+
+    /**
      * Reference to the parent transaction.
      */
     transaction: Data.Transaction;
