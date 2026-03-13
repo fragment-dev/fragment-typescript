@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.14.0 (2026-03-13)
+
+Full Changelog: [v0.13.0...v0.14.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.13.0...v0.14.0)
+
+### Features
+
+* **api:** update SDK from prod (05bf1df4cca252f534c40121ea46dfa01d2f376d) ([d12b44a](https://github.com/fragment-dev/fragment-typescript/commit/d12b44af4b02fe2af5fa3a781ec319da5dba60e2))
+* **api:** update SDK from prod (9c162134866788931d5ab6bc81c47ca2bbf4140f) ([9c4ffb5](https://github.com/fragment-dev/fragment-typescript/commit/9c4ffb55f400af951b7bbc3b450496d8b512b6db))
+
+
+### Bug Fixes
+
+* **tests:** correct setup of OAuth 2 Client Credentials tests ([dd9e9a6](https://github.com/fragment-dev/fragment-typescript/commit/dd9e9a67a09bd17e7db902c5f62190b55aa9b361))
+
 ## 0.13.0 (2026-03-12)
 
 Full Changelog: [v0.12.0...v0.13.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.12.0...v0.13.0)
