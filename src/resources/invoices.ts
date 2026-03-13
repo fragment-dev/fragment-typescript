@@ -1327,6 +1327,11 @@ export namespace InvoiceRetrieveResponse {
         | 'LOGICAL'
         | 'CUSTOM';
 
+      /**
+       * Posted timestamp of the parent transaction in ISO 8601 format.
+       */
+      posted: string;
+
       transaction: Payment.Transaction;
 
       /**
