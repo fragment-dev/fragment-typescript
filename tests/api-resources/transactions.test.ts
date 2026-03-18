@@ -51,6 +51,7 @@ describe('resource transactions', () => {
       currency: 'USD',
       external_id: 'bank_txn_123',
       posted: '2026-02-12T00:00:00.000Z',
+      tags: [{ key: 'region', value: 'us-east' }],
     });
   });
 

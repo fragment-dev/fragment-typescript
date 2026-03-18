@@ -362,6 +362,11 @@ export interface Transaction {
   posted: string;
 
   /**
+   * Metadata tags associated with this transaction.
+   */
+  tags: Array<Transaction.Tag>;
+
+  /**
    * Read-only amount not yet allocated.
    */
   unallocated_amount: string;
@@ -424,6 +429,21 @@ export namespace Transaction {
        */
       external_id?: string;
     }
+  }
+
+  /**
+   * A key-value tag pair
+   */
+  export interface Tag {
+    /**
+     * Tag key
+     */
+    key: string;
+
+    /**
+     * Tag value
+     */
+    value: string;
   }
 }
 
@@ -994,6 +1014,11 @@ export interface TransactionCreateParams {
    * Posted timestamp in ISO 8601 format.
    */
   posted: string;
+
+  /**
+   * Optional metadata tags for this transaction
+   */
+  tags?: Array<TransactionCreateParams.Tag>;
 }
 
 export namespace TransactionCreateParams {
@@ -1048,6 +1073,23 @@ export namespace TransactionCreateParams {
        */
       external_id: string;
     }
+  }
+
+  /**
+   * A key-value tag pair for metadata
+   */
+  export interface Tag {
+    /**
+     * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
+     * 50 characters.
+     */
+    key: string;
+
+    /**
+     * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
+     * 200 characters.
+     */
+    value: string;
   }
 }
 
