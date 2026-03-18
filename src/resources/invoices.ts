@@ -190,7 +190,7 @@ export namespace Invoice {
     id: string;
 
     /**
-     * Amount in smallest currency unit (represented as string for bigint)
+     * Total amount in smallest currency unit (represented as string for bigint)
      */
     amount: string;
 
@@ -389,6 +389,11 @@ export namespace Invoice {
     product_id: string;
 
     /**
+     * Quantity of units for this line item
+     */
+    quantity: number;
+
+    /**
      * Metadata tags for this line item
      */
     tags: Array<LineItem.Tag>;
@@ -397,6 +402,11 @@ export namespace Invoice {
      * The type of the line item
      */
     type: 'payin' | 'payout';
+
+    /**
+     * Unit price in smallest currency unit (represented as string for bigint)
+     */
+    unit_price: string;
 
     /**
      * External ID of the user associated with this line item
@@ -901,7 +911,7 @@ export namespace InvoiceListHistoryResponse {
         id: string;
 
         /**
-         * Amount in smallest currency unit (represented as string for bigint)
+         * Total amount in smallest currency unit (represented as string for bigint)
          */
         amount: string;
 
@@ -1100,6 +1110,11 @@ export namespace InvoiceListHistoryResponse {
         product_id: string;
 
         /**
+         * Quantity of units for this line item
+         */
+        quantity: number;
+
+        /**
          * Metadata tags for this line item
          */
         tags: Array<Item.Tag>;
@@ -1108,6 +1123,11 @@ export namespace InvoiceListHistoryResponse {
          * The type of the line item
          */
         type: 'payin' | 'payout';
+
+        /**
+         * Unit price in smallest currency unit (represented as string for bigint)
+         */
+        unit_price: string;
 
         /**
          * External ID of the user associated with this line item
@@ -1145,9 +1165,29 @@ export namespace InvoiceListHistoryResponse {
       new_amount: string;
 
       /**
+       * New quantity after the update
+       */
+      new_quantity: number;
+
+      /**
+       * New unit price after the update
+       */
+      new_unit_price: string;
+
+      /**
        * Amount before the update
        */
       old_amount: string;
+
+      /**
+       * Quantity before the update
+       */
+      old_quantity: number;
+
+      /**
+       * Unit price before the update
+       */
+      old_unit_price: string;
 
       /**
        * A line item was updated
@@ -1178,7 +1218,7 @@ export namespace InvoiceListHistoryResponse {
         id: string;
 
         /**
-         * Amount in smallest currency unit (represented as string for bigint)
+         * Total amount in smallest currency unit (represented as string for bigint)
          */
         amount: string;
 
@@ -1377,6 +1417,11 @@ export namespace InvoiceListHistoryResponse {
         product_id: string;
 
         /**
+         * Quantity of units for this line item
+         */
+        quantity: number;
+
+        /**
          * Metadata tags for this line item
          */
         tags: Array<Item.Tag>;
@@ -1385,6 +1430,11 @@ export namespace InvoiceListHistoryResponse {
          * The type of the line item
          */
         type: 'payin' | 'payout';
+
+        /**
+         * Unit price in smallest currency unit (represented as string for bigint)
+         */
+        unit_price: string;
 
         /**
          * External ID of the user associated with this line item
