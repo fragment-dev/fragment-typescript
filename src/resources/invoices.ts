@@ -190,7 +190,8 @@ export namespace Invoice {
     id: string;
 
     /**
-     * Amount in smallest currency unit (represented as string for bigint)
+     * @deprecated Deprecated: use price.amount instead. Total amount in smallest
+     * currency unit (represented as string for bigint)
      */
     amount: string;
 
@@ -384,6 +385,11 @@ export namespace Invoice {
     description: string;
 
     /**
+     * Price breakdown containing amount, unit price, and quantity
+     */
+    price: LineItem.Price;
+
+    /**
      * ID of the product/catalog item
      */
     product_id: string;
@@ -405,6 +411,26 @@ export namespace Invoice {
   }
 
   export namespace LineItem {
+    /**
+     * Price breakdown containing amount, unit price, and quantity
+     */
+    export interface Price {
+      /**
+       * Total amount in smallest currency unit (represented as string for bigint)
+       */
+      amount: string;
+
+      /**
+       * Quantity of units for this line item
+       */
+      quantity: number;
+
+      /**
+       * Unit price in smallest currency unit (represented as string for bigint)
+       */
+      unit_price: string;
+    }
+
     /**
      * A key-value tag pair
      */
@@ -743,6 +769,28 @@ export namespace InvoiceRetrieveResponse {
          * External transaction ID.
          */
         external_id: string;
+
+        /**
+         * Metadata tags from the parent transaction.
+         */
+        tags: Array<Transaction.Tag>;
+      }
+
+      export namespace Transaction {
+        /**
+         * A key-value tag pair
+         */
+        export interface Tag {
+          /**
+           * Tag key
+           */
+          key: string;
+
+          /**
+           * Tag value
+           */
+          value: string;
+        }
       }
 
       export interface User {
@@ -901,7 +949,8 @@ export namespace InvoiceListHistoryResponse {
         id: string;
 
         /**
-         * Amount in smallest currency unit (represented as string for bigint)
+         * @deprecated Deprecated: use price.amount instead. Total amount in smallest
+         * currency unit (represented as string for bigint)
          */
         amount: string;
 
@@ -1095,6 +1144,11 @@ export namespace InvoiceListHistoryResponse {
         description: string;
 
         /**
+         * Price breakdown containing amount, unit price, and quantity
+         */
+        price: Item.Price;
+
+        /**
          * ID of the product/catalog item
          */
         product_id: string;
@@ -1116,6 +1170,26 @@ export namespace InvoiceListHistoryResponse {
       }
 
       export namespace Item {
+        /**
+         * Price breakdown containing amount, unit price, and quantity
+         */
+        export interface Price {
+          /**
+           * Total amount in smallest currency unit (represented as string for bigint)
+           */
+          amount: string;
+
+          /**
+           * Quantity of units for this line item
+           */
+          quantity: number;
+
+          /**
+           * Unit price in smallest currency unit (represented as string for bigint)
+           */
+          unit_price: string;
+        }
+
         /**
          * A key-value tag pair
          */
@@ -1140,19 +1214,72 @@ export namespace InvoiceListHistoryResponse {
       id: string;
 
       /**
-       * New amount after the update
+       * @deprecated Deprecated: use new_price.amount instead. New amount after the
+       * update
        */
       new_amount: string;
 
       /**
-       * Amount before the update
+       * Price breakdown containing amount, unit price, and quantity
+       */
+      new_price: UpdateDiffEntry.NewPrice;
+
+      /**
+       * @deprecated Deprecated: use old_price.amount instead. Amount before the update
        */
       old_amount: string;
+
+      /**
+       * Price breakdown containing amount, unit price, and quantity
+       */
+      old_price: UpdateDiffEntry.OldPrice;
 
       /**
        * A line item was updated
        */
       op: 'update';
+    }
+
+    export namespace UpdateDiffEntry {
+      /**
+       * Price breakdown containing amount, unit price, and quantity
+       */
+      export interface NewPrice {
+        /**
+         * Total amount in smallest currency unit (represented as string for bigint)
+         */
+        amount: string;
+
+        /**
+         * Quantity of units for this line item
+         */
+        quantity: number;
+
+        /**
+         * Unit price in smallest currency unit (represented as string for bigint)
+         */
+        unit_price: string;
+      }
+
+      /**
+       * Price breakdown containing amount, unit price, and quantity
+       */
+      export interface OldPrice {
+        /**
+         * Total amount in smallest currency unit (represented as string for bigint)
+         */
+        amount: string;
+
+        /**
+         * Quantity of units for this line item
+         */
+        quantity: number;
+
+        /**
+         * Unit price in smallest currency unit (represented as string for bigint)
+         */
+        unit_price: string;
+      }
     }
 
     export interface DeleteDiffEntry {
@@ -1178,7 +1305,8 @@ export namespace InvoiceListHistoryResponse {
         id: string;
 
         /**
-         * Amount in smallest currency unit (represented as string for bigint)
+         * @deprecated Deprecated: use price.amount instead. Total amount in smallest
+         * currency unit (represented as string for bigint)
          */
         amount: string;
 
@@ -1372,6 +1500,11 @@ export namespace InvoiceListHistoryResponse {
         description: string;
 
         /**
+         * Price breakdown containing amount, unit price, and quantity
+         */
+        price: Item.Price;
+
+        /**
          * ID of the product/catalog item
          */
         product_id: string;
@@ -1393,6 +1526,26 @@ export namespace InvoiceListHistoryResponse {
       }
 
       export namespace Item {
+        /**
+         * Price breakdown containing amount, unit price, and quantity
+         */
+        export interface Price {
+          /**
+           * Total amount in smallest currency unit (represented as string for bigint)
+           */
+          amount: string;
+
+          /**
+           * Quantity of units for this line item
+           */
+          quantity: number;
+
+          /**
+           * Unit price in smallest currency unit (represented as string for bigint)
+           */
+          unit_price: string;
+        }
+
         /**
          * A key-value tag pair
          */
