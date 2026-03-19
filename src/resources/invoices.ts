@@ -190,7 +190,8 @@ export namespace Invoice {
     id: string;
 
     /**
-     * Total amount in smallest currency unit (represented as string for bigint)
+     * @deprecated Deprecated: use price.amount instead. Total amount in smallest
+     * currency unit (represented as string for bigint)
      */
     amount: string;
 
@@ -384,14 +385,14 @@ export namespace Invoice {
     description: string;
 
     /**
+     * Price breakdown containing amount, unit price, and quantity
+     */
+    price: LineItem.Price;
+
+    /**
      * ID of the product/catalog item
      */
     product_id: string;
-
-    /**
-     * Quantity of units for this line item
-     */
-    quantity: number;
 
     /**
      * Metadata tags for this line item
@@ -404,17 +405,32 @@ export namespace Invoice {
     type: 'payin' | 'payout';
 
     /**
-     * Unit price in smallest currency unit (represented as string for bigint)
-     */
-    unit_price: string;
-
-    /**
      * External ID of the user associated with this line item
      */
     user_id: string;
   }
 
   export namespace LineItem {
+    /**
+     * Price breakdown containing amount, unit price, and quantity
+     */
+    export interface Price {
+      /**
+       * Total amount in smallest currency unit (represented as string for bigint)
+       */
+      amount: string;
+
+      /**
+       * Quantity of units for this line item
+       */
+      quantity: number;
+
+      /**
+       * Unit price in smallest currency unit (represented as string for bigint)
+       */
+      unit_price: string;
+    }
+
     /**
      * A key-value tag pair
      */
@@ -933,7 +949,8 @@ export namespace InvoiceListHistoryResponse {
         id: string;
 
         /**
-         * Total amount in smallest currency unit (represented as string for bigint)
+         * @deprecated Deprecated: use price.amount instead. Total amount in smallest
+         * currency unit (represented as string for bigint)
          */
         amount: string;
 
@@ -1127,14 +1144,14 @@ export namespace InvoiceListHistoryResponse {
         description: string;
 
         /**
+         * Price breakdown containing amount, unit price, and quantity
+         */
+        price: Item.Price;
+
+        /**
          * ID of the product/catalog item
          */
         product_id: string;
-
-        /**
-         * Quantity of units for this line item
-         */
-        quantity: number;
 
         /**
          * Metadata tags for this line item
@@ -1147,17 +1164,32 @@ export namespace InvoiceListHistoryResponse {
         type: 'payin' | 'payout';
 
         /**
-         * Unit price in smallest currency unit (represented as string for bigint)
-         */
-        unit_price: string;
-
-        /**
          * External ID of the user associated with this line item
          */
         user_id: string;
       }
 
       export namespace Item {
+        /**
+         * Price breakdown containing amount, unit price, and quantity
+         */
+        export interface Price {
+          /**
+           * Total amount in smallest currency unit (represented as string for bigint)
+           */
+          amount: string;
+
+          /**
+           * Quantity of units for this line item
+           */
+          quantity: number;
+
+          /**
+           * Unit price in smallest currency unit (represented as string for bigint)
+           */
+          unit_price: string;
+        }
+
         /**
          * A key-value tag pair
          */
@@ -1182,39 +1214,72 @@ export namespace InvoiceListHistoryResponse {
       id: string;
 
       /**
-       * New amount after the update
+       * @deprecated Deprecated: use new_price.amount instead. New amount after the
+       * update
        */
       new_amount: string;
 
       /**
-       * New quantity after the update
+       * Price breakdown containing amount, unit price, and quantity
        */
-      new_quantity: number;
+      new_price: UpdateDiffEntry.NewPrice;
 
       /**
-       * New unit price after the update
-       */
-      new_unit_price: string;
-
-      /**
-       * Amount before the update
+       * @deprecated Deprecated: use old_price.amount instead. Amount before the update
        */
       old_amount: string;
 
       /**
-       * Quantity before the update
+       * Price breakdown containing amount, unit price, and quantity
        */
-      old_quantity: number;
-
-      /**
-       * Unit price before the update
-       */
-      old_unit_price: string;
+      old_price: UpdateDiffEntry.OldPrice;
 
       /**
        * A line item was updated
        */
       op: 'update';
+    }
+
+    export namespace UpdateDiffEntry {
+      /**
+       * Price breakdown containing amount, unit price, and quantity
+       */
+      export interface NewPrice {
+        /**
+         * Total amount in smallest currency unit (represented as string for bigint)
+         */
+        amount: string;
+
+        /**
+         * Quantity of units for this line item
+         */
+        quantity: number;
+
+        /**
+         * Unit price in smallest currency unit (represented as string for bigint)
+         */
+        unit_price: string;
+      }
+
+      /**
+       * Price breakdown containing amount, unit price, and quantity
+       */
+      export interface OldPrice {
+        /**
+         * Total amount in smallest currency unit (represented as string for bigint)
+         */
+        amount: string;
+
+        /**
+         * Quantity of units for this line item
+         */
+        quantity: number;
+
+        /**
+         * Unit price in smallest currency unit (represented as string for bigint)
+         */
+        unit_price: string;
+      }
     }
 
     export interface DeleteDiffEntry {
@@ -1240,7 +1305,8 @@ export namespace InvoiceListHistoryResponse {
         id: string;
 
         /**
-         * Total amount in smallest currency unit (represented as string for bigint)
+         * @deprecated Deprecated: use price.amount instead. Total amount in smallest
+         * currency unit (represented as string for bigint)
          */
         amount: string;
 
@@ -1434,14 +1500,14 @@ export namespace InvoiceListHistoryResponse {
         description: string;
 
         /**
+         * Price breakdown containing amount, unit price, and quantity
+         */
+        price: Item.Price;
+
+        /**
          * ID of the product/catalog item
          */
         product_id: string;
-
-        /**
-         * Quantity of units for this line item
-         */
-        quantity: number;
 
         /**
          * Metadata tags for this line item
@@ -1454,17 +1520,32 @@ export namespace InvoiceListHistoryResponse {
         type: 'payin' | 'payout';
 
         /**
-         * Unit price in smallest currency unit (represented as string for bigint)
-         */
-        unit_price: string;
-
-        /**
          * External ID of the user associated with this line item
          */
         user_id: string;
       }
 
       export namespace Item {
+        /**
+         * Price breakdown containing amount, unit price, and quantity
+         */
+        export interface Price {
+          /**
+           * Total amount in smallest currency unit (represented as string for bigint)
+           */
+          amount: string;
+
+          /**
+           * Quantity of units for this line item
+           */
+          quantity: number;
+
+          /**
+           * Unit price in smallest currency unit (represented as string for bigint)
+           */
+          unit_price: string;
+        }
+
         /**
          * A key-value tag pair
          */
