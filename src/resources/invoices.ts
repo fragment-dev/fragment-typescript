@@ -1577,7 +1577,7 @@ export namespace InvoiceSearchResponse {
     /**
      * List of invoices matching the search criteria
      */
-    invoices: Array<InvoicesAPI.Invoice>;
+    invoices: Array<Data.Invoice>;
 
     /**
      * Pagination cursors.
@@ -1586,6 +1586,430 @@ export namespace InvoiceSearchResponse {
   }
 
   export namespace Data {
+    /**
+     * Invoice with balance details
+     */
+    export interface Invoice extends InvoicesAPI.Invoice {
+      /**
+       * Invoice-level balances by currency: payins, payouts, and net (payins - payouts)
+       */
+      balances: Array<Invoice.Balance>;
+
+      /**
+       * Transaction allocations (payments) associated with this invoice.
+       */
+      payments: Array<Invoice.Payment>;
+
+      /**
+       * Users/parties involved in the invoice
+       */
+      users: Array<Invoice.User>;
+    }
+
+    export namespace Invoice {
+      export interface Balance {
+        /**
+         * Currency code
+         */
+        currency: string;
+
+        net: Balance.Net;
+
+        payins: Balance.Payins;
+
+        payouts: Balance.Payouts;
+      }
+
+      export namespace Balance {
+        export interface Net {
+          /**
+           * Actual amount (represented as string)
+           */
+          actual: string;
+
+          /**
+           * Expected amount (represented as string)
+           */
+          expected: string;
+
+          /**
+           * Remaining amount (expected - actual, represented as string)
+           */
+          remaining: string;
+        }
+
+        export interface Payins {
+          /**
+           * Actual amount (represented as string)
+           */
+          actual: string;
+
+          /**
+           * Expected amount (represented as string)
+           */
+          expected: string;
+
+          /**
+           * Remaining amount (expected - actual, represented as string)
+           */
+          remaining: string;
+        }
+
+        export interface Payouts {
+          /**
+           * Actual amount (represented as string)
+           */
+          actual: string;
+
+          /**
+           * Expected amount (represented as string)
+           */
+          expected: string;
+
+          /**
+           * Remaining amount (expected - actual, represented as string)
+           */
+          remaining: string;
+        }
+      }
+
+      /**
+       * A payment allocated to this invoice.
+       */
+      export interface Payment {
+        /**
+         * Amount allocated in smallest currency unit as stringified bigint.
+         */
+        amount: string;
+
+        /**
+         * Currency code (ISO 4217 or crypto)
+         */
+        currency:
+          | 'ADA'
+          | 'BTC'
+          | 'DAI'
+          | 'ETH'
+          | 'SOL'
+          | 'USDC'
+          | 'USDT'
+          | 'USDG'
+          | 'EURC'
+          | 'CADC'
+          | 'CADT'
+          | 'XLM'
+          | 'UNI'
+          | 'BCH'
+          | 'LTC'
+          | 'AAVE'
+          | 'LINK'
+          | 'MATIC'
+          | 'PTS'
+          | 'AED'
+          | 'AFN'
+          | 'ALL'
+          | 'AMD'
+          | 'ANG'
+          | 'AOA'
+          | 'ARS'
+          | 'AUD'
+          | 'AWG'
+          | 'AZN'
+          | 'BAM'
+          | 'BBD'
+          | 'BDT'
+          | 'BGN'
+          | 'BHD'
+          | 'BIF'
+          | 'BMD'
+          | 'BND'
+          | 'BOB'
+          | 'BRL'
+          | 'BSD'
+          | 'BTN'
+          | 'BWP'
+          | 'BYR'
+          | 'BZD'
+          | 'CAD'
+          | 'CDF'
+          | 'CHF'
+          | 'CLP'
+          | 'CNY'
+          | 'COP'
+          | 'CRC'
+          | 'CUC'
+          | 'CUP'
+          | 'CVE'
+          | 'CZK'
+          | 'DJF'
+          | 'DKK'
+          | 'DOP'
+          | 'DZD'
+          | 'EGP'
+          | 'ERN'
+          | 'ETB'
+          | 'EUR'
+          | 'FJD'
+          | 'FKP'
+          | 'GBP'
+          | 'GEL'
+          | 'GGP'
+          | 'GHS'
+          | 'GIP'
+          | 'GMD'
+          | 'GNF'
+          | 'GTQ'
+          | 'GYD'
+          | 'HKD'
+          | 'HNL'
+          | 'HRK'
+          | 'HTG'
+          | 'HUF'
+          | 'IDR'
+          | 'ILS'
+          | 'IMP'
+          | 'INR'
+          | 'IQD'
+          | 'IRR'
+          | 'ISK'
+          | 'JMD'
+          | 'JOD'
+          | 'JPY'
+          | 'KES'
+          | 'KGS'
+          | 'KHR'
+          | 'KMF'
+          | 'KPW'
+          | 'KRW'
+          | 'KWD'
+          | 'KYD'
+          | 'KZT'
+          | 'LAK'
+          | 'LBP'
+          | 'LKR'
+          | 'LRD'
+          | 'LSL'
+          | 'LYD'
+          | 'MAD'
+          | 'MDL'
+          | 'MGA'
+          | 'MKD'
+          | 'MMK'
+          | 'MNT'
+          | 'MOP'
+          | 'MUR'
+          | 'MVR'
+          | 'MWK'
+          | 'MXN'
+          | 'MYR'
+          | 'MZN'
+          | 'NAD'
+          | 'NGN'
+          | 'NIO'
+          | 'NOK'
+          | 'NPR'
+          | 'NZD'
+          | 'OMR'
+          | 'PAB'
+          | 'PEN'
+          | 'PGK'
+          | 'PHP'
+          | 'PKR'
+          | 'PLN'
+          | 'PYG'
+          | 'QAR'
+          | 'RON'
+          | 'RSD'
+          | 'RUB'
+          | 'RWF'
+          | 'SAR'
+          | 'SBD'
+          | 'SCR'
+          | 'SDG'
+          | 'SEK'
+          | 'SGD'
+          | 'SHP'
+          | 'SLL'
+          | 'SOS'
+          | 'SPL'
+          | 'SRD'
+          | 'SVC'
+          | 'SYP'
+          | 'STN'
+          | 'SZL'
+          | 'THB'
+          | 'TJS'
+          | 'TMT'
+          | 'TND'
+          | 'TOP'
+          | 'TRY'
+          | 'TTD'
+          | 'TVD'
+          | 'TWD'
+          | 'TZS'
+          | 'UAH'
+          | 'UGX'
+          | 'USD'
+          | 'UYU'
+          | 'UZS'
+          | 'VEF'
+          | 'VND'
+          | 'VUV'
+          | 'WST'
+          | 'XAF'
+          | 'XCD'
+          | 'XOF'
+          | 'XPF'
+          | 'YER'
+          | 'ZAR'
+          | 'ZMW'
+          | 'LOGICAL'
+          | 'CUSTOM';
+
+        /**
+         * Posted timestamp of the parent transaction in ISO 8601 format.
+         */
+        posted: string;
+
+        transaction: Payment.Transaction;
+
+        /**
+         * The type of the payment.
+         */
+        type: 'payin' | 'payout';
+
+        user: Payment.User;
+      }
+
+      export namespace Payment {
+        export interface Transaction {
+          /**
+           * Encoded transaction ID.
+           */
+          id: string;
+
+          /**
+           * External transaction ID.
+           */
+          external_id: string;
+
+          /**
+           * Metadata tags from the parent transaction.
+           */
+          tags: Array<Transaction.Tag>;
+        }
+
+        export namespace Transaction {
+          /**
+           * A key-value tag pair
+           */
+          export interface Tag {
+            /**
+             * Tag key
+             */
+            key: string;
+
+            /**
+             * Tag value
+             */
+            value: string;
+          }
+        }
+
+        export interface User {
+          /**
+           * FRAGMENT generated ID of the user
+           */
+          id: string;
+
+          /**
+           * External ID of the user
+           */
+          external_id?: string;
+        }
+      }
+
+      export interface User {
+        /**
+         * User/party ID
+         */
+        id: string;
+
+        /**
+         * Per-currency balance breakdown for this user
+         */
+        balances: Array<User.Balance>;
+      }
+
+      export namespace User {
+        export interface Balance {
+          /**
+           * Currency code
+           */
+          currency: string;
+
+          net: Balance.Net;
+
+          payins: Balance.Payins;
+
+          payouts: Balance.Payouts;
+        }
+
+        export namespace Balance {
+          export interface Net {
+            /**
+             * Actual amount (represented as string)
+             */
+            actual: string;
+
+            /**
+             * Expected amount (represented as string)
+             */
+            expected: string;
+
+            /**
+             * Remaining amount (expected - actual, represented as string)
+             */
+            remaining: string;
+          }
+
+          export interface Payins {
+            /**
+             * Actual amount (represented as string)
+             */
+            actual: string;
+
+            /**
+             * Expected amount (represented as string)
+             */
+            expected: string;
+
+            /**
+             * Remaining amount (expected - actual, represented as string)
+             */
+            remaining: string;
+          }
+
+          export interface Payouts {
+            /**
+             * Actual amount (represented as string)
+             */
+            actual: string;
+
+            /**
+             * Expected amount (represented as string)
+             */
+            expected: string;
+
+            /**
+             * Remaining amount (expected - actual, represented as string)
+             */
+            remaining: string;
+          }
+        }
+      }
+    }
+
     /**
      * Pagination cursors.
      */
