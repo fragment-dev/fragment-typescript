@@ -19,7 +19,6 @@ export class Invoices extends APIResource {
    *   invoice_id: 'invoice_2024_001',
    *   line_items: [
    *     {
-   *       amount: '1000',
    *       description: 'Professional services for January 2026',
    *       product_id: 'prod_1234567890',
    *       type: 'payout',
@@ -57,7 +56,6 @@ export class Invoices extends APIResource {
    *   {
    *     line_items_update: [
    *       {
-   *         amount: '1000',
    *         currency_code: 'USD',
    *         description:
    *           'Professional services for January 2026',
@@ -2046,11 +2044,6 @@ export namespace InvoiceCreateParams {
    */
   export interface LineItem {
     /**
-     * Amount in smallest currency unit (e.g., cents)
-     */
-    amount: string;
-
-    /**
      * Description of the line item
      */
     description: string;
@@ -2066,6 +2059,12 @@ export namespace InvoiceCreateParams {
     type: 'payin' | 'payout';
 
     user: LineItem.ID | LineItem.ExternalID;
+
+    /**
+     * @deprecated Deprecated: use price instead. Total amount in smallest currency
+     * unit.
+     */
+    amount?: string;
 
     /**
      * Currency code (ISO 4217 or crypto)
@@ -2252,6 +2251,11 @@ export namespace InvoiceCreateParams {
       | 'CUSTOM';
 
     /**
+     * Price breakdown. Provide amount, or unit_price + quantity, or all three.
+     */
+    price?: LineItem.Price;
+
+    /**
      * Optional metadata tags for this line item
      */
     tags?: Array<LineItem.Tag>;
@@ -2270,6 +2274,27 @@ export namespace InvoiceCreateParams {
        * External ID of the user
        */
       external_id: string;
+    }
+
+    /**
+     * Price breakdown. Provide amount, or unit_price + quantity, or all three.
+     */
+    export interface Price {
+      /**
+       * Total amount in smallest currency unit. Required if unit_price and quantity are
+       * not provided.
+       */
+      amount?: string;
+
+      /**
+       * Number of units for this line item.
+       */
+      quantity?: number;
+
+      /**
+       * Price per unit in smallest currency unit.
+       */
+      unit_price?: string;
     }
 
     /**
@@ -2330,11 +2355,6 @@ export namespace InvoiceUpdateParams {
    * Operation to add a new line item to an invoice
    */
   export interface AddLineItemOperation {
-    /**
-     * Amount in smallest currency unit (e.g., cents)
-     */
-    amount: string;
-
     /**
      * Currency code (ISO 4217 or crypto)
      */
@@ -2542,6 +2562,17 @@ export namespace InvoiceUpdateParams {
     user: AddLineItemOperation.ID | AddLineItemOperation.ExternalID;
 
     /**
+     * @deprecated Deprecated: use price instead. Total amount in smallest currency
+     * unit.
+     */
+    amount?: string;
+
+    /**
+     * Price breakdown. Provide amount, or unit_price + quantity, or all three.
+     */
+    price?: AddLineItemOperation.Price;
+
+    /**
      * Optional metadata tags for this line item
      */
     tags?: Array<AddLineItemOperation.Tag>;
@@ -2563,6 +2594,27 @@ export namespace InvoiceUpdateParams {
     }
 
     /**
+     * Price breakdown. Provide amount, or unit_price + quantity, or all three.
+     */
+    export interface Price {
+      /**
+       * Total amount in smallest currency unit. Required if unit_price and quantity are
+       * not provided.
+       */
+      amount?: string;
+
+      /**
+       * Number of units for this line item.
+       */
+      quantity?: number;
+
+      /**
+       * Price per unit in smallest currency unit.
+       */
+      unit_price?: string;
+    }
+
+    /**
      * A key-value tag pair for metadata
      */
     export interface Tag {
@@ -2581,7 +2633,7 @@ export namespace InvoiceUpdateParams {
   }
 
   /**
-   * Operation to update an existing line item amount
+   * Operation to update an existing line item pricing
    */
   export interface UpdateLineItemOperation {
     /**
@@ -2590,14 +2642,43 @@ export namespace InvoiceUpdateParams {
     id: string;
 
     /**
-     * New amount in smallest currency unit
-     */
-    amount: string;
-
-    /**
      * Operation type - update an existing line item
      */
     op: 'update';
+
+    /**
+     * @deprecated Deprecated: use price instead. Total amount in smallest currency
+     * unit.
+     */
+    amount?: string;
+
+    /**
+     * Price breakdown. Provide amount, or unit_price + quantity, or all three.
+     */
+    price?: UpdateLineItemOperation.Price;
+  }
+
+  export namespace UpdateLineItemOperation {
+    /**
+     * Price breakdown. Provide amount, or unit_price + quantity, or all three.
+     */
+    export interface Price {
+      /**
+       * Total amount in smallest currency unit. Required if unit_price and quantity are
+       * not provided.
+       */
+      amount?: string;
+
+      /**
+       * Number of units for this line item.
+       */
+      quantity?: number;
+
+      /**
+       * Price per unit in smallest currency unit.
+       */
+      unit_price?: string;
+    }
   }
 
   /**
