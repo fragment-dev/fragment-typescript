@@ -15,7 +15,6 @@ describe('resource invoices', () => {
       invoice_id: 'invoice_2024_001',
       line_items: [
         {
-          amount: '1000',
           description: 'Professional services for January 2026',
           product_id: 'prod_1234567890',
           type: 'payout',
@@ -38,12 +37,17 @@ describe('resource invoices', () => {
       invoice_id: 'invoice_2024_001',
       line_items: [
         {
-          amount: '1000',
           description: 'Professional services for January 2026',
           product_id: 'prod_1234567890',
           type: 'payout',
           user: { id: 'user_abc123' },
+          amount: '1000',
           currency_code: 'USD',
+          price: {
+            amount: '1000',
+            quantity: 2,
+            unit_price: '500',
+          },
           tags: [{ key: 'region', value: 'us-east' }],
         },
       ],
@@ -68,7 +72,6 @@ describe('resource invoices', () => {
     const responsePromise = client.invoices.update('inv_1234567890', {
       line_items_update: [
         {
-          amount: '1000',
           currency_code: 'USD',
           description: 'Professional services for January 2026',
           op: 'add',
@@ -93,13 +96,18 @@ describe('resource invoices', () => {
     const response = await client.invoices.update('inv_1234567890', {
       line_items_update: [
         {
-          amount: '1000',
           currency_code: 'USD',
           description: 'Professional services for January 2026',
           op: 'add',
           product_id: 'prod_1234567890',
           type: 'payout',
           user: { id: 'user_abc123' },
+          amount: '1000',
+          price: {
+            amount: '1000',
+            quantity: 2,
+            unit_price: '500',
+          },
           tags: [{ key: 'region', value: 'us-east' }],
         },
       ],
