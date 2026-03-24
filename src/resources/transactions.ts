@@ -152,6 +152,9 @@ export interface Transaction {
    */
   id: string;
 
+  /**
+   * External account reference on transaction responses.
+   */
   account: Transaction.Account;
 
   allocations: Array<Transaction.Allocation>;
@@ -383,6 +386,9 @@ export interface Transaction {
 }
 
 export namespace Transaction {
+  /**
+   * External account reference on transaction responses.
+   */
   export interface Account {
     /**
      * User-facing encoded account ID.
@@ -414,10 +420,16 @@ export namespace Transaction {
      */
     type: 'invoice_payin' | 'invoice_payout';
 
+    /**
+     * User reference in API responses: Fragment user id and optional external_id.
+     */
     user: Allocation.User;
   }
 
   export namespace Allocation {
+    /**
+     * User reference in API responses: Fragment user id and optional external_id.
+     */
     export interface User {
       /**
        * FRAGMENT generated ID of the user
@@ -532,10 +544,16 @@ export namespace TransactionListHistoryResponse {
          */
         type: 'invoice_payin' | 'invoice_payout';
 
+        /**
+         * User reference in API responses: Fragment user id and optional external_id.
+         */
         user: Item.User;
       }
 
       export namespace Item {
+        /**
+         * User reference in API responses: Fragment user id and optional external_id.
+         */
         export interface User {
           /**
            * FRAGMENT generated ID of the user
@@ -582,10 +600,16 @@ export namespace TransactionListHistoryResponse {
          */
         type: 'invoice_payin' | 'invoice_payout';
 
+        /**
+         * User reference in API responses: Fragment user id and optional external_id.
+         */
         user: Item.User;
       }
 
       export namespace Item {
+        /**
+         * User reference in API responses: Fragment user id and optional external_id.
+         */
         export interface User {
           /**
            * FRAGMENT generated ID of the user
@@ -659,10 +683,16 @@ export namespace TransactionSearchResponse {
          */
         type: 'invoice_payin' | 'invoice_payout';
 
+        /**
+         * User reference in API responses: Fragment user id and optional external_id.
+         */
         user: Item.User;
       }
 
       export namespace Item {
+        /**
+         * User reference in API responses: Fragment user id and optional external_id.
+         */
         export interface User {
           /**
            * FRAGMENT generated ID of the user
@@ -709,10 +739,16 @@ export namespace TransactionSearchResponse {
          */
         type: 'invoice_payin' | 'invoice_payout';
 
+        /**
+         * User reference in API responses: Fragment user id and optional external_id.
+         */
         user: Item.User;
       }
 
       export namespace Item {
+        /**
+         * User reference in API responses: Fragment user id and optional external_id.
+         */
         export interface User {
           /**
            * FRAGMENT generated ID of the user
@@ -762,7 +798,7 @@ export namespace TransactionSearchAllocationsResponse {
     posted: string;
 
     /**
-     * Reference to the parent transaction.
+     * Reference to a transaction by encoded ID and external ID.
      */
     transaction: Data.Transaction;
 
@@ -771,12 +807,15 @@ export namespace TransactionSearchAllocationsResponse {
      */
     type: 'invoice_payin' | 'invoice_payout';
 
+    /**
+     * User reference in API responses: Fragment user id and optional external_id.
+     */
     user: Data.User;
   }
 
   export namespace Data {
     /**
-     * Reference to the parent transaction.
+     * Reference to a transaction by encoded ID and external ID.
      */
     export interface Transaction {
       /**
@@ -790,6 +829,9 @@ export namespace TransactionSearchAllocationsResponse {
       external_id: string;
     }
 
+    /**
+     * User reference in API responses: Fragment user id and optional external_id.
+     */
     export interface User {
       /**
        * FRAGMENT generated ID of the user
@@ -1056,6 +1098,9 @@ export namespace TransactionCreateParams {
      */
     type: 'invoice_payin' | 'invoice_payout';
 
+    /**
+     * Identifies a user by Fragment-generated id or external_id (request body).
+     */
     user: Allocation.ID | Allocation.ExternalID;
   }
 
@@ -1144,6 +1189,9 @@ export namespace TransactionCreateAllocationsParams {
      */
     type: 'invoice_payin' | 'invoice_payout';
 
+    /**
+     * Identifies a user by Fragment-generated id or external_id (request body).
+     */
     user: AddAllocationOperation.ID | AddAllocationOperation.ExternalID;
   }
 
