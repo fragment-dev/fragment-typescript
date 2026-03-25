@@ -95,7 +95,7 @@ export interface Product {
 
 export namespace Product {
   /**
-   * Reference to a role by its unique ID
+   * Role reference in product API responses.
    */
   export interface PaidByRole {
     /**
@@ -110,7 +110,7 @@ export namespace Product {
   }
 
   /**
-   * Reference to a role by its unique ID
+   * Role reference in product API responses.
    */
   export interface PaidToRole {
     /**
@@ -161,38 +161,38 @@ export interface ProductCreateParams {
    * Roles that can pay for this product. Reference roles by id or name. At least one
    * of paid_by_roles or paid_to_roles must be provided.
    */
-  paid_by_roles?: Array<ProductCreateParams.RoleMatchByID | ProductCreateParams.RoleMatchByName>;
+  paid_by_roles?: Array<ProductCreateParams.ID | ProductCreateParams.Name>;
 
   /**
    * Roles that receive payment for this product. Reference roles by id or name. At
    * least one of paid_by_roles or paid_to_roles must be provided.
    */
-  paid_to_roles?: Array<ProductCreateParams.RoleMatchByID | ProductCreateParams.RoleMatchByName>;
+  paid_to_roles?: Array<ProductCreateParams.ID | ProductCreateParams.Name>;
 }
 
 export namespace ProductCreateParams {
-  export interface RoleMatchByID {
+  export interface ID {
     /**
      * The unique ID of the role
      */
     id: string;
   }
 
-  export interface RoleMatchByName {
+  export interface Name {
     /**
      * The name of the role
      */
     name: string;
   }
 
-  export interface RoleMatchByID {
+  export interface ID {
     /**
      * The unique ID of the role
      */
     id: string;
   }
 
-  export interface RoleMatchByName {
+  export interface Name {
     /**
      * The name of the role
      */

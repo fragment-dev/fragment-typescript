@@ -746,6 +746,9 @@ export namespace InvoiceRetrieveResponse {
        */
       posted: string;
 
+      /**
+       * Reference to a transaction by encoded ID and external ID.
+       */
       transaction: Payment.Transaction;
 
       /**
@@ -753,10 +756,16 @@ export namespace InvoiceRetrieveResponse {
        */
       type: 'payin' | 'payout';
 
+      /**
+       * User reference in API responses: Fragment user id and optional external_id.
+       */
       user: Payment.User;
     }
 
     export namespace Payment {
+      /**
+       * Reference to a transaction by encoded ID and external ID.
+       */
       export interface Transaction {
         /**
          * Encoded transaction ID.
@@ -791,6 +800,9 @@ export namespace InvoiceRetrieveResponse {
         }
       }
 
+      /**
+       * User reference in API responses: Fragment user id and optional external_id.
+       */
       export interface User {
         /**
          * FRAGMENT generated ID of the user
@@ -1869,6 +1881,9 @@ export namespace InvoiceSearchResponse {
          */
         posted: string;
 
+        /**
+         * Reference to a transaction by encoded ID and external ID.
+         */
         transaction: Payment.Transaction;
 
         /**
@@ -1876,10 +1891,16 @@ export namespace InvoiceSearchResponse {
          */
         type: 'payin' | 'payout';
 
+        /**
+         * User reference in API responses: Fragment user id and optional external_id.
+         */
         user: Payment.User;
       }
 
       export namespace Payment {
+        /**
+         * Reference to a transaction by encoded ID and external ID.
+         */
         export interface Transaction {
           /**
            * Encoded transaction ID.
@@ -1914,6 +1935,9 @@ export namespace InvoiceSearchResponse {
           }
         }
 
+        /**
+         * User reference in API responses: Fragment user id and optional external_id.
+         */
         export interface User {
           /**
            * FRAGMENT generated ID of the user
@@ -2058,6 +2082,9 @@ export namespace InvoiceCreateParams {
      */
     type: 'payin' | 'payout';
 
+    /**
+     * Identifies a user by Fragment-generated id or external_id (request body).
+     */
     user: LineItem.ID | LineItem.ExternalID;
 
     /**
@@ -2559,6 +2586,9 @@ export namespace InvoiceUpdateParams {
      */
     type: 'payin' | 'payout';
 
+    /**
+     * Identifies a user by Fragment-generated id or external_id (request body).
+     */
     user: AddLineItemOperation.ID | AddLineItemOperation.ExternalID;
 
     /**
