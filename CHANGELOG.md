@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.1 (2026-03-25)
+
+Full Changelog: [v0.18.0...v0.18.1](https://github.com/fragment-dev/fragment-typescript/compare/v0.18.0...v0.18.1)
+
 ## 0.18.0 (2026-03-25)
 
 Full Changelog: [v0.17.0...v0.18.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.17.0...v0.18.0)
