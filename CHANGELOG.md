@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.18.0 (2026-03-25)
+
+Full Changelog: [v0.17.0...v0.18.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.17.0...v0.18.0)
+
+### Features
+
+* **api:** update SDK from prod (89a0dba7c923e028ea6cbb4d124e77667865c970) ([fd75b68](https://github.com/fragment-dev/fragment-typescript/commit/fd75b68e411b9449afe7b736a02602b0858df003))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([f16665d](https://github.com/fragment-dev/fragment-typescript/commit/f16665d9ef9108e2b8810473673d36ec69be6702))
+* **internal:** update gitignore ([069caa7](https://github.com/fragment-dev/fragment-typescript/commit/069caa759fbf2e13bc48bc85c52d803d70cce16f))
+
 ## 0.17.0 (2026-03-20)
 
 Full Changelog: [v0.16.0...v0.17.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.16.0...v0.17.0)
