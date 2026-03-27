@@ -47,31 +47,18 @@ export class Invoices extends APIResource {
   }
 
   /**
-   * Updates an invoice with line item operations
+   * Updates an invoice
    *
    * @example
    * ```ts
    * const invoice = await client.invoices.update(
    *   'inv_1234567890',
-   *   {
-   *     line_items_update: [
-   *       {
-   *         currency_code: 'USD',
-   *         description:
-   *           'Professional services for January 2026',
-   *         op: 'add',
-   *         product_id: 'prod_1234567890',
-   *         type: 'payout',
-   *         user: { id: 'user_abc123' },
-   *       },
-   *     ],
-   *     version: 1,
-   *   },
+   *   { current_invoice_version: 3 },
    * );
    * ```
    */
   update(id: string, body: InvoiceUpdateParams, options?: RequestOptions): APIPromise<InvoiceUpdateResponse> {
-    return this._client.post(path`/invoices/${id}`, { body, ...options });
+    return this._client.patch(path`/invoices/${id}`, { body, ...options });
   }
 
   /**
@@ -2064,7 +2051,7 @@ export interface InvoiceCreateParams {
 
 export namespace InvoiceCreateParams {
   /**
-   * Line item data for creating within an invoice.
+   * Data to create a line item.
    */
   export interface LineItem {
     /**
@@ -2362,292 +2349,439 @@ export namespace InvoiceCreateParams {
 
 export interface InvoiceUpdateParams {
   /**
-   * List of line item operations to apply to the invoice
+   * The current version of the invoice. Must match the stored version for the update
+   * to succeed (optimistic concurrency).
    */
-  line_items_update: Array<
-    | InvoiceUpdateParams.AddLineItemOperation
-    | InvoiceUpdateParams.UpdateLineItemOperation
-    | InvoiceUpdateParams.DeleteLineItemOperation
-  >;
+  current_invoice_version: number;
 
-  /**
-   * The version of the invoice being updated. Must match the current version for the
-   * update to succeed.
-   */
-  version: number;
+  line_items?: InvoiceUpdateParams.LineItems;
+
+  tags?: InvoiceUpdateParams.Tags;
 }
 
 export namespace InvoiceUpdateParams {
-  /**
-   * Operation to add a new line item to an invoice
-   */
-  export interface AddLineItemOperation {
+  export interface LineItems {
     /**
-     * Currency code (ISO 4217 or crypto)
+     * Line items to add to the invoice
      */
-    currency_code:
-      | 'ADA'
-      | 'BTC'
-      | 'DAI'
-      | 'ETH'
-      | 'SOL'
-      | 'USDC'
-      | 'USDT'
-      | 'USDG'
-      | 'EURC'
-      | 'CADC'
-      | 'CADT'
-      | 'XLM'
-      | 'UNI'
-      | 'BCH'
-      | 'LTC'
-      | 'AAVE'
-      | 'LINK'
-      | 'MATIC'
-      | 'PTS'
-      | 'AED'
-      | 'AFN'
-      | 'ALL'
-      | 'AMD'
-      | 'ANG'
-      | 'AOA'
-      | 'ARS'
-      | 'AUD'
-      | 'AWG'
-      | 'AZN'
-      | 'BAM'
-      | 'BBD'
-      | 'BDT'
-      | 'BGN'
-      | 'BHD'
-      | 'BIF'
-      | 'BMD'
-      | 'BND'
-      | 'BOB'
-      | 'BRL'
-      | 'BSD'
-      | 'BTN'
-      | 'BWP'
-      | 'BYR'
-      | 'BZD'
-      | 'CAD'
-      | 'CDF'
-      | 'CHF'
-      | 'CLP'
-      | 'CNY'
-      | 'COP'
-      | 'CRC'
-      | 'CUC'
-      | 'CUP'
-      | 'CVE'
-      | 'CZK'
-      | 'DJF'
-      | 'DKK'
-      | 'DOP'
-      | 'DZD'
-      | 'EGP'
-      | 'ERN'
-      | 'ETB'
-      | 'EUR'
-      | 'FJD'
-      | 'FKP'
-      | 'GBP'
-      | 'GEL'
-      | 'GGP'
-      | 'GHS'
-      | 'GIP'
-      | 'GMD'
-      | 'GNF'
-      | 'GTQ'
-      | 'GYD'
-      | 'HKD'
-      | 'HNL'
-      | 'HRK'
-      | 'HTG'
-      | 'HUF'
-      | 'IDR'
-      | 'ILS'
-      | 'IMP'
-      | 'INR'
-      | 'IQD'
-      | 'IRR'
-      | 'ISK'
-      | 'JMD'
-      | 'JOD'
-      | 'JPY'
-      | 'KES'
-      | 'KGS'
-      | 'KHR'
-      | 'KMF'
-      | 'KPW'
-      | 'KRW'
-      | 'KWD'
-      | 'KYD'
-      | 'KZT'
-      | 'LAK'
-      | 'LBP'
-      | 'LKR'
-      | 'LRD'
-      | 'LSL'
-      | 'LYD'
-      | 'MAD'
-      | 'MDL'
-      | 'MGA'
-      | 'MKD'
-      | 'MMK'
-      | 'MNT'
-      | 'MOP'
-      | 'MUR'
-      | 'MVR'
-      | 'MWK'
-      | 'MXN'
-      | 'MYR'
-      | 'MZN'
-      | 'NAD'
-      | 'NGN'
-      | 'NIO'
-      | 'NOK'
-      | 'NPR'
-      | 'NZD'
-      | 'OMR'
-      | 'PAB'
-      | 'PEN'
-      | 'PGK'
-      | 'PHP'
-      | 'PKR'
-      | 'PLN'
-      | 'PYG'
-      | 'QAR'
-      | 'RON'
-      | 'RSD'
-      | 'RUB'
-      | 'RWF'
-      | 'SAR'
-      | 'SBD'
-      | 'SCR'
-      | 'SDG'
-      | 'SEK'
-      | 'SGD'
-      | 'SHP'
-      | 'SLL'
-      | 'SOS'
-      | 'SPL'
-      | 'SRD'
-      | 'SVC'
-      | 'SYP'
-      | 'STN'
-      | 'SZL'
-      | 'THB'
-      | 'TJS'
-      | 'TMT'
-      | 'TND'
-      | 'TOP'
-      | 'TRY'
-      | 'TTD'
-      | 'TVD'
-      | 'TWD'
-      | 'TZS'
-      | 'UAH'
-      | 'UGX'
-      | 'USD'
-      | 'UYU'
-      | 'UZS'
-      | 'VEF'
-      | 'VND'
-      | 'VUV'
-      | 'WST'
-      | 'XAF'
-      | 'XCD'
-      | 'XOF'
-      | 'XPF'
-      | 'YER'
-      | 'ZAR'
-      | 'ZMW'
-      | 'LOGICAL'
-      | 'CUSTOM';
+    create?: Array<LineItems.Create>;
 
     /**
-     * Description of the line item
+     * Line items to remove from the invoice
      */
-    description: string;
+    delete?: Array<LineItems.Delete>;
 
     /**
-     * Operation type - add a new line item
+     * Existing line items to update
      */
-    op: 'add';
-
-    /**
-     * ID of the product/catalog item
-     */
-    product_id: string;
-
-    /**
-     * The type of the line item
-     */
-    type: 'payin' | 'payout';
-
-    /**
-     * Identifies a user by Fragment-generated id or external_id (request body).
-     */
-    user: AddLineItemOperation.ID | AddLineItemOperation.ExternalID;
-
-    /**
-     * @deprecated Deprecated: use price instead. Total amount in smallest currency
-     * unit.
-     */
-    amount?: string;
-
-    /**
-     * Price breakdown. Provide amount, or unit_price + quantity, or all three.
-     */
-    price?: AddLineItemOperation.Price;
-
-    /**
-     * Optional metadata tags for this line item
-     */
-    tags?: Array<AddLineItemOperation.Tag>;
+    update?: Array<LineItems.Update>;
   }
 
-  export namespace AddLineItemOperation {
-    export interface ID {
-      /**
-       * FRAGMENT generated ID of the user
-       */
-      id: string;
-    }
-
-    export interface ExternalID {
-      /**
-       * External ID of the user
-       */
-      external_id: string;
-    }
-
+  export namespace LineItems {
     /**
-     * Price breakdown. Provide amount, or unit_price + quantity, or all three.
+     * Data to create a line item.
      */
-    export interface Price {
+    export interface Create {
       /**
-       * Total amount in smallest currency unit. Required if unit_price and quantity are
-       * not provided.
+       * Description of the line item
+       */
+      description: string;
+
+      /**
+       * ID of the product/catalog item
+       */
+      product_id: string;
+
+      /**
+       * The type of the line item
+       */
+      type: 'payin' | 'payout';
+
+      /**
+       * Identifies a user by Fragment-generated id or external_id (request body).
+       */
+      user: Create.ID | Create.ExternalID;
+
+      /**
+       * @deprecated Deprecated: use price instead. Total amount in smallest currency
+       * unit.
        */
       amount?: string;
 
       /**
-       * Number of units for this line item.
+       * Currency code (ISO 4217 or crypto)
        */
-      quantity?: number;
+      currency_code?:
+        | 'ADA'
+        | 'BTC'
+        | 'DAI'
+        | 'ETH'
+        | 'SOL'
+        | 'USDC'
+        | 'USDT'
+        | 'USDG'
+        | 'EURC'
+        | 'CADC'
+        | 'CADT'
+        | 'XLM'
+        | 'UNI'
+        | 'BCH'
+        | 'LTC'
+        | 'AAVE'
+        | 'LINK'
+        | 'MATIC'
+        | 'PTS'
+        | 'AED'
+        | 'AFN'
+        | 'ALL'
+        | 'AMD'
+        | 'ANG'
+        | 'AOA'
+        | 'ARS'
+        | 'AUD'
+        | 'AWG'
+        | 'AZN'
+        | 'BAM'
+        | 'BBD'
+        | 'BDT'
+        | 'BGN'
+        | 'BHD'
+        | 'BIF'
+        | 'BMD'
+        | 'BND'
+        | 'BOB'
+        | 'BRL'
+        | 'BSD'
+        | 'BTN'
+        | 'BWP'
+        | 'BYR'
+        | 'BZD'
+        | 'CAD'
+        | 'CDF'
+        | 'CHF'
+        | 'CLP'
+        | 'CNY'
+        | 'COP'
+        | 'CRC'
+        | 'CUC'
+        | 'CUP'
+        | 'CVE'
+        | 'CZK'
+        | 'DJF'
+        | 'DKK'
+        | 'DOP'
+        | 'DZD'
+        | 'EGP'
+        | 'ERN'
+        | 'ETB'
+        | 'EUR'
+        | 'FJD'
+        | 'FKP'
+        | 'GBP'
+        | 'GEL'
+        | 'GGP'
+        | 'GHS'
+        | 'GIP'
+        | 'GMD'
+        | 'GNF'
+        | 'GTQ'
+        | 'GYD'
+        | 'HKD'
+        | 'HNL'
+        | 'HRK'
+        | 'HTG'
+        | 'HUF'
+        | 'IDR'
+        | 'ILS'
+        | 'IMP'
+        | 'INR'
+        | 'IQD'
+        | 'IRR'
+        | 'ISK'
+        | 'JMD'
+        | 'JOD'
+        | 'JPY'
+        | 'KES'
+        | 'KGS'
+        | 'KHR'
+        | 'KMF'
+        | 'KPW'
+        | 'KRW'
+        | 'KWD'
+        | 'KYD'
+        | 'KZT'
+        | 'LAK'
+        | 'LBP'
+        | 'LKR'
+        | 'LRD'
+        | 'LSL'
+        | 'LYD'
+        | 'MAD'
+        | 'MDL'
+        | 'MGA'
+        | 'MKD'
+        | 'MMK'
+        | 'MNT'
+        | 'MOP'
+        | 'MUR'
+        | 'MVR'
+        | 'MWK'
+        | 'MXN'
+        | 'MYR'
+        | 'MZN'
+        | 'NAD'
+        | 'NGN'
+        | 'NIO'
+        | 'NOK'
+        | 'NPR'
+        | 'NZD'
+        | 'OMR'
+        | 'PAB'
+        | 'PEN'
+        | 'PGK'
+        | 'PHP'
+        | 'PKR'
+        | 'PLN'
+        | 'PYG'
+        | 'QAR'
+        | 'RON'
+        | 'RSD'
+        | 'RUB'
+        | 'RWF'
+        | 'SAR'
+        | 'SBD'
+        | 'SCR'
+        | 'SDG'
+        | 'SEK'
+        | 'SGD'
+        | 'SHP'
+        | 'SLL'
+        | 'SOS'
+        | 'SPL'
+        | 'SRD'
+        | 'SVC'
+        | 'SYP'
+        | 'STN'
+        | 'SZL'
+        | 'THB'
+        | 'TJS'
+        | 'TMT'
+        | 'TND'
+        | 'TOP'
+        | 'TRY'
+        | 'TTD'
+        | 'TVD'
+        | 'TWD'
+        | 'TZS'
+        | 'UAH'
+        | 'UGX'
+        | 'USD'
+        | 'UYU'
+        | 'UZS'
+        | 'VEF'
+        | 'VND'
+        | 'VUV'
+        | 'WST'
+        | 'XAF'
+        | 'XCD'
+        | 'XOF'
+        | 'XPF'
+        | 'YER'
+        | 'ZAR'
+        | 'ZMW'
+        | 'LOGICAL'
+        | 'CUSTOM';
 
       /**
-       * Price per unit in smallest currency unit.
+       * Price breakdown. Provide amount, or unit_price + quantity, or all three.
        */
-      unit_price?: string;
+      price?: Create.Price;
+
+      /**
+       * Optional metadata tags for this line item
+       */
+      tags?: Array<Create.Tag>;
+    }
+
+    export namespace Create {
+      export interface ID {
+        /**
+         * FRAGMENT generated ID of the user
+         */
+        id: string;
+      }
+
+      export interface ExternalID {
+        /**
+         * External ID of the user
+         */
+        external_id: string;
+      }
+
+      /**
+       * Price breakdown. Provide amount, or unit_price + quantity, or all three.
+       */
+      export interface Price {
+        /**
+         * Total amount in smallest currency unit. Required if unit_price and quantity are
+         * not provided.
+         */
+        amount?: string;
+
+        /**
+         * Number of units for this line item.
+         */
+        quantity?: number;
+
+        /**
+         * Price per unit in smallest currency unit.
+         */
+        unit_price?: string;
+      }
+
+      /**
+       * A key-value tag pair for metadata
+       */
+      export interface Tag {
+        /**
+         * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
+         * 50 characters.
+         */
+        key: string;
+
+        /**
+         * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
+         * 200 characters.
+         */
+        value: string;
+      }
+    }
+
+    export interface Delete {
+      /**
+       * ID of the line item to delete
+       */
+      id: string;
     }
 
     /**
+     * Partial update for an existing line item. All fields except id are optional.
+     */
+    export interface Update {
+      /**
+       * ID of the line item to update
+       */
+      id: string;
+
+      description?: string;
+
+      price?: Update.Price;
+
+      tags?: Update.Tags;
+    }
+
+    export namespace Update {
+      export interface Price {
+        /**
+         * Number of units for this line item.
+         */
+        quantity: number;
+
+        /**
+         * Price per unit in smallest currency unit.
+         */
+        unit_price: string;
+
+        /**
+         * Total amount in smallest currency unit.
+         */
+        amount?: string;
+      }
+
+      export interface Tags {
+        /**
+         * Tags to add
+         */
+        create?: Array<Tags.Create>;
+
+        /**
+         * Tags to remove by key
+         */
+        delete?: Array<Tags.Delete>;
+
+        /**
+         * Tags to update. The key identifies the existing tag; the value is the new value.
+         */
+        update?: Array<Tags.Update>;
+      }
+
+      export namespace Tags {
+        /**
+         * A key-value tag pair for metadata
+         */
+        export interface Create {
+          /**
+           * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
+           * 50 characters.
+           */
+          key: string;
+
+          /**
+           * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
+           * 200 characters.
+           */
+          value: string;
+        }
+
+        export interface Delete {
+          /**
+           * Tag key to delete
+           */
+          key: string;
+        }
+
+        /**
+         * A key-value tag pair for metadata
+         */
+        export interface Update {
+          /**
+           * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
+           * 50 characters.
+           */
+          key: string;
+
+          /**
+           * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
+           * 200 characters.
+           */
+          value: string;
+        }
+      }
+    }
+  }
+
+  export interface Tags {
+    /**
+     * Tags to add
+     */
+    create?: Array<Tags.Create>;
+
+    /**
+     * Tags to remove by key
+     */
+    delete?: Array<Tags.Delete>;
+
+    /**
+     * Tags to update. The key identifies the existing tag; the value is the new value.
+     */
+    update?: Array<Tags.Update>;
+  }
+
+  export namespace Tags {
+    /**
      * A key-value tag pair for metadata
      */
-    export interface Tag {
+    export interface Create {
       /**
        * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
        * 50 characters.
@@ -2660,70 +2794,30 @@ export namespace InvoiceUpdateParams {
        */
       value: string;
     }
-  }
 
-  /**
-   * Operation to update an existing line item pricing
-   */
-  export interface UpdateLineItemOperation {
-    /**
-     * ID of the line item to update
-     */
-    id: string;
-
-    /**
-     * Operation type - update an existing line item
-     */
-    op: 'update';
-
-    /**
-     * @deprecated Deprecated: use price instead. Total amount in smallest currency
-     * unit.
-     */
-    amount?: string;
-
-    /**
-     * Price breakdown. Provide amount, or unit_price + quantity, or all three.
-     */
-    price?: UpdateLineItemOperation.Price;
-  }
-
-  export namespace UpdateLineItemOperation {
-    /**
-     * Price breakdown. Provide amount, or unit_price + quantity, or all three.
-     */
-    export interface Price {
+    export interface Delete {
       /**
-       * Total amount in smallest currency unit. Required if unit_price and quantity are
-       * not provided.
+       * Tag key to delete
        */
-      amount?: string;
-
-      /**
-       * Number of units for this line item.
-       */
-      quantity?: number;
-
-      /**
-       * Price per unit in smallest currency unit.
-       */
-      unit_price?: string;
+      key: string;
     }
-  }
-
-  /**
-   * Operation to delete a line item from an invoice
-   */
-  export interface DeleteLineItemOperation {
-    /**
-     * ID of the line item to delete
-     */
-    id: string;
 
     /**
-     * Operation type - delete an existing line item
+     * A key-value tag pair for metadata
      */
-    op: 'delete';
+    export interface Update {
+      /**
+       * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
+       * 50 characters.
+       */
+      key: string;
+
+      /**
+       * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
+       * 200 characters.
+       */
+      value: string;
+    }
   }
 }
 

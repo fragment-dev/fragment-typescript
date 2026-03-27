@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.19.0 (2026-03-27)
+
+Full Changelog: [v0.18.0...v0.19.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.18.0...v0.19.0)
+
+### Features
+
+* **api:** manual updates ([a16fa74](https://github.com/fragment-dev/fragment-typescript/commit/a16fa743607e7391e69ce85af2b7af5e203a755c))
+
 ## 0.18.0 (2026-03-25)
 
 Full Changelog: [v0.17.0...v0.18.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.17.0...v0.18.0)
