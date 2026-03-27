@@ -69,19 +69,7 @@ describe('resource invoices', () => {
 
   // Mock server tests are disabled
   test.skip('update: only required params', async () => {
-    const responsePromise = client.invoices.update('inv_1234567890', {
-      line_items_update: [
-        {
-          currency_code: 'USD',
-          description: 'Professional services for January 2026',
-          op: 'add',
-          product_id: 'prod_1234567890',
-          type: 'payout',
-          user: { id: 'user_abc123' },
-        },
-      ],
-      version: 1,
-    });
+    const responsePromise = client.invoices.update('inv_1234567890', { current_invoice_version: 3 });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -94,24 +82,47 @@ describe('resource invoices', () => {
   // Mock server tests are disabled
   test.skip('update: required and optional params', async () => {
     const response = await client.invoices.update('inv_1234567890', {
-      line_items_update: [
-        {
-          currency_code: 'USD',
-          description: 'Professional services for January 2026',
-          op: 'add',
-          product_id: 'prod_1234567890',
-          type: 'payout',
-          user: { id: 'user_abc123' },
-          amount: '1000',
-          price: {
+      current_invoice_version: 3,
+      line_items: {
+        create: [
+          {
+            description: 'Professional services for January 2026',
+            product_id: 'prod_1234567890',
+            type: 'payout',
+            user: { id: 'user_abc123' },
             amount: '1000',
-            quantity: 2,
-            unit_price: '500',
+            currency_code: 'USD',
+            price: {
+              amount: '1000',
+              quantity: 2,
+              unit_price: '500',
+            },
+            tags: [{ key: 'region', value: 'us-east' }],
           },
-          tags: [{ key: 'region', value: 'us-east' }],
-        },
-      ],
-      version: 1,
+        ],
+        delete: [{ id: 'id' }],
+        update: [
+          {
+            id: 'li_1234567890',
+            description: 'description',
+            price: {
+              quantity: 2,
+              unit_price: '500',
+              amount: '2000',
+            },
+            tags: {
+              create: [{ key: 'region', value: 'us-east' }],
+              delete: [{ key: 'key' }],
+              update: [{ key: 'region', value: 'eu-west-1' }],
+            },
+          },
+        ],
+      },
+      tags: {
+        create: [{ key: 'region', value: 'us-east' }],
+        delete: [{ key: 'key' }],
+        update: [{ key: 'region', value: 'eu-west-1' }],
+      },
     });
   });
 
