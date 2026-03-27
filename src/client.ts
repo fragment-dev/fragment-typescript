@@ -60,6 +60,8 @@ import {
   TransactionSearchAllocationsResponse,
   TransactionSearchParams,
   TransactionSearchResponse,
+  TransactionUpdateParams,
+  TransactionUpdateResponse,
   Transactions,
 } from './resources/transactions';
 import { User, UserCreateParams, UserCreateResponse, UserListResponse, Users } from './resources/users';
@@ -915,12 +917,14 @@ export declare namespace Fragment {
     type Transaction as Transaction,
     type TransactionCreateResponse as TransactionCreateResponse,
     type TransactionRetrieveResponse as TransactionRetrieveResponse,
+    type TransactionUpdateResponse as TransactionUpdateResponse,
     type TransactionListResponse as TransactionListResponse,
     type TransactionCreateAllocationsResponse as TransactionCreateAllocationsResponse,
     type TransactionListHistoryResponse as TransactionListHistoryResponse,
     type TransactionSearchResponse as TransactionSearchResponse,
     type TransactionSearchAllocationsResponse as TransactionSearchAllocationsResponse,
     type TransactionCreateParams as TransactionCreateParams,
+    type TransactionUpdateParams as TransactionUpdateParams,
     type TransactionListParams as TransactionListParams,
     type TransactionCreateAllocationsParams as TransactionCreateAllocationsParams,
     type TransactionSearchParams as TransactionSearchParams,

@@ -51,6 +51,25 @@ export class Transactions extends APIResource {
   }
 
   /**
+   * Updates a transaction (tags, allocations, or both)
+   *
+   * @example
+   * ```ts
+   * const transaction = await client.transactions.update(
+   *   'txn_abc123',
+   *   { current_transaction_version: 0 },
+   * );
+   * ```
+   */
+  update(
+    transactionRef: string,
+    body: TransactionUpdateParams,
+    options?: RequestOptions,
+  ): APIPromise<TransactionUpdateResponse> {
+    return this._client.patch(path`/transactions/${transactionRef}`, { body, ...options });
+  }
+
+  /**
    * Lists all transactions for the workspace
    *
    * @example
@@ -406,12 +425,12 @@ export namespace Transaction {
    */
   export interface Allocation {
     /**
-     * Amount to allocate in smallest currency unit as stringified bigint.
+     * Allocated amount in smallest currency unit as stringified bigint.
      */
     amount: string;
 
     /**
-     * The invoice to allocate against.
+     * The invoice this allocation is applied against.
      */
     invoice_id: string;
 
@@ -473,6 +492,13 @@ export interface TransactionRetrieveResponse {
   data: Transaction;
 }
 
+export interface TransactionUpdateResponse {
+  /**
+   * Transaction object.
+   */
+  data: Transaction;
+}
+
 /**
  * List of transactions
  */
@@ -503,7 +529,9 @@ export namespace TransactionListHistoryResponse {
      * Allocation changes applied in this version. Absent on version 1 (initial
      * creation). Each entry describes an allocation that was added or deleted.
      */
-    diff?: Array<Data.AddAllocationDiffEntry | Data.DeleteAllocationDiffEntry>;
+    diff?: Array<
+      Data.AddAllocationDiffEntry | Data.DeleteAllocationDiffEntry | Data.UpdateAllocationDiffEntry
+    >;
 
     /**
      * Version number of this transaction snapshot.
@@ -530,12 +558,12 @@ export namespace TransactionListHistoryResponse {
        */
       export interface Item {
         /**
-         * Amount to allocate in smallest currency unit as stringified bigint.
+         * Allocated amount in smallest currency unit as stringified bigint.
          */
         amount: string;
 
         /**
-         * The invoice to allocate against.
+         * The invoice this allocation is applied against.
          */
         invoice_id: string;
 
@@ -586,12 +614,12 @@ export namespace TransactionListHistoryResponse {
        */
       export interface Item {
         /**
-         * Amount to allocate in smallest currency unit as stringified bigint.
+         * Allocated amount in smallest currency unit as stringified bigint.
          */
         amount: string;
 
         /**
-         * The invoice to allocate against.
+         * The invoice this allocation is applied against.
          */
         invoice_id: string;
 
@@ -622,6 +650,28 @@ export namespace TransactionListHistoryResponse {
           external_id?: string;
         }
       }
+    }
+
+    export interface UpdateAllocationDiffEntry {
+      /**
+       * The ID of the updated allocation.
+       */
+      id: string;
+
+      /**
+       * New amount in smallest currency unit as stringified bigint.
+       */
+      new_amount: string;
+
+      /**
+       * Previous amount in smallest currency unit as stringified bigint.
+       */
+      old_amount: string;
+
+      /**
+       * An allocation was updated
+       */
+      op: 'update';
     }
   }
 }
@@ -642,7 +692,9 @@ export namespace TransactionSearchResponse {
      * Allocation changes applied in this version. Absent on version 1 (initial
      * creation). Each entry describes an allocation that was added or deleted.
      */
-    diff?: Array<Data.AddAllocationDiffEntry | Data.DeleteAllocationDiffEntry>;
+    diff?: Array<
+      Data.AddAllocationDiffEntry | Data.DeleteAllocationDiffEntry | Data.UpdateAllocationDiffEntry
+    >;
 
     /**
      * Version number of this transaction snapshot.
@@ -669,12 +721,12 @@ export namespace TransactionSearchResponse {
        */
       export interface Item {
         /**
-         * Amount to allocate in smallest currency unit as stringified bigint.
+         * Allocated amount in smallest currency unit as stringified bigint.
          */
         amount: string;
 
         /**
-         * The invoice to allocate against.
+         * The invoice this allocation is applied against.
          */
         invoice_id: string;
 
@@ -725,12 +777,12 @@ export namespace TransactionSearchResponse {
        */
       export interface Item {
         /**
-         * Amount to allocate in smallest currency unit as stringified bigint.
+         * Allocated amount in smallest currency unit as stringified bigint.
          */
         amount: string;
 
         /**
-         * The invoice to allocate against.
+         * The invoice this allocation is applied against.
          */
         invoice_id: string;
 
@@ -761,6 +813,28 @@ export namespace TransactionSearchResponse {
           external_id?: string;
         }
       }
+    }
+
+    export interface UpdateAllocationDiffEntry {
+      /**
+       * The ID of the updated allocation.
+       */
+      id: string;
+
+      /**
+       * New amount in smallest currency unit as stringified bigint.
+       */
+      new_amount: string;
+
+      /**
+       * Previous amount in smallest currency unit as stringified bigint.
+       */
+      old_amount: string;
+
+      /**
+       * An allocation was updated
+       */
+      op: 'update';
     }
   }
 }
@@ -783,12 +857,12 @@ export namespace TransactionSearchAllocationsResponse {
     id: string;
 
     /**
-     * Amount to allocate in smallest currency unit as stringified bigint.
+     * Allocated amount in smallest currency unit as stringified bigint.
      */
     amount: string;
 
     /**
-     * The invoice to allocate against.
+     * The invoice this allocation is applied against.
      */
     invoice_id: string;
 
@@ -1138,6 +1212,146 @@ export namespace TransactionCreateParams {
   }
 }
 
+export interface TransactionUpdateParams {
+  /**
+   * Current transaction version for optimistic concurrency control.
+   */
+  current_transaction_version: number;
+
+  allocations?: TransactionUpdateParams.Allocations;
+
+  tags?: TransactionUpdateParams.Tags;
+}
+
+export namespace TransactionUpdateParams {
+  export interface Allocations {
+    /**
+     * Allocations to add to the transaction
+     */
+    create?: Array<Allocations.Create>;
+
+    /**
+     * Existing allocations to update
+     */
+    update?: Array<Allocations.Update>;
+  }
+
+  export namespace Allocations {
+    /**
+     * Transaction allocation against an invoice.
+     */
+    export interface Create {
+      /**
+       * Amount to allocate in smallest currency unit as stringified bigint.
+       */
+      amount: string;
+
+      /**
+       * The invoice to allocate against.
+       */
+      invoice_id: string;
+
+      /**
+       * The type of allocation.
+       */
+      type: 'invoice_payin' | 'invoice_payout';
+
+      /**
+       * Identifies a user by Fragment-generated id or external_id (request body).
+       */
+      user: Create.ID | Create.ExternalID;
+    }
+
+    export namespace Create {
+      export interface ID {
+        /**
+         * FRAGMENT generated ID of the user
+         */
+        id: string;
+      }
+
+      export interface ExternalID {
+        /**
+         * External ID of the user
+         */
+        external_id: string;
+      }
+    }
+
+    export interface Update {
+      /**
+       * The ID of the allocation to update.
+       */
+      id: string;
+
+      /**
+       * New amount in smallest currency unit as stringified bigint.
+       */
+      amount: string;
+    }
+  }
+
+  export interface Tags {
+    /**
+     * Tags to add
+     */
+    create?: Array<Tags.Create>;
+
+    /**
+     * Tags to remove by key
+     */
+    delete?: Array<Tags.Delete>;
+
+    /**
+     * Tags to update. The key identifies the existing tag; the value is the new value.
+     */
+    update?: Array<Tags.Update>;
+  }
+
+  export namespace Tags {
+    /**
+     * A key-value tag pair for metadata
+     */
+    export interface Create {
+      /**
+       * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
+       * 50 characters.
+       */
+      key: string;
+
+      /**
+       * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
+       * 200 characters.
+       */
+      value: string;
+    }
+
+    export interface Delete {
+      /**
+       * Tag key to delete
+       */
+      key: string;
+    }
+
+    /**
+     * A key-value tag pair for metadata
+     */
+    export interface Update {
+      /**
+       * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
+       * 50 characters.
+       */
+      key: string;
+
+      /**
+       * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
+       * 200 characters.
+       */
+      value: string;
+    }
+  }
+}
+
 export interface TransactionListParams {
   /**
    * Filter by account. Encoded account ID (ext_account_xxx) or external_id. If the
@@ -1168,6 +1382,9 @@ export interface TransactionCreateAllocationsParams {
 }
 
 export namespace TransactionCreateAllocationsParams {
+  /**
+   * Transaction allocation against an invoice.
+   */
   export interface AddAllocationOperation {
     /**
      * Amount to allocate in smallest currency unit as stringified bigint.
@@ -1296,12 +1513,14 @@ export declare namespace Transactions {
     type Transaction as Transaction,
     type TransactionCreateResponse as TransactionCreateResponse,
     type TransactionRetrieveResponse as TransactionRetrieveResponse,
+    type TransactionUpdateResponse as TransactionUpdateResponse,
     type TransactionListResponse as TransactionListResponse,
     type TransactionCreateAllocationsResponse as TransactionCreateAllocationsResponse,
     type TransactionListHistoryResponse as TransactionListHistoryResponse,
     type TransactionSearchResponse as TransactionSearchResponse,
     type TransactionSearchAllocationsResponse as TransactionSearchAllocationsResponse,
     type TransactionCreateParams as TransactionCreateParams,
+    type TransactionUpdateParams as TransactionUpdateParams,
     type TransactionListParams as TransactionListParams,
     type TransactionCreateAllocationsParams as TransactionCreateAllocationsParams,
     type TransactionSearchParams as TransactionSearchParams,
