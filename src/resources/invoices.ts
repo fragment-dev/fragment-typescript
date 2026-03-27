@@ -118,7 +118,7 @@ export interface Invoice {
   created: string;
 
   /**
-   * The status of the invoice
+   * @deprecated Deprecated: The status of the invoice
    */
   status: 'active';
 
@@ -2838,6 +2838,12 @@ export namespace InvoiceSearchParams {
    * Filter criteria for the search
    */
   export interface Filter {
+    /**
+     * Filter by invoice status. `open` returns invoices with non-zero clearing account
+     * balances.
+     */
+    status?: 'open';
+
     /**
      * Tag-based filter criteria. When both `any` and `all` are provided, results must
      * match every entry in `all` AND at least one entry in `any`.

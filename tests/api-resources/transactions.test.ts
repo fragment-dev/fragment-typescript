@@ -68,6 +68,41 @@ describe('resource transactions', () => {
   });
 
   // Mock server tests are disabled
+  test.skip('update: only required params', async () => {
+    const responsePromise = client.transactions.update('txn_abc123', { current_transaction_version: 0 });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('update: required and optional params', async () => {
+    const response = await client.transactions.update('txn_abc123', {
+      current_transaction_version: 0,
+      allocations: {
+        create: [
+          {
+            amount: '1000',
+            invoice_id: 'inv_abc123',
+            type: 'invoice_payin',
+            user: { id: 'user_abc123' },
+          },
+        ],
+        update: [{ id: 'alloc_abc123', amount: '2000' }],
+      },
+      tags: {
+        create: [{ key: 'region', value: 'us-east' }],
+        delete: [{ key: 'key' }],
+        update: [{ key: 'region', value: 'eu-west-1' }],
+      },
+    });
+  });
+
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.transactions.list();
     const rawResponse = await responsePromise.asResponse();
