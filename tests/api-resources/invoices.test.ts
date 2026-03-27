@@ -168,7 +168,10 @@ describe('resource invoices', () => {
   // Mock server tests are disabled
   test.skip('search: required and optional params', async () => {
     const response = await client.invoices.search({
-      filter: { tags: { all: [{ key: 'env', value: 'prod' }], any: [{ key: 'region', value: 'us-*' }] } },
+      filter: {
+        status: 'open',
+        tags: { all: [{ key: 'env', value: 'prod' }], any: [{ key: 'region', value: 'us-*' }] },
+      },
       page_info: { after: 'after', limit: 20 },
     });
   });
