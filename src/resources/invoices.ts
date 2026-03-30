@@ -744,7 +744,7 @@ export namespace InvoiceRetrieveResponse {
       type: 'payin' | 'payout';
 
       /**
-       * User reference in API responses: Fragment user id and optional external_id.
+       * User reference in API responses: Fragment user id and external_id.
        */
       user: Payment.User;
     }
@@ -788,7 +788,7 @@ export namespace InvoiceRetrieveResponse {
       }
 
       /**
-       * User reference in API responses: Fragment user id and optional external_id.
+       * User reference in API responses: Fragment user id and external_id.
        */
       export interface User {
         /**
@@ -799,7 +799,7 @@ export namespace InvoiceRetrieveResponse {
         /**
          * External ID of the user
          */
-        external_id?: string;
+        external_id: string;
       }
     }
 
@@ -1879,7 +1879,7 @@ export namespace InvoiceSearchResponse {
         type: 'payin' | 'payout';
 
         /**
-         * User reference in API responses: Fragment user id and optional external_id.
+         * User reference in API responses: Fragment user id and external_id.
          */
         user: Payment.User;
       }
@@ -1923,7 +1923,7 @@ export namespace InvoiceSearchResponse {
         }
 
         /**
-         * User reference in API responses: Fragment user id and optional external_id.
+         * User reference in API responses: Fragment user id and external_id.
          */
         export interface User {
           /**
@@ -1934,7 +1934,7 @@ export namespace InvoiceSearchResponse {
           /**
            * External ID of the user
            */
-          external_id?: string;
+          external_id: string;
         }
       }
 
