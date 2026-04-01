@@ -113,7 +113,8 @@ describe('resource invoices', () => {
             tags: {
               create: [{ key: 'region', value: 'us-east' }],
               delete: [{ key: 'key' }],
-              update: [{ key: 'region', value: 'eu-west-1' }],
+              set: [{ key: 'region', value: 'eu-west-1' }],
+              update: [{ key: 'region', value: 'us-east' }],
             },
           },
         ],
@@ -121,7 +122,8 @@ describe('resource invoices', () => {
       tags: {
         create: [{ key: 'region', value: 'us-east' }],
         delete: [{ key: 'key' }],
-        update: [{ key: 'region', value: 'eu-west-1' }],
+        set: [{ key: 'region', value: 'eu-west-1' }],
+        update: [{ key: 'region', value: 'us-east' }],
       },
     });
   });

@@ -48,8 +48,6 @@ import {
 import { Role, RoleCreateParams, RoleCreateResponse, RoleListResponse, Roles } from './resources/roles';
 import {
   Transaction,
-  TransactionCreateAllocationsParams,
-  TransactionCreateAllocationsResponse,
   TransactionCreateParams,
   TransactionCreateResponse,
   TransactionListHistoryResponse,
@@ -919,14 +917,12 @@ export declare namespace Fragment {
     type TransactionRetrieveResponse as TransactionRetrieveResponse,
     type TransactionUpdateResponse as TransactionUpdateResponse,
     type TransactionListResponse as TransactionListResponse,
-    type TransactionCreateAllocationsResponse as TransactionCreateAllocationsResponse,
     type TransactionListHistoryResponse as TransactionListHistoryResponse,
     type TransactionSearchResponse as TransactionSearchResponse,
     type TransactionSearchAllocationsResponse as TransactionSearchAllocationsResponse,
     type TransactionCreateParams as TransactionCreateParams,
     type TransactionUpdateParams as TransactionUpdateParams,
     type TransactionListParams as TransactionListParams,
-    type TransactionCreateAllocationsParams as TransactionCreateAllocationsParams,
     type TransactionSearchParams as TransactionSearchParams,
     type TransactionSearchAllocationsParams as TransactionSearchAllocationsParams,
   };

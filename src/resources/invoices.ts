@@ -2044,7 +2044,7 @@ export namespace InvoiceUpdateParams {
 
       export interface Tags {
         /**
-         * Tags to add
+         * Tags to add. Prefer `set` unless you specifically want create-only validation.
          */
         create?: Array<Tags.Create>;
 
@@ -2054,7 +2054,14 @@ export namespace InvoiceUpdateParams {
         delete?: Array<Tags.Delete>;
 
         /**
+         * Tags to create or overwrite without requiring the caller to distinguish between
+         * create and update.
+         */
+        set?: Array<Tags.Set>;
+
+        /**
          * Tags to update. The key identifies the existing tag; the value is the new value.
+         * Prefer `set` unless you specifically want update-only validation.
          */
         update?: Array<Tags.Update>;
       }
@@ -2087,6 +2094,23 @@ export namespace InvoiceUpdateParams {
         /**
          * A key-value tag pair for metadata
          */
+        export interface Set {
+          /**
+           * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
+           * 50 characters.
+           */
+          key: string;
+
+          /**
+           * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
+           * 200 characters.
+           */
+          value: string;
+        }
+
+        /**
+         * A key-value tag pair for metadata
+         */
         export interface Update {
           /**
            * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
@@ -2106,7 +2130,7 @@ export namespace InvoiceUpdateParams {
 
   export interface Tags {
     /**
-     * Tags to add
+     * Tags to add. Prefer `set` unless you specifically want create-only validation.
      */
     create?: Array<Tags.Create>;
 
@@ -2116,7 +2140,14 @@ export namespace InvoiceUpdateParams {
     delete?: Array<Tags.Delete>;
 
     /**
+     * Tags to create or overwrite without requiring the caller to distinguish between
+     * create and update.
+     */
+    set?: Array<Tags.Set>;
+
+    /**
      * Tags to update. The key identifies the existing tag; the value is the new value.
+     * Prefer `set` unless you specifically want update-only validation.
      */
     update?: Array<Tags.Update>;
   }
@@ -2144,6 +2175,23 @@ export namespace InvoiceUpdateParams {
        * Tag key to delete
        */
       key: string;
+    }
+
+    /**
+     * A key-value tag pair for metadata
+     */
+    export interface Set {
+      /**
+       * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
+       * 50 characters.
+       */
+      key: string;
+
+      /**
+       * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
+       * 200 characters.
+       */
+      value: string;
     }
 
     /**

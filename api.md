@@ -69,7 +69,6 @@ Types:
 - <code><a href="./src/resources/transactions.ts">TransactionRetrieveResponse</a></code>
 - <code><a href="./src/resources/transactions.ts">TransactionUpdateResponse</a></code>
 - <code><a href="./src/resources/transactions.ts">TransactionListResponse</a></code>
-- <code><a href="./src/resources/transactions.ts">TransactionCreateAllocationsResponse</a></code>
 - <code><a href="./src/resources/transactions.ts">TransactionListHistoryResponse</a></code>
 - <code><a href="./src/resources/transactions.ts">TransactionSearchResponse</a></code>
 - <code><a href="./src/resources/transactions.ts">TransactionSearchAllocationsResponse</a></code>
@@ -80,7 +79,6 @@ Methods:
 - <code title="get /transactions/{transaction_ref}">client.transactions.<a href="./src/resources/transactions.ts">retrieve</a>(transactionRef) -> TransactionRetrieveResponse</code>
 - <code title="patch /transactions/{transaction_ref}">client.transactions.<a href="./src/resources/transactions.ts">update</a>(transactionRef, { ...params }) -> TransactionUpdateResponse</code>
 - <code title="get /transactions">client.transactions.<a href="./src/resources/transactions.ts">list</a>({ ...params }) -> TransactionListResponse</code>
-- <code title="post /transactions/{transaction_ref}/allocations">client.transactions.<a href="./src/resources/transactions.ts">createAllocations</a>(transactionRef, { ...params }) -> TransactionCreateAllocationsResponse</code>
 - <code title="get /transactions/{transaction_ref}/history">client.transactions.<a href="./src/resources/transactions.ts">listHistory</a>(transactionRef) -> TransactionListHistoryResponse</code>
 - <code title="post /transactions/search">client.transactions.<a href="./src/resources/transactions.ts">search</a>({ ...params }) -> TransactionSearchResponse</code>
 - <code title="post /transactions/allocations/search">client.transactions.<a href="./src/resources/transactions.ts">searchAllocations</a>({ ...params }) -> TransactionSearchAllocationsResponse</code>
