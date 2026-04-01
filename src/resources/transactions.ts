@@ -84,37 +84,6 @@ export class Transactions extends APIResource {
   }
 
   /**
-   * Updates allocations on an existing transaction
-   *
-   * @example
-   * ```ts
-   * const response =
-   *   await client.transactions.createAllocations(
-   *     'txn_abc123',
-   *     {
-   *       allocation_updates: [
-   *         {
-   *           amount: '1000',
-   *           invoice_id: 'inv_abc123',
-   *           op: 'add',
-   *           type: 'invoice_payin',
-   *           user: { id: 'user_abc123' },
-   *         },
-   *       ],
-   *       version: 0,
-   *     },
-   *   );
-   * ```
-   */
-  createAllocations(
-    transactionRef: string,
-    body: TransactionCreateAllocationsParams,
-    options?: RequestOptions,
-  ): APIPromise<TransactionCreateAllocationsResponse> {
-    return this._client.post(path`/transactions/${transactionRef}/allocations`, { body, ...options });
-  }
-
-  /**
    * Gets the version history of a transaction
    *
    * @example
@@ -503,13 +472,6 @@ export interface TransactionUpdateResponse {
  */
 export interface TransactionListResponse {
   data: Array<Transaction>;
-}
-
-export interface TransactionCreateAllocationsResponse {
-  /**
-   * Transaction object.
-   */
-  data: Transaction;
 }
 
 /**
@@ -980,7 +942,7 @@ export namespace TransactionUpdateParams {
 
   export interface Tags {
     /**
-     * Tags to add
+     * Tags to add. Prefer `set` unless you specifically want create-only validation.
      */
     create?: Array<Tags.Create>;
 
@@ -990,7 +952,14 @@ export namespace TransactionUpdateParams {
     delete?: Array<Tags.Delete>;
 
     /**
+     * Tags to create or overwrite without requiring the caller to distinguish between
+     * create and update.
+     */
+    set?: Array<Tags.Set>;
+
+    /**
      * Tags to update. The key identifies the existing tag; the value is the new value.
+     * Prefer `set` unless you specifically want update-only validation.
      */
     update?: Array<Tags.Update>;
   }
@@ -1018,6 +987,23 @@ export namespace TransactionUpdateParams {
        * Tag key to delete
        */
       key: string;
+    }
+
+    /**
+     * A key-value tag pair for metadata
+     */
+    export interface Set {
+      /**
+       * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
+       * 50 characters.
+       */
+      key: string;
+
+      /**
+       * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
+       * 200 characters.
+       */
+      value: string;
     }
 
     /**
@@ -1051,81 +1037,6 @@ export interface TransactionListParams {
    * unreconciled = unallocated_amount !== 0. Omit for all transactions.
    */
   reconciliation_status?: 'reconciled' | 'unreconciled';
-}
-
-export interface TransactionCreateAllocationsParams {
-  /**
-   * Allocation operations to apply
-   */
-  allocation_updates: Array<
-    | TransactionCreateAllocationsParams.AddAllocationOperation
-    | TransactionCreateAllocationsParams.DeleteAllocationOperation
-  >;
-
-  /**
-   * Current transaction version for optimistic concurrency control
-   */
-  version: number;
-}
-
-export namespace TransactionCreateAllocationsParams {
-  /**
-   * Transaction allocation against an invoice.
-   */
-  export interface AddAllocationOperation {
-    /**
-     * Amount to allocate in smallest currency unit as stringified bigint.
-     */
-    amount: string;
-
-    /**
-     * The invoice to allocate against.
-     */
-    invoice_id: string;
-
-    /**
-     * Add a new allocation
-     */
-    op: 'add';
-
-    /**
-     * The type of allocation.
-     */
-    type: 'invoice_payin' | 'invoice_payout';
-
-    /**
-     * Identifies a user by Fragment-generated id or external_id (request body).
-     */
-    user: AddAllocationOperation.ID | AddAllocationOperation.ExternalID;
-  }
-
-  export namespace AddAllocationOperation {
-    export interface ID {
-      /**
-       * FRAGMENT generated ID of the user
-       */
-      id: string;
-    }
-
-    export interface ExternalID {
-      /**
-       * External ID of the user
-       */
-      external_id: string;
-    }
-  }
-
-  export interface DeleteAllocationOperation {
-    /**
-     * The ID of the allocation to remove.
-     */
-    id: string;
-
-    /**
-     * Delete an allocation
-     */
-    op: 'delete';
-  }
 }
 
 export interface TransactionSearchParams {
@@ -1202,14 +1113,12 @@ export declare namespace Transactions {
     type TransactionRetrieveResponse as TransactionRetrieveResponse,
     type TransactionUpdateResponse as TransactionUpdateResponse,
     type TransactionListResponse as TransactionListResponse,
-    type TransactionCreateAllocationsResponse as TransactionCreateAllocationsResponse,
     type TransactionListHistoryResponse as TransactionListHistoryResponse,
     type TransactionSearchResponse as TransactionSearchResponse,
     type TransactionSearchAllocationsResponse as TransactionSearchAllocationsResponse,
     type TransactionCreateParams as TransactionCreateParams,
     type TransactionUpdateParams as TransactionUpdateParams,
     type TransactionListParams as TransactionListParams,
-    type TransactionCreateAllocationsParams as TransactionCreateAllocationsParams,
     type TransactionSearchParams as TransactionSearchParams,
     type TransactionSearchAllocationsParams as TransactionSearchAllocationsParams,
   };

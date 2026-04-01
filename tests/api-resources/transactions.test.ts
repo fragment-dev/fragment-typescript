@@ -97,7 +97,8 @@ describe('resource transactions', () => {
       tags: {
         create: [{ key: 'region', value: 'us-east' }],
         delete: [{ key: 'key' }],
-        update: [{ key: 'region', value: 'eu-west-1' }],
+        set: [{ key: 'region', value: 'eu-west-1' }],
+        update: [{ key: 'region', value: 'us-east' }],
       },
     });
   });
@@ -123,45 +124,6 @@ describe('resource transactions', () => {
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Fragment.NotFoundError);
-  });
-
-  // Mock server tests are disabled
-  test.skip('createAllocations: only required params', async () => {
-    const responsePromise = client.transactions.createAllocations('txn_abc123', {
-      allocation_updates: [
-        {
-          amount: '1000',
-          invoice_id: 'inv_abc123',
-          op: 'add',
-          type: 'invoice_payin',
-          user: { id: 'user_abc123' },
-        },
-      ],
-      version: 0,
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Mock server tests are disabled
-  test.skip('createAllocations: required and optional params', async () => {
-    const response = await client.transactions.createAllocations('txn_abc123', {
-      allocation_updates: [
-        {
-          amount: '1000',
-          invoice_id: 'inv_abc123',
-          op: 'add',
-          type: 'invoice_payin',
-          user: { id: 'user_abc123' },
-        },
-      ],
-      version: 0,
-    });
   });
 
   // Mock server tests are disabled
