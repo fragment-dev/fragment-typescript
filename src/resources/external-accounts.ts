@@ -6,7 +6,7 @@ import { RequestOptions } from '../internal/request-options';
 
 export class ExternalAccounts extends APIResource {
   /**
-   * Creates a new external account
+   * Creates a new external account.
    *
    * @example
    * ```ts
@@ -25,7 +25,7 @@ export class ExternalAccounts extends APIResource {
   }
 
   /**
-   * Lists all external accounts for the workspace
+   * Lists all external accounts.
    *
    * @example
    * ```ts
@@ -39,34 +39,34 @@ export class ExternalAccounts extends APIResource {
 }
 
 /**
- * External account object
+ * External account object.
  */
 export interface ExternalAccount {
   /**
-   * Fragment-generated unique ID for the external account
+   * FRAGMENT generated unique ID.
    */
   id: string;
 
   /**
-   * User-provided external ID
+   * Unique user-provided external ID.
    */
   external_id: string;
 
   /**
-   * Human-readable name for the external account
+   * Human-readable name.
    */
   name: string;
 }
 
 export interface ExternalAccountCreateResponse {
   /**
-   * External account object
+   * External account object.
    */
   data: ExternalAccount;
 }
 
 /**
- * List of external accounts
+ * List of external accounts.
  */
 export interface ExternalAccountListResponse {
   data: Array<ExternalAccount>;
@@ -74,12 +74,12 @@ export interface ExternalAccountListResponse {
 
 export interface ExternalAccountCreateParams {
   /**
-   * External ID for the account (user-provided, unique, mutable)
+   * Unique user-provided external ID.
    */
   external_id: string;
 
   /**
-   * Human-readable name for the external account (mutable)
+   * Human-readable name.
    */
   name: string;
 }
