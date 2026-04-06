@@ -6,7 +6,7 @@ import { RequestOptions } from '../internal/request-options';
 
 export class Users extends APIResource {
   /**
-   * Creates a new user.
+   * Creates a user.
    *
    * @example
    * ```ts
@@ -43,7 +43,7 @@ export interface User {
   id: string;
 
   /**
-   * User-provided unique external ID.
+   * User-provided unique ID.
    */
   external_id: string;
 
@@ -69,7 +69,7 @@ export interface UserListResponse {
 
 export interface UserCreateParams {
   /**
-   * User-provided unique external ID.
+   * User-provided unique ID.
    */
   external_id: string;
 

@@ -6,7 +6,7 @@ import { RequestOptions } from '../internal/request-options';
 
 export class ExternalAccounts extends APIResource {
   /**
-   * Creates a new external account.
+   * Creates an external account.
    *
    * @example
    * ```ts
@@ -48,7 +48,7 @@ export interface ExternalAccount {
   id: string;
 
   /**
-   * User-provided unique external ID.
+   * User-provided unique ID.
    */
   external_id: string;
 
@@ -74,7 +74,7 @@ export interface ExternalAccountListResponse {
 
 export interface ExternalAccountCreateParams {
   /**
-   * User-provided unique external ID.
+   * User-provided unique ID.
    */
   external_id: string;
 
