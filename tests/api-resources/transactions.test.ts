@@ -24,7 +24,7 @@ describe('resource transactions', () => {
       amount: '-1000',
       currency: 'USD',
       external_id: 'bank_txn_123',
-      posted: '2026-02-12T00:00:00.000Z',
+      posted: '2024-01-13T00:00:00Z',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -50,7 +50,7 @@ describe('resource transactions', () => {
       amount: '-1000',
       currency: 'USD',
       external_id: 'bank_txn_123',
-      posted: '2026-02-12T00:00:00.000Z',
+      posted: '2024-01-13T00:00:00Z',
       tags: [{ key: 'region', value: 'us-east' }],
     });
   });
