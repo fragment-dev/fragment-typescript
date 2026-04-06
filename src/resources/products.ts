@@ -10,7 +10,7 @@ import { path } from '../internal/utils/path';
  */
 export class Products extends APIResource {
   /**
-   * Creates a new product.
+   * Creates a product.
    *
    * @example
    * ```ts
@@ -24,7 +24,7 @@ export class Products extends APIResource {
   }
 
   /**
-   * Gets a product by code.
+   * Retrieves a product by code.
    *
    * @example
    * ```ts

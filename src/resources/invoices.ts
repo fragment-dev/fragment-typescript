@@ -33,7 +33,7 @@ export class Invoices extends APIResource {
   }
 
   /**
-   * Fetches an invoice.
+   * Retrieves an invoice.
    *
    * @example
    * ```ts
@@ -74,7 +74,7 @@ export class Invoices extends APIResource {
   }
 
   /**
-   * Gets the version history of an invoice.
+   * Retrieves the version history of an invoice.
    *
    * @example
    * ```ts
@@ -150,7 +150,7 @@ export interface Invoice {
 
 export namespace Invoice {
   /**
-   * A key-value tag pair
+   * A key-value tag pair.
    */
   export interface Tag {
     /**
@@ -418,7 +418,7 @@ export namespace Invoice {
     }
 
     /**
-     * A key-value tag pair
+     * A key-value tag pair.
      */
     export interface Tag {
       /**
@@ -771,7 +771,7 @@ export namespace InvoiceRetrieveResponse {
         id: string;
 
         /**
-         * Unique user-provided external ID for the transaction.
+         * User-provided unique ID.
          */
         external_id: string;
 
@@ -783,7 +783,7 @@ export namespace InvoiceRetrieveResponse {
 
       export namespace Transaction {
         /**
-         * A key-value tag pair
+         * A key-value tag pair.
          */
         export interface Tag {
           /**
@@ -808,7 +808,7 @@ export namespace InvoiceRetrieveResponse {
         id: string;
 
         /**
-         * User-provided unique external ID.
+         * User-provided unique ID.
          */
         external_id: string;
       }
@@ -824,6 +824,11 @@ export namespace InvoiceRetrieveResponse {
        * Per-currency balance breakdown for the user.
        */
       balances: Array<User.Balance>;
+
+      /**
+       * User-provided unique ID.
+       */
+      external_id: string;
     }
 
     export namespace User {
@@ -1269,7 +1274,7 @@ export namespace InvoiceSearchResponse {
           id: string;
 
           /**
-           * Unique user-provided external ID for the transaction.
+           * User-provided unique ID.
            */
           external_id: string;
 
@@ -1281,7 +1286,7 @@ export namespace InvoiceSearchResponse {
 
         export namespace Transaction {
           /**
-           * A key-value tag pair
+           * A key-value tag pair.
            */
           export interface Tag {
             /**
@@ -1306,7 +1311,7 @@ export namespace InvoiceSearchResponse {
           id: string;
 
           /**
-           * User-provided unique external ID.
+           * User-provided unique ID.
            */
           external_id: string;
         }
@@ -1322,6 +1327,11 @@ export namespace InvoiceSearchResponse {
          * Per-currency balance breakdown for the user.
          */
         balances: Array<User.Balance>;
+
+        /**
+         * User-provided unique ID.
+         */
+        external_id: string;
       }
 
       export namespace User {
@@ -1667,7 +1677,7 @@ export namespace InvoiceCreateParams {
 
     export interface ExternalID {
       /**
-       * User-provided unique external ID.
+       * User-provided unique ID.
        */
       external_id: string;
     }
@@ -1695,7 +1705,7 @@ export namespace InvoiceCreateParams {
     }
 
     /**
-     * A key-value tag pair for metadata
+     * A key-value tag pair for metadata.
      */
     export interface Tag {
       /**
@@ -1713,7 +1723,7 @@ export namespace InvoiceCreateParams {
   }
 
   /**
-   * A key-value tag pair for metadata
+   * A key-value tag pair for metadata.
    */
   export interface Tag {
     /**
@@ -1995,7 +2005,7 @@ export namespace InvoiceUpdateParams {
 
       export interface ExternalID {
         /**
-         * User-provided unique external ID.
+         * User-provided unique ID.
          */
         external_id: string;
       }
@@ -2023,7 +2033,7 @@ export namespace InvoiceUpdateParams {
       }
 
       /**
-       * A key-value tag pair for metadata
+       * A key-value tag pair for metadata.
        */
       export interface Tag {
         /**
@@ -2048,7 +2058,7 @@ export namespace InvoiceUpdateParams {
     }
 
     /**
-     * Updates an existing line item.
+     * Data for updating a line item.
      */
     export interface Update {
       /**
@@ -2109,7 +2119,7 @@ export namespace InvoiceUpdateParams {
 
       export namespace Tags {
         /**
-         * A key-value tag pair for metadata
+         * A key-value tag pair for metadata.
          */
         export interface Create {
           /**
@@ -2127,13 +2137,13 @@ export namespace InvoiceUpdateParams {
 
         export interface Delete {
           /**
-           * Tag key to delete
+           * Tag key to delete.
            */
           key: string;
         }
 
         /**
-         * A key-value tag pair for metadata
+         * A key-value tag pair for metadata.
          */
         export interface Set {
           /**
@@ -2150,7 +2160,7 @@ export namespace InvoiceUpdateParams {
         }
 
         /**
-         * A key-value tag pair for metadata
+         * A key-value tag pair for metadata.
          */
         export interface Update {
           /**
@@ -2195,7 +2205,7 @@ export namespace InvoiceUpdateParams {
 
   export namespace Tags {
     /**
-     * A key-value tag pair for metadata
+     * A key-value tag pair for metadata.
      */
     export interface Create {
       /**
@@ -2213,13 +2223,13 @@ export namespace InvoiceUpdateParams {
 
     export interface Delete {
       /**
-       * Tag key to delete
+       * Tag key to delete.
        */
       key: string;
     }
 
     /**
-     * A key-value tag pair for metadata
+     * A key-value tag pair for metadata.
      */
     export interface Set {
       /**
@@ -2236,7 +2246,7 @@ export namespace InvoiceUpdateParams {
     }
 
     /**
-     * A key-value tag pair for metadata
+     * A key-value tag pair for metadata.
      */
     export interface Update {
       /**
@@ -2261,7 +2271,7 @@ export interface InvoiceSearchParams {
   filter: InvoiceSearchParams.Filter;
 
   /**
-   * Pagination parameters
+   * Pagination parameters.
    */
   page_info: InvoiceSearchParams.PageInfo;
 }
@@ -2339,7 +2349,7 @@ export namespace InvoiceSearchParams {
   }
 
   /**
-   * Pagination parameters
+   * Pagination parameters.
    */
   export interface PageInfo {
     /**

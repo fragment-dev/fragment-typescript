@@ -9,7 +9,7 @@ import { RequestOptions } from '../internal/request-options';
  */
 export class Roles extends APIResource {
   /**
-   * Creates a new role.
+   * Creates a role.
    *
    * @example
    * ```ts
@@ -56,7 +56,7 @@ export interface RoleCreateResponse {
 }
 
 /**
- * List of roles
+ * List of roles.
  */
 export interface RoleListResponse {
   /**

@@ -36,7 +36,7 @@ export class Transactions extends APIResource {
   }
 
   /**
-   * Fetches a transaction by ID or external ID.
+   * Retrieves a transaction by ID or external ID.
    *
    * @example
    * ```ts
@@ -84,7 +84,7 @@ export class Transactions extends APIResource {
   }
 
   /**
-   * Gets the version history of a transaction.
+   * Retrieves the version history of a transaction.
    *
    * @example
    * ```ts
@@ -345,7 +345,7 @@ export interface Transaction {
     | 'CUSTOM';
 
   /**
-   * Unique user-provided external ID for the transaction.
+   * User-provided unique ID.
    */
   external_id: string;
 
@@ -386,7 +386,7 @@ export namespace Transaction {
     id: string;
 
     /**
-     * Unique user-provided external ID for the external account.
+     * User-provided unique ID.
      */
     external_id: string;
   }
@@ -428,14 +428,14 @@ export namespace Transaction {
       id: string;
 
       /**
-       * User-provided unique external ID.
+       * User-provided unique ID.
        */
       external_id: string;
     }
   }
 
   /**
-   * A key-value tag pair
+   * A key-value tag pair.
    */
   export interface Tag {
     /**
@@ -552,7 +552,7 @@ export namespace TransactionSearchAllocationsResponse {
       id: string;
 
       /**
-       * Unique user-provided external ID for the transaction.
+       * User-provided unique ID.
        */
       external_id: string;
     }
@@ -567,7 +567,7 @@ export namespace TransactionSearchAllocationsResponse {
       id: string;
 
       /**
-       * User-provided unique external ID.
+       * User-provided unique ID.
        */
       external_id: string;
     }
@@ -777,7 +777,7 @@ export interface TransactionCreateParams {
     | 'CUSTOM';
 
   /**
-   * Unique user-provided external ID for the transaction.
+   * User-provided unique ID.
    */
   external_id: string;
 
@@ -804,7 +804,7 @@ export namespace TransactionCreateParams {
     id?: string;
 
     /**
-     * Unique user-provided external ID for the external account.
+     * User-provided unique ID.
      */
     external_id?: string;
   }
@@ -845,14 +845,14 @@ export namespace TransactionCreateParams {
 
     export interface ExternalID {
       /**
-       * User-provided unique external ID.
+       * User-provided unique ID.
        */
       external_id: string;
     }
   }
 
   /**
-   * A key-value tag pair for metadata
+   * A key-value tag pair for metadata.
    */
   export interface Tag {
     /**
@@ -883,12 +883,12 @@ export interface TransactionUpdateParams {
 export namespace TransactionUpdateParams {
   export interface Allocations {
     /**
-     * Creates a new allocation.
+     * Allocations to create.
      */
     create?: Array<Allocations.Create>;
 
     /**
-     * Updates an existing allocation.
+     * Allocations to update.
      */
     update?: Array<Allocations.Update>;
   }
@@ -930,7 +930,7 @@ export namespace TransactionUpdateParams {
 
       export interface ExternalID {
         /**
-         * User-provided unique external ID.
+         * User-provided unique ID.
          */
         external_id: string;
       }
@@ -976,7 +976,7 @@ export namespace TransactionUpdateParams {
 
   export namespace Tags {
     /**
-     * A key-value tag pair for metadata
+     * A key-value tag pair for metadata.
      */
     export interface Create {
       /**
@@ -994,13 +994,13 @@ export namespace TransactionUpdateParams {
 
     export interface Delete {
       /**
-       * Tag key to delete
+       * Tag key to delete.
        */
       key: string;
     }
 
     /**
-     * A key-value tag pair for metadata
+     * A key-value tag pair for metadata.
      */
     export interface Set {
       /**
@@ -1017,7 +1017,7 @@ export namespace TransactionUpdateParams {
     }
 
     /**
-     * A key-value tag pair for metadata
+     * A key-value tag pair for metadata.
      */
     export interface Update {
       /**
@@ -1085,7 +1085,7 @@ export namespace TransactionSearchParams {
         id?: string;
 
         /**
-         * Unique user-provided external ID for the external account.
+         * User-provided unique ID.
          */
         external_id?: string;
       }
