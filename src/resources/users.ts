@@ -6,7 +6,7 @@ import { RequestOptions } from '../internal/request-options';
 
 export class Users extends APIResource {
   /**
-   * Creates a new user
+   * Creates a new user.
    *
    * @example
    * ```ts
@@ -21,7 +21,7 @@ export class Users extends APIResource {
   }
 
   /**
-   * Lists all users for the workspace
+   * Lists all users.
    *
    * @example
    * ```ts
@@ -34,34 +34,34 @@ export class Users extends APIResource {
 }
 
 /**
- * User object
+ * User object.
  */
 export interface User {
   /**
-   * Unique user ID
+   * FRAGMENT generated unique ID.
    */
   id: string;
 
   /**
-   * External ID for the user
+   * User-provided unique external ID.
    */
   external_id: string;
 
   /**
-   * Role of the user
+   * Name of the user's role.
    */
   role: string;
 }
 
 export interface UserCreateResponse {
   /**
-   * User object
+   * User object.
    */
   data: User;
 }
 
 /**
- * List of users
+ * List of users.
  */
 export interface UserListResponse {
   data: Array<User>;
@@ -69,12 +69,12 @@ export interface UserListResponse {
 
 export interface UserCreateParams {
   /**
-   * External ID for the user
+   * User-provided unique external ID.
    */
   external_id: string;
 
   /**
-   * Role of the user
+   * Name of the role to assign. Must match an existing role.
    */
   role: string;
 }

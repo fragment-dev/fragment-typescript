@@ -48,7 +48,7 @@ export interface ExternalAccount {
   id: string;
 
   /**
-   * Unique user-provided external ID.
+   * User-provided unique external ID.
    */
   external_id: string;
 
@@ -74,7 +74,7 @@ export interface ExternalAccountListResponse {
 
 export interface ExternalAccountCreateParams {
   /**
-   * Unique user-provided external ID.
+   * User-provided unique external ID.
    */
   external_id: string;
 
