@@ -841,6 +841,9 @@ export class Fragment {
 
   static toFile = Uploads.toFile;
 
+  /**
+   * External account management operations
+   */
   externalAccounts: API.ExternalAccounts = new API.ExternalAccounts(this);
   /**
    * Invoice management operations
@@ -858,6 +861,9 @@ export class Fragment {
    * Transaction sync operations
    */
   transactions: API.Transactions = new API.Transactions(this);
+  /**
+   * User management operations
+   */
   users: API.Users = new API.Users(this);
 }
 
