@@ -4,6 +4,9 @@ import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 
+/**
+ * External account management operations
+ */
 export class ExternalAccounts extends APIResource {
   /**
    * Creates an external account.

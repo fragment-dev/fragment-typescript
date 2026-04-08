@@ -169,7 +169,7 @@ export namespace Invoice {
    */
   export interface LineItem {
     /**
-     * Unique invoice ID.
+     * FRAGMENT generated unique ID.
      */
     id: string;
 
