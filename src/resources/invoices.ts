@@ -94,7 +94,6 @@ export class Invoices extends APIResource {
    * ```ts
    * const response = await client.invoices.search({
    *   filter: {},
-   *   page_info: {},
    * });
    * ```
    */
@@ -174,13 +173,13 @@ export namespace Invoice {
     id: string;
 
     /**
-     * @deprecated Total amount as a string in the smallest unit of the currency (for
-     * example, cents for USD). Deprecated, use price.amount instead.
+     * @deprecated Total amount as a string in the smallest currency unit, such as
+     * cents for USD. Deprecated, use price.amount instead.
      */
     amount: string;
 
     /**
-     * Currency code (ISO 4217 or crypto).
+     * ISO 4217 or crypto currency code.
      */
     currency_code:
       | 'ADA'
@@ -400,8 +399,7 @@ export namespace Invoice {
      */
     export interface Price {
       /**
-       * Total amount as a string in the smallest unit of the currency (for example,
-       * cents for USD).
+       * Total amount as a string in the smallest currency unit, such as cents for USD.
        */
       amount: string;
 
@@ -411,8 +409,7 @@ export namespace Invoice {
       quantity: number;
 
       /**
-       * Unit price as a string in the smallest unit of the currency (for example, cents
-       * for USD).
+       * Unit price as a string in the smallest currency unit, such as cents for USD.
        */
       unit_price: string;
     }
@@ -472,74 +469,89 @@ export namespace InvoiceRetrieveResponse {
   export namespace Data {
     export interface Balance {
       /**
-       * Currency code (ISO 4217 or crypto).
+       * ISO 4217 or crypto currency code.
        */
       currency: string;
 
+      /**
+       * Net balance breakdown.
+       */
       net: Balance.Net;
 
+      /**
+       * Payins balance breakdown.
+       */
       payins: Balance.Payins;
 
+      /**
+       * Payouts balance breakdown.
+       */
       payouts: Balance.Payouts;
     }
 
     export namespace Balance {
+      /**
+       * Net balance breakdown.
+       */
       export interface Net {
         /**
-         * Actual amount as a string in the smallest unit of the currency (for example,
-         * cents for USD).
+         * Actual amount as a string in the smallest currency unit, such as cents for USD.
          */
         actual: string;
 
         /**
-         * Expected amount as a string in the smallest unit of the currency (for example,
-         * cents for USD).
+         * Expected amount as a string in the smallest currency unit, such as cents for
+         * USD.
          */
         expected: string;
 
         /**
-         * Remaining amount as a string in the smallest unit of the currency (for example,
-         * cents for USD).
+         * Remaining amount as a string in the smallest currency unit, such as cents for
+         * USD.
          */
         remaining: string;
       }
 
+      /**
+       * Payins balance breakdown.
+       */
       export interface Payins {
         /**
-         * Actual amount as a string in the smallest unit of the currency (for example,
-         * cents for USD).
+         * Actual amount as a string in the smallest currency unit, such as cents for USD.
          */
         actual: string;
 
         /**
-         * Expected amount as a string in the smallest unit of the currency (for example,
-         * cents for USD).
+         * Expected amount as a string in the smallest currency unit, such as cents for
+         * USD.
          */
         expected: string;
 
         /**
-         * Remaining amount as a string in the smallest unit of the currency (for example,
-         * cents for USD).
+         * Remaining amount as a string in the smallest currency unit, such as cents for
+         * USD.
          */
         remaining: string;
       }
 
+      /**
+       * Payouts balance breakdown.
+       */
       export interface Payouts {
         /**
-         * Actual amount as a string in the smallest unit of the currency (for example,
-         * cents for USD).
+         * Actual amount as a string in the smallest currency unit, such as cents for USD.
          */
         actual: string;
 
         /**
-         * Expected amount as a string in the smallest unit of the currency (for example,
-         * cents for USD).
+         * Expected amount as a string in the smallest currency unit, such as cents for
+         * USD.
          */
         expected: string;
 
         /**
-         * Remaining amount as a string in the smallest unit of the currency (for example,
-         * cents for USD).
+         * Remaining amount as a string in the smallest currency unit, such as cents for
+         * USD.
          */
         remaining: string;
       }
@@ -550,13 +562,13 @@ export namespace InvoiceRetrieveResponse {
      */
     export interface Payment {
       /**
-       * Amount allocated as a string in the smallest unit of the currency (for example,
-       * cents for USD).
+       * Amount allocated as a string in the smallest currency unit, such as cents for
+       * USD.
        */
       amount: string;
 
       /**
-       * Currency code (ISO 4217 or crypto).
+       * ISO 4217 or crypto currency code.
        */
       currency:
         | 'ADA'
@@ -745,7 +757,7 @@ export namespace InvoiceRetrieveResponse {
       posted: string;
 
       /**
-       * Transaction reference.
+       * Transaction the payment is applied to.
        */
       transaction: Payment.Transaction;
 
@@ -755,14 +767,14 @@ export namespace InvoiceRetrieveResponse {
       type: 'payin' | 'payout';
 
       /**
-       * User reference.
+       * User associated with the payment.
        */
       user: Payment.User;
     }
 
     export namespace Payment {
       /**
-       * Transaction reference.
+       * Transaction the payment is applied to.
        */
       export interface Transaction {
         /**
@@ -799,7 +811,7 @@ export namespace InvoiceRetrieveResponse {
       }
 
       /**
-       * User reference.
+       * User associated with the payment.
        */
       export interface User {
         /**
@@ -834,74 +846,89 @@ export namespace InvoiceRetrieveResponse {
     export namespace User {
       export interface Balance {
         /**
-         * Currency code (ISO 4217 or crypto).
+         * ISO 4217 or crypto currency code.
          */
         currency: string;
 
+        /**
+         * Net balance breakdown.
+         */
         net: Balance.Net;
 
+        /**
+         * Payins balance breakdown.
+         */
         payins: Balance.Payins;
 
+        /**
+         * Payouts balance breakdown.
+         */
         payouts: Balance.Payouts;
       }
 
       export namespace Balance {
+        /**
+         * Net balance breakdown.
+         */
         export interface Net {
           /**
-           * Actual amount as a string in the smallest unit of the currency (for example,
-           * cents for USD).
+           * Actual amount as a string in the smallest currency unit, such as cents for USD.
            */
           actual: string;
 
           /**
-           * Expected amount as a string in the smallest unit of the currency (for example,
-           * cents for USD).
+           * Expected amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           expected: string;
 
           /**
-           * Remaining amount as a string in the smallest unit of the currency (for example,
-           * cents for USD).
+           * Remaining amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           remaining: string;
         }
 
+        /**
+         * Payins balance breakdown.
+         */
         export interface Payins {
           /**
-           * Actual amount as a string in the smallest unit of the currency (for example,
-           * cents for USD).
+           * Actual amount as a string in the smallest currency unit, such as cents for USD.
            */
           actual: string;
 
           /**
-           * Expected amount as a string in the smallest unit of the currency (for example,
-           * cents for USD).
+           * Expected amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           expected: string;
 
           /**
-           * Remaining amount as a string in the smallest unit of the currency (for example,
-           * cents for USD).
+           * Remaining amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           remaining: string;
         }
 
+        /**
+         * Payouts balance breakdown.
+         */
         export interface Payouts {
           /**
-           * Actual amount as a string in the smallest unit of the currency (for example,
-           * cents for USD).
+           * Actual amount as a string in the smallest currency unit, such as cents for USD.
            */
           actual: string;
 
           /**
-           * Expected amount as a string in the smallest unit of the currency (for example,
-           * cents for USD).
+           * Expected amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           expected: string;
 
           /**
-           * Remaining amount as a string in the smallest unit of the currency (for example,
-           * cents for USD).
+           * Remaining amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           remaining: string;
         }
@@ -935,10 +962,16 @@ export interface InvoiceListHistoryResponse {
  * Search results for invoices.
  */
 export interface InvoiceSearchResponse {
+  /**
+   * Search results for invoices.
+   */
   data: InvoiceSearchResponse.Data;
 }
 
 export namespace InvoiceSearchResponse {
+  /**
+   * Search results for invoices.
+   */
   export interface Data {
     /**
      * Invoices matching the search criteria.
@@ -975,74 +1008,89 @@ export namespace InvoiceSearchResponse {
     export namespace Invoice {
       export interface Balance {
         /**
-         * Currency code (ISO 4217 or crypto).
+         * ISO 4217 or crypto currency code.
          */
         currency: string;
 
+        /**
+         * Net balance breakdown.
+         */
         net: Balance.Net;
 
+        /**
+         * Payins balance breakdown.
+         */
         payins: Balance.Payins;
 
+        /**
+         * Payouts balance breakdown.
+         */
         payouts: Balance.Payouts;
       }
 
       export namespace Balance {
+        /**
+         * Net balance breakdown.
+         */
         export interface Net {
           /**
-           * Actual amount as a string in the smallest unit of the currency (for example,
-           * cents for USD).
+           * Actual amount as a string in the smallest currency unit, such as cents for USD.
            */
           actual: string;
 
           /**
-           * Expected amount as a string in the smallest unit of the currency (for example,
-           * cents for USD).
+           * Expected amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           expected: string;
 
           /**
-           * Remaining amount as a string in the smallest unit of the currency (for example,
-           * cents for USD).
+           * Remaining amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           remaining: string;
         }
 
+        /**
+         * Payins balance breakdown.
+         */
         export interface Payins {
           /**
-           * Actual amount as a string in the smallest unit of the currency (for example,
-           * cents for USD).
+           * Actual amount as a string in the smallest currency unit, such as cents for USD.
            */
           actual: string;
 
           /**
-           * Expected amount as a string in the smallest unit of the currency (for example,
-           * cents for USD).
+           * Expected amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           expected: string;
 
           /**
-           * Remaining amount as a string in the smallest unit of the currency (for example,
-           * cents for USD).
+           * Remaining amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           remaining: string;
         }
 
+        /**
+         * Payouts balance breakdown.
+         */
         export interface Payouts {
           /**
-           * Actual amount as a string in the smallest unit of the currency (for example,
-           * cents for USD).
+           * Actual amount as a string in the smallest currency unit, such as cents for USD.
            */
           actual: string;
 
           /**
-           * Expected amount as a string in the smallest unit of the currency (for example,
-           * cents for USD).
+           * Expected amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           expected: string;
 
           /**
-           * Remaining amount as a string in the smallest unit of the currency (for example,
-           * cents for USD).
+           * Remaining amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           remaining: string;
         }
@@ -1053,13 +1101,13 @@ export namespace InvoiceSearchResponse {
        */
       export interface Payment {
         /**
-         * Amount allocated as a string in the smallest unit of the currency (for example,
-         * cents for USD).
+         * Amount allocated as a string in the smallest currency unit, such as cents for
+         * USD.
          */
         amount: string;
 
         /**
-         * Currency code (ISO 4217 or crypto).
+         * ISO 4217 or crypto currency code.
          */
         currency:
           | 'ADA'
@@ -1248,7 +1296,7 @@ export namespace InvoiceSearchResponse {
         posted: string;
 
         /**
-         * Transaction reference.
+         * Transaction the payment is applied to.
          */
         transaction: Payment.Transaction;
 
@@ -1258,14 +1306,14 @@ export namespace InvoiceSearchResponse {
         type: 'payin' | 'payout';
 
         /**
-         * User reference.
+         * User associated with the payment.
          */
         user: Payment.User;
       }
 
       export namespace Payment {
         /**
-         * Transaction reference.
+         * Transaction the payment is applied to.
          */
         export interface Transaction {
           /**
@@ -1302,7 +1350,7 @@ export namespace InvoiceSearchResponse {
         }
 
         /**
-         * User reference.
+         * User associated with the payment.
          */
         export interface User {
           /**
@@ -1337,74 +1385,89 @@ export namespace InvoiceSearchResponse {
       export namespace User {
         export interface Balance {
           /**
-           * Currency code (ISO 4217 or crypto).
+           * ISO 4217 or crypto currency code.
            */
           currency: string;
 
+          /**
+           * Net balance breakdown.
+           */
           net: Balance.Net;
 
+          /**
+           * Payins balance breakdown.
+           */
           payins: Balance.Payins;
 
+          /**
+           * Payouts balance breakdown.
+           */
           payouts: Balance.Payouts;
         }
 
         export namespace Balance {
+          /**
+           * Net balance breakdown.
+           */
           export interface Net {
             /**
-             * Actual amount as a string in the smallest unit of the currency (for example,
-             * cents for USD).
+             * Actual amount as a string in the smallest currency unit, such as cents for USD.
              */
             actual: string;
 
             /**
-             * Expected amount as a string in the smallest unit of the currency (for example,
-             * cents for USD).
+             * Expected amount as a string in the smallest currency unit, such as cents for
+             * USD.
              */
             expected: string;
 
             /**
-             * Remaining amount as a string in the smallest unit of the currency (for example,
-             * cents for USD).
+             * Remaining amount as a string in the smallest currency unit, such as cents for
+             * USD.
              */
             remaining: string;
           }
 
+          /**
+           * Payins balance breakdown.
+           */
           export interface Payins {
             /**
-             * Actual amount as a string in the smallest unit of the currency (for example,
-             * cents for USD).
+             * Actual amount as a string in the smallest currency unit, such as cents for USD.
              */
             actual: string;
 
             /**
-             * Expected amount as a string in the smallest unit of the currency (for example,
-             * cents for USD).
+             * Expected amount as a string in the smallest currency unit, such as cents for
+             * USD.
              */
             expected: string;
 
             /**
-             * Remaining amount as a string in the smallest unit of the currency (for example,
-             * cents for USD).
+             * Remaining amount as a string in the smallest currency unit, such as cents for
+             * USD.
              */
             remaining: string;
           }
 
+          /**
+           * Payouts balance breakdown.
+           */
           export interface Payouts {
             /**
-             * Actual amount as a string in the smallest unit of the currency (for example,
-             * cents for USD).
+             * Actual amount as a string in the smallest currency unit, such as cents for USD.
              */
             actual: string;
 
             /**
-             * Expected amount as a string in the smallest unit of the currency (for example,
-             * cents for USD).
+             * Expected amount as a string in the smallest currency unit, such as cents for
+             * USD.
              */
             expected: string;
 
             /**
-             * Remaining amount as a string in the smallest unit of the currency (for example,
-             * cents for USD).
+             * Remaining amount as a string in the smallest currency unit, such as cents for
+             * USD.
              */
             remaining: string;
           }
@@ -1467,13 +1530,13 @@ export namespace InvoiceCreateParams {
     user: LineItem.ID | LineItem.ExternalID;
 
     /**
-     * @deprecated Total amount as a string in the smallest unit of the currency (for
-     * example, cents for USD). Deprecated, use price instead.
+     * @deprecated Total amount as a string in the smallest currency unit, such as
+     * cents for USD. Deprecated, use price instead.
      */
     amount?: string;
 
     /**
-     * Currency code (ISO 4217 or crypto).
+     * ISO 4217 or crypto currency code.
      */
     currency_code?:
       | 'ADA'
@@ -1687,8 +1750,8 @@ export namespace InvoiceCreateParams {
      */
     export interface Price {
       /**
-       * Total amount as a string in the smallest unit of the currency (for example,
-       * cents for USD). Required if unit_price and quantity are not provided.
+       * Total amount as a string in the smallest currency unit, such as cents for USD.
+       * Required if unit_price and quantity are not provided.
        */
       amount?: string;
 
@@ -1698,8 +1761,7 @@ export namespace InvoiceCreateParams {
       quantity?: number;
 
       /**
-       * Price per unit as a string in the smallest unit of the currency (for example,
-       * cents for USD).
+       * Price per unit as a string in the smallest currency unit, such as cents for USD.
        */
       unit_price?: string;
     }
@@ -1709,14 +1771,12 @@ export namespace InvoiceCreateParams {
      */
     export interface Tag {
       /**
-       * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-       * 50 characters.
+       * Tag key. Must not contain #, /, or :. Max 50 characters.
        */
       key: string;
 
       /**
-       * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-       * 200 characters.
+       * Tag value. Must not contain #, /, or :. Max 200 characters.
        */
       value: string;
     }
@@ -1727,14 +1787,12 @@ export namespace InvoiceCreateParams {
    */
   export interface Tag {
     /**
-     * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-     * 50 characters.
+     * Tag key. Must not contain #, /, or :. Max 50 characters.
      */
     key: string;
 
     /**
-     * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-     * 200 characters.
+     * Tag value. Must not contain #, /, or :. Max 200 characters.
      */
     value: string;
   }
@@ -1746,12 +1804,21 @@ export interface InvoiceUpdateParams {
    */
   current_invoice_version: number;
 
+  /**
+   * Line item updates.
+   */
   line_items?: InvoiceUpdateParams.LineItems;
 
+  /**
+   * Tag updates.
+   */
   tags?: InvoiceUpdateParams.Tags;
 }
 
 export namespace InvoiceUpdateParams {
+  /**
+   * Line item updates.
+   */
   export interface LineItems {
     /**
      * Line items to add to the invoice.
@@ -1795,13 +1862,13 @@ export namespace InvoiceUpdateParams {
       user: Create.ID | Create.ExternalID;
 
       /**
-       * @deprecated Total amount as a string in the smallest unit of the currency (for
-       * example, cents for USD). Deprecated, use price instead.
+       * @deprecated Total amount as a string in the smallest currency unit, such as
+       * cents for USD. Deprecated, use price instead.
        */
       amount?: string;
 
       /**
-       * Currency code (ISO 4217 or crypto).
+       * ISO 4217 or crypto currency code.
        */
       currency_code?:
         | 'ADA'
@@ -2015,8 +2082,8 @@ export namespace InvoiceUpdateParams {
        */
       export interface Price {
         /**
-         * Total amount as a string in the smallest unit of the currency (for example,
-         * cents for USD). Required if unit_price and quantity are not provided.
+         * Total amount as a string in the smallest currency unit, such as cents for USD.
+         * Required if unit_price and quantity are not provided.
          */
         amount?: string;
 
@@ -2026,8 +2093,7 @@ export namespace InvoiceUpdateParams {
         quantity?: number;
 
         /**
-         * Price per unit as a string in the smallest unit of the currency (for example,
-         * cents for USD).
+         * Price per unit as a string in the smallest currency unit, such as cents for USD.
          */
         unit_price?: string;
       }
@@ -2037,14 +2103,12 @@ export namespace InvoiceUpdateParams {
        */
       export interface Tag {
         /**
-         * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-         * 50 characters.
+         * Tag key. Must not contain #, /, or :. Max 50 characters.
          */
         key: string;
 
         /**
-         * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-         * 200 characters.
+         * Tag value. Must not contain #, /, or :. Max 200 characters.
          */
         value: string;
       }
@@ -2070,6 +2134,9 @@ export namespace InvoiceUpdateParams {
 
       price?: Update.Price;
 
+      /**
+       * Tag updates.
+       */
       tags?: Update.Tags;
     }
 
@@ -2081,38 +2148,37 @@ export namespace InvoiceUpdateParams {
         quantity: number;
 
         /**
-         * Price per unit as a string in the smallest unit of the currency (for example,
-         * cents for USD).
+         * Price per unit as a string in the smallest currency unit, such as cents for USD.
          */
         unit_price: string;
 
         /**
-         * Total amount as a string in the smallest unit of the currency (for example,
-         * cents for USD).
+         * Total amount as a string in the smallest currency unit, such as cents for USD.
          */
         amount?: string;
       }
 
+      /**
+       * Tag updates.
+       */
       export interface Tags {
         /**
-         * Tags to add. Prefer `set` unless you specifically want create-only validation.
+         * Tags to create. The tag key must not already exist.
          */
         create?: Array<Tags.Create>;
 
         /**
-         * Tags to remove by key.
+         * Tags to remove.
          */
         delete?: Array<Tags.Delete>;
 
         /**
-         * Tags to create or overwrite without requiring the caller to distinguish between
-         * create and update.
+         * Tags to set. Creates a new tag or updates an existing tag.
          */
         set?: Array<Tags.Set>;
 
         /**
-         * Tags to update. The key identifies the existing tag; the value is the new value.
-         * Prefer `set` unless you specifically want update-only validation.
+         * Tags to update. The tag key must already exist.
          */
         update?: Array<Tags.Update>;
       }
@@ -2123,14 +2189,12 @@ export namespace InvoiceUpdateParams {
          */
         export interface Create {
           /**
-           * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-           * 50 characters.
+           * Tag key. Must not contain #, /, or :. Max 50 characters.
            */
           key: string;
 
           /**
-           * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-           * 200 characters.
+           * Tag value. Must not contain #, /, or :. Max 200 characters.
            */
           value: string;
         }
@@ -2147,14 +2211,12 @@ export namespace InvoiceUpdateParams {
          */
         export interface Set {
           /**
-           * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-           * 50 characters.
+           * Tag key. Must not contain #, /, or :. Max 50 characters.
            */
           key: string;
 
           /**
-           * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-           * 200 characters.
+           * Tag value. Must not contain #, /, or :. Max 200 characters.
            */
           value: string;
         }
@@ -2164,14 +2226,12 @@ export namespace InvoiceUpdateParams {
          */
         export interface Update {
           /**
-           * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-           * 50 characters.
+           * Tag key. Must not contain #, /, or :. Max 50 characters.
            */
           key: string;
 
           /**
-           * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-           * 200 characters.
+           * Tag value. Must not contain #, /, or :. Max 200 characters.
            */
           value: string;
         }
@@ -2179,26 +2239,27 @@ export namespace InvoiceUpdateParams {
     }
   }
 
+  /**
+   * Tag updates.
+   */
   export interface Tags {
     /**
-     * Tags to add. Prefer `set` unless you specifically want create-only validation.
+     * Tags to create. The tag key must not already exist.
      */
     create?: Array<Tags.Create>;
 
     /**
-     * Tags to remove by key.
+     * Tags to remove.
      */
     delete?: Array<Tags.Delete>;
 
     /**
-     * Tags to create or overwrite without requiring the caller to distinguish between
-     * create and update.
+     * Tags to set. Creates a new tag or updates an existing tag.
      */
     set?: Array<Tags.Set>;
 
     /**
-     * Tags to update. The key identifies the existing tag; the value is the new value.
-     * Prefer `set` unless you specifically want update-only validation.
+     * Tags to update. The tag key must already exist.
      */
     update?: Array<Tags.Update>;
   }
@@ -2209,14 +2270,12 @@ export namespace InvoiceUpdateParams {
      */
     export interface Create {
       /**
-       * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-       * 50 characters.
+       * Tag key. Must not contain #, /, or :. Max 50 characters.
        */
       key: string;
 
       /**
-       * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-       * 200 characters.
+       * Tag value. Must not contain #, /, or :. Max 200 characters.
        */
       value: string;
     }
@@ -2233,14 +2292,12 @@ export namespace InvoiceUpdateParams {
      */
     export interface Set {
       /**
-       * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-       * 50 characters.
+       * Tag key. Must not contain #, /, or :. Max 50 characters.
        */
       key: string;
 
       /**
-       * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-       * 200 characters.
+       * Tag value. Must not contain #, /, or :. Max 200 characters.
        */
       value: string;
     }
@@ -2250,14 +2307,12 @@ export namespace InvoiceUpdateParams {
      */
     export interface Update {
       /**
-       * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-       * 50 characters.
+       * Tag key. Must not contain #, /, or :. Max 50 characters.
        */
       key: string;
 
       /**
-       * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-       * 200 characters.
+       * Tag value. Must not contain #, /, or :. Max 200 characters.
        */
       value: string;
     }
@@ -2273,7 +2328,7 @@ export interface InvoiceSearchParams {
   /**
    * Pagination parameters.
    */
-  page_info: InvoiceSearchParams.PageInfo;
+  page_info?: InvoiceSearchParams.PageInfo;
 }
 
 export namespace InvoiceSearchParams {
@@ -2301,12 +2356,12 @@ export namespace InvoiceSearchParams {
      */
     export interface Tags {
       /**
-       * Returns invoices matching every specified tag (AND).
+       * Returns invoices matching every specified tag, using AND logic.
        */
       all?: Array<Tags.All>;
 
       /**
-       * Returns invoices matching at least one of the specified tags (OR).
+       * Returns invoices matching at least one of the specified tags, using OR logic.
        */
       any?: Array<Tags.Any>;
     }

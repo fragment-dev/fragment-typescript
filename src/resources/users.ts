@@ -67,6 +67,9 @@ export interface UserCreateResponse {
  * List of users.
  */
 export interface UserListResponse {
+  /**
+   * List of users.
+   */
   data: Array<User>;
 }
 

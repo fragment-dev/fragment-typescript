@@ -56,7 +56,7 @@ export interface ExternalAccount {
   external_id: string;
 
   /**
-   * Human-readable name.
+   * Name of the account.
    */
   name: string;
 }
@@ -82,7 +82,7 @@ export interface ExternalAccountCreateParams {
   external_id: string;
 
   /**
-   * Human-readable name.
+   * Name of the account.
    */
   name: string;
 }
