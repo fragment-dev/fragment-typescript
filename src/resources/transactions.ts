@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
+import * as TransactionsAPI from './transactions';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
@@ -103,7 +104,7 @@ export class Transactions extends APIResource {
    * @example
    * ```ts
    * const response = await client.transactions.search({
-   *   filter: { account: { any: [{}] } },
+   *   filter: {},
    * });
    * ```
    */
@@ -150,8 +151,8 @@ export interface Transaction {
   allocations: Array<Transaction.Allocation>;
 
   /**
-   * Transaction amount, as a string in the smallest unit of the currency (for
-   * example, cents for USD). Can be positive or negative.
+   * Transaction amount, as a string in the smallest currency unit, such as cents for
+   * USD. Can be positive or negative.
    */
   amount: string;
 
@@ -161,7 +162,7 @@ export interface Transaction {
   created: string;
 
   /**
-   * Currency code (ISO 4217 or crypto).
+   * ISO 4217 or crypto currency code.
    */
   currency:
     | 'ADA'
@@ -396,8 +397,8 @@ export namespace Transaction {
    */
   export interface Allocation {
     /**
-     * Allocated amount, as a positive string in the smallest unit of the currency (for
-     * example, cents for USD).
+     * Allocated amount, as a positive string in the smallest currency unit, such as
+     * cents for USD.
      */
     amount: string;
 
@@ -412,14 +413,14 @@ export namespace Transaction {
     type: 'invoice_payin' | 'invoice_payout';
 
     /**
-     * User reference.
+     * User associated with the allocation.
      */
     user: Allocation.User;
   }
 
   export namespace Allocation {
     /**
-     * User reference.
+     * User associated with the allocation.
      */
     export interface User {
       /**
@@ -487,9 +488,38 @@ export interface TransactionListHistoryResponse {
 
 export interface TransactionSearchResponse {
   /**
-   * List of transaction search results.
+   * @deprecated Deprecated. Use `data_v2.transactions` instead. Returns the full
+   * unpaginated list of matching transactions.
    */
   data: Array<Transaction>;
+
+  data_v2: TransactionSearchResponse.DataV2;
+}
+
+export namespace TransactionSearchResponse {
+  export interface DataV2 {
+    /**
+     * Pagination cursors.
+     */
+    page_info: DataV2.PageInfo;
+
+    /**
+     * Transactions matching the search criteria.
+     */
+    transactions: Array<TransactionsAPI.Transaction>;
+  }
+
+  export namespace DataV2 {
+    /**
+     * Pagination cursors.
+     */
+    export interface PageInfo {
+      /**
+       * Cursor to fetch the next page of results.
+       */
+      next_cursor?: string;
+    }
+  }
 }
 
 export interface TransactionSearchAllocationsResponse {
@@ -510,8 +540,8 @@ export namespace TransactionSearchAllocationsResponse {
     id: string;
 
     /**
-     * Allocated amount, as a positive string in the smallest unit of the currency (for
-     * example, cents for USD).
+     * Allocated amount, as a positive string in the smallest currency unit, such as
+     * cents for USD.
      */
     amount: string;
 
@@ -526,7 +556,7 @@ export namespace TransactionSearchAllocationsResponse {
     posted: string;
 
     /**
-     * Transaction reference.
+     * Transaction the allocation is applied to.
      */
     transaction: Data.Transaction;
 
@@ -536,14 +566,14 @@ export namespace TransactionSearchAllocationsResponse {
     type: 'invoice_payin' | 'invoice_payout';
 
     /**
-     * User reference.
+     * User associated with the allocation.
      */
     user: Data.User;
   }
 
   export namespace Data {
     /**
-     * Transaction reference.
+     * Transaction the allocation is applied to.
      */
     export interface Transaction {
       /**
@@ -558,7 +588,7 @@ export namespace TransactionSearchAllocationsResponse {
     }
 
     /**
-     * User reference.
+     * User associated with the allocation.
      */
     export interface User {
       /**
@@ -587,13 +617,13 @@ export interface TransactionCreateParams {
   allocations: Array<TransactionCreateParams.Allocation>;
 
   /**
-   * Transaction amount, as a string in the smallest unit of the currency (for
-   * example, cents for USD). Can be positive or negative.
+   * Transaction amount, as a string in the smallest currency unit, such as cents for
+   * USD. Can be positive or negative.
    */
   amount: string;
 
   /**
-   * Currency code (ISO 4217 or crypto).
+   * ISO 4217 or crypto currency code.
    */
   currency:
     | 'ADA'
@@ -814,8 +844,8 @@ export namespace TransactionCreateParams {
    */
   export interface Allocation {
     /**
-     * Allocation amount, as a positive string in the smallest unit of the currency
-     * (for example, cents for USD).
+     * Allocation amount, as a positive string in the smallest currency unit, such as
+     * cents for USD.
      */
     amount: string;
 
@@ -856,14 +886,12 @@ export namespace TransactionCreateParams {
    */
   export interface Tag {
     /**
-     * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-     * 50 characters.
+     * Tag key. Must not contain #, /, or :. Max 50 characters.
      */
     key: string;
 
     /**
-     * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-     * 200 characters.
+     * Tag value. Must not contain #, /, or :. Max 200 characters.
      */
     value: string;
   }
@@ -875,12 +903,21 @@ export interface TransactionUpdateParams {
    */
   current_transaction_version: number;
 
+  /**
+   * Allocation updates.
+   */
   allocations?: TransactionUpdateParams.Allocations;
 
+  /**
+   * Tag updates.
+   */
   tags?: TransactionUpdateParams.Tags;
 }
 
 export namespace TransactionUpdateParams {
+  /**
+   * Allocation updates.
+   */
   export interface Allocations {
     /**
      * Allocations to create.
@@ -899,8 +936,8 @@ export namespace TransactionUpdateParams {
      */
     export interface Create {
       /**
-       * Allocation amount, as a positive string in the smallest unit of the currency
-       * (for example, cents for USD).
+       * Allocation amount, as a positive string in the smallest currency unit, such as
+       * cents for USD.
        */
       amount: string;
 
@@ -943,33 +980,34 @@ export namespace TransactionUpdateParams {
       id: string;
 
       /**
-       * Updated allocation amount, as a positive string in the smallest unit of the
-       * currency (for example, cents for USD).
+       * Updated allocation amount, as a positive string in the smallest currency unit,
+       * such as cents for USD.
        */
       amount: string;
     }
   }
 
+  /**
+   * Tag updates.
+   */
   export interface Tags {
     /**
-     * Tags to add. Prefer `set` unless you specifically want create-only validation.
+     * Tags to create. The tag key must not already exist.
      */
     create?: Array<Tags.Create>;
 
     /**
-     * Tags to remove by key.
+     * Tags to remove.
      */
     delete?: Array<Tags.Delete>;
 
     /**
-     * Tags to create or overwrite without requiring the caller to distinguish between
-     * create and update.
+     * Tags to set. Creates a new tag or updates an existing tag.
      */
     set?: Array<Tags.Set>;
 
     /**
-     * Tags to update. The key identifies the existing tag; the value is the new value.
-     * Prefer `set` unless you specifically want update-only validation.
+     * Tags to update. The tag key must already exist.
      */
     update?: Array<Tags.Update>;
   }
@@ -980,14 +1018,12 @@ export namespace TransactionUpdateParams {
      */
     export interface Create {
       /**
-       * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-       * 50 characters.
+       * Tag key. Must not contain #, /, or :. Max 50 characters.
        */
       key: string;
 
       /**
-       * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-       * 200 characters.
+       * Tag value. Must not contain #, /, or :. Max 200 characters.
        */
       value: string;
     }
@@ -1004,14 +1040,12 @@ export namespace TransactionUpdateParams {
      */
     export interface Set {
       /**
-       * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-       * 50 characters.
+       * Tag key. Must not contain #, /, or :. Max 50 characters.
        */
       key: string;
 
       /**
-       * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-       * 200 characters.
+       * Tag value. Must not contain #, /, or :. Max 200 characters.
        */
       value: string;
     }
@@ -1021,14 +1055,12 @@ export namespace TransactionUpdateParams {
      */
     export interface Update {
       /**
-       * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-       * 50 characters.
+       * Tag key. Must not contain #, /, or :. Max 50 characters.
        */
       key: string;
 
       /**
-       * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-       * 200 characters.
+       * Tag value. Must not contain #, /, or :. Max 200 characters.
        */
       value: string;
     }
@@ -1055,6 +1087,11 @@ export interface TransactionSearchParams {
    * Filter for searching transactions.
    */
   filter: TransactionSearchParams.Filter;
+
+  /**
+   * Pagination parameters.
+   */
+  page_info?: TransactionSearchParams.PageInfo;
 }
 
 export namespace TransactionSearchParams {
@@ -1062,13 +1099,25 @@ export namespace TransactionSearchParams {
    * Filter for searching transactions.
    */
   export interface Filter {
-    account: Filter.Account;
+    /**
+     * Account filter.
+     */
+    account?: Filter.Account;
+
+    /**
+     * Tag-based filter criteria. When both `any` and `all` are provided, results must
+     * match every entry in `all` AND at least one entry in `any`.
+     */
+    tags?: Filter.Tags;
   }
 
   export namespace Filter {
+    /**
+     * Account filter.
+     */
     export interface Account {
       /**
-       * Match transactions belonging to any of these accounts (OR).
+       * Match transactions belonging to any of these accounts, using OR logic.
        */
       any: Array<Account.Any>;
     }
@@ -1090,6 +1139,74 @@ export namespace TransactionSearchParams {
         external_id?: string;
       }
     }
+
+    /**
+     * Tag-based filter criteria. When both `any` and `all` are provided, results must
+     * match every entry in `all` AND at least one entry in `any`.
+     */
+    export interface Tags {
+      /**
+       * Returns transactions matching every specified tag, using AND logic.
+       */
+      all?: Array<Tags.All>;
+
+      /**
+       * Returns transactions matching at least one of the specified tags, using OR
+       * logic.
+       */
+      any?: Array<Tags.Any>;
+    }
+
+    export namespace Tags {
+      /**
+       * A tag filter.
+       */
+      export interface All {
+        /**
+         * Tag key to filter on. Must be an exact match; wildcards are not supported.
+         */
+        key: string;
+
+        /**
+         * Tag value pattern to filter on. Supports wildcards: `*` matches any characters,
+         * `?` matches a single character. Use `\*` or `\?` to match literal asterisks or
+         * question marks. Use `*` to match any value for the given key.
+         */
+        value: string;
+      }
+
+      /**
+       * A tag filter.
+       */
+      export interface Any {
+        /**
+         * Tag key to filter on. Must be an exact match; wildcards are not supported.
+         */
+        key: string;
+
+        /**
+         * Tag value pattern to filter on. Supports wildcards: `*` matches any characters,
+         * `?` matches a single character. Use `\*` or `\?` to match literal asterisks or
+         * question marks. Use `*` to match any value for the given key.
+         */
+        value: string;
+      }
+    }
+  }
+
+  /**
+   * Pagination parameters.
+   */
+  export interface PageInfo {
+    /**
+     * Cursor for fetching the next page of results.
+     */
+    after?: string;
+
+    /**
+     * Number of results to return. Defaults to 20.
+     */
+    limit?: number;
   }
 }
 
@@ -1105,13 +1222,19 @@ export namespace TransactionSearchAllocationsParams {
    * Filter for searching transaction allocations.
    */
   export interface Filter {
+    /**
+     * Invoice ID filter.
+     */
     invoice_id: Filter.InvoiceID;
   }
 
   export namespace Filter {
+    /**
+     * Invoice ID filter.
+     */
     export interface InvoiceID {
       /**
-       * Match allocations where invoice_id is any of these values (OR).
+       * Match allocations where invoice_id is any of these values, using OR logic.
        */
       any: Array<string>;
     }

@@ -51,7 +51,7 @@ describe('resource transactions', () => {
       currency: 'USD',
       external_id: 'bank_txn_123',
       posted: '2024-01-13T00:00:00Z',
-      tags: [{ key: 'region', value: 'us-east' }],
+      tags: [{ key: 'department', value: 'engineering' }],
     });
   });
 
@@ -95,10 +95,10 @@ describe('resource transactions', () => {
         update: [{ id: 'alloc_abc123', amount: '2000' }],
       },
       tags: {
-        create: [{ key: 'region', value: 'us-east' }],
+        create: [{ key: 'department', value: 'engineering' }],
         delete: [{ key: 'key' }],
-        set: [{ key: 'region', value: 'eu-west-1' }],
-        update: [{ key: 'region', value: 'us-east' }],
+        set: [{ key: 'department', value: 'engineering' }],
+        update: [{ key: 'department', value: 'engineering' }],
       },
     });
   });
@@ -140,7 +140,7 @@ describe('resource transactions', () => {
 
   // Mock server tests are disabled
   test.skip('search: only required params', async () => {
-    const responsePromise = client.transactions.search({ filter: { account: { any: [{}] } } });
+    const responsePromise = client.transactions.search({ filter: {} });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -153,7 +153,14 @@ describe('resource transactions', () => {
   // Mock server tests are disabled
   test.skip('search: required and optional params', async () => {
     const response = await client.transactions.search({
-      filter: { account: { any: [{ id: 'ext_account_YWJjMTIz', external_id: 'acct_external_123' }] } },
+      filter: {
+        account: { any: [{ id: 'ext_account_YWJjMTIz', external_id: 'acct_external_123' }] },
+        tags: {
+          all: [{ key: 'department', value: 'engineering' }],
+          any: [{ key: 'department', value: 'eng*' }],
+        },
+      },
+      page_info: { after: 'after', limit: 20 },
     });
   });
 
