@@ -10,7 +10,7 @@ import { path } from '../internal/utils/path';
  */
 export class Products extends APIResource {
   /**
-   * Creates a new product
+   * Creates a product.
    *
    * @example
    * ```ts
@@ -24,7 +24,7 @@ export class Products extends APIResource {
   }
 
   /**
-   * Gets a product by code
+   * Retrieves a product by code.
    *
    * @example
    * ```ts
@@ -36,7 +36,7 @@ export class Products extends APIResource {
   }
 
   /**
-   * Lists all products for the workspace
+   * Lists all products.
    *
    * @example
    * ```ts
@@ -49,46 +49,46 @@ export class Products extends APIResource {
 }
 
 /**
- * Product object
+ * Product object.
  */
 export interface Product {
   /**
-   * Unique identifier for the product
+   * FRAGMENT generated unique ID.
    */
   id: string;
 
   /**
-   * User-defined product identifier.
+   * Product code.
    */
   code: string;
 
   /**
-   * ISO 8601 timestamp when the product was created
+   * Timestamp when the product was created. Uses ISO 8601 format.
    */
   created: string;
 
   /**
-   * User roles that can pay for this product
+   * Roles that can pay for the product.
    */
   paid_by_roles: Array<Product.PaidByRole>;
 
   /**
-   * User roles that receive payment for this product
+   * Roles that can receive payment for the product.
    */
   paid_to_roles: Array<Product.PaidToRole>;
 
   /**
-   * Version number for optimistic locking
+   * Current version of the product.
    */
   update_version: number;
 
   /**
-   * Workspace ID this product belongs to
+   * Workspace ID of the product.
    */
   workspace_id: string;
 
   /**
-   * Description of the product
+   * Product description.
    */
   description?: string;
 }
@@ -99,12 +99,12 @@ export namespace Product {
    */
   export interface PaidByRole {
     /**
-     * The unique ID of the role
+     * FRAGMENT generated unique ID.
      */
     id: string;
 
     /**
-     * The name of the role
+     * Name of the role.
      */
     name: string;
   }
@@ -114,12 +114,12 @@ export namespace Product {
    */
   export interface PaidToRole {
     /**
-     * The unique ID of the role
+     * FRAGMENT generated unique ID.
      */
     id: string;
 
     /**
-     * The name of the role
+     * Name of the role.
      */
     name: string;
   }
@@ -127,45 +127,45 @@ export namespace Product {
 
 export interface ProductCreateResponse {
   /**
-   * Product object
+   * Product object.
    */
   data: Product;
 }
 
 export interface ProductRetrieveResponse {
   /**
-   * Product object
+   * Product object.
    */
   data: Product;
 }
 
-/**
- * List of products
- */
 export interface ProductListResponse {
+  /**
+   * List of products.
+   */
   data: Array<Product>;
 }
 
 export interface ProductCreateParams {
   /**
-   * Product code (unique identifier)
+   * Unique product code.
    */
   code: string;
 
   /**
-   * Description of the product
+   * Product description.
    */
   description?: string;
 
   /**
-   * Roles that can pay for this product. Reference roles by id or name. At least one
-   * of paid_by_roles or paid_to_roles must be provided.
+   * Roles that can pay for the product. Reference roles by `id` or `name`. At least
+   * one of `paid_by_roles` or `paid_to_roles` must be provided.
    */
   paid_by_roles?: Array<ProductCreateParams.ID | ProductCreateParams.Name>;
 
   /**
-   * Roles that receive payment for this product. Reference roles by id or name. At
-   * least one of paid_by_roles or paid_to_roles must be provided.
+   * Roles that can receive payment for the product. Reference roles by `id` or
+   * `name`. At least one of `paid_by_roles` or `paid_to_roles` must be provided.
    */
   paid_to_roles?: Array<ProductCreateParams.ID | ProductCreateParams.Name>;
 }
@@ -173,28 +173,28 @@ export interface ProductCreateParams {
 export namespace ProductCreateParams {
   export interface ID {
     /**
-     * The unique ID of the role
+     * FRAGMENT generated unique ID.
      */
     id: string;
   }
 
   export interface Name {
     /**
-     * The name of the role
+     * Name of the role.
      */
     name: string;
   }
 
   export interface ID {
     /**
-     * The unique ID of the role
+     * FRAGMENT generated unique ID.
      */
     id: string;
   }
 
   export interface Name {
     /**
-     * The name of the role
+     * Name of the role.
      */
     name: string;
   }

@@ -4,9 +4,12 @@ import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 
+/**
+ * External account management operations
+ */
 export class ExternalAccounts extends APIResource {
   /**
-   * Creates a new external account
+   * Creates an external account.
    *
    * @example
    * ```ts
@@ -25,7 +28,7 @@ export class ExternalAccounts extends APIResource {
   }
 
   /**
-   * Lists all external accounts for the workspace
+   * Lists all external accounts.
    *
    * @example
    * ```ts
@@ -39,34 +42,34 @@ export class ExternalAccounts extends APIResource {
 }
 
 /**
- * External account object
+ * External account object.
  */
 export interface ExternalAccount {
   /**
-   * Fragment-generated unique ID for the external account
+   * FRAGMENT generated unique ID.
    */
   id: string;
 
   /**
-   * User-provided external ID
+   * User-provided unique ID.
    */
   external_id: string;
 
   /**
-   * Human-readable name for the external account
+   * Name of the account.
    */
   name: string;
 }
 
 export interface ExternalAccountCreateResponse {
   /**
-   * External account object
+   * External account object.
    */
   data: ExternalAccount;
 }
 
 /**
- * List of external accounts
+ * List of external accounts.
  */
 export interface ExternalAccountListResponse {
   data: Array<ExternalAccount>;
@@ -74,12 +77,12 @@ export interface ExternalAccountListResponse {
 
 export interface ExternalAccountCreateParams {
   /**
-   * External ID for the account (user-provided, unique, mutable)
+   * User-provided unique ID.
    */
   external_id: string;
 
   /**
-   * Human-readable name for the external account (mutable)
+   * Name of the account.
    */
   name: string;
 }

@@ -4,9 +4,12 @@ import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 
+/**
+ * User management operations
+ */
 export class Users extends APIResource {
   /**
-   * Creates a new user
+   * Creates a user.
    *
    * @example
    * ```ts
@@ -21,7 +24,7 @@ export class Users extends APIResource {
   }
 
   /**
-   * Lists all users for the workspace
+   * Lists all users.
    *
    * @example
    * ```ts
@@ -34,47 +37,50 @@ export class Users extends APIResource {
 }
 
 /**
- * User object
+ * User object.
  */
 export interface User {
   /**
-   * Unique user ID
+   * FRAGMENT generated unique ID.
    */
   id: string;
 
   /**
-   * External ID for the user
+   * User-provided unique ID.
    */
   external_id: string;
 
   /**
-   * Role of the user
+   * Name of the user's role.
    */
   role: string;
 }
 
 export interface UserCreateResponse {
   /**
-   * User object
+   * User object.
    */
   data: User;
 }
 
 /**
- * List of users
+ * List of users.
  */
 export interface UserListResponse {
+  /**
+   * List of users.
+   */
   data: Array<User>;
 }
 
 export interface UserCreateParams {
   /**
-   * External ID for the user
+   * User-provided unique ID.
    */
   external_id: string;
 
   /**
-   * Role of the user
+   * Name of the role to assign. Must match an existing role.
    */
   role: string;
 }

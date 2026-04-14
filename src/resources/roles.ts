@@ -9,7 +9,7 @@ import { RequestOptions } from '../internal/request-options';
  */
 export class Roles extends APIResource {
   /**
-   * Creates a new role
+   * Creates a role.
    *
    * @example
    * ```ts
@@ -21,7 +21,7 @@ export class Roles extends APIResource {
   }
 
   /**
-   * Lists all roles for the workspace
+   * Lists all roles.
    *
    * @example
    * ```ts
@@ -34,37 +34,40 @@ export class Roles extends APIResource {
 }
 
 /**
- * Role object
+ * Role object.
  */
 export interface Role {
   /**
-   * Unique role ID
+   * FRAGMENT generated unique ID.
    */
   id: string;
 
   /**
-   * Name of the role
+   * Name of the role.
    */
   role: string;
 }
 
 export interface RoleCreateResponse {
   /**
-   * Role object
+   * Role object.
    */
   data: Role;
 }
 
 /**
- * List of roles
+ * List of roles.
  */
 export interface RoleListResponse {
+  /**
+   * List of roles.
+   */
   data: Array<Role>;
 }
 
 export interface RoleCreateParams {
   /**
-   * Name of the role
+   * Name of the role.
    */
   role: string;
 }

@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.21.0 (2026-04-13)
+
+Full Changelog: [v0.20.0...v0.21.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.20.0...v0.21.0)
+
+### Features
+
+* **api:** update SDK from prod (511af1bcd4001be60c589fed1d05a5814e416679) ([484943a](https://github.com/fragment-dev/fragment-typescript/commit/484943a2f97b25aa4949d112a892884a03f28534))
+* **api:** update SDK from prod (523b1fdd6cc6b5732ccdad5095c21f69fe1f7489) ([91ee3b5](https://github.com/fragment-dev/fragment-typescript/commit/91ee3b5837e439946ba9c2a4beff1b6e44c7bca0))
+* **api:** update SDK from prod (729db28098a20ebc22e879a2cd1c6ad860f9ce4c) ([99ffd26](https://github.com/fragment-dev/fragment-typescript/commit/99ffd26009fa316ca340db2e8e83155a970b2c62))
+* **api:** update SDK from prod (8051461980fb65468797d0b82dfa42dee9014004) ([79a14d1](https://github.com/fragment-dev/fragment-typescript/commit/79a14d16c8774e9226d928a7634d1c26cf2044b0))
+* **api:** update SDK from prod (a5eb093078fe5947a299bccafd30a0c7f2e90790) ([a6843ba](https://github.com/fragment-dev/fragment-typescript/commit/a6843ba30ed876c02ace9e0746986ee1ce0c6e93))
+* **api:** update SDK from prod (b3080493fb6bb118abdd03644b9ef6f59d417a3c) ([b0123c3](https://github.com/fragment-dev/fragment-typescript/commit/b0123c3ca8e5b901d945eca65808ff5948bb357b))
+* **api:** update SDK from prod (b8f6f1940acd3d10fc17aaeb59cd75281f3c6436) ([68cebf4](https://github.com/fragment-dev/fragment-typescript/commit/68cebf44aacd4feba688a21d83d1848aa4a1e684))
+* **api:** update SDK from prod (e1ebb9e4d62034855202a8ff99690880c072d953) ([aeff356](https://github.com/fragment-dev/fragment-typescript/commit/aeff3566c323f4bb81fc93ea3c9c9812b493d4a1))
+
+
+### Bug Fixes
+
+* **internal:** gitignore generated `oidc` dir ([b489349](https://github.com/fragment-dev/fragment-typescript/commit/b4893492a7003c791297067170805d88e1a08a72))
+
+
+### Chores
+
+* **internal:** codegen related update ([558e630](https://github.com/fragment-dev/fragment-typescript/commit/558e630e873639730aa5c1a967ada782791378d5))
+
 ## 0.20.0 (2026-03-27)
 
 Full Changelog: [v0.19.0...v0.20.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.19.0...v0.20.0)

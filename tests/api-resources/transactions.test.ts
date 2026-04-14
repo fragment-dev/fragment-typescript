@@ -24,7 +24,7 @@ describe('resource transactions', () => {
       amount: '-1000',
       currency: 'USD',
       external_id: 'bank_txn_123',
-      posted: '2026-02-12T00:00:00.000Z',
+      posted: '2024-01-13T00:00:00Z',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -50,8 +50,8 @@ describe('resource transactions', () => {
       amount: '-1000',
       currency: 'USD',
       external_id: 'bank_txn_123',
-      posted: '2026-02-12T00:00:00.000Z',
-      tags: [{ key: 'region', value: 'us-east' }],
+      posted: '2024-01-13T00:00:00Z',
+      tags: [{ key: 'department', value: 'engineering' }],
     });
   });
 
@@ -95,9 +95,10 @@ describe('resource transactions', () => {
         update: [{ id: 'alloc_abc123', amount: '2000' }],
       },
       tags: {
-        create: [{ key: 'region', value: 'us-east' }],
+        create: [{ key: 'department', value: 'engineering' }],
         delete: [{ key: 'key' }],
-        update: [{ key: 'region', value: 'eu-west-1' }],
+        set: [{ key: 'department', value: 'engineering' }],
+        update: [{ key: 'department', value: 'engineering' }],
       },
     });
   });
@@ -126,45 +127,6 @@ describe('resource transactions', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('createAllocations: only required params', async () => {
-    const responsePromise = client.transactions.createAllocations('txn_abc123', {
-      allocation_updates: [
-        {
-          amount: '1000',
-          invoice_id: 'inv_abc123',
-          op: 'add',
-          type: 'invoice_payin',
-          user: { id: 'user_abc123' },
-        },
-      ],
-      version: 0,
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Mock server tests are disabled
-  test.skip('createAllocations: required and optional params', async () => {
-    const response = await client.transactions.createAllocations('txn_abc123', {
-      allocation_updates: [
-        {
-          amount: '1000',
-          invoice_id: 'inv_abc123',
-          op: 'add',
-          type: 'invoice_payin',
-          user: { id: 'user_abc123' },
-        },
-      ],
-      version: 0,
-    });
-  });
-
-  // Mock server tests are disabled
   test.skip('listHistory', async () => {
     const responsePromise = client.transactions.listHistory('txn_abc123');
     const rawResponse = await responsePromise.asResponse();
@@ -178,7 +140,7 @@ describe('resource transactions', () => {
 
   // Mock server tests are disabled
   test.skip('search: only required params', async () => {
-    const responsePromise = client.transactions.search({ filter: { account: { any: [{}] } } });
+    const responsePromise = client.transactions.search({ filter: {} });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -191,7 +153,14 @@ describe('resource transactions', () => {
   // Mock server tests are disabled
   test.skip('search: required and optional params', async () => {
     const response = await client.transactions.search({
-      filter: { account: { any: [{ id: 'ext_account_YWJjMTIz', external_id: 'acct_external_123' }] } },
+      filter: {
+        account: { any: [{ id: 'ext_account_YWJjMTIz', external_id: 'acct_external_123' }] },
+        tags: {
+          all: [{ key: 'department', value: 'engineering' }],
+          any: [{ key: 'department', value: 'eng*' }],
+        },
+      },
+      page_info: { after: 'after', limit: 20 },
     });
   });
 

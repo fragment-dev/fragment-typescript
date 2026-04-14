@@ -48,8 +48,6 @@ import {
 import { Role, RoleCreateParams, RoleCreateResponse, RoleListResponse, Roles } from './resources/roles';
 import {
   Transaction,
-  TransactionCreateAllocationsParams,
-  TransactionCreateAllocationsResponse,
   TransactionCreateParams,
   TransactionCreateResponse,
   TransactionListHistoryResponse,
@@ -843,6 +841,9 @@ export class Fragment {
 
   static toFile = Uploads.toFile;
 
+  /**
+   * External account management operations
+   */
   externalAccounts: API.ExternalAccounts = new API.ExternalAccounts(this);
   /**
    * Invoice management operations
@@ -860,6 +861,9 @@ export class Fragment {
    * Transaction sync operations
    */
   transactions: API.Transactions = new API.Transactions(this);
+  /**
+   * User management operations
+   */
   users: API.Users = new API.Users(this);
 }
 
@@ -919,14 +923,12 @@ export declare namespace Fragment {
     type TransactionRetrieveResponse as TransactionRetrieveResponse,
     type TransactionUpdateResponse as TransactionUpdateResponse,
     type TransactionListResponse as TransactionListResponse,
-    type TransactionCreateAllocationsResponse as TransactionCreateAllocationsResponse,
     type TransactionListHistoryResponse as TransactionListHistoryResponse,
     type TransactionSearchResponse as TransactionSearchResponse,
     type TransactionSearchAllocationsResponse as TransactionSearchAllocationsResponse,
     type TransactionCreateParams as TransactionCreateParams,
     type TransactionUpdateParams as TransactionUpdateParams,
     type TransactionListParams as TransactionListParams,
-    type TransactionCreateAllocationsParams as TransactionCreateAllocationsParams,
     type TransactionSearchParams as TransactionSearchParams,
     type TransactionSearchAllocationsParams as TransactionSearchAllocationsParams,
   };

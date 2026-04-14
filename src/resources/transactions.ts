@@ -11,7 +11,7 @@ import { path } from '../internal/utils/path';
  */
 export class Transactions extends APIResource {
   /**
-   * Syncs a transaction, optionally with allocations
+   * Creates a transaction.
    *
    * @example
    * ```ts
@@ -28,7 +28,7 @@ export class Transactions extends APIResource {
    *   amount: '-1000',
    *   currency: 'USD',
    *   external_id: 'bank_txn_123',
-   *   posted: '2026-02-12T00:00:00.000Z',
+   *   posted: '2024-01-13T00:00:00Z',
    * });
    * ```
    */
@@ -37,7 +37,7 @@ export class Transactions extends APIResource {
   }
 
   /**
-   * Gets a transaction by ID or external ID
+   * Retrieves a transaction by ID or external ID.
    *
    * @example
    * ```ts
@@ -51,7 +51,7 @@ export class Transactions extends APIResource {
   }
 
   /**
-   * Updates a transaction (tags, allocations, or both)
+   * Updates a transaction.
    *
    * @example
    * ```ts
@@ -70,7 +70,7 @@ export class Transactions extends APIResource {
   }
 
   /**
-   * Lists all transactions for the workspace
+   * Lists all transactions.
    *
    * @example
    * ```ts
@@ -85,38 +85,7 @@ export class Transactions extends APIResource {
   }
 
   /**
-   * Updates allocations on an existing transaction
-   *
-   * @example
-   * ```ts
-   * const response =
-   *   await client.transactions.createAllocations(
-   *     'txn_abc123',
-   *     {
-   *       allocation_updates: [
-   *         {
-   *           amount: '1000',
-   *           invoice_id: 'inv_abc123',
-   *           op: 'add',
-   *           type: 'invoice_payin',
-   *           user: { id: 'user_abc123' },
-   *         },
-   *       ],
-   *       version: 0,
-   *     },
-   *   );
-   * ```
-   */
-  createAllocations(
-    transactionRef: string,
-    body: TransactionCreateAllocationsParams,
-    options?: RequestOptions,
-  ): APIPromise<TransactionCreateAllocationsResponse> {
-    return this._client.post(path`/transactions/${transactionRef}/allocations`, { body, ...options });
-  }
-
-  /**
-   * Gets the version history of a transaction
+   * Retrieves the version history of a transaction.
    *
    * @example
    * ```ts
@@ -130,12 +99,12 @@ export class Transactions extends APIResource {
   }
 
   /**
-   * Searches transactions by filter criteria
+   * Searches transactions.
    *
    * @example
    * ```ts
    * const response = await client.transactions.search({
-   *   filter: { account: { any: [{}] } },
+   *   filter: {},
    * });
    * ```
    */
@@ -144,7 +113,7 @@ export class Transactions extends APIResource {
   }
 
   /**
-   * Searches transaction allocations by filter criteria
+   * Searches transaction allocations.
    *
    * @example
    * ```ts
@@ -167,30 +136,33 @@ export class Transactions extends APIResource {
  */
 export interface Transaction {
   /**
-   * User-facing encoded transaction ID.
+   * FRAGMENT generated unique ID.
    */
   id: string;
 
   /**
-   * External account reference on transaction responses.
+   * External account for the transaction.
    */
   account: Transaction.Account;
 
+  /**
+   * Allocations applied to the transaction.
+   */
   allocations: Array<Transaction.Allocation>;
 
   /**
-   * Amount in smallest currency unit as stringified bigint (can be positive or
-   * negative).
+   * Transaction amount, as a string in the smallest currency unit, such as cents for
+   * USD. Can be positive or negative.
    */
   amount: string;
 
   /**
-   * Creation timestamp.
+   * Timestamp when the transaction was created. Uses ISO 8601 format.
    */
   created: string;
 
   /**
-   * Currency code (ISO 4217 or crypto)
+   * ISO 4217 or crypto currency code.
    */
   currency:
     | 'ADA'
@@ -374,105 +346,106 @@ export interface Transaction {
     | 'CUSTOM';
 
   /**
-   * External idempotency key provided by the user.
+   * User-provided unique ID.
    */
   external_id: string;
 
   /**
-   * Posted timestamp in ISO 8601 format.
+   * Timestamp when the transaction was posted. Uses ISO 8601 format.
    */
   posted: string;
 
   /**
-   * Metadata tags associated with this transaction.
+   * Tags for the transaction.
    */
   tags: Array<Transaction.Tag>;
 
   /**
-   * Read-only amount not yet allocated.
+   * Amount not yet allocated, as a string.
    */
   unallocated_amount: string;
 
   /**
-   * Current version of the transaction, used for optimistic concurrency control.
+   * Current version of the transaction.
    */
   version: number;
 
   /**
-   * Last modified timestamp.
+   * Timestamp when the transaction was last modified. Uses ISO 8601 format.
    */
   modified?: string;
 }
 
 export namespace Transaction {
   /**
-   * External account reference on transaction responses.
+   * External account for the transaction.
    */
   export interface Account {
     /**
-     * User-facing encoded account ID.
+     * FRAGMENT generated unique ID.
      */
     id: string;
 
     /**
-     * External account reference ID.
+     * User-provided unique ID.
      */
     external_id: string;
   }
 
   /**
-   * Transaction allocation against an invoice.
+   * An allocation linking a transaction to an invoice.
    */
   export interface Allocation {
     /**
-     * Allocated amount in smallest currency unit as stringified bigint.
+     * Allocated amount, as a positive string in the smallest currency unit, such as
+     * cents for USD.
      */
     amount: string;
 
     /**
-     * The invoice this allocation is applied against.
+     * Invoice the allocation is applied against.
      */
     invoice_id: string;
 
     /**
-     * The type of allocation.
+     * Type of allocation.
      */
     type: 'invoice_payin' | 'invoice_payout';
 
     /**
-     * User reference in API responses: Fragment user id and optional external_id.
+     * User associated with the allocation.
      */
     user: Allocation.User;
   }
 
   export namespace Allocation {
     /**
-     * User reference in API responses: Fragment user id and optional external_id.
+     * User associated with the allocation.
      */
     export interface User {
       /**
-       * FRAGMENT generated ID of the user
+       * FRAGMENT generated unique ID.
        */
       id: string;
 
       /**
-       * External ID of the user
+       * User-provided unique ID.
        */
-      external_id?: string;
+      external_id: string;
     }
   }
 
   /**
-   * A key-value tag pair
+   * A key-value tag pair.
    */
   export interface Tag {
     /**
-     * Tag key
+     * Tag key.
      */
     key: string;
 
     /**
-     * Tag value
+     * Tag value.
      */
     value: string;
   }
@@ -499,446 +472,158 @@ export interface TransactionUpdateResponse {
   data: Transaction;
 }
 
-/**
- * List of transactions
- */
 export interface TransactionListResponse {
+  /**
+   * List of transaction objects matching the filter criteria.
+   */
   data: Array<Transaction>;
 }
 
-export interface TransactionCreateAllocationsResponse {
-  /**
-   * Transaction object.
-   */
-  data: Transaction;
-}
-
-/**
- * Version history of a transaction
- */
 export interface TransactionListHistoryResponse {
-  data: Array<TransactionListHistoryResponse.Data>;
-}
-
-export namespace TransactionListHistoryResponse {
   /**
-   * A versioned snapshot of a transaction
+   * List of transaction versions over time, ordered by version, oldest first.
    */
-  export interface Data extends Omit<TransactionsAPI.Transaction, 'version'> {
-    /**
-     * Allocation changes applied in this version. Absent on version 1 (initial
-     * creation). Each entry describes an allocation that was added or deleted.
-     */
-    diff?: Array<
-      Data.AddAllocationDiffEntry | Data.DeleteAllocationDiffEntry | Data.UpdateAllocationDiffEntry
-    >;
-
-    /**
-     * Version number of this transaction snapshot.
-     */
-    version?: number;
-  }
-
-  export namespace Data {
-    export interface AddAllocationDiffEntry {
-      /**
-       * Transaction allocation against an invoice.
-       */
-      item: AddAllocationDiffEntry.Item;
-
-      /**
-       * An allocation was added
-       */
-      op: 'add';
-    }
-
-    export namespace AddAllocationDiffEntry {
-      /**
-       * Transaction allocation against an invoice.
-       */
-      export interface Item {
-        /**
-         * Allocated amount in smallest currency unit as stringified bigint.
-         */
-        amount: string;
-
-        /**
-         * The invoice this allocation is applied against.
-         */
-        invoice_id: string;
-
-        /**
-         * The type of allocation.
-         */
-        type: 'invoice_payin' | 'invoice_payout';
-
-        /**
-         * User reference in API responses: Fragment user id and optional external_id.
-         */
-        user: Item.User;
-      }
-
-      export namespace Item {
-        /**
-         * User reference in API responses: Fragment user id and optional external_id.
-         */
-        export interface User {
-          /**
-           * FRAGMENT generated ID of the user
-           */
-          id: string;
-
-          /**
-           * External ID of the user
-           */
-          external_id?: string;
-        }
-      }
-    }
-
-    export interface DeleteAllocationDiffEntry {
-      /**
-       * Transaction allocation against an invoice.
-       */
-      item: DeleteAllocationDiffEntry.Item;
-
-      /**
-       * An allocation was deleted
-       */
-      op: 'delete';
-    }
-
-    export namespace DeleteAllocationDiffEntry {
-      /**
-       * Transaction allocation against an invoice.
-       */
-      export interface Item {
-        /**
-         * Allocated amount in smallest currency unit as stringified bigint.
-         */
-        amount: string;
-
-        /**
-         * The invoice this allocation is applied against.
-         */
-        invoice_id: string;
-
-        /**
-         * The type of allocation.
-         */
-        type: 'invoice_payin' | 'invoice_payout';
-
-        /**
-         * User reference in API responses: Fragment user id and optional external_id.
-         */
-        user: Item.User;
-      }
-
-      export namespace Item {
-        /**
-         * User reference in API responses: Fragment user id and optional external_id.
-         */
-        export interface User {
-          /**
-           * FRAGMENT generated ID of the user
-           */
-          id: string;
-
-          /**
-           * External ID of the user
-           */
-          external_id?: string;
-        }
-      }
-    }
-
-    export interface UpdateAllocationDiffEntry {
-      /**
-       * The ID of the updated allocation.
-       */
-      id: string;
-
-      /**
-       * New amount in smallest currency unit as stringified bigint.
-       */
-      new_amount: string;
-
-      /**
-       * Previous amount in smallest currency unit as stringified bigint.
-       */
-      old_amount: string;
-
-      /**
-       * An allocation was updated
-       */
-      op: 'update';
-    }
-  }
+  data: Array<Transaction>;
 }
 
-/**
- * Search results for transactions.
- */
 export interface TransactionSearchResponse {
-  data: Array<TransactionSearchResponse.Data>;
+  /**
+   * @deprecated Deprecated. Use `data_v2.transactions` instead. Returns the full
+   * unpaginated list of matching transactions.
+   */
+  data: Array<Transaction>;
+
+  data_v2: TransactionSearchResponse.DataV2;
 }
 
 export namespace TransactionSearchResponse {
-  /**
-   * A versioned snapshot of a transaction
-   */
-  export interface Data extends Omit<TransactionsAPI.Transaction, 'version'> {
+  export interface DataV2 {
     /**
-     * Allocation changes applied in this version. Absent on version 1 (initial
-     * creation). Each entry describes an allocation that was added or deleted.
+     * Pagination cursors.
      */
-    diff?: Array<
-      Data.AddAllocationDiffEntry | Data.DeleteAllocationDiffEntry | Data.UpdateAllocationDiffEntry
-    >;
+    page_info: DataV2.PageInfo;
 
     /**
-     * Version number of this transaction snapshot.
+     * Transactions matching the search criteria.
      */
-    version?: number;
+    transactions: Array<TransactionsAPI.Transaction>;
   }
 
-  export namespace Data {
-    export interface AddAllocationDiffEntry {
+  export namespace DataV2 {
+    /**
+     * Pagination cursors.
+     */
+    export interface PageInfo {
       /**
-       * Transaction allocation against an invoice.
+       * Cursor to fetch the next page of results.
        */
-      item: AddAllocationDiffEntry.Item;
-
-      /**
-       * An allocation was added
-       */
-      op: 'add';
-    }
-
-    export namespace AddAllocationDiffEntry {
-      /**
-       * Transaction allocation against an invoice.
-       */
-      export interface Item {
-        /**
-         * Allocated amount in smallest currency unit as stringified bigint.
-         */
-        amount: string;
-
-        /**
-         * The invoice this allocation is applied against.
-         */
-        invoice_id: string;
-
-        /**
-         * The type of allocation.
-         */
-        type: 'invoice_payin' | 'invoice_payout';
-
-        /**
-         * User reference in API responses: Fragment user id and optional external_id.
-         */
-        user: Item.User;
-      }
-
-      export namespace Item {
-        /**
-         * User reference in API responses: Fragment user id and optional external_id.
-         */
-        export interface User {
-          /**
-           * FRAGMENT generated ID of the user
-           */
-          id: string;
-
-          /**
-           * External ID of the user
-           */
-          external_id?: string;
-        }
-      }
-    }
-
-    export interface DeleteAllocationDiffEntry {
-      /**
-       * Transaction allocation against an invoice.
-       */
-      item: DeleteAllocationDiffEntry.Item;
-
-      /**
-       * An allocation was deleted
-       */
-      op: 'delete';
-    }
-
-    export namespace DeleteAllocationDiffEntry {
-      /**
-       * Transaction allocation against an invoice.
-       */
-      export interface Item {
-        /**
-         * Allocated amount in smallest currency unit as stringified bigint.
-         */
-        amount: string;
-
-        /**
-         * The invoice this allocation is applied against.
-         */
-        invoice_id: string;
-
-        /**
-         * The type of allocation.
-         */
-        type: 'invoice_payin' | 'invoice_payout';
-
-        /**
-         * User reference in API responses: Fragment user id and optional external_id.
-         */
-        user: Item.User;
-      }
-
-      export namespace Item {
-        /**
-         * User reference in API responses: Fragment user id and optional external_id.
-         */
-        export interface User {
-          /**
-           * FRAGMENT generated ID of the user
-           */
-          id: string;
-
-          /**
-           * External ID of the user
-           */
-          external_id?: string;
-        }
-      }
-    }
-
-    export interface UpdateAllocationDiffEntry {
-      /**
-       * The ID of the updated allocation.
-       */
-      id: string;
-
-      /**
-       * New amount in smallest currency unit as stringified bigint.
-       */
-      new_amount: string;
-
-      /**
-       * Previous amount in smallest currency unit as stringified bigint.
-       */
-      old_amount: string;
-
-      /**
-       * An allocation was updated
-       */
-      op: 'update';
+      next_cursor?: string;
     }
   }
 }
 
-/**
- * Search results for transaction allocations.
- */
 export interface TransactionSearchAllocationsResponse {
+  /**
+   * List of allocation search results.
+   */
   data: Array<TransactionSearchAllocationsResponse.Data>;
 }
 
 export namespace TransactionSearchAllocationsResponse {
   /**
-   * A flattened allocation with a reference to its parent transaction.
+   * An allocation with a reference to its parent transaction.
    */
   export interface Data {
     /**
-     * Allocation ID.
+     * FRAGMENT generated unique ID.
      */
     id: string;
 
     /**
-     * Allocated amount in smallest currency unit as stringified bigint.
+     * Allocated amount, as a positive string in the smallest currency unit, such as
+     * cents for USD.
      */
     amount: string;
 
     /**
-     * The invoice this allocation is applied against.
+     * Invoice the allocation is applied against.
      */
     invoice_id: string;
 
     /**
-     * Posted timestamp of the parent transaction in ISO 8601 format.
+     * Timestamp when the parent transaction was posted. Uses ISO 8601 format.
      */
     posted: string;
 
     /**
-     * Reference to a transaction by encoded ID and external ID.
+     * Transaction the allocation is applied to.
      */
     transaction: Data.Transaction;
 
     /**
-     * The type of allocation.
+     * Type of allocation.
      */
     type: 'invoice_payin' | 'invoice_payout';
 
     /**
-     * User reference in API responses: Fragment user id and optional external_id.
+     * User associated with the allocation.
      */
     user: Data.User;
   }
 
   export namespace Data {
     /**
-     * Reference to a transaction by encoded ID and external ID.
+     * Transaction the allocation is applied to.
      */
     export interface Transaction {
       /**
-       * Encoded transaction ID.
+       * FRAGMENT generated unique ID.
        */
       id: string;
 
       /**
-       * External transaction ID.
+       * User-provided unique ID.
        */
       external_id: string;
     }
 
     /**
-     * User reference in API responses: Fragment user id and optional external_id.
+     * User associated with the allocation.
      */
     export interface User {
       /**
-       * FRAGMENT generated ID of the user
+       * FRAGMENT generated unique ID.
        */
       id: string;
 
       /**
-       * External ID of the user
+       * User-provided unique ID.
        */
-      external_id?: string;
+      external_id: string;
     }
   }
 }
 
 export interface TransactionCreateParams {
   /**
-   * Account reference. Provide id, external_id, or both.
+   * External account for the transaction. Identify it by `id`, `external_id`, or
+   * both.
    */
   account: TransactionCreateParams.Account;
 
   /**
-   * Allocation entries for this transaction. Empty indicates unreconciled funds.
+   * Allocations for the transaction. An empty array indicates unreconciled funds.
    */
   allocations: Array<TransactionCreateParams.Allocation>;
 
   /**
-   * Amount in smallest currency unit as stringified bigint (can be positive or
-   * negative).
+   * Transaction amount, as a string in the smallest currency unit, such as cents for
+   * USD. Can be positive or negative.
    */
   amount: string;
 
   /**
-   * Currency code (ISO 4217 or crypto)
+   * ISO 4217 or crypto currency code.
    */
   currency:
     | 'ADA'
@@ -1122,58 +807,60 @@ export interface TransactionCreateParams {
     | 'CUSTOM';
 
   /**
-   * External transaction ID used for idempotent sync.
+   * User-provided unique ID.
    */
   external_id: string;
 
   /**
-   * Posted timestamp in ISO 8601 format.
+   * Timestamp when the transaction was posted. Uses ISO 8601 format.
    */
   posted: string;
 
   /**
-   * Optional metadata tags for this transaction
+   * Tags for the transaction.
    */
   tags?: Array<TransactionCreateParams.Tag>;
 }
 
 export namespace TransactionCreateParams {
   /**
-   * Account reference. Provide id, external_id, or both.
+   * External account for the transaction. Identify it by `id`, `external_id`, or
+   * both.
    */
   export interface Account {
     /**
-     * User-facing encoded account ID.
+     * FRAGMENT generated unique ID.
      */
     id?: string;
 
     /**
-     * External account reference ID.
+     * User-provided unique ID.
      */
     external_id?: string;
   }
 
   /**
-   * Transaction allocation against an invoice.
+   * An allocation linking a transaction to an invoice.
    */
   export interface Allocation {
     /**
-     * Amount to allocate in smallest currency unit as stringified bigint.
+     * Allocation amount, as a positive string in the smallest currency unit, such as
+     * cents for USD.
      */
     amount: string;
 
     /**
-     * The invoice to allocate against.
+     * Invoice to allocate against.
      */
     invoice_id: string;
 
     /**
-     * The type of allocation.
+     * Type of allocation.
      */
     type: 'invoice_payin' | 'invoice_payout';
 
     /**
-     * Identifies a user by Fragment-generated id or external_id (request body).
+     * Identifies a user by `id` or `external_id`.
      */
     user: Allocation.ID | Allocation.ExternalID;
   }
@@ -1181,32 +868,30 @@ export namespace TransactionCreateParams {
   export namespace Allocation {
     export interface ID {
       /**
-       * FRAGMENT generated ID of the user
+       * FRAGMENT generated unique ID.
        */
       id: string;
     }
 
     export interface ExternalID {
       /**
-       * External ID of the user
+       * User-provided unique ID.
        */
       external_id: string;
     }
   }
 
   /**
-   * A key-value tag pair for metadata
+   * A key-value tag pair for metadata.
    */
   export interface Tag {
     /**
-     * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-     * 50 characters.
+     * Tag key. Must not contain #, /, or :. Max 50 characters.
      */
     key: string;
 
     /**
-     * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-     * 200 characters.
+     * Tag value. Must not contain #, /, or :. Max 200 characters.
      */
     value: string;
   }
@@ -1214,50 +899,60 @@ export namespace TransactionCreateParams {
 
 export interface TransactionUpdateParams {
   /**
-   * Current transaction version for optimistic concurrency control.
+   * Current version of the transaction. Must match the stored version.
    */
   current_transaction_version: number;
 
+  /**
+   * Allocation updates.
+   */
   allocations?: TransactionUpdateParams.Allocations;
 
+  /**
+   * Tag updates.
+   */
   tags?: TransactionUpdateParams.Tags;
 }
 
 export namespace TransactionUpdateParams {
+  /**
+   * Allocation updates.
+   */
   export interface Allocations {
     /**
-     * Allocations to add to the transaction
+     * Allocations to create.
      */
     create?: Array<Allocations.Create>;
 
     /**
-     * Existing allocations to update
+     * Allocations to update.
      */
     update?: Array<Allocations.Update>;
   }
 
   export namespace Allocations {
     /**
-     * Transaction allocation against an invoice.
+     * An allocation linking a transaction to an invoice.
      */
     export interface Create {
       /**
-       * Amount to allocate in smallest currency unit as stringified bigint.
+       * Allocation amount, as a positive string in the smallest currency unit, such as
+       * cents for USD.
        */
       amount: string;
 
       /**
-       * The invoice to allocate against.
+       * Invoice to allocate against.
        */
       invoice_id: string;
 
       /**
-       * The type of allocation.
+       * Type of allocation.
        */
       type: 'invoice_payin' | 'invoice_payout';
 
       /**
-       * Identifies a user by Fragment-generated id or external_id (request body).
+       * Identifies a user by `id` or `external_id`.
        */
       user: Create.ID | Create.ExternalID;
     }
@@ -1265,14 +960,14 @@ export namespace TransactionUpdateParams {
     export namespace Create {
       export interface ID {
         /**
-         * FRAGMENT generated ID of the user
+         * FRAGMENT generated unique ID.
          */
         id: string;
       }
 
       export interface ExternalID {
         /**
-         * External ID of the user
+         * User-provided unique ID.
          */
         external_id: string;
       }
@@ -1280,72 +975,92 @@ export namespace TransactionUpdateParams {
 
     export interface Update {
       /**
-       * The ID of the allocation to update.
+       * Allocation to update.
        */
       id: string;
 
       /**
-       * New amount in smallest currency unit as stringified bigint.
+       * Updated allocation amount, as a positive string in the smallest currency unit,
+       * such as cents for USD.
        */
       amount: string;
     }
   }
 
+  /**
+   * Tag updates.
+   */
   export interface Tags {
     /**
-     * Tags to add
+     * Tags to create. The tag key must not already exist.
      */
     create?: Array<Tags.Create>;
 
     /**
-     * Tags to remove by key
+     * Tags to remove.
      */
     delete?: Array<Tags.Delete>;
 
     /**
-     * Tags to update. The key identifies the existing tag; the value is the new value.
+     * Tags to set. Creates a new tag or updates an existing tag.
+     */
+    set?: Array<Tags.Set>;
+
+    /**
+     * Tags to update. The tag key must already exist.
      */
     update?: Array<Tags.Update>;
   }
 
   export namespace Tags {
     /**
-     * A key-value tag pair for metadata
+     * A key-value tag pair for metadata.
      */
     export interface Create {
       /**
-       * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-       * 50 characters.
+       * Tag key. Must not contain #, /, or :. Max 50 characters.
        */
       key: string;
 
       /**
-       * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-       * 200 characters.
+       * Tag value. Must not contain #, /, or :. Max 200 characters.
        */
       value: string;
     }
 
     export interface Delete {
       /**
-       * Tag key to delete
+       * Tag key to delete.
        */
       key: string;
     }
 
     /**
-     * A key-value tag pair for metadata
+     * A key-value tag pair for metadata.
      */
-    export interface Update {
+    export interface Set {
       /**
-       * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-       * 50 characters.
+       * Tag key. Must not contain #, /, or :. Max 50 characters.
        */
       key: string;
 
       /**
-       * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-       * 200 characters.
+       * Tag value. Must not contain #, /, or :. Max 200 characters.
+       */
+      value: string;
+    }
+
+    /**
+     * A key-value tag pair for metadata.
+     */
+    export interface Update {
+      /**
+       * Tag key. Must not contain #, /, or :. Max 50 characters.
+       */
+      key: string;
+
+      /**
+       * Tag value. Must not contain #, /, or :. Max 200 characters.
        */
       value: string;
     }
@@ -1354,154 +1069,172 @@ export namespace TransactionUpdateParams {
 
 export interface TransactionListParams {
   /**
-   * Filter by account. Encoded account ID (ext_account_xxx) or external_id. If the
-   * account does not exist, returns an empty list.
+   * Filter by account `id` or `external_id`. If the account does not exist, returns
+   * an empty list.
    */
   account?: string;
 
   /**
-   * Filter by reconciliation state. reconciled = unallocated_amount === 0;
-   * unreconciled = unallocated_amount !== 0. Omit for all transactions.
+   * Filter by reconciliation status. `reconciled` returns transactions where
+   * unallocated_amount is 0. `unreconciled` returns transactions where
+   * unallocated_amount is not 0. Omit for all transactions.
    */
   reconciliation_status?: 'reconciled' | 'unreconciled';
 }
 
-export interface TransactionCreateAllocationsParams {
-  /**
-   * Allocation operations to apply
-   */
-  allocation_updates: Array<
-    | TransactionCreateAllocationsParams.AddAllocationOperation
-    | TransactionCreateAllocationsParams.DeleteAllocationOperation
-  >;
-
-  /**
-   * Current transaction version for optimistic concurrency control
-   */
-  version: number;
-}
-
-export namespace TransactionCreateAllocationsParams {
-  /**
-   * Transaction allocation against an invoice.
-   */
-  export interface AddAllocationOperation {
-    /**
-     * Amount to allocate in smallest currency unit as stringified bigint.
-     */
-    amount: string;
-
-    /**
-     * The invoice to allocate against.
-     */
-    invoice_id: string;
-
-    /**
-     * Add a new allocation
-     */
-    op: 'add';
-
-    /**
-     * The type of allocation.
-     */
-    type: 'invoice_payin' | 'invoice_payout';
-
-    /**
-     * Identifies a user by Fragment-generated id or external_id (request body).
-     */
-    user: AddAllocationOperation.ID | AddAllocationOperation.ExternalID;
-  }
-
-  export namespace AddAllocationOperation {
-    export interface ID {
-      /**
-       * FRAGMENT generated ID of the user
-       */
-      id: string;
-    }
-
-    export interface ExternalID {
-      /**
-       * External ID of the user
-       */
-      external_id: string;
-    }
-  }
-
-  export interface DeleteAllocationOperation {
-    /**
-     * The ID of the allocation to remove.
-     */
-    id: string;
-
-    /**
-     * Delete an allocation
-     */
-    op: 'delete';
-  }
-}
-
 export interface TransactionSearchParams {
   /**
-   * Filter criteria for searching transactions.
+   * Filter for searching transactions.
    */
   filter: TransactionSearchParams.Filter;
+
+  /**
+   * Pagination parameters.
+   */
+  page_info?: TransactionSearchParams.PageInfo;
 }
 
 export namespace TransactionSearchParams {
   /**
-   * Filter criteria for searching transactions.
+   * Filter for searching transactions.
    */
   export interface Filter {
-    account: Filter.Account;
+    /**
+     * Account filter.
+     */
+    account?: Filter.Account;
+
+    /**
+     * Tag-based filter criteria. When both `any` and `all` are provided, results must
+     * match every entry in `all` AND at least one entry in `any`.
+     */
+    tags?: Filter.Tags;
   }
 
   export namespace Filter {
+    /**
+     * Account filter.
+     */
     export interface Account {
       /**
-       * Match transactions belonging to any of these accounts (OR).
+       * Match transactions belonging to any of these accounts, using OR logic.
        */
       any: Array<Account.Any>;
     }
 
     export namespace Account {
       /**
-       * Account reference. Provide id, external_id, or both.
+       * External account for the transaction. Identify it by `id`, `external_id`, or
+       * both.
        */
       export interface Any {
         /**
-         * User-facing encoded account ID.
+         * FRAGMENT generated unique ID.
          */
         id?: string;
 
         /**
-         * External account reference ID.
+         * User-provided unique ID.
          */
         external_id?: string;
       }
     }
+
+    /**
+     * Tag-based filter criteria. When both `any` and `all` are provided, results must
+     * match every entry in `all` AND at least one entry in `any`.
+     */
+    export interface Tags {
+      /**
+       * Returns transactions matching every specified tag, using AND logic.
+       */
+      all?: Array<Tags.All>;
+
+      /**
+       * Returns transactions matching at least one of the specified tags, using OR
+       * logic.
+       */
+      any?: Array<Tags.Any>;
+    }
+
+    export namespace Tags {
+      /**
+       * A tag filter.
+       */
+      export interface All {
+        /**
+         * Tag key to filter on. Must be an exact match; wildcards are not supported.
+         */
+        key: string;
+
+        /**
+         * Tag value pattern to filter on. Supports wildcards: `*` matches any characters,
+         * `?` matches a single character. Use `\*` or `\?` to match literal asterisks or
+         * question marks. Use `*` to match any value for the given key.
+         */
+        value: string;
+      }
+
+      /**
+       * A tag filter.
+       */
+      export interface Any {
+        /**
+         * Tag key to filter on. Must be an exact match; wildcards are not supported.
+         */
+        key: string;
+
+        /**
+         * Tag value pattern to filter on. Supports wildcards: `*` matches any characters,
+         * `?` matches a single character. Use `\*` or `\?` to match literal asterisks or
+         * question marks. Use `*` to match any value for the given key.
+         */
+        value: string;
+      }
+    }
+  }
+
+  /**
+   * Pagination parameters.
+   */
+  export interface PageInfo {
+    /**
+     * Cursor for fetching the next page of results.
+     */
+    after?: string;
+
+    /**
+     * Number of results to return. Defaults to 20.
+     */
+    limit?: number;
   }
 }
 
 export interface TransactionSearchAllocationsParams {
   /**
-   * Filter criteria for searching transaction allocations.
+   * Filter for searching transaction allocations.
    */
   filter: TransactionSearchAllocationsParams.Filter;
 }
 
 export namespace TransactionSearchAllocationsParams {
   /**
-   * Filter criteria for searching transaction allocations.
+   * Filter for searching transaction allocations.
    */
   export interface Filter {
+    /**
+     * Invoice ID filter.
+     */
     invoice_id: Filter.InvoiceID;
   }
 
   export namespace Filter {
+    /**
+     * Invoice ID filter.
+     */
     export interface InvoiceID {
       /**
-       * Match allocations where invoice_id is any of these values (OR).
+       * Match allocations where invoice_id is any of these values, using OR logic.
        */
       any: Array<string>;
     }
@@ -1515,14 +1248,12 @@ export declare namespace Transactions {
     type TransactionRetrieveResponse as TransactionRetrieveResponse,
     type TransactionUpdateResponse as TransactionUpdateResponse,
     type TransactionListResponse as TransactionListResponse,
-    type TransactionCreateAllocationsResponse as TransactionCreateAllocationsResponse,
     type TransactionListHistoryResponse as TransactionListHistoryResponse,
     type TransactionSearchResponse as TransactionSearchResponse,
     type TransactionSearchAllocationsResponse as TransactionSearchAllocationsResponse,
     type TransactionCreateParams as TransactionCreateParams,
     type TransactionUpdateParams as TransactionUpdateParams,
     type TransactionListParams as TransactionListParams,
-    type TransactionCreateAllocationsParams as TransactionCreateAllocationsParams,
     type TransactionSearchParams as TransactionSearchParams,
     type TransactionSearchAllocationsParams as TransactionSearchAllocationsParams,
   };

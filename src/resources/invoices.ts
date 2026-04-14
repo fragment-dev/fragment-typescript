@@ -11,7 +11,7 @@ import { path } from '../internal/utils/path';
  */
 export class Invoices extends APIResource {
   /**
-   * Creates a new invoice
+   * Creates an invoice.
    *
    * @example
    * ```ts
@@ -33,7 +33,7 @@ export class Invoices extends APIResource {
   }
 
   /**
-   * Gets an invoice by ID with balance details
+   * Retrieves an invoice.
    *
    * @example
    * ```ts
@@ -47,7 +47,7 @@ export class Invoices extends APIResource {
   }
 
   /**
-   * Updates an invoice
+   * Updates an invoice.
    *
    * @example
    * ```ts
@@ -62,7 +62,7 @@ export class Invoices extends APIResource {
   }
 
   /**
-   * Lists all invoices for the workspace
+   * Lists all invoices.
    *
    * @example
    * ```ts
@@ -74,7 +74,7 @@ export class Invoices extends APIResource {
   }
 
   /**
-   * Gets the version history of an invoice
+   * Retrieves the version history of an invoice.
    *
    * @example
    * ```ts
@@ -88,13 +88,12 @@ export class Invoices extends APIResource {
   }
 
   /**
-   * Searches invoices
+   * Searches invoices.
    *
    * @example
    * ```ts
    * const response = await client.invoices.search({
    *   filter: {},
-   *   page_info: {},
    * });
    * ```
    */
@@ -104,84 +103,83 @@ export class Invoices extends APIResource {
 }
 
 /**
- * Invoice object
+ * Invoice object.
  */
 export interface Invoice {
   /**
-   * Unique identifier for the invoice
+   * Unique invoice ID.
    */
   id: string;
 
   /**
-   * ISO 8601 timestamp when the invoice was created
+   * Timestamp when the invoice was created. Uses ISO 8601 format.
    */
   created: string;
 
   /**
-   * @deprecated Deprecated: The status of the invoice
+   * @deprecated Status of the invoice. Deprecated.
    */
   status: 'active';
 
   /**
-   * Metadata tags for this invoice
+   * Tags for the invoice.
    */
   tags: Array<Invoice.Tag>;
 
   /**
-   * The current version of the invoice. Pass this value when updating to ensure
-   * thread safety.
+   * Current version of the invoice.
    */
   version: number;
 
   /**
-   * Workspace ID this invoice belongs to
+   * Workspace the invoice belongs to.
    */
   workspace_id: string;
 
   /**
-   * List of line items associated with this invoice
+   * Line items for the invoice.
    */
   line_items?: Array<Invoice.LineItem>;
 
   /**
-   * ISO 8601 timestamp when the invoice was last modified
+   * Timestamp when the invoice was last modified. Uses ISO 8601 format.
    */
   modified?: string;
 }
 
 export namespace Invoice {
   /**
-   * A key-value tag pair
+   * A key-value tag pair.
    */
   export interface Tag {
     /**
-     * Tag key
+     * Tag key.
      */
     key: string;
 
     /**
-     * Tag value
+     * Tag value.
      */
     value: string;
   }
 
   /**
-   * Invoice line item object
+   * Invoice line item.
    */
   export interface LineItem {
     /**
-     * Unique identifier for the line item
+     * FRAGMENT generated unique ID.
      */
     id: string;
 
     /**
-     * @deprecated Deprecated: use price.amount instead. Total amount in smallest
-     * currency unit (represented as string for bigint)
+     * @deprecated Total amount as a string in the smallest currency unit, such as
+     * cents for USD. Deprecated, use price.amount instead.
      */
     amount: string;
 
     /**
-     * Currency code (ISO 4217 or crypto)
+     * ISO 4217 or crypto currency code.
      */
     currency_code:
       | 'ADA'
@@ -365,68 +363,68 @@ export namespace Invoice {
       | 'CUSTOM';
 
     /**
-     * Description of the line item
+     * Description of the line item.
      */
     description: string;
 
     /**
-     * Price breakdown containing amount, unit price, and quantity
+     * Price breakdown.
      */
     price: LineItem.Price;
 
     /**
-     * ID of the product/catalog item
+     * Unique identifier for the product.
      */
     product_id: string;
 
     /**
-     * Metadata tags for this line item
+     * Tags for the line item.
      */
     tags: Array<LineItem.Tag>;
 
     /**
-     * The type of the line item
+     * Type of the line item.
      */
     type: 'payin' | 'payout';
 
     /**
-     * External ID of the user associated with this line item
+     * User-provided unique external ID.
      */
     user_id: string;
   }
 
   export namespace LineItem {
     /**
-     * Price breakdown containing amount, unit price, and quantity
+     * Price breakdown.
      */
     export interface Price {
       /**
-       * Total amount in smallest currency unit (represented as string for bigint)
+       * Total amount as a string in the smallest currency unit, such as cents for USD.
        */
       amount: string;
 
       /**
-       * Quantity of units for this line item
+       * Number of units.
        */
       quantity: number;
 
       /**
-       * Unit price in smallest currency unit (represented as string for bigint)
+       * Unit price as a string in the smallest currency unit, such as cents for USD.
        */
       unit_price: string;
     }
 
     /**
-     * A key-value tag pair
+     * A key-value tag pair.
      */
     export interface Tag {
       /**
-       * Tag key
+       * Tag key.
        */
       key: string;
 
       /**
-       * Tag value
+       * Tag value.
        */
       value: string;
     }
@@ -435,35 +433,35 @@ export namespace Invoice {
 
 export interface InvoiceCreateResponse {
   /**
-   * Invoice object
+   * Invoice object.
    */
   data: Invoice;
 }
 
 export interface InvoiceRetrieveResponse {
   /**
-   * Invoice with balance details
+   * Invoice with balance details.
    */
   data: InvoiceRetrieveResponse.Data;
 }
 
 export namespace InvoiceRetrieveResponse {
   /**
-   * Invoice with balance details
+   * Invoice with balance details.
    */
   export interface Data extends InvoicesAPI.Invoice {
     /**
-     * Invoice-level balances by currency: payins, payouts, and net (payins - payouts)
+     * Invoice-level balances by currency.
      */
     balances: Array<Data.Balance>;
 
     /**
-     * Transaction allocations (payments) associated with this invoice.
+     * Payments allocated to the invoice.
      */
     payments: Array<Data.Payment>;
 
     /**
-     * Users/parties involved in the invoice
+     * Users involved in the invoice.
      */
     users: Array<Data.User>;
   }
@@ -471,81 +469,106 @@ export namespace InvoiceRetrieveResponse {
   export namespace Data {
     export interface Balance {
       /**
-       * Currency code
+       * ISO 4217 or crypto currency code.
        */
       currency: string;
 
+      /**
+       * Net balance breakdown.
+       */
       net: Balance.Net;
 
+      /**
+       * Payins balance breakdown.
+       */
       payins: Balance.Payins;
 
+      /**
+       * Payouts balance breakdown.
+       */
       payouts: Balance.Payouts;
     }
 
     export namespace Balance {
+      /**
+       * Net balance breakdown.
+       */
       export interface Net {
         /**
-         * Actual amount (represented as string)
+         * Actual amount as a string in the smallest currency unit, such as cents for USD.
          */
         actual: string;
 
         /**
-         * Expected amount (represented as string)
+         * Expected amount as a string in the smallest currency unit, such as cents for
+         * USD.
          */
         expected: string;
 
         /**
-         * Remaining amount (expected - actual, represented as string)
+         * Remaining amount as a string in the smallest currency unit, such as cents for
+         * USD.
          */
         remaining: string;
       }
 
+      /**
+       * Payins balance breakdown.
+       */
       export interface Payins {
         /**
-         * Actual amount (represented as string)
+         * Actual amount as a string in the smallest currency unit, such as cents for USD.
          */
         actual: string;
 
         /**
-         * Expected amount (represented as string)
+         * Expected amount as a string in the smallest currency unit, such as cents for
+         * USD.
          */
         expected: string;
 
         /**
-         * Remaining amount (expected - actual, represented as string)
+         * Remaining amount as a string in the smallest currency unit, such as cents for
+         * USD.
          */
         remaining: string;
       }
 
+      /**
+       * Payouts balance breakdown.
+       */
       export interface Payouts {
         /**
-         * Actual amount (represented as string)
+         * Actual amount as a string in the smallest currency unit, such as cents for USD.
          */
         actual: string;
 
         /**
-         * Expected amount (represented as string)
+         * Expected amount as a string in the smallest currency unit, such as cents for
+         * USD.
          */
         expected: string;
 
         /**
-         * Remaining amount (expected - actual, represented as string)
+         * Remaining amount as a string in the smallest currency unit, such as cents for
+         * USD.
          */
         remaining: string;
       }
     }
 
     /**
-     * A payment allocated to this invoice.
+     * A payment allocated to the invoice.
      */
     export interface Payment {
       /**
-       * Amount allocated in smallest currency unit as stringified bigint.
+       * Amount allocated as a string in the smallest currency unit, such as cents for
+       * USD.
        */
       amount: string;
 
       /**
-       * Currency code (ISO 4217 or crypto)
+       * ISO 4217 or crypto currency code.
        */
       currency:
         | 'ADA'
@@ -729,154 +752,183 @@ export namespace InvoiceRetrieveResponse {
         | 'CUSTOM';
 
       /**
-       * Posted timestamp of the parent transaction in ISO 8601 format.
+       * Timestamp when the parent transaction was posted. Uses ISO 8601 format.
        */
       posted: string;
 
       /**
-       * Reference to a transaction by encoded ID and external ID.
+       * Transaction the payment is applied to.
        */
       transaction: Payment.Transaction;
 
       /**
-       * The type of the payment.
+       * Type of the payment.
        */
       type: 'payin' | 'payout';
 
       /**
-       * User reference in API responses: Fragment user id and optional external_id.
+       * User associated with the payment.
        */
       user: Payment.User;
     }
 
     export namespace Payment {
       /**
-       * Reference to a transaction by encoded ID and external ID.
+       * Transaction the payment is applied to.
        */
       export interface Transaction {
         /**
-         * Encoded transaction ID.
+         * FRAGMENT generated unique ID.
          */
         id: string;
 
         /**
-         * External transaction ID.
+         * User-provided unique ID.
          */
         external_id: string;
 
         /**
-         * Metadata tags from the parent transaction.
+         * Tags from the parent transaction.
          */
         tags: Array<Transaction.Tag>;
       }
 
       export namespace Transaction {
         /**
-         * A key-value tag pair
+         * A key-value tag pair.
          */
         export interface Tag {
           /**
-           * Tag key
+           * Tag key.
            */
           key: string;
 
           /**
-           * Tag value
+           * Tag value.
            */
           value: string;
         }
       }
 
       /**
-       * User reference in API responses: Fragment user id and optional external_id.
+       * User associated with the payment.
        */
       export interface User {
         /**
-         * FRAGMENT generated ID of the user
+         * FRAGMENT generated unique ID.
          */
         id: string;
 
         /**
-         * External ID of the user
+         * User-provided unique ID.
          */
-        external_id?: string;
+        external_id: string;
       }
     }
 
     export interface User {
       /**
-       * User/party ID
+       * User-provided unique external ID.
        */
       id: string;
 
       /**
-       * Per-currency balance breakdown for this user
+       * Per-currency balance breakdown for the user.
        */
       balances: Array<User.Balance>;
+
+      /**
+       * User-provided unique ID.
+       */
+      external_id: string;
     }
 
     export namespace User {
       export interface Balance {
         /**
-         * Currency code
+         * ISO 4217 or crypto currency code.
          */
         currency: string;
 
+        /**
+         * Net balance breakdown.
+         */
         net: Balance.Net;
 
+        /**
+         * Payins balance breakdown.
+         */
         payins: Balance.Payins;
 
+        /**
+         * Payouts balance breakdown.
+         */
         payouts: Balance.Payouts;
       }
 
       export namespace Balance {
+        /**
+         * Net balance breakdown.
+         */
         export interface Net {
           /**
-           * Actual amount (represented as string)
+           * Actual amount as a string in the smallest currency unit, such as cents for USD.
            */
           actual: string;
 
           /**
-           * Expected amount (represented as string)
+           * Expected amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           expected: string;
 
           /**
-           * Remaining amount (expected - actual, represented as string)
+           * Remaining amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           remaining: string;
         }
 
+        /**
+         * Payins balance breakdown.
+         */
         export interface Payins {
           /**
-           * Actual amount (represented as string)
+           * Actual amount as a string in the smallest currency unit, such as cents for USD.
            */
           actual: string;
 
           /**
-           * Expected amount (represented as string)
+           * Expected amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           expected: string;
 
           /**
-           * Remaining amount (expected - actual, represented as string)
+           * Remaining amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           remaining: string;
         }
 
+        /**
+         * Payouts balance breakdown.
+         */
         export interface Payouts {
           /**
-           * Actual amount (represented as string)
+           * Actual amount as a string in the smallest currency unit, such as cents for USD.
            */
           actual: string;
 
           /**
-           * Expected amount (represented as string)
+           * Expected amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           expected: string;
 
           /**
-           * Remaining amount (expected - actual, represented as string)
+           * Remaining amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           remaining: string;
         }
@@ -887,692 +939,42 @@ export namespace InvoiceRetrieveResponse {
 
 export interface InvoiceUpdateResponse {
   /**
-   * Invoice object
+   * Invoice object.
    */
   data: Invoice;
 }
 
-/**
- * List of invoices
- */
 export interface InvoiceListResponse {
+  /**
+   * List of invoices.
+   */
+  data: Array<Invoice>;
+}
+
+export interface InvoiceListHistoryResponse {
+  /**
+   * Version history of the invoice.
+   */
   data: Array<Invoice>;
 }
 
 /**
- * Version history of an invoice
- */
-export interface InvoiceListHistoryResponse {
-  data: Array<InvoiceListHistoryResponse.Data>;
-}
-
-export namespace InvoiceListHistoryResponse {
-  /**
-   * A versioned snapshot of an invoice
-   */
-  export interface Data extends Omit<InvoicesAPI.Invoice, 'version'> {
-    /**
-     * Cumulative diff of changes applied to the invoice
-     */
-    diff?: Array<Data.AddDiffEntry | Data.UpdateDiffEntry | Data.DeleteDiffEntry>;
-
-    /**
-     * Version number of this invoice snapshot
-     */
-    version?: number;
-  }
-
-  export namespace Data {
-    export interface AddDiffEntry {
-      /**
-       * Invoice line item object
-       */
-      item: AddDiffEntry.Item;
-
-      /**
-       * A line item was added
-       */
-      op: 'add';
-    }
-
-    export namespace AddDiffEntry {
-      /**
-       * Invoice line item object
-       */
-      export interface Item {
-        /**
-         * Unique identifier for the line item
-         */
-        id: string;
-
-        /**
-         * @deprecated Deprecated: use price.amount instead. Total amount in smallest
-         * currency unit (represented as string for bigint)
-         */
-        amount: string;
-
-        /**
-         * Currency code (ISO 4217 or crypto)
-         */
-        currency_code:
-          | 'ADA'
-          | 'BTC'
-          | 'DAI'
-          | 'ETH'
-          | 'SOL'
-          | 'USDC'
-          | 'USDT'
-          | 'USDG'
-          | 'EURC'
-          | 'CADC'
-          | 'CADT'
-          | 'XLM'
-          | 'UNI'
-          | 'BCH'
-          | 'LTC'
-          | 'AAVE'
-          | 'LINK'
-          | 'MATIC'
-          | 'PTS'
-          | 'AED'
-          | 'AFN'
-          | 'ALL'
-          | 'AMD'
-          | 'ANG'
-          | 'AOA'
-          | 'ARS'
-          | 'AUD'
-          | 'AWG'
-          | 'AZN'
-          | 'BAM'
-          | 'BBD'
-          | 'BDT'
-          | 'BGN'
-          | 'BHD'
-          | 'BIF'
-          | 'BMD'
-          | 'BND'
-          | 'BOB'
-          | 'BRL'
-          | 'BSD'
-          | 'BTN'
-          | 'BWP'
-          | 'BYR'
-          | 'BZD'
-          | 'CAD'
-          | 'CDF'
-          | 'CHF'
-          | 'CLP'
-          | 'CNY'
-          | 'COP'
-          | 'CRC'
-          | 'CUC'
-          | 'CUP'
-          | 'CVE'
-          | 'CZK'
-          | 'DJF'
-          | 'DKK'
-          | 'DOP'
-          | 'DZD'
-          | 'EGP'
-          | 'ERN'
-          | 'ETB'
-          | 'EUR'
-          | 'FJD'
-          | 'FKP'
-          | 'GBP'
-          | 'GEL'
-          | 'GGP'
-          | 'GHS'
-          | 'GIP'
-          | 'GMD'
-          | 'GNF'
-          | 'GTQ'
-          | 'GYD'
-          | 'HKD'
-          | 'HNL'
-          | 'HRK'
-          | 'HTG'
-          | 'HUF'
-          | 'IDR'
-          | 'ILS'
-          | 'IMP'
-          | 'INR'
-          | 'IQD'
-          | 'IRR'
-          | 'ISK'
-          | 'JMD'
-          | 'JOD'
-          | 'JPY'
-          | 'KES'
-          | 'KGS'
-          | 'KHR'
-          | 'KMF'
-          | 'KPW'
-          | 'KRW'
-          | 'KWD'
-          | 'KYD'
-          | 'KZT'
-          | 'LAK'
-          | 'LBP'
-          | 'LKR'
-          | 'LRD'
-          | 'LSL'
-          | 'LYD'
-          | 'MAD'
-          | 'MDL'
-          | 'MGA'
-          | 'MKD'
-          | 'MMK'
-          | 'MNT'
-          | 'MOP'
-          | 'MUR'
-          | 'MVR'
-          | 'MWK'
-          | 'MXN'
-          | 'MYR'
-          | 'MZN'
-          | 'NAD'
-          | 'NGN'
-          | 'NIO'
-          | 'NOK'
-          | 'NPR'
-          | 'NZD'
-          | 'OMR'
-          | 'PAB'
-          | 'PEN'
-          | 'PGK'
-          | 'PHP'
-          | 'PKR'
-          | 'PLN'
-          | 'PYG'
-          | 'QAR'
-          | 'RON'
-          | 'RSD'
-          | 'RUB'
-          | 'RWF'
-          | 'SAR'
-          | 'SBD'
-          | 'SCR'
-          | 'SDG'
-          | 'SEK'
-          | 'SGD'
-          | 'SHP'
-          | 'SLL'
-          | 'SOS'
-          | 'SPL'
-          | 'SRD'
-          | 'SVC'
-          | 'SYP'
-          | 'STN'
-          | 'SZL'
-          | 'THB'
-          | 'TJS'
-          | 'TMT'
-          | 'TND'
-          | 'TOP'
-          | 'TRY'
-          | 'TTD'
-          | 'TVD'
-          | 'TWD'
-          | 'TZS'
-          | 'UAH'
-          | 'UGX'
-          | 'USD'
-          | 'UYU'
-          | 'UZS'
-          | 'VEF'
-          | 'VND'
-          | 'VUV'
-          | 'WST'
-          | 'XAF'
-          | 'XCD'
-          | 'XOF'
-          | 'XPF'
-          | 'YER'
-          | 'ZAR'
-          | 'ZMW'
-          | 'LOGICAL'
-          | 'CUSTOM';
-
-        /**
-         * Description of the line item
-         */
-        description: string;
-
-        /**
-         * Price breakdown containing amount, unit price, and quantity
-         */
-        price: Item.Price;
-
-        /**
-         * ID of the product/catalog item
-         */
-        product_id: string;
-
-        /**
-         * Metadata tags for this line item
-         */
-        tags: Array<Item.Tag>;
-
-        /**
-         * The type of the line item
-         */
-        type: 'payin' | 'payout';
-
-        /**
-         * External ID of the user associated with this line item
-         */
-        user_id: string;
-      }
-
-      export namespace Item {
-        /**
-         * Price breakdown containing amount, unit price, and quantity
-         */
-        export interface Price {
-          /**
-           * Total amount in smallest currency unit (represented as string for bigint)
-           */
-          amount: string;
-
-          /**
-           * Quantity of units for this line item
-           */
-          quantity: number;
-
-          /**
-           * Unit price in smallest currency unit (represented as string for bigint)
-           */
-          unit_price: string;
-        }
-
-        /**
-         * A key-value tag pair
-         */
-        export interface Tag {
-          /**
-           * Tag key
-           */
-          key: string;
-
-          /**
-           * Tag value
-           */
-          value: string;
-        }
-      }
-    }
-
-    export interface UpdateDiffEntry {
-      /**
-       * ID of the updated line item
-       */
-      id: string;
-
-      /**
-       * @deprecated Deprecated: use new_price.amount instead. New amount after the
-       * update
-       */
-      new_amount: string;
-
-      /**
-       * Price breakdown containing amount, unit price, and quantity
-       */
-      new_price: UpdateDiffEntry.NewPrice;
-
-      /**
-       * @deprecated Deprecated: use old_price.amount instead. Amount before the update
-       */
-      old_amount: string;
-
-      /**
-       * Price breakdown containing amount, unit price, and quantity
-       */
-      old_price: UpdateDiffEntry.OldPrice;
-
-      /**
-       * A line item was updated
-       */
-      op: 'update';
-    }
-
-    export namespace UpdateDiffEntry {
-      /**
-       * Price breakdown containing amount, unit price, and quantity
-       */
-      export interface NewPrice {
-        /**
-         * Total amount in smallest currency unit (represented as string for bigint)
-         */
-        amount: string;
-
-        /**
-         * Quantity of units for this line item
-         */
-        quantity: number;
-
-        /**
-         * Unit price in smallest currency unit (represented as string for bigint)
-         */
-        unit_price: string;
-      }
-
-      /**
-       * Price breakdown containing amount, unit price, and quantity
-       */
-      export interface OldPrice {
-        /**
-         * Total amount in smallest currency unit (represented as string for bigint)
-         */
-        amount: string;
-
-        /**
-         * Quantity of units for this line item
-         */
-        quantity: number;
-
-        /**
-         * Unit price in smallest currency unit (represented as string for bigint)
-         */
-        unit_price: string;
-      }
-    }
-
-    export interface DeleteDiffEntry {
-      /**
-       * Invoice line item object
-       */
-      item: DeleteDiffEntry.Item;
-
-      /**
-       * A line item was deleted
-       */
-      op: 'delete';
-    }
-
-    export namespace DeleteDiffEntry {
-      /**
-       * Invoice line item object
-       */
-      export interface Item {
-        /**
-         * Unique identifier for the line item
-         */
-        id: string;
-
-        /**
-         * @deprecated Deprecated: use price.amount instead. Total amount in smallest
-         * currency unit (represented as string for bigint)
-         */
-        amount: string;
-
-        /**
-         * Currency code (ISO 4217 or crypto)
-         */
-        currency_code:
-          | 'ADA'
-          | 'BTC'
-          | 'DAI'
-          | 'ETH'
-          | 'SOL'
-          | 'USDC'
-          | 'USDT'
-          | 'USDG'
-          | 'EURC'
-          | 'CADC'
-          | 'CADT'
-          | 'XLM'
-          | 'UNI'
-          | 'BCH'
-          | 'LTC'
-          | 'AAVE'
-          | 'LINK'
-          | 'MATIC'
-          | 'PTS'
-          | 'AED'
-          | 'AFN'
-          | 'ALL'
-          | 'AMD'
-          | 'ANG'
-          | 'AOA'
-          | 'ARS'
-          | 'AUD'
-          | 'AWG'
-          | 'AZN'
-          | 'BAM'
-          | 'BBD'
-          | 'BDT'
-          | 'BGN'
-          | 'BHD'
-          | 'BIF'
-          | 'BMD'
-          | 'BND'
-          | 'BOB'
-          | 'BRL'
-          | 'BSD'
-          | 'BTN'
-          | 'BWP'
-          | 'BYR'
-          | 'BZD'
-          | 'CAD'
-          | 'CDF'
-          | 'CHF'
-          | 'CLP'
-          | 'CNY'
-          | 'COP'
-          | 'CRC'
-          | 'CUC'
-          | 'CUP'
-          | 'CVE'
-          | 'CZK'
-          | 'DJF'
-          | 'DKK'
-          | 'DOP'
-          | 'DZD'
-          | 'EGP'
-          | 'ERN'
-          | 'ETB'
-          | 'EUR'
-          | 'FJD'
-          | 'FKP'
-          | 'GBP'
-          | 'GEL'
-          | 'GGP'
-          | 'GHS'
-          | 'GIP'
-          | 'GMD'
-          | 'GNF'
-          | 'GTQ'
-          | 'GYD'
-          | 'HKD'
-          | 'HNL'
-          | 'HRK'
-          | 'HTG'
-          | 'HUF'
-          | 'IDR'
-          | 'ILS'
-          | 'IMP'
-          | 'INR'
-          | 'IQD'
-          | 'IRR'
-          | 'ISK'
-          | 'JMD'
-          | 'JOD'
-          | 'JPY'
-          | 'KES'
-          | 'KGS'
-          | 'KHR'
-          | 'KMF'
-          | 'KPW'
-          | 'KRW'
-          | 'KWD'
-          | 'KYD'
-          | 'KZT'
-          | 'LAK'
-          | 'LBP'
-          | 'LKR'
-          | 'LRD'
-          | 'LSL'
-          | 'LYD'
-          | 'MAD'
-          | 'MDL'
-          | 'MGA'
-          | 'MKD'
-          | 'MMK'
-          | 'MNT'
-          | 'MOP'
-          | 'MUR'
-          | 'MVR'
-          | 'MWK'
-          | 'MXN'
-          | 'MYR'
-          | 'MZN'
-          | 'NAD'
-          | 'NGN'
-          | 'NIO'
-          | 'NOK'
-          | 'NPR'
-          | 'NZD'
-          | 'OMR'
-          | 'PAB'
-          | 'PEN'
-          | 'PGK'
-          | 'PHP'
-          | 'PKR'
-          | 'PLN'
-          | 'PYG'
-          | 'QAR'
-          | 'RON'
-          | 'RSD'
-          | 'RUB'
-          | 'RWF'
-          | 'SAR'
-          | 'SBD'
-          | 'SCR'
-          | 'SDG'
-          | 'SEK'
-          | 'SGD'
-          | 'SHP'
-          | 'SLL'
-          | 'SOS'
-          | 'SPL'
-          | 'SRD'
-          | 'SVC'
-          | 'SYP'
-          | 'STN'
-          | 'SZL'
-          | 'THB'
-          | 'TJS'
-          | 'TMT'
-          | 'TND'
-          | 'TOP'
-          | 'TRY'
-          | 'TTD'
-          | 'TVD'
-          | 'TWD'
-          | 'TZS'
-          | 'UAH'
-          | 'UGX'
-          | 'USD'
-          | 'UYU'
-          | 'UZS'
-          | 'VEF'
-          | 'VND'
-          | 'VUV'
-          | 'WST'
-          | 'XAF'
-          | 'XCD'
-          | 'XOF'
-          | 'XPF'
-          | 'YER'
-          | 'ZAR'
-          | 'ZMW'
-          | 'LOGICAL'
-          | 'CUSTOM';
-
-        /**
-         * Description of the line item
-         */
-        description: string;
-
-        /**
-         * Price breakdown containing amount, unit price, and quantity
-         */
-        price: Item.Price;
-
-        /**
-         * ID of the product/catalog item
-         */
-        product_id: string;
-
-        /**
-         * Metadata tags for this line item
-         */
-        tags: Array<Item.Tag>;
-
-        /**
-         * The type of the line item
-         */
-        type: 'payin' | 'payout';
-
-        /**
-         * External ID of the user associated with this line item
-         */
-        user_id: string;
-      }
-
-      export namespace Item {
-        /**
-         * Price breakdown containing amount, unit price, and quantity
-         */
-        export interface Price {
-          /**
-           * Total amount in smallest currency unit (represented as string for bigint)
-           */
-          amount: string;
-
-          /**
-           * Quantity of units for this line item
-           */
-          quantity: number;
-
-          /**
-           * Unit price in smallest currency unit (represented as string for bigint)
-           */
-          unit_price: string;
-        }
-
-        /**
-         * A key-value tag pair
-         */
-        export interface Tag {
-          /**
-           * Tag key
-           */
-          key: string;
-
-          /**
-           * Tag value
-           */
-          value: string;
-        }
-      }
-    }
-  }
-}
-
-/**
- * Response body for searching invoices
+ * Search results for invoices.
  */
 export interface InvoiceSearchResponse {
+  /**
+   * Search results for invoices.
+   */
   data: InvoiceSearchResponse.Data;
 }
 
 export namespace InvoiceSearchResponse {
+  /**
+   * Search results for invoices.
+   */
   export interface Data {
     /**
-     * List of invoices matching the search criteria
+     * Invoices matching the search criteria.
      */
     invoices: Array<Data.Invoice>;
 
@@ -1584,21 +986,21 @@ export namespace InvoiceSearchResponse {
 
   export namespace Data {
     /**
-     * Invoice with balance details
+     * Invoice with balance details.
      */
     export interface Invoice extends InvoicesAPI.Invoice {
       /**
-       * Invoice-level balances by currency: payins, payouts, and net (payins - payouts)
+       * Invoice-level balances by currency.
        */
       balances: Array<Invoice.Balance>;
 
       /**
-       * Transaction allocations (payments) associated with this invoice.
+       * Payments allocated to the invoice.
        */
       payments: Array<Invoice.Payment>;
 
       /**
-       * Users/parties involved in the invoice
+       * Users involved in the invoice.
        */
       users: Array<Invoice.User>;
     }
@@ -1606,81 +1008,106 @@ export namespace InvoiceSearchResponse {
     export namespace Invoice {
       export interface Balance {
         /**
-         * Currency code
+         * ISO 4217 or crypto currency code.
          */
         currency: string;
 
+        /**
+         * Net balance breakdown.
+         */
         net: Balance.Net;
 
+        /**
+         * Payins balance breakdown.
+         */
         payins: Balance.Payins;
 
+        /**
+         * Payouts balance breakdown.
+         */
         payouts: Balance.Payouts;
       }
 
       export namespace Balance {
+        /**
+         * Net balance breakdown.
+         */
         export interface Net {
           /**
-           * Actual amount (represented as string)
+           * Actual amount as a string in the smallest currency unit, such as cents for USD.
            */
           actual: string;
 
           /**
-           * Expected amount (represented as string)
+           * Expected amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           expected: string;
 
           /**
-           * Remaining amount (expected - actual, represented as string)
+           * Remaining amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           remaining: string;
         }
 
+        /**
+         * Payins balance breakdown.
+         */
         export interface Payins {
           /**
-           * Actual amount (represented as string)
+           * Actual amount as a string in the smallest currency unit, such as cents for USD.
            */
           actual: string;
 
           /**
-           * Expected amount (represented as string)
+           * Expected amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           expected: string;
 
           /**
-           * Remaining amount (expected - actual, represented as string)
+           * Remaining amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           remaining: string;
         }
 
+        /**
+         * Payouts balance breakdown.
+         */
         export interface Payouts {
           /**
-           * Actual amount (represented as string)
+           * Actual amount as a string in the smallest currency unit, such as cents for USD.
            */
           actual: string;
 
           /**
-           * Expected amount (represented as string)
+           * Expected amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           expected: string;
 
           /**
-           * Remaining amount (expected - actual, represented as string)
+           * Remaining amount as a string in the smallest currency unit, such as cents for
+           * USD.
            */
           remaining: string;
         }
       }
 
       /**
-       * A payment allocated to this invoice.
+       * A payment allocated to the invoice.
        */
       export interface Payment {
         /**
-         * Amount allocated in smallest currency unit as stringified bigint.
+         * Amount allocated as a string in the smallest currency unit, such as cents for
+         * USD.
          */
         amount: string;
 
         /**
-         * Currency code (ISO 4217 or crypto)
+         * ISO 4217 or crypto currency code.
          */
         currency:
           | 'ADA'
@@ -1864,154 +1291,183 @@ export namespace InvoiceSearchResponse {
           | 'CUSTOM';
 
         /**
-         * Posted timestamp of the parent transaction in ISO 8601 format.
+         * Timestamp when the parent transaction was posted. Uses ISO 8601 format.
          */
         posted: string;
 
         /**
-         * Reference to a transaction by encoded ID and external ID.
+         * Transaction the payment is applied to.
          */
         transaction: Payment.Transaction;
 
         /**
-         * The type of the payment.
+         * Type of the payment.
          */
         type: 'payin' | 'payout';
 
         /**
-         * User reference in API responses: Fragment user id and optional external_id.
+         * User associated with the payment.
          */
         user: Payment.User;
       }
 
       export namespace Payment {
         /**
-         * Reference to a transaction by encoded ID and external ID.
+         * Transaction the payment is applied to.
          */
         export interface Transaction {
           /**
-           * Encoded transaction ID.
+           * FRAGMENT generated unique ID.
            */
           id: string;
 
           /**
-           * External transaction ID.
+           * User-provided unique ID.
            */
           external_id: string;
 
           /**
-           * Metadata tags from the parent transaction.
+           * Tags from the parent transaction.
            */
           tags: Array<Transaction.Tag>;
         }
 
         export namespace Transaction {
           /**
-           * A key-value tag pair
+           * A key-value tag pair.
            */
           export interface Tag {
             /**
-             * Tag key
+             * Tag key.
              */
             key: string;
 
             /**
-             * Tag value
+             * Tag value.
              */
             value: string;
           }
         }
 
         /**
-         * User reference in API responses: Fragment user id and optional external_id.
+         * User associated with the payment.
          */
         export interface User {
           /**
-           * FRAGMENT generated ID of the user
+           * FRAGMENT generated unique ID.
            */
           id: string;
 
           /**
-           * External ID of the user
+           * User-provided unique ID.
            */
-          external_id?: string;
+          external_id: string;
         }
       }
 
       export interface User {
         /**
-         * User/party ID
+         * User-provided unique external ID.
          */
         id: string;
 
         /**
-         * Per-currency balance breakdown for this user
+         * Per-currency balance breakdown for the user.
          */
         balances: Array<User.Balance>;
+
+        /**
+         * User-provided unique ID.
+         */
+        external_id: string;
       }
 
       export namespace User {
         export interface Balance {
           /**
-           * Currency code
+           * ISO 4217 or crypto currency code.
            */
           currency: string;
 
+          /**
+           * Net balance breakdown.
+           */
           net: Balance.Net;
 
+          /**
+           * Payins balance breakdown.
+           */
           payins: Balance.Payins;
 
+          /**
+           * Payouts balance breakdown.
+           */
           payouts: Balance.Payouts;
         }
 
         export namespace Balance {
+          /**
+           * Net balance breakdown.
+           */
           export interface Net {
             /**
-             * Actual amount (represented as string)
+             * Actual amount as a string in the smallest currency unit, such as cents for USD.
              */
             actual: string;
 
             /**
-             * Expected amount (represented as string)
+             * Expected amount as a string in the smallest currency unit, such as cents for
+             * USD.
              */
             expected: string;
 
             /**
-             * Remaining amount (expected - actual, represented as string)
+             * Remaining amount as a string in the smallest currency unit, such as cents for
+             * USD.
              */
             remaining: string;
           }
 
+          /**
+           * Payins balance breakdown.
+           */
           export interface Payins {
             /**
-             * Actual amount (represented as string)
+             * Actual amount as a string in the smallest currency unit, such as cents for USD.
              */
             actual: string;
 
             /**
-             * Expected amount (represented as string)
+             * Expected amount as a string in the smallest currency unit, such as cents for
+             * USD.
              */
             expected: string;
 
             /**
-             * Remaining amount (expected - actual, represented as string)
+             * Remaining amount as a string in the smallest currency unit, such as cents for
+             * USD.
              */
             remaining: string;
           }
 
+          /**
+           * Payouts balance breakdown.
+           */
           export interface Payouts {
             /**
-             * Actual amount (represented as string)
+             * Actual amount as a string in the smallest currency unit, such as cents for USD.
              */
             actual: string;
 
             /**
-             * Expected amount (represented as string)
+             * Expected amount as a string in the smallest currency unit, such as cents for
+             * USD.
              */
             expected: string;
 
             /**
-             * Remaining amount (expected - actual, represented as string)
+             * Remaining amount as a string in the smallest currency unit, such as cents for
+             * USD.
              */
             remaining: string;
           }
@@ -2024,7 +1480,7 @@ export namespace InvoiceSearchResponse {
      */
     export interface PageInfo {
       /**
-       * Cursor to fetch the next page of results
+       * Cursor to fetch the next page of results.
        */
       next_cursor?: string;
     }
@@ -2033,18 +1489,17 @@ export namespace InvoiceSearchResponse {
 
 export interface InvoiceCreateParams {
   /**
-   * Unique identifier for the invoice. Make this the canonical ID from your system
-   * for the transaction.
+   * Unique ID for the invoice.
    */
   invoice_id: string;
 
   /**
-   * List of line items to create with the invoice
+   * Line items to create with the invoice.
    */
   line_items: Array<InvoiceCreateParams.LineItem>;
 
   /**
-   * Optional metadata tags for this invoice
+   * Tags for the invoice.
    */
   tags?: Array<InvoiceCreateParams.Tag>;
 }
@@ -2055,33 +1510,33 @@ export namespace InvoiceCreateParams {
    */
   export interface LineItem {
     /**
-     * Description of the line item
+     * Description of the line item.
      */
     description: string;
 
     /**
-     * ID of the product/catalog item
+     * Unique identifier for the product.
      */
     product_id: string;
 
     /**
-     * The type of the line item
+     * Type of the line item.
      */
     type: 'payin' | 'payout';
 
     /**
-     * Identifies a user by Fragment-generated id or external_id (request body).
+     * Identifies a user by `id` or `external_id`.
      */
     user: LineItem.ID | LineItem.ExternalID;
 
     /**
-     * @deprecated Deprecated: use price instead. Total amount in smallest currency
-     * unit.
+     * @deprecated Total amount as a string in the smallest currency unit, such as
+     * cents for USD. Deprecated, use price instead.
      */
     amount?: string;
 
     /**
-     * Currency code (ISO 4217 or crypto)
+     * ISO 4217 or crypto currency code.
      */
     currency_code?:
       | 'ADA'
@@ -2265,12 +1720,12 @@ export namespace InvoiceCreateParams {
       | 'CUSTOM';
 
     /**
-     * Price breakdown. Provide amount, or unit_price + quantity, or all three.
+     * Price breakdown. Provide amount, or unit_price and quantity, or all three.
      */
     price?: LineItem.Price;
 
     /**
-     * Optional metadata tags for this line item
+     * Tags for the line item.
      */
     tags?: Array<LineItem.Tag>;
   }
@@ -2278,70 +1733,66 @@ export namespace InvoiceCreateParams {
   export namespace LineItem {
     export interface ID {
       /**
-       * FRAGMENT generated ID of the user
+       * FRAGMENT generated unique ID.
        */
       id: string;
     }
 
     export interface ExternalID {
       /**
-       * External ID of the user
+       * User-provided unique ID.
        */
       external_id: string;
     }
 
     /**
-     * Price breakdown. Provide amount, or unit_price + quantity, or all three.
+     * Price breakdown. Provide amount, or unit_price and quantity, or all three.
      */
     export interface Price {
       /**
-       * Total amount in smallest currency unit. Required if unit_price and quantity are
-       * not provided.
+       * Total amount as a string in the smallest currency unit, such as cents for USD.
+       * Required if unit_price and quantity are not provided.
        */
       amount?: string;
 
       /**
-       * Number of units for this line item.
+       * Number of units for the line item.
        */
       quantity?: number;
 
       /**
-       * Price per unit in smallest currency unit.
+       * Price per unit as a string in the smallest currency unit, such as cents for USD.
        */
       unit_price?: string;
     }
 
     /**
-     * A key-value tag pair for metadata
+     * A key-value tag pair for metadata.
      */
     export interface Tag {
       /**
-       * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-       * 50 characters.
+       * Tag key. Must not contain #, /, or :. Max 50 characters.
        */
       key: string;
 
       /**
-       * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-       * 200 characters.
+       * Tag value. Must not contain #, /, or :. Max 200 characters.
        */
       value: string;
     }
   }
 
   /**
-   * A key-value tag pair for metadata
+   * A key-value tag pair for metadata.
    */
   export interface Tag {
     /**
-     * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-     * 50 characters.
+     * Tag key. Must not contain #, /, or :. Max 50 characters.
      */
     key: string;
 
     /**
-     * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-     * 200 characters.
+     * Tag value. Must not contain #, /, or :. Max 200 characters.
      */
     value: string;
   }
@@ -2349,30 +1800,38 @@ export namespace InvoiceCreateParams {
 
 export interface InvoiceUpdateParams {
   /**
-   * The current version of the invoice. Must match the stored version for the update
-   * to succeed (optimistic concurrency).
+   * Current version of the invoice. Must match the stored version.
    */
   current_invoice_version: number;
 
+  /**
+   * Line item updates.
+   */
   line_items?: InvoiceUpdateParams.LineItems;
 
+  /**
+   * Tag updates.
+   */
   tags?: InvoiceUpdateParams.Tags;
 }
 
 export namespace InvoiceUpdateParams {
+  /**
+   * Line item updates.
+   */
   export interface LineItems {
     /**
-     * Line items to add to the invoice
+     * Line items to add to the invoice.
      */
     create?: Array<LineItems.Create>;
 
     /**
-     * Line items to remove from the invoice
+     * Line items to remove from the invoice.
      */
     delete?: Array<LineItems.Delete>;
 
     /**
-     * Existing line items to update
+     * Existing line items to update.
      */
     update?: Array<LineItems.Update>;
   }
@@ -2383,33 +1842,33 @@ export namespace InvoiceUpdateParams {
      */
     export interface Create {
       /**
-       * Description of the line item
+       * Description of the line item.
        */
       description: string;
 
       /**
-       * ID of the product/catalog item
+       * Unique identifier for the product.
        */
       product_id: string;
 
       /**
-       * The type of the line item
+       * Type of the line item.
        */
       type: 'payin' | 'payout';
 
       /**
-       * Identifies a user by Fragment-generated id or external_id (request body).
+       * Identifies a user by `id` or `external_id`.
        */
       user: Create.ID | Create.ExternalID;
 
       /**
-       * @deprecated Deprecated: use price instead. Total amount in smallest currency
-       * unit.
+       * @deprecated Total amount as a string in the smallest currency unit, such as
+       * cents for USD. Deprecated, use price instead.
        */
       amount?: string;
 
       /**
-       * Currency code (ISO 4217 or crypto)
+       * ISO 4217 or crypto currency code.
        */
       currency_code?:
         | 'ADA'
@@ -2593,12 +2052,12 @@ export namespace InvoiceUpdateParams {
         | 'CUSTOM';
 
       /**
-       * Price breakdown. Provide amount, or unit_price + quantity, or all three.
+       * Price breakdown. Provide amount, or unit_price and quantity, or all three.
        */
       price?: Create.Price;
 
       /**
-       * Optional metadata tags for this line item
+       * Tags for the line item.
        */
       tags?: Array<Create.Tag>;
     }
@@ -2606,52 +2065,50 @@ export namespace InvoiceUpdateParams {
     export namespace Create {
       export interface ID {
         /**
-         * FRAGMENT generated ID of the user
+         * FRAGMENT generated unique ID.
          */
         id: string;
       }
 
       export interface ExternalID {
         /**
-         * External ID of the user
+         * User-provided unique ID.
          */
         external_id: string;
       }
 
       /**
-       * Price breakdown. Provide amount, or unit_price + quantity, or all three.
+       * Price breakdown. Provide amount, or unit_price and quantity, or all three.
        */
       export interface Price {
         /**
-         * Total amount in smallest currency unit. Required if unit_price and quantity are
-         * not provided.
+         * Total amount as a string in the smallest currency unit, such as cents for USD.
+         * Required if unit_price and quantity are not provided.
          */
         amount?: string;
 
         /**
-         * Number of units for this line item.
+         * Number of units for the line item.
          */
         quantity?: number;
 
         /**
-         * Price per unit in smallest currency unit.
+         * Price per unit as a string in the smallest currency unit, such as cents for USD.
          */
         unit_price?: string;
       }
 
       /**
-       * A key-value tag pair for metadata
+       * A key-value tag pair for metadata.
        */
       export interface Tag {
         /**
-         * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-         * 50 characters.
+         * Tag key. Must not contain #, /, or :. Max 50 characters.
          */
         key: string;
 
         /**
-         * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-         * 200 characters.
+         * Tag value. Must not contain #, /, or :. Max 200 characters.
          */
         value: string;
       }
@@ -2659,17 +2116,17 @@ export namespace InvoiceUpdateParams {
 
     export interface Delete {
       /**
-       * ID of the line item to delete
+       * Unique identifier for the line item to delete.
        */
       id: string;
     }
 
     /**
-     * Partial update for an existing line item. All fields except id are optional.
+     * Data for updating a line item.
      */
     export interface Update {
       /**
-       * ID of the line item to update
+       * Unique identifier for the line item to update.
        */
       id: string;
 
@@ -2677,82 +2134,104 @@ export namespace InvoiceUpdateParams {
 
       price?: Update.Price;
 
+      /**
+       * Tag updates.
+       */
       tags?: Update.Tags;
     }
 
     export namespace Update {
       export interface Price {
         /**
-         * Number of units for this line item.
+         * Number of units for the line item.
          */
         quantity: number;
 
         /**
-         * Price per unit in smallest currency unit.
+         * Price per unit as a string in the smallest currency unit, such as cents for USD.
          */
         unit_price: string;
 
         /**
-         * Total amount in smallest currency unit.
+         * Total amount as a string in the smallest currency unit, such as cents for USD.
          */
         amount?: string;
       }
 
+      /**
+       * Tag updates.
+       */
       export interface Tags {
         /**
-         * Tags to add
+         * Tags to create. The tag key must not already exist.
          */
         create?: Array<Tags.Create>;
 
         /**
-         * Tags to remove by key
+         * Tags to remove.
          */
         delete?: Array<Tags.Delete>;
 
         /**
-         * Tags to update. The key identifies the existing tag; the value is the new value.
+         * Tags to set. Creates a new tag or updates an existing tag.
+         */
+        set?: Array<Tags.Set>;
+
+        /**
+         * Tags to update. The tag key must already exist.
          */
         update?: Array<Tags.Update>;
       }
 
       export namespace Tags {
         /**
-         * A key-value tag pair for metadata
+         * A key-value tag pair for metadata.
          */
         export interface Create {
           /**
-           * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-           * 50 characters.
+           * Tag key. Must not contain #, /, or :. Max 50 characters.
            */
           key: string;
 
           /**
-           * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-           * 200 characters.
+           * Tag value. Must not contain #, /, or :. Max 200 characters.
            */
           value: string;
         }
 
         export interface Delete {
           /**
-           * Tag key to delete
+           * Tag key to delete.
            */
           key: string;
         }
 
         /**
-         * A key-value tag pair for metadata
+         * A key-value tag pair for metadata.
          */
-        export interface Update {
+        export interface Set {
           /**
-           * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-           * 50 characters.
+           * Tag key. Must not contain #, /, or :. Max 50 characters.
            */
           key: string;
 
           /**
-           * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-           * 200 characters.
+           * Tag value. Must not contain #, /, or :. Max 200 characters.
+           */
+          value: string;
+        }
+
+        /**
+         * A key-value tag pair for metadata.
+         */
+        export interface Update {
+          /**
+           * Tag key. Must not contain #, /, or :. Max 50 characters.
+           */
+          key: string;
+
+          /**
+           * Tag value. Must not contain #, /, or :. Max 200 characters.
            */
           value: string;
         }
@@ -2760,61 +2239,80 @@ export namespace InvoiceUpdateParams {
     }
   }
 
+  /**
+   * Tag updates.
+   */
   export interface Tags {
     /**
-     * Tags to add
+     * Tags to create. The tag key must not already exist.
      */
     create?: Array<Tags.Create>;
 
     /**
-     * Tags to remove by key
+     * Tags to remove.
      */
     delete?: Array<Tags.Delete>;
 
     /**
-     * Tags to update. The key identifies the existing tag; the value is the new value.
+     * Tags to set. Creates a new tag or updates an existing tag.
+     */
+    set?: Array<Tags.Set>;
+
+    /**
+     * Tags to update. The tag key must already exist.
      */
     update?: Array<Tags.Update>;
   }
 
   export namespace Tags {
     /**
-     * A key-value tag pair for metadata
+     * A key-value tag pair for metadata.
      */
     export interface Create {
       /**
-       * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-       * 50 characters.
+       * Tag key. Must not contain #, /, or :. Max 50 characters.
        */
       key: string;
 
       /**
-       * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-       * 200 characters.
+       * Tag value. Must not contain #, /, or :. Max 200 characters.
        */
       value: string;
     }
 
     export interface Delete {
       /**
-       * Tag key to delete
+       * Tag key to delete.
        */
       key: string;
     }
 
     /**
-     * A key-value tag pair for metadata
+     * A key-value tag pair for metadata.
      */
-    export interface Update {
+    export interface Set {
       /**
-       * Tag key. Must be a valid safe string (no special characters like #, /, :). Max
-       * 50 characters.
+       * Tag key. Must not contain #, /, or :. Max 50 characters.
        */
       key: string;
 
       /**
-       * Tag value. Must be a valid safe string (no special characters like #, /, :). Max
-       * 200 characters.
+       * Tag value. Must not contain #, /, or :. Max 200 characters.
+       */
+      value: string;
+    }
+
+    /**
+     * A key-value tag pair for metadata.
+     */
+    export interface Update {
+      /**
+       * Tag key. Must not contain #, /, or :. Max 50 characters.
+       */
+      key: string;
+
+      /**
+       * Tag value. Must not contain #, /, or :. Max 200 characters.
        */
       value: string;
     }
@@ -2823,19 +2321,19 @@ export namespace InvoiceUpdateParams {
 
 export interface InvoiceSearchParams {
   /**
-   * Filter criteria for the search
+   * Filter criteria for the search.
    */
   filter: InvoiceSearchParams.Filter;
 
   /**
-   * Pagination parameters
+   * Pagination parameters.
    */
-  page_info: InvoiceSearchParams.PageInfo;
+  page_info?: InvoiceSearchParams.PageInfo;
 }
 
 export namespace InvoiceSearchParams {
   /**
-   * Filter criteria for the search
+   * Filter criteria for the search.
    */
   export interface Filter {
     /**
@@ -2858,12 +2356,12 @@ export namespace InvoiceSearchParams {
      */
     export interface Tags {
       /**
-       * Returns invoices matching every specified tag (AND).
+       * Returns invoices matching every specified tag, using AND logic.
        */
       all?: Array<Tags.All>;
 
       /**
-       * Returns invoices matching at least one of the specified tags (OR).
+       * Returns invoices matching at least one of the specified tags, using OR logic.
        */
       any?: Array<Tags.Any>;
     }
@@ -2906,11 +2404,11 @@ export namespace InvoiceSearchParams {
   }
 
   /**
-   * Pagination parameters
+   * Pagination parameters.
    */
   export interface PageInfo {
     /**
-     * Cursor for fetching the next page of results
+     * Cursor for fetching the next page of results.
      */
     after?: string;
 

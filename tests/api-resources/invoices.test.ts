@@ -48,10 +48,10 @@ describe('resource invoices', () => {
             quantity: 2,
             unit_price: '500',
           },
-          tags: [{ key: 'region', value: 'us-east' }],
+          tags: [{ key: 'department', value: 'engineering' }],
         },
       ],
-      tags: [{ key: 'region', value: 'us-east' }],
+      tags: [{ key: 'department', value: 'engineering' }],
     });
   });
 
@@ -97,7 +97,7 @@ describe('resource invoices', () => {
               quantity: 2,
               unit_price: '500',
             },
-            tags: [{ key: 'region', value: 'us-east' }],
+            tags: [{ key: 'department', value: 'engineering' }],
           },
         ],
         delete: [{ id: 'id' }],
@@ -111,17 +111,19 @@ describe('resource invoices', () => {
               amount: '2000',
             },
             tags: {
-              create: [{ key: 'region', value: 'us-east' }],
+              create: [{ key: 'department', value: 'engineering' }],
               delete: [{ key: 'key' }],
-              update: [{ key: 'region', value: 'eu-west-1' }],
+              set: [{ key: 'department', value: 'engineering' }],
+              update: [{ key: 'department', value: 'engineering' }],
             },
           },
         ],
       },
       tags: {
-        create: [{ key: 'region', value: 'us-east' }],
+        create: [{ key: 'department', value: 'engineering' }],
         delete: [{ key: 'key' }],
-        update: [{ key: 'region', value: 'eu-west-1' }],
+        set: [{ key: 'department', value: 'engineering' }],
+        update: [{ key: 'department', value: 'engineering' }],
       },
     });
   });
@@ -152,10 +154,7 @@ describe('resource invoices', () => {
 
   // Mock server tests are disabled
   test.skip('search: only required params', async () => {
-    const responsePromise = client.invoices.search({
-      filter: {},
-      page_info: {},
-    });
+    const responsePromise = client.invoices.search({ filter: {} });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -170,7 +169,10 @@ describe('resource invoices', () => {
     const response = await client.invoices.search({
       filter: {
         status: 'open',
-        tags: { all: [{ key: 'env', value: 'prod' }], any: [{ key: 'region', value: 'us-*' }] },
+        tags: {
+          all: [{ key: 'department', value: 'engineering' }],
+          any: [{ key: 'department', value: 'eng*' }],
+        },
       },
       page_info: { after: 'after', limit: 20 },
     });
