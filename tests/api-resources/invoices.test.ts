@@ -173,6 +173,11 @@ describe('resource invoices', () => {
           all: [{ key: 'department', value: 'engineering' }],
           any: [{ key: 'department', value: 'eng*' }],
         },
+        transaction_tags: {
+          all: [{ key: 'department', value: 'engineering' }],
+          any: [{ key: 'department', value: 'eng*' }],
+        },
+        users: { all: [{ id: 'user_abc123' }], any: [{ id: 'user_abc123' }] },
       },
       page_info: { after: 'after', limit: 20 },
     });

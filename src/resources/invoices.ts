@@ -2347,6 +2347,18 @@ export namespace InvoiceSearchParams {
      * match every entry in `all` AND at least one entry in `any`.
      */
     tags?: Filter.Tags;
+
+    /**
+     * Filter invoices by tags on transactions allocated to them. Returns invoices that
+     * have at least one allocated transaction matching the specified tags.
+     */
+    transaction_tags?: Filter.TransactionTags;
+
+    /**
+     * Line item user filter criteria. When both `any` and `all` are provided, results
+     * must match every entry in `all` AND at least one entry in `any`.
+     */
+    users?: Filter.Users;
   }
 
   export namespace Filter {
@@ -2399,6 +2411,106 @@ export namespace InvoiceSearchParams {
          * question marks. Use `*` to match any value for the given key.
          */
         value: string;
+      }
+    }
+
+    /**
+     * Filter invoices by tags on transactions allocated to them. Returns invoices that
+     * have at least one allocated transaction matching the specified tags.
+     */
+    export interface TransactionTags {
+      /**
+       * Returns transactions matching every specified tag, using AND logic.
+       */
+      all?: Array<TransactionTags.All>;
+
+      /**
+       * Returns transactions matching at least one of the specified tags, using OR
+       * logic.
+       */
+      any?: Array<TransactionTags.Any>;
+    }
+
+    export namespace TransactionTags {
+      /**
+       * A tag filter.
+       */
+      export interface All {
+        /**
+         * Tag key to filter on. Must be an exact match; wildcards are not supported.
+         */
+        key: string;
+
+        /**
+         * Tag value pattern to filter on. Supports wildcards: `*` matches any characters,
+         * `?` matches a single character. Use `\*` or `\?` to match literal asterisks or
+         * question marks. Use `*` to match any value for the given key.
+         */
+        value: string;
+      }
+
+      /**
+       * A tag filter.
+       */
+      export interface Any {
+        /**
+         * Tag key to filter on. Must be an exact match; wildcards are not supported.
+         */
+        key: string;
+
+        /**
+         * Tag value pattern to filter on. Supports wildcards: `*` matches any characters,
+         * `?` matches a single character. Use `\*` or `\?` to match literal asterisks or
+         * question marks. Use `*` to match any value for the given key.
+         */
+        value: string;
+      }
+    }
+
+    /**
+     * Line item user filter criteria. When both `any` and `all` are provided, results
+     * must match every entry in `all` AND at least one entry in `any`.
+     */
+    export interface Users {
+      /**
+       * Returns invoices matching every specified line item user, using AND logic.
+       */
+      all?: Array<Users.ID | Users.ExternalID>;
+
+      /**
+       * Returns invoices matching at least one of the specified line item users, using
+       * OR logic.
+       */
+      any?: Array<Users.ID | Users.ExternalID>;
+    }
+
+    export namespace Users {
+      export interface ID {
+        /**
+         * FRAGMENT generated unique ID.
+         */
+        id: string;
+      }
+
+      export interface ExternalID {
+        /**
+         * User-provided unique ID.
+         */
+        external_id: string;
+      }
+
+      export interface ID {
+        /**
+         * FRAGMENT generated unique ID.
+         */
+        id: string;
+      }
+
+      export interface ExternalID {
+        /**
+         * User-provided unique ID.
+         */
+        external_id: string;
       }
     }
   }
