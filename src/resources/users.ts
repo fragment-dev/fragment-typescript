@@ -54,6 +54,28 @@ export interface User {
    * Name of the user's role.
    */
   role: string;
+
+  /**
+   * Tags for the user.
+   */
+  tags: Array<User.Tag>;
+}
+
+export namespace User {
+  /**
+   * A key-value tag pair.
+   */
+  export interface Tag {
+    /**
+     * Tag key.
+     */
+    key: string;
+
+    /**
+     * Tag value.
+     */
+    value: string;
+  }
 }
 
 export interface UserCreateResponse {
@@ -83,6 +105,28 @@ export interface UserCreateParams {
    * Name of the role to assign. Must match an existing role.
    */
   role: string;
+
+  /**
+   * Tags for the user.
+   */
+  tags?: Array<UserCreateParams.Tag>;
+}
+
+export namespace UserCreateParams {
+  /**
+   * A key-value tag pair for metadata.
+   */
+  export interface Tag {
+    /**
+     * Tag key. Must not contain #, /, or :. Max 50 characters.
+     */
+    key: string;
+
+    /**
+     * Tag value. Must not contain #, /, or :. Max 200 characters.
+     */
+    value: string;
+  }
 }
 
 export declare namespace Users {
