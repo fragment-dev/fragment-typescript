@@ -23,7 +23,11 @@ describe('resource users', () => {
 
   // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
-    const response = await client.users.create({ external_id: 'user_ext_123', role: 'admin' });
+    const response = await client.users.create({
+      external_id: 'user_ext_123',
+      role: 'admin',
+      tags: [{ key: 'department', value: 'engineering' }],
+    });
   });
 
   // Mock server tests are disabled
