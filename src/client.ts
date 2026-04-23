@@ -63,6 +63,7 @@ import {
   Transactions,
 } from './resources/transactions';
 import { User, UserCreateParams, UserCreateResponse, UserListResponse, Users } from './resources/users';
+import { Experimental } from './resources/experimental/experimental';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -841,6 +842,7 @@ export class Fragment {
 
   static toFile = Uploads.toFile;
 
+  experimental: API.Experimental = new API.Experimental(this);
   /**
    * External account management operations
    */
@@ -867,6 +869,7 @@ export class Fragment {
   users: API.Users = new API.Users(this);
 }
 
+Fragment.Experimental = Experimental;
 Fragment.ExternalAccounts = ExternalAccounts;
 Fragment.Invoices = Invoices;
 Fragment.Products = Products;
@@ -876,6 +879,8 @@ Fragment.Users = Users;
 
 export declare namespace Fragment {
   export type RequestOptions = Opts.RequestOptions;
+
+  export { Experimental as Experimental };
 
   export {
     ExternalAccounts as ExternalAccounts,
