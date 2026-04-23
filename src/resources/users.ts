@@ -15,7 +15,6 @@ export class Users extends APIResource {
    * ```ts
    * const user = await client.users.create({
    *   external_id: 'user_ext_123',
-   *   role: 'admin',
    * });
    * ```
    */
@@ -51,9 +50,31 @@ export interface User {
   external_id: string;
 
   /**
-   * Name of the user's role.
+   * @deprecated Name of the user's role. Deprecated, use tags instead.
    */
   role: string;
+
+  /**
+   * Tags for the user.
+   */
+  tags: Array<User.Tag>;
+}
+
+export namespace User {
+  /**
+   * A key-value tag pair.
+   */
+  export interface Tag {
+    /**
+     * Tag key.
+     */
+    key: string;
+
+    /**
+     * Tag value.
+     */
+    value: string;
+  }
 }
 
 export interface UserCreateResponse {
@@ -80,9 +101,31 @@ export interface UserCreateParams {
   external_id: string;
 
   /**
-   * Name of the role to assign. Must match an existing role.
+   * @deprecated Name of the role to assign. Deprecated, use tags instead.
    */
-  role: string;
+  role?: string;
+
+  /**
+   * Tags for the user.
+   */
+  tags?: Array<UserCreateParams.Tag>;
+}
+
+export namespace UserCreateParams {
+  /**
+   * A key-value tag pair for metadata.
+   */
+  export interface Tag {
+    /**
+     * Tag key. Must not contain #, /, or :. Max 50 characters.
+     */
+    key: string;
+
+    /**
+     * Tag value. Must not contain #, /, or :. Max 200 characters.
+     */
+    value: string;
+  }
 }
 
 export declare namespace Users {

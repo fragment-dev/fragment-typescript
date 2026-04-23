@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.23.0 (2026-04-23)
+
+Full Changelog: [v0.22.0...v0.23.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.22.0...v0.23.0)
+
+### Features
+
+* **api:** update SDK from prod (15934b10563e8ad0b30733300449f8a2d4412f17) ([d579347](https://github.com/fragment-dev/fragment-typescript/commit/d57934716e5518d7c009b0089acb3d8ab909d4b9))
+* **api:** update SDK from prod (5cf88d87ec4018ea3e9cd956da4a2984bf99b7d5) ([601a59b](https://github.com/fragment-dev/fragment-typescript/commit/601a59b584f38abe33e474b702236f53fb19e3f4))
+* **api:** update SDK from prod (fc31cfa572f7cf868e7caf5cd1eded6959905872) ([9b4c9e8](https://github.com/fragment-dev/fragment-typescript/commit/9b4c9e86045f886063f23eea5341f4bc40f63d21))
+
+
+### Chores
+
+* **internal:** more robust bootstrap script ([cdb2cff](https://github.com/fragment-dev/fragment-typescript/commit/cdb2cff1b4910ea4bd10e94fa35a2f25f9f2819e))
+
 ## 0.22.0 (2026-04-17)
 
 Full Changelog: [v0.21.0...v0.22.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.21.0...v0.22.0)

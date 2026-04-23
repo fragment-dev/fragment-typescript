@@ -63,6 +63,7 @@ import {
   Transactions,
 } from './resources/transactions';
 import { User, UserCreateParams, UserCreateResponse, UserListResponse, Users } from './resources/users';
+import { Experimental } from './resources/experimental/experimental';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -181,7 +182,7 @@ export class Fragment {
    *
    * @param {string | null | undefined} [opts.clientID=process.env['FRAGMENT_CLIENT_ID'] ?? null]
    * @param {string | null | undefined} [opts.clientSecret=process.env['FRAGMENT_CLIENT_SECRET'] ?? null]
-   * @param {string} [opts.baseURL=process.env['FRAGMENT_BASE_URL'] ?? https://api.us-west-2.fragment.dev] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['FRAGMENT_BASE_URL'] ?? https://api.us-west-2.fragment.dev/billing] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -199,7 +200,7 @@ export class Fragment {
       clientID,
       clientSecret,
       ...opts,
-      baseURL: baseURL || `https://api.us-west-2.fragment.dev`,
+      baseURL: baseURL || `https://api.us-west-2.fragment.dev/billing`,
     };
 
     this.baseURL = options.baseURL!;
@@ -248,7 +249,7 @@ export class Fragment {
    * Check whether the base URL is set to its default.
    */
   #baseURLOverridden(): boolean {
-    return this.baseURL !== 'https://api.us-west-2.fragment.dev';
+    return this.baseURL !== 'https://api.us-west-2.fragment.dev/billing';
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
@@ -841,6 +842,7 @@ export class Fragment {
 
   static toFile = Uploads.toFile;
 
+  experimental: API.Experimental = new API.Experimental(this);
   /**
    * External account management operations
    */
@@ -867,6 +869,7 @@ export class Fragment {
   users: API.Users = new API.Users(this);
 }
 
+Fragment.Experimental = Experimental;
 Fragment.ExternalAccounts = ExternalAccounts;
 Fragment.Invoices = Invoices;
 Fragment.Products = Products;
@@ -876,6 +879,8 @@ Fragment.Users = Users;
 
 export declare namespace Fragment {
   export type RequestOptions = Opts.RequestOptions;
+
+  export { Experimental as Experimental };
 
   export {
     ExternalAccounts as ExternalAccounts,

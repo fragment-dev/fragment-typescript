@@ -9,24 +9,18 @@ import { RequestOptions } from '../internal/request-options';
  */
 export class Roles extends APIResource {
   /**
-   * Creates a role.
+   * Creates a role. Deprecated, use user tags instead.
    *
-   * @example
-   * ```ts
-   * const role = await client.roles.create({ role: 'admin' });
-   * ```
+   * @deprecated
    */
   create(body: RoleCreateParams, options?: RequestOptions): APIPromise<RoleCreateResponse> {
     return this._client.post('/roles', { body, ...options });
   }
 
   /**
-   * Lists all roles.
+   * Lists all roles. Deprecated, use user tags instead.
    *
-   * @example
-   * ```ts
-   * const roles = await client.roles.list();
-   * ```
+   * @deprecated
    */
   list(options?: RequestOptions): APIPromise<RoleListResponse> {
     return this._client.get('/roles', options);
@@ -34,40 +28,43 @@ export class Roles extends APIResource {
 }
 
 /**
- * Role object.
+ * @deprecated Role object. Deprecated, use user tags instead.
  */
 export interface Role {
   /**
-   * FRAGMENT generated unique ID.
+   * @deprecated FRAGMENT generated unique ID. Deprecated.
    */
   id: string;
 
   /**
-   * Name of the role.
+   * @deprecated Name of the role. Deprecated, use user tags instead.
    */
   role: string;
 }
 
+/**
+ * @deprecated
+ */
 export interface RoleCreateResponse {
   /**
-   * Role object.
+   * @deprecated Role object. Deprecated, use user tags instead.
    */
   data: Role;
 }
 
 /**
- * List of roles.
+ * @deprecated List of roles. Deprecated, use user tags instead.
  */
 export interface RoleListResponse {
   /**
-   * List of roles.
+   * @deprecated List of roles. Deprecated, use user tags instead.
    */
   data: Array<Role>;
 }
 
 export interface RoleCreateParams {
   /**
-   * Name of the role.
+   * @deprecated Name of the role. Deprecated, use user tags instead.
    */
   role: string;
 }

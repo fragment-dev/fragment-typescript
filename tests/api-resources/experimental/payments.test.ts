@@ -8,10 +8,10 @@ const client = new Fragment({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource users', () => {
+describe('resource payments', () => {
   // Mock server tests are disabled
-  test.skip('create: only required params', async () => {
-    const responsePromise = client.users.create({ external_id: 'user_ext_123' });
+  test.skip('retrieve', async () => {
+    const responsePromise = client.experimental.payments.retrieve('pmt_abc123');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -22,17 +22,8 @@ describe('resource users', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('create: required and optional params', async () => {
-    const response = await client.users.create({
-      external_id: 'user_ext_123',
-      role: 'admin',
-      tags: [{ key: 'department', value: 'engineering' }],
-    });
-  });
-
-  // Mock server tests are disabled
-  test.skip('list', async () => {
-    const responsePromise = client.users.list();
+  test.skip('search', async () => {
+    const responsePromise = client.experimental.payments.search();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -40,5 +31,19 @@ describe('resource users', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('search: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.experimental.payments.search(
+        {
+          page_info: { after: 'after', limit: 0 },
+          payment_flow_id: 'payment_flow_id',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Fragment.NotFoundError);
   });
 });
