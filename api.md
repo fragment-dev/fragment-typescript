@@ -1,3 +1,33 @@
+# Experimental
+
+## PaymentFlows
+
+Types:
+
+- <code><a href="./src/resources/experimental/payment-flows.ts">PaymentFlow</a></code>
+- <code><a href="./src/resources/experimental/payment-flows.ts">PaymentFlowCreateResponse</a></code>
+- <code><a href="./src/resources/experimental/payment-flows.ts">PaymentFlowRetrieveResponse</a></code>
+- <code><a href="./src/resources/experimental/payment-flows.ts">PaymentFlowSearchResponse</a></code>
+
+Methods:
+
+- <code title="post /payment-flows">client.experimental.paymentFlows.<a href="./src/resources/experimental/payment-flows.ts">create</a>({ ...params }) -> PaymentFlowCreateResponse</code>
+- <code title="get /payment-flows/{payment_flow_ref}">client.experimental.paymentFlows.<a href="./src/resources/experimental/payment-flows.ts">retrieve</a>(paymentFlowRef) -> PaymentFlowRetrieveResponse</code>
+- <code title="post /payment-flows/search">client.experimental.paymentFlows.<a href="./src/resources/experimental/payment-flows.ts">search</a>({ ...params }) -> PaymentFlowSearchResponse</code>
+
+## Payments
+
+Types:
+
+- <code><a href="./src/resources/experimental/payments.ts">Payment</a></code>
+- <code><a href="./src/resources/experimental/payments.ts">PaymentRetrieveResponse</a></code>
+- <code><a href="./src/resources/experimental/payments.ts">PaymentSearchResponse</a></code>
+
+Methods:
+
+- <code title="get /payments/{payment_ref}">client.experimental.payments.<a href="./src/resources/experimental/payments.ts">retrieve</a>(paymentRef) -> PaymentRetrieveResponse</code>
+- <code title="post /payments/search">client.experimental.payments.<a href="./src/resources/experimental/payments.ts">search</a>({ ...params }) -> PaymentSearchResponse</code>
+
 # ExternalAccounts
 
 Types:
