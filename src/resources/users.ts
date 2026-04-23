@@ -15,7 +15,6 @@ export class Users extends APIResource {
    * ```ts
    * const user = await client.users.create({
    *   external_id: 'user_ext_123',
-   *   role: 'admin',
    * });
    * ```
    */
@@ -51,7 +50,7 @@ export interface User {
   external_id: string;
 
   /**
-   * Name of the user's role.
+   * @deprecated Name of the user's role. Deprecated, use tags instead.
    */
   role: string;
 
@@ -102,9 +101,9 @@ export interface UserCreateParams {
   external_id: string;
 
   /**
-   * Name of the role to assign. Must match an existing role.
+   * @deprecated Name of the role to assign. Deprecated, use tags instead.
    */
-  role: string;
+  role?: string;
 
   /**
    * Tags for the user.

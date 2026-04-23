@@ -11,7 +11,7 @@ const client = new Fragment({
 describe('resource users', () => {
   // Mock server tests are disabled
   test.skip('create: only required params', async () => {
-    const responsePromise = client.users.create({ external_id: 'user_ext_123', role: 'admin' });
+    const responsePromise = client.users.create({ external_id: 'user_ext_123' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

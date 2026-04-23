@@ -182,7 +182,7 @@ export class Fragment {
    *
    * @param {string | null | undefined} [opts.clientID=process.env['FRAGMENT_CLIENT_ID'] ?? null]
    * @param {string | null | undefined} [opts.clientSecret=process.env['FRAGMENT_CLIENT_SECRET'] ?? null]
-   * @param {string} [opts.baseURL=process.env['FRAGMENT_BASE_URL'] ?? https://api.us-west-2.fragment.dev] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['FRAGMENT_BASE_URL'] ?? https://api.us-west-2.fragment.dev/billing] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -200,7 +200,7 @@ export class Fragment {
       clientID,
       clientSecret,
       ...opts,
-      baseURL: baseURL || `https://api.us-west-2.fragment.dev`,
+      baseURL: baseURL || `https://api.us-west-2.fragment.dev/billing`,
     };
 
     this.baseURL = options.baseURL!;
@@ -249,7 +249,7 @@ export class Fragment {
    * Check whether the base URL is set to its default.
    */
   #baseURLOverridden(): boolean {
-    return this.baseURL !== 'https://api.us-west-2.fragment.dev';
+    return this.baseURL !== 'https://api.us-west-2.fragment.dev/billing';
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
