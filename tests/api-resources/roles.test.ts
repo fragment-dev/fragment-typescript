@@ -5,7 +5,7 @@ import Fragment from '@fragment-dev/ts-node';
 const client = new Fragment({
   clientID: 'My Client ID',
   clientSecret: 'My Client Secret',
-  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource roles', () => {

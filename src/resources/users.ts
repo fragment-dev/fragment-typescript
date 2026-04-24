@@ -133,6 +133,6 @@ export declare namespace Users {
     type User as User,
     type UserCreateResponse as UserCreateResponse,
     type UserListResponse as UserListResponse,
-    type UserCreateParams as UserCreateParams,
+    type UserCreateParams as UserCreateParams
   };
 }

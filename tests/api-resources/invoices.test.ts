@@ -5,23 +5,18 @@ import Fragment from '@fragment-dev/ts-node';
 const client = new Fragment({
   clientID: 'My Client ID',
   clientSecret: 'My Client Secret',
-  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource invoices', () => {
   // Mock server tests are disabled
   test.skip('create: only required params', async () => {
-    const responsePromise = client.invoices.create({
-      invoice_id: 'invoice_2024_001',
-      line_items: [
-        {
-          description: 'Professional services for January 2026',
-          product_id: 'prod_1234567890',
-          type: 'payout',
-          user: { id: 'user_abc123' },
-        },
-      ],
-    });
+    const responsePromise = client.invoices.create({ invoice_id: 'invoice_2024_001', line_items: [{
+    description: 'Professional services for January 2026',
+    product_id: 'prod_1234567890',
+    type: 'payout',
+    user: { id: 'user_abc123' },
+  }] });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -34,25 +29,23 @@ describe('resource invoices', () => {
   // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.invoices.create({
-      invoice_id: 'invoice_2024_001',
-      line_items: [
-        {
-          description: 'Professional services for January 2026',
-          product_id: 'prod_1234567890',
-          type: 'payout',
-          user: { id: 'user_abc123' },
-          amount: '1000',
-          currency_code: 'USD',
-          price: {
-            amount: '1000',
-            quantity: 2,
-            unit_price: '500',
-          },
-          tags: [{ key: 'department', value: 'engineering' }],
-        },
-      ],
-      tags: [{ key: 'department', value: 'engineering' }],
-    });
+    invoice_id: 'invoice_2024_001',
+    line_items: [{
+    description: 'Professional services for January 2026',
+    product_id: 'prod_1234567890',
+    type: 'payout',
+    user: { id: 'user_abc123' },
+    amount: '1000',
+    currency_code: 'USD',
+    price: {
+    amount: '1000',
+    quantity: 2,
+    unit_price: '500',
+  },
+    tags: [{ key: 'department', value: 'engineering' }],
+  }],
+    tags: [{ key: 'department', value: 'engineering' }],
+  });
   });
 
   // Mock server tests are disabled
@@ -82,50 +75,46 @@ describe('resource invoices', () => {
   // Mock server tests are disabled
   test.skip('update: required and optional params', async () => {
     const response = await client.invoices.update('inv_1234567890', {
-      current_invoice_version: 3,
-      line_items: {
-        create: [
-          {
-            description: 'Professional services for January 2026',
-            product_id: 'prod_1234567890',
-            type: 'payout',
-            user: { id: 'user_abc123' },
-            amount: '1000',
-            currency_code: 'USD',
-            price: {
-              amount: '1000',
-              quantity: 2,
-              unit_price: '500',
-            },
-            tags: [{ key: 'department', value: 'engineering' }],
-          },
-        ],
-        delete: [{ id: 'id' }],
-        update: [
-          {
-            id: 'li_1234567890',
-            description: 'description',
-            price: {
-              quantity: 2,
-              unit_price: '500',
-              amount: '2000',
-            },
-            tags: {
-              create: [{ key: 'department', value: 'engineering' }],
-              delete: [{ key: 'key' }],
-              set: [{ key: 'department', value: 'engineering' }],
-              update: [{ key: 'department', value: 'engineering' }],
-            },
-          },
-        ],
-      },
-      tags: {
-        create: [{ key: 'department', value: 'engineering' }],
-        delete: [{ key: 'key' }],
-        set: [{ key: 'department', value: 'engineering' }],
-        update: [{ key: 'department', value: 'engineering' }],
-      },
-    });
+    current_invoice_version: 3,
+    line_items: {
+    create: [{
+    description: 'Professional services for January 2026',
+    product_id: 'prod_1234567890',
+    type: 'payout',
+    user: { id: 'user_abc123' },
+    amount: '1000',
+    currency_code: 'USD',
+    price: {
+    amount: '1000',
+    quantity: 2,
+    unit_price: '500',
+  },
+    tags: [{ key: 'department', value: 'engineering' }],
+  }],
+    delete: [{ id: 'id' }],
+    update: [{
+    id: 'li_1234567890',
+    description: 'description',
+    price: {
+    quantity: 2,
+    unit_price: '500',
+    amount: '2000',
+  },
+    tags: {
+    create: [{ key: 'department', value: 'engineering' }],
+    delete: [{ key: 'key' }],
+    set: [{ key: 'department', value: 'engineering' }],
+    update: [{ key: 'department', value: 'engineering' }],
+  },
+  }],
+  },
+    tags: {
+    create: [{ key: 'department', value: 'engineering' }],
+    delete: [{ key: 'key' }],
+    set: [{ key: 'department', value: 'engineering' }],
+    update: [{ key: 'department', value: 'engineering' }],
+  },
+  });
   });
 
   // Mock server tests are disabled
@@ -167,19 +156,13 @@ describe('resource invoices', () => {
   // Mock server tests are disabled
   test.skip('search: required and optional params', async () => {
     const response = await client.invoices.search({
-      filter: {
-        status: 'open',
-        tags: {
-          all: [{ key: 'department', value: 'engineering' }],
-          any: [{ key: 'department', value: 'eng*' }],
-        },
-        transaction_tags: {
-          all: [{ key: 'department', value: 'engineering' }],
-          any: [{ key: 'department', value: 'eng*' }],
-        },
-        users: { all: [{ id: 'user_abc123' }], any: [{ id: 'user_abc123' }] },
-      },
-      page_info: { after: 'after', limit: 20 },
-    });
+    filter: {
+    status: 'open',
+    tags: { all: [{ key: 'department', value: 'engineering' }], any: [{ key: 'department', value: 'eng*' }] },
+    transaction_tags: { all: [{ key: 'department', value: 'engineering' }], any: [{ key: 'department', value: 'eng*' }] },
+    users: { all: [{ id: 'user_abc123' }], any: [{ id: 'user_abc123' }] },
+  },
+    page_info: { after: 'after', limit: 20 },
+  });
   });
 });
