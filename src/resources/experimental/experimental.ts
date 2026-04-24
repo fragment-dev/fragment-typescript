@@ -2,23 +2,9 @@
 
 import { APIResource } from '../../core/resource';
 import * as PaymentFlowsAPI from './payment-flows';
-import {
-  PaymentFlow,
-  PaymentFlowCreateParams,
-  PaymentFlowCreateResponse,
-  PaymentFlowRetrieveResponse,
-  PaymentFlowSearchParams,
-  PaymentFlowSearchResponse,
-  PaymentFlows,
-} from './payment-flows';
+import { PaymentFlow, PaymentFlowCreateParams, PaymentFlowCreateResponse, PaymentFlowRetrieveResponse, PaymentFlowSearchParams, PaymentFlowSearchResponse, PaymentFlows } from './payment-flows';
 import * as PaymentsAPI from './payments';
-import {
-  Payment,
-  PaymentRetrieveResponse,
-  PaymentSearchParams,
-  PaymentSearchResponse,
-  Payments,
-} from './payments';
+import { Payment, PaymentRetrieveResponse, PaymentSearchParams, PaymentSearchResponse, Payments } from './payments';
 
 export class Experimental extends APIResource {
   paymentFlows: PaymentFlowsAPI.PaymentFlows = new PaymentFlowsAPI.PaymentFlows(this._client);
@@ -36,7 +22,7 @@ export declare namespace Experimental {
     type PaymentFlowRetrieveResponse as PaymentFlowRetrieveResponse,
     type PaymentFlowSearchResponse as PaymentFlowSearchResponse,
     type PaymentFlowCreateParams as PaymentFlowCreateParams,
-    type PaymentFlowSearchParams as PaymentFlowSearchParams,
+    type PaymentFlowSearchParams as PaymentFlowSearchParams
   };
 
   export {
@@ -44,6 +30,6 @@ export declare namespace Experimental {
     type Payment as Payment,
     type PaymentRetrieveResponse as PaymentRetrieveResponse,
     type PaymentSearchResponse as PaymentSearchResponse,
-    type PaymentSearchParams as PaymentSearchParams,
+    type PaymentSearchParams as PaymentSearchParams
   };
 }

@@ -206,6 +206,6 @@ export declare namespace Products {
     type ProductCreateResponse as ProductCreateResponse,
     type ProductRetrieveResponse as ProductRetrieveResponse,
     type ProductListResponse as ProductListResponse,
-    type ProductCreateParams as ProductCreateParams,
+    type ProductCreateParams as ProductCreateParams
   };
 }

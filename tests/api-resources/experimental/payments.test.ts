@@ -5,7 +5,7 @@ import Fragment from '@fragment-dev/ts-node';
 const client = new Fragment({
   clientID: 'My Client ID',
   clientSecret: 'My Client Secret',
-  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource payments', () => {
@@ -36,14 +36,11 @@ describe('resource payments', () => {
   // Mock server tests are disabled
   test.skip('search: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.experimental.payments.search(
-        {
-          page_info: { after: 'after', limit: 0 },
-          payment_flow_id: 'payment_flow_id',
-        },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(Fragment.NotFoundError);
+    await expect(client.experimental.payments.search({
+    page_info: { after: 'after', limit: 0 },
+    payment_flow_id: 'payment_flow_id',
+  }, { path: '/_stainless_unknown_path' }))
+      .rejects
+      .toThrow(Fragment.NotFoundError);
   });
 });
