@@ -17,11 +17,51 @@ import * as Errors from './core/error';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
-import { ExternalAccount, ExternalAccountCreateParams, ExternalAccountCreateResponse, ExternalAccountListResponse, ExternalAccounts } from './resources/external-accounts';
-import { Invoice, InvoiceCreateParams, InvoiceCreateResponse, InvoiceListHistoryResponse, InvoiceListResponse, InvoiceRetrieveResponse, InvoiceSearchParams, InvoiceSearchResponse, InvoiceUpdateParams, InvoiceUpdateResponse, Invoices } from './resources/invoices';
-import { Product, ProductCreateParams, ProductCreateResponse, ProductListResponse, ProductRetrieveResponse, Products } from './resources/products';
+import {
+  ExternalAccount,
+  ExternalAccountCreateParams,
+  ExternalAccountCreateResponse,
+  ExternalAccountListResponse,
+  ExternalAccounts,
+} from './resources/external-accounts';
+import {
+  Invoice,
+  InvoiceCreateParams,
+  InvoiceCreateResponse,
+  InvoiceListHistoryResponse,
+  InvoiceListResponse,
+  InvoiceRetrieveResponse,
+  InvoiceSearchParams,
+  InvoiceSearchResponse,
+  InvoiceUpdateParams,
+  InvoiceUpdateResponse,
+  Invoices,
+} from './resources/invoices';
+import {
+  Product,
+  ProductCreateParams,
+  ProductCreateResponse,
+  ProductListResponse,
+  ProductRetrieveResponse,
+  Products,
+} from './resources/products';
 import { Role, RoleCreateParams, RoleCreateResponse, RoleListResponse, Roles } from './resources/roles';
-import { Transaction, TransactionCreateParams, TransactionCreateResponse, TransactionListHistoryResponse, TransactionListParams, TransactionListResponse, TransactionRetrieveResponse, TransactionSearchAllocationsParams, TransactionSearchAllocationsResponse, TransactionSearchParams, TransactionSearchResponse, TransactionUpdateParams, TransactionUpdateResponse, Transactions } from './resources/transactions';
+import {
+  Transaction,
+  TransactionCreateParams,
+  TransactionCreateResponse,
+  TransactionListHistoryResponse,
+  TransactionListParams,
+  TransactionListResponse,
+  TransactionRetrieveResponse,
+  TransactionSearchAllocationsParams,
+  TransactionSearchAllocationsResponse,
+  TransactionSearchParams,
+  TransactionSearchResponse,
+  TransactionUpdateParams,
+  TransactionUpdateResponse,
+  Transactions,
+} from './resources/transactions';
 import { User, UserCreateParams, UserCreateResponse, UserListResponse, Users } from './resources/users';
 import { Experimental } from './resources/experimental/experimental';
 import { type Fetch } from './internal/builtin-types';
@@ -29,7 +69,13 @@ import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
 import { toBase64 } from './internal/utils/base64';
 import { readEnv } from './internal/utils/env';
-import { type LogLevel, type Logger, formatRequestDetails, loggerFor, parseLogLevel } from './internal/utils/log';
+import {
+  type LogLevel,
+  type Logger,
+  formatRequestDetails,
+  loggerFor,
+  parseLogLevel,
+} from './internal/utils/log';
 import { isEmptyObj } from './internal/utils/values';
 
 export interface ClientOptions {
@@ -113,7 +159,7 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Fragment API. 
+ * API Client for interfacing with the Fragment API.
  */
 export class Fragment {
   clientID: string | null;
@@ -150,7 +196,6 @@ export class Fragment {
     clientSecret = readEnv('FRAGMENT_CLIENT_SECRET') ?? null,
     ...opts
   }: ClientOptions = {}) {
-
     const options: ClientOptions = {
       clientID,
       clientSecret,
@@ -164,7 +209,10 @@ export class Fragment {
     const defaultLogLevel = 'warn';
     // Set default logLevel early so that we can log a warning in parseLogLevel.
     this.logLevel = defaultLogLevel;
-    this.logLevel = parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ?? parseLogLevel(readEnv('FRAGMENT_LOG'), 'process.env[\'FRAGMENT_LOG\']', this) ?? defaultLogLevel;
+    this.logLevel =
+      parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ??
+      parseLogLevel(readEnv('FRAGMENT_LOG'), "process.env['FRAGMENT_LOG']", this) ??
+      defaultLogLevel;
     this.fetchOptions = options.fetchOptions;
     this.maxRetries = options.maxRetries ?? 2;
     this.fetch = options.fetch ?? Shims.getDefaultFetch();
@@ -191,7 +239,7 @@ export class Fragment {
       fetchOptions: this.fetchOptions,
       clientID: this.clientID,
       clientSecret: this.clientSecret,
-      ...options
+      ...options,
     });
     client.oauth2AuthState = this.oauth2AuthState;
     return client;
@@ -205,24 +253,26 @@ export class Fragment {
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
-    return this._options.defaultQuery
+    return this._options.defaultQuery;
   }
 
   protected validateHeaders({ values, nulls }: NullableHeaders) {
     return;
   }
 
-  private oauth2AuthState: {
-    promise: Promise<{
-      access_token: string;
-      token_type: string;
-      expires_in: number;
-      expires_at: Date;
-      refresh_token?: string;
-    }>;
-    clientID: string;
-    clientSecret: string;
-  } | undefined;
+  private oauth2AuthState:
+    | {
+        promise: Promise<{
+          access_token: string;
+          token_type: string;
+          expires_in: number;
+          expires_at: Date;
+          refresh_token?: string;
+        }>;
+        clientID: string;
+        clientSecret: string;
+      }
+    | undefined;
   protected async authHeaders(opts: FinalRequestOptions): Promise<NullableHeaders | undefined> {
     if (!this.clientID || !this.clientSecret) {
       return undefined;
@@ -234,23 +284,24 @@ export class Fragment {
     }
 
     // Invalidate the cache if the relevant state has been changed
-    if (this.oauth2AuthState && this.oauth2AuthState.clientID !== this.clientID && this.oauth2AuthState.clientSecret !== this.clientSecret) {
+    if (
+      this.oauth2AuthState &&
+      this.oauth2AuthState.clientID !== this.clientID &&
+      this.oauth2AuthState.clientSecret !== this.clientSecret
+    ) {
       this.oauth2AuthState = undefined;
     }
 
     if (!this.oauth2AuthState) {
       this.oauth2AuthState = {
-        promise: this.fetch(
-          this.buildURL('https://auth.us-west-2.fragment.dev/oauth2/token', {}),
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-              Authorization: `Basic ${toBase64(`${this.clientID}:${this.clientSecret}`)}`,
-            },
-            body: 'grant_type=client_credentials',
+        promise: this.fetch(this.buildURL('https://auth.us-west-2.fragment.dev/oauth2/token', {}), {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization: `Basic ${toBase64(`${this.clientID}:${this.clientSecret}`)}`,
           },
-        ).then(async (res) => {
+          body: 'grant_type=client_credentials',
+        }).then(async (res) => {
           if (!res.ok) {
             const errText = await res.text().catch(() => '');
             const errJSON = errText ? safeJSON(errText) : undefined;
@@ -269,7 +320,7 @@ export class Fragment {
         }),
         clientID: this.clientID,
         clientSecret: this.clientSecret,
-      }
+      };
     }
 
     const token = await this.oauth2AuthState.promise;
@@ -301,7 +352,11 @@ export class Fragment {
     return Errors.APIError.generate(status, error, message, headers);
   }
 
-  buildURL(path: string, query: Record<string, unknown> | null | undefined, defaultBaseURL?: string | undefined): string {
+  buildURL(
+    path: string,
+    query: Record<string, unknown> | null | undefined,
+    defaultBaseURL?: string | undefined,
+  ): string {
     const baseURL = (!this.#baseURLOverridden() && defaultBaseURL) || this.baseURL;
     const url =
       isAbsoluteURL(path) ?
@@ -389,7 +444,9 @@ export class Fragment {
 
     await this.prepareOptions(options);
 
-    const { req, url, timeout } = await this.buildRequest(options, { retryCount: maxRetries - retriesRemaining });
+    const { req, url, timeout } = await this.buildRequest(options, {
+      retryCount: maxRetries - retriesRemaining,
+    });
 
     await this.prepareRequest(req, { url, options });
 
@@ -398,7 +455,16 @@ export class Fragment {
     const retryLogStr = retryOfRequestLogID === undefined ? '' : `, retryOf: ${retryOfRequestLogID}`;
     const startTime = Date.now();
 
-    loggerFor(this).debug(`[${requestLogID}] sending request`, formatRequestDetails({ retryOfRequestLogID, method: options.method, url, options, headers: req.headers }));
+    loggerFor(this).debug(
+      `[${requestLogID}] sending request`,
+      formatRequestDetails({
+        retryOfRequestLogID,
+        method: options.method,
+        url,
+        options,
+        headers: req.headers,
+      }),
+    );
 
     if (options.signal?.aborted) {
       throw new Errors.APIUserAbortError();
@@ -417,21 +483,45 @@ export class Fragment {
       // deno throws "TypeError: error sending request for url (https://example/): client error (Connect): tcp connect error: Operation timed out (os error 60): Operation timed out (os error 60)"
       // undici throws "TypeError: fetch failed" with cause "ConnectTimeoutError: Connect Timeout Error (attempted address: example:443, timeout: 1ms)"
       // others do not provide enough information to distinguish timeouts from other connection errors
-      const isTimeout = isAbortError(response) || /timed? ?out/i.test(String(response) + ('cause' in response ? String(response.cause) : ''))
+      const isTimeout =
+        isAbortError(response) ||
+        /timed? ?out/i.test(String(response) + ('cause' in response ? String(response.cause) : ''));
       if (retriesRemaining) {
-        loggerFor(this).info(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - ${retryMessage}`)
-        loggerFor(this).debug(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (${retryMessage})`, formatRequestDetails({ retryOfRequestLogID, url, durationMs: headersTime - startTime, message: response.message }));
+        loggerFor(this).info(
+          `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - ${retryMessage}`,
+        );
+        loggerFor(this).debug(
+          `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (${retryMessage})`,
+          formatRequestDetails({
+            retryOfRequestLogID,
+            url,
+            durationMs: headersTime - startTime,
+            message: response.message,
+          }),
+        );
         return this.retryRequest(options, retriesRemaining, retryOfRequestLogID ?? requestLogID);
       }
-      loggerFor(this).info(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - error; no more retries left`)
-      loggerFor(this).debug(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (error; no more retries left)`, formatRequestDetails({ retryOfRequestLogID, url, durationMs: headersTime - startTime, message: response.message }));
+      loggerFor(this).info(
+        `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - error; no more retries left`,
+      );
+      loggerFor(this).debug(
+        `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (error; no more retries left)`,
+        formatRequestDetails({
+          retryOfRequestLogID,
+          url,
+          durationMs: headersTime - startTime,
+          message: response.message,
+        }),
+      );
       if (isTimeout) {
         throw new Errors.APIConnectionTimeoutError();
       }
       throw new Errors.APIConnectionError({ cause: response });
     }
 
-    const responseInfo = `[${requestLogID}${retryLogStr}] ${req.method} ${url} ${response.ok ? 'succeeded' : 'failed'} with status ${response.status} in ${headersTime - startTime}ms`;
+    const responseInfo = `[${requestLogID}${retryLogStr}] ${req.method} ${url} ${
+      response.ok ? 'succeeded' : 'failed'
+    } with status ${response.status} in ${headersTime - startTime}ms`;
 
     if (!response.ok) {
       const shouldRetry = await this.shouldRetry(response);
@@ -440,27 +530,60 @@ export class Fragment {
 
         // We don't need the body of this response.
         await Shims.CancelReadableStream(response.body);
-        loggerFor(this).info(`${responseInfo} - ${retryMessage}`)
-        loggerFor(this).debug(`[${requestLogID}] response error (${retryMessage})`, formatRequestDetails({ retryOfRequestLogID, url: response.url, status: response.status, headers: response.headers, durationMs: headersTime - startTime }));
-        return this.retryRequest(options, retriesRemaining, retryOfRequestLogID ?? requestLogID, response.headers);
+        loggerFor(this).info(`${responseInfo} - ${retryMessage}`);
+        loggerFor(this).debug(
+          `[${requestLogID}] response error (${retryMessage})`,
+          formatRequestDetails({
+            retryOfRequestLogID,
+            url: response.url,
+            status: response.status,
+            headers: response.headers,
+            durationMs: headersTime - startTime,
+          }),
+        );
+        return this.retryRequest(
+          options,
+          retriesRemaining,
+          retryOfRequestLogID ?? requestLogID,
+          response.headers,
+        );
       }
 
       const retryMessage = shouldRetry ? `error; no more retries left` : `error; not retryable`;
 
-      loggerFor(this).info(`${responseInfo} - ${retryMessage}`)
+      loggerFor(this).info(`${responseInfo} - ${retryMessage}`);
 
       const errText = await response.text().catch((err: any) => castToError(err).message);
       const errJSON = safeJSON(errText) as any;
       const errMessage = errJSON ? undefined : errText;
 
-      loggerFor(this).debug(`[${requestLogID}] response error (${retryMessage})`, formatRequestDetails({ retryOfRequestLogID, url: response.url, status: response.status, headers: response.headers, message: errMessage, durationMs: Date.now() - startTime }));
+      loggerFor(this).debug(
+        `[${requestLogID}] response error (${retryMessage})`,
+        formatRequestDetails({
+          retryOfRequestLogID,
+          url: response.url,
+          status: response.status,
+          headers: response.headers,
+          message: errMessage,
+          durationMs: Date.now() - startTime,
+        }),
+      );
 
       const err = this.makeStatusError(response.status, errJSON, errMessage, response.headers);
       throw err;
     }
 
-    loggerFor(this).info(responseInfo)
-    loggerFor(this).debug(`[${requestLogID}] response start`, formatRequestDetails({ retryOfRequestLogID, url: response.url, status: response.status, headers: response.headers, durationMs: headersTime - startTime }));
+    loggerFor(this).info(responseInfo);
+    loggerFor(this).debug(
+      `[${requestLogID}] response start`,
+      formatRequestDetails({
+        retryOfRequestLogID,
+        url: response.url,
+        status: response.status,
+        headers: response.headers,
+        durationMs: headersTime - startTime,
+      }),
+    );
 
     return { response, options, controller, requestLogID, retryOfRequestLogID, startTime };
   }
@@ -477,7 +600,9 @@ export class Fragment {
 
     const timeout = setTimeout(abort, ms);
 
-    const isReadableBody = ((globalThis as any).ReadableStream && options.body instanceof (globalThis as any).ReadableStream) || (typeof options.body === "object" && options.body !== null && Symbol.asyncIterator in options.body);
+    const isReadableBody =
+      ((globalThis as any).ReadableStream && options.body instanceof (globalThis as any).ReadableStream) ||
+      (typeof options.body === 'object' && options.body !== null && Symbol.asyncIterator in options.body);
 
     const fetchOptions: RequestInit = {
       signal: controller.signal as any,
@@ -492,7 +617,6 @@ export class Fragment {
     }
 
     try {
-
       // use undefined this binding; fetch errors if bound to something else in browser/cloudflare
       return await this.fetch.call(undefined, url, fetchOptions);
     } finally {
@@ -509,9 +633,9 @@ export class Fragment {
     if (shouldRetryHeader === 'false') return false;
 
     // Retry if the token has expired
-    const oauth2Auth = await this.oauth2AuthState?.promise
+    const oauth2Auth = await this.oauth2AuthState?.promise;
     if (response.status === 401 && oauth2Auth && +oauth2Auth.expires_at - Date.now() < 10 * 1000) {
-      this.oauth2AuthState= undefined
+      this.oauth2AuthState = undefined;
       return true;
     }
 
@@ -600,11 +724,12 @@ export class Fragment {
     const req: FinalizedRequestInit = {
       method,
       headers: reqHeaders,
-      ...(options.signal && { signal: options.signal}),
-      ...((globalThis as any).ReadableStream && body instanceof (globalThis as any).ReadableStream && { duplex: "half" }),
+      ...(options.signal && { signal: options.signal }),
+      ...((globalThis as any).ReadableStream &&
+        body instanceof (globalThis as any).ReadableStream && { duplex: 'half' }),
       ...(body && { body }),
-      ...(this.fetchOptions as any ?? {}),
-      ...(options.fetchOptions as any ?? {}),
+      ...((this.fetchOptions as any) ?? {}),
+      ...((options.fetchOptions as any) ?? {}),
     };
 
     return { req, url, timeout: options.timeout };
@@ -629,15 +754,17 @@ export class Fragment {
 
     const headers = buildHeaders([
       idempotencyHeaders,
-      {Accept: 'application/json',
-      'User-Agent': this.getUserAgent(),
-      'X-Stainless-Retry-Count': String(retryCount),
-      ...(options.timeout ? { 'X-Stainless-Timeout': String(Math.trunc(options.timeout / 1000)) } : {}),
-      ...getPlatformHeaders()},
+      {
+        Accept: 'application/json',
+        'User-Agent': this.getUserAgent(),
+        'X-Stainless-Retry-Count': String(retryCount),
+        ...(options.timeout ? { 'X-Stainless-Timeout': String(Math.trunc(options.timeout / 1000)) } : {}),
+        ...getPlatformHeaders(),
+      },
       await this.authHeaders(options),
       this._options.defaultHeaders,
       bodyHeaders,
-      options.headers
+      options.headers,
     ]);
 
     this.validateHeaders(headers);
@@ -664,11 +791,9 @@ export class Fragment {
       ArrayBuffer.isView(body) ||
       body instanceof ArrayBuffer ||
       body instanceof DataView ||
-      (
-        typeof body === 'string' &&
+      (typeof body === 'string' &&
         // Preserve legacy string encoding behavior for now
-        headers.values.has('content-type')
-      ) ||
+        headers.values.has('content-type')) ||
       // `Blob` is superset of `File`
       ((globalThis as any).Blob && body instanceof (globalThis as any).Blob) ||
       // `FormData` -> `multipart/form-data`
@@ -699,7 +824,7 @@ export class Fragment {
   }
 
   static Fragment = this;
-  static DEFAULT_TIMEOUT = 60000 // 1 minute
+  static DEFAULT_TIMEOUT = 60000; // 1 minute
 
   static FragmentError = Errors.FragmentError;
   static APIError = Errors.APIError;
@@ -753,73 +878,71 @@ Fragment.Transactions = Transactions;
 Fragment.Users = Users;
 
 export declare namespace Fragment {
-      export type RequestOptions = Opts.RequestOptions;
+  export type RequestOptions = Opts.RequestOptions;
 
-      export {
-  Experimental as Experimental
-};
+  export { Experimental as Experimental };
 
-export {
-  ExternalAccounts as ExternalAccounts,
-  type ExternalAccount as ExternalAccount,
-  type ExternalAccountCreateResponse as ExternalAccountCreateResponse,
-  type ExternalAccountListResponse as ExternalAccountListResponse,
-  type ExternalAccountCreateParams as ExternalAccountCreateParams
-};
+  export {
+    ExternalAccounts as ExternalAccounts,
+    type ExternalAccount as ExternalAccount,
+    type ExternalAccountCreateResponse as ExternalAccountCreateResponse,
+    type ExternalAccountListResponse as ExternalAccountListResponse,
+    type ExternalAccountCreateParams as ExternalAccountCreateParams,
+  };
 
-export {
-  Invoices as Invoices,
-  type Invoice as Invoice,
-  type InvoiceCreateResponse as InvoiceCreateResponse,
-  type InvoiceRetrieveResponse as InvoiceRetrieveResponse,
-  type InvoiceUpdateResponse as InvoiceUpdateResponse,
-  type InvoiceListResponse as InvoiceListResponse,
-  type InvoiceListHistoryResponse as InvoiceListHistoryResponse,
-  type InvoiceSearchResponse as InvoiceSearchResponse,
-  type InvoiceCreateParams as InvoiceCreateParams,
-  type InvoiceUpdateParams as InvoiceUpdateParams,
-  type InvoiceSearchParams as InvoiceSearchParams
-};
+  export {
+    Invoices as Invoices,
+    type Invoice as Invoice,
+    type InvoiceCreateResponse as InvoiceCreateResponse,
+    type InvoiceRetrieveResponse as InvoiceRetrieveResponse,
+    type InvoiceUpdateResponse as InvoiceUpdateResponse,
+    type InvoiceListResponse as InvoiceListResponse,
+    type InvoiceListHistoryResponse as InvoiceListHistoryResponse,
+    type InvoiceSearchResponse as InvoiceSearchResponse,
+    type InvoiceCreateParams as InvoiceCreateParams,
+    type InvoiceUpdateParams as InvoiceUpdateParams,
+    type InvoiceSearchParams as InvoiceSearchParams,
+  };
 
-export {
-  Products as Products,
-  type Product as Product,
-  type ProductCreateResponse as ProductCreateResponse,
-  type ProductRetrieveResponse as ProductRetrieveResponse,
-  type ProductListResponse as ProductListResponse,
-  type ProductCreateParams as ProductCreateParams
-};
+  export {
+    Products as Products,
+    type Product as Product,
+    type ProductCreateResponse as ProductCreateResponse,
+    type ProductRetrieveResponse as ProductRetrieveResponse,
+    type ProductListResponse as ProductListResponse,
+    type ProductCreateParams as ProductCreateParams,
+  };
 
-export {
-  Roles as Roles,
-  type Role as Role,
-  type RoleCreateResponse as RoleCreateResponse,
-  type RoleListResponse as RoleListResponse,
-  type RoleCreateParams as RoleCreateParams
-};
+  export {
+    Roles as Roles,
+    type Role as Role,
+    type RoleCreateResponse as RoleCreateResponse,
+    type RoleListResponse as RoleListResponse,
+    type RoleCreateParams as RoleCreateParams,
+  };
 
-export {
-  Transactions as Transactions,
-  type Transaction as Transaction,
-  type TransactionCreateResponse as TransactionCreateResponse,
-  type TransactionRetrieveResponse as TransactionRetrieveResponse,
-  type TransactionUpdateResponse as TransactionUpdateResponse,
-  type TransactionListResponse as TransactionListResponse,
-  type TransactionListHistoryResponse as TransactionListHistoryResponse,
-  type TransactionSearchResponse as TransactionSearchResponse,
-  type TransactionSearchAllocationsResponse as TransactionSearchAllocationsResponse,
-  type TransactionCreateParams as TransactionCreateParams,
-  type TransactionUpdateParams as TransactionUpdateParams,
-  type TransactionListParams as TransactionListParams,
-  type TransactionSearchParams as TransactionSearchParams,
-  type TransactionSearchAllocationsParams as TransactionSearchAllocationsParams
-};
+  export {
+    Transactions as Transactions,
+    type Transaction as Transaction,
+    type TransactionCreateResponse as TransactionCreateResponse,
+    type TransactionRetrieveResponse as TransactionRetrieveResponse,
+    type TransactionUpdateResponse as TransactionUpdateResponse,
+    type TransactionListResponse as TransactionListResponse,
+    type TransactionListHistoryResponse as TransactionListHistoryResponse,
+    type TransactionSearchResponse as TransactionSearchResponse,
+    type TransactionSearchAllocationsResponse as TransactionSearchAllocationsResponse,
+    type TransactionCreateParams as TransactionCreateParams,
+    type TransactionUpdateParams as TransactionUpdateParams,
+    type TransactionListParams as TransactionListParams,
+    type TransactionSearchParams as TransactionSearchParams,
+    type TransactionSearchAllocationsParams as TransactionSearchAllocationsParams,
+  };
 
-export {
-  Users as Users,
-  type User as User,
-  type UserCreateResponse as UserCreateResponse,
-  type UserListResponse as UserListResponse,
-  type UserCreateParams as UserCreateParams
-};
-    }
+  export {
+    Users as Users,
+    type User as User,
+    type UserCreateResponse as UserCreateResponse,
+    type UserListResponse as UserListResponse,
+    type UserCreateParams as UserCreateParams,
+  };
+}
