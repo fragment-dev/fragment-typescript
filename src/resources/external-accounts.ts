@@ -20,7 +20,10 @@ export class ExternalAccounts extends APIResource {
    *   });
    * ```
    */
-  create(body: ExternalAccountCreateParams, options?: RequestOptions): APIPromise<ExternalAccountCreateResponse> {
+  create(
+    body: ExternalAccountCreateParams,
+    options?: RequestOptions,
+  ): APIPromise<ExternalAccountCreateResponse> {
     return this._client.post('/external-accounts', { body, ...options });
   }
 
@@ -89,6 +92,6 @@ export declare namespace ExternalAccounts {
     type ExternalAccount as ExternalAccount,
     type ExternalAccountCreateResponse as ExternalAccountCreateResponse,
     type ExternalAccountListResponse as ExternalAccountListResponse,
-    type ExternalAccountCreateParams as ExternalAccountCreateParams
+    type ExternalAccountCreateParams as ExternalAccountCreateParams,
   };
 }

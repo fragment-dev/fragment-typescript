@@ -32,7 +32,10 @@ export class Payments extends APIResource {
    *   await client.experimental.payments.search();
    * ```
    */
-  search(body: PaymentSearchParams | null | undefined = {}, options?: RequestOptions): APIPromise<PaymentSearchResponse> {
+  search(
+    body: PaymentSearchParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<PaymentSearchResponse> {
     return this._client.post('/payments/search', { body, ...options });
   }
 }
@@ -145,6 +148,6 @@ export declare namespace Payments {
     type Payment as Payment,
     type PaymentRetrieveResponse as PaymentRetrieveResponse,
     type PaymentSearchResponse as PaymentSearchResponse,
-    type PaymentSearchParams as PaymentSearchParams
+    type PaymentSearchParams as PaymentSearchParams,
   };
 }

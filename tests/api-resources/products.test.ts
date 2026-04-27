@@ -5,7 +5,7 @@ import Fragment from '@fragment-dev/ts-node';
 const client = new Fragment({
   clientID: 'My Client ID',
   clientSecret: 'My Client Secret',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource products', () => {
@@ -24,11 +24,11 @@ describe('resource products', () => {
   // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.products.create({
-    code: 'PROD_001',
-    description: 'Premium subscription service',
-    paid_by_roles: [{ name: 'buyer' }],
-    paid_to_roles: [{ name: 'seller' }],
-  });
+      code: 'PROD_001',
+      description: 'Premium subscription service',
+      paid_by_roles: [{ name: 'buyer' }],
+      paid_to_roles: [{ name: 'seller' }],
+    });
   });
 
   // Mock server tests are disabled

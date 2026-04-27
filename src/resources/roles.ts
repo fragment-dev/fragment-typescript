@@ -74,6 +74,6 @@ export declare namespace Roles {
     type Role as Role,
     type RoleCreateResponse as RoleCreateResponse,
     type RoleListResponse as RoleListResponse,
-    type RoleCreateParams as RoleCreateParams
+    type RoleCreateParams as RoleCreateParams,
   };
 }
