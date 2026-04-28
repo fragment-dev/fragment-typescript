@@ -68,12 +68,12 @@ export interface Product {
   created: string;
 
   /**
-   * Roles that can pay for the product.
+   * @deprecated Deprecated. Roles that can pay for the product.
    */
   paid_by_roles: Array<Product.PaidByRole>;
 
   /**
-   * Roles that can receive payment for the product.
+   * @deprecated Deprecated. Roles that can receive payment for the product.
    */
   paid_to_roles: Array<Product.PaidToRole>;
 
@@ -95,7 +95,7 @@ export interface Product {
 
 export namespace Product {
   /**
-   * Role reference in product API responses.
+   * @deprecated Role reference in product API responses. Deprecated.
    */
   export interface PaidByRole {
     /**
@@ -110,7 +110,7 @@ export namespace Product {
   }
 
   /**
-   * Role reference in product API responses.
+   * @deprecated Role reference in product API responses. Deprecated.
    */
   export interface PaidToRole {
     /**
@@ -158,14 +158,14 @@ export interface ProductCreateParams {
   description?: string;
 
   /**
-   * Roles that can pay for the product. Reference roles by `id` or `name`. At least
-   * one of `paid_by_roles` or `paid_to_roles` must be provided.
+   * @deprecated Deprecated. Roles that can pay for the product. Reference roles by
+   * `id` or `name`.
    */
   paid_by_roles?: Array<ProductCreateParams.ID | ProductCreateParams.Name>;
 
   /**
-   * Roles that can receive payment for the product. Reference roles by `id` or
-   * `name`. At least one of `paid_by_roles` or `paid_to_roles` must be provided.
+   * @deprecated Deprecated. Roles that can receive payment for the product.
+   * Reference roles by `id` or `name`.
    */
   paid_to_roles?: Array<ProductCreateParams.ID | ProductCreateParams.Name>;
 }
