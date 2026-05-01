@@ -25,7 +25,6 @@ describe('resource users', () => {
   test.skip('create: required and optional params', async () => {
     const response = await client.users.create({
       external_id: 'user_ext_123',
-      role: 'admin',
       tags: [{ key: 'department', value: 'engineering' }],
     });
   });
