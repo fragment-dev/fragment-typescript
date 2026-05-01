@@ -68,16 +68,6 @@ export interface Product {
   created: string;
 
   /**
-   * @deprecated Deprecated. Roles that can pay for the product.
-   */
-  paid_by_roles: Array<Product.PaidByRole>;
-
-  /**
-   * @deprecated Deprecated. Roles that can receive payment for the product.
-   */
-  paid_to_roles: Array<Product.PaidToRole>;
-
-  /**
    * Current version of the product.
    */
   update_version: number;
@@ -91,38 +81,6 @@ export interface Product {
    * Product description.
    */
   description?: string;
-}
-
-export namespace Product {
-  /**
-   * @deprecated Role reference in product API responses. Deprecated.
-   */
-  export interface PaidByRole {
-    /**
-     * FRAGMENT generated unique ID.
-     */
-    id: string;
-
-    /**
-     * Name of the role.
-     */
-    name: string;
-  }
-
-  /**
-   * @deprecated Role reference in product API responses. Deprecated.
-   */
-  export interface PaidToRole {
-    /**
-     * FRAGMENT generated unique ID.
-     */
-    id: string;
-
-    /**
-     * Name of the role.
-     */
-    name: string;
-  }
 }
 
 export interface ProductCreateResponse {
@@ -156,48 +114,6 @@ export interface ProductCreateParams {
    * Product description.
    */
   description?: string;
-
-  /**
-   * @deprecated Deprecated. Roles that can pay for the product. Reference roles by
-   * `id` or `name`.
-   */
-  paid_by_roles?: Array<ProductCreateParams.ID | ProductCreateParams.Name>;
-
-  /**
-   * @deprecated Deprecated. Roles that can receive payment for the product.
-   * Reference roles by `id` or `name`.
-   */
-  paid_to_roles?: Array<ProductCreateParams.ID | ProductCreateParams.Name>;
-}
-
-export namespace ProductCreateParams {
-  export interface ID {
-    /**
-     * FRAGMENT generated unique ID.
-     */
-    id: string;
-  }
-
-  export interface Name {
-    /**
-     * Name of the role.
-     */
-    name: string;
-  }
-
-  export interface ID {
-    /**
-     * FRAGMENT generated unique ID.
-     */
-    id: string;
-  }
-
-  export interface Name {
-    /**
-     * Name of the role.
-     */
-    name: string;
-  }
 }
 
 export declare namespace Products {

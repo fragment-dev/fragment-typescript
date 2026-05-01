@@ -26,8 +26,6 @@ describe('resource products', () => {
     const response = await client.products.create({
       code: 'PROD_001',
       description: 'Premium subscription service',
-      paid_by_roles: [{ name: 'buyer' }],
-      paid_to_roles: [{ name: 'seller' }],
     });
   });
 

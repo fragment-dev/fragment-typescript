@@ -50,11 +50,6 @@ export interface User {
   external_id: string;
 
   /**
-   * @deprecated Name of the user's role. Deprecated, use tags instead.
-   */
-  role: string;
-
-  /**
    * Tags for the user.
    */
   tags: Array<User.Tag>;
@@ -99,11 +94,6 @@ export interface UserCreateParams {
    * User-provided unique ID.
    */
   external_id: string;
-
-  /**
-   * @deprecated Name of the role to assign. Deprecated, use tags instead.
-   */
-  role?: string;
 
   /**
    * Tags for the user.
