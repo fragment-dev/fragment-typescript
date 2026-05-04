@@ -45,7 +45,6 @@ import {
   ProductRetrieveResponse,
   Products,
 } from './resources/products';
-import { Role, RoleCreateParams, RoleCreateResponse, RoleListResponse, Roles } from './resources/roles';
 import {
   Transaction,
   TransactionCreateParams,
@@ -868,10 +867,6 @@ export class Fragment {
    */
   products: API.Products = new API.Products(this);
   /**
-   * Role management operations
-   */
-  roles: API.Roles = new API.Roles(this);
-  /**
    * Transaction sync operations
    */
   transactions: API.Transactions = new API.Transactions(this);
@@ -885,7 +880,6 @@ Fragment.Experimental = Experimental;
 Fragment.ExternalAccounts = ExternalAccounts;
 Fragment.Invoices = Invoices;
 Fragment.Products = Products;
-Fragment.Roles = Roles;
 Fragment.Transactions = Transactions;
 Fragment.Users = Users;
 
@@ -923,14 +917,6 @@ export declare namespace Fragment {
     type ProductRetrieveResponse as ProductRetrieveResponse,
     type ProductListResponse as ProductListResponse,
     type ProductCreateParams as ProductCreateParams,
-  };
-
-  export {
-    Roles as Roles,
-    type Role as Role,
-    type RoleCreateResponse as RoleCreateResponse,
-    type RoleListResponse as RoleListResponse,
-    type RoleCreateParams as RoleCreateParams,
   };
 
   export {

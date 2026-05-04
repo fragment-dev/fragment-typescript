@@ -30,13 +30,6 @@ export {
   type ProductCreateParams,
 } from './products';
 export {
-  Roles,
-  type Role,
-  type RoleCreateResponse,
-  type RoleListResponse,
-  type RoleCreateParams,
-} from './roles';
-export {
   Transactions,
   type Transaction,
   type TransactionCreateResponse,
