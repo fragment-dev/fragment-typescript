@@ -1,4 +1,4 @@
-configured_endpoints: 27
-openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/fragment-foundries-inc-dash/fragment-b18e9d1896b0e8a18495102d0afe3fbdeadb173ea0dfa20ad38f2e2f168ccff2.yml
-openapi_spec_hash: 620c708f673b6a5d96999889b8b29e34
-config_hash: 6a08e0b06779eba64327557540e8fae3
+configured_endpoints: 25
+openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/fragment-foundries-inc-dash/fragment-8de7207489a076173210c5d410f6db35eeb36cdf417d284811701a06d295eff1.yml
+openapi_spec_hash: 7d88e56793906f317624a823831857f2
+config_hash: de1aca12c740b8f6d67d55da0ea7390c
