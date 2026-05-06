@@ -30,6 +30,30 @@ describe('resource users', () => {
   });
 
   // Mock server tests are disabled
+  test.skip('update: only required params', async () => {
+    const responsePromise = client.users.update('user_dXNyX2ZyYWdfMDAx', { tags: {} });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('update: required and optional params', async () => {
+    const response = await client.users.update('user_dXNyX2ZyYWdfMDAx', {
+      tags: {
+        create: [{ key: 'department', value: 'engineering' }],
+        delete: [{ key: 'key' }],
+        set: [{ key: 'department', value: 'engineering' }],
+        update: [{ key: 'department', value: 'engineering' }],
+      },
+    });
+  });
+
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.users.list();
     const rawResponse = await responsePromise.asResponse();

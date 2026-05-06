@@ -61,7 +61,15 @@ import {
   TransactionUpdateResponse,
   Transactions,
 } from './resources/transactions';
-import { User, UserCreateParams, UserCreateResponse, UserListResponse, Users } from './resources/users';
+import {
+  User,
+  UserCreateParams,
+  UserCreateResponse,
+  UserListResponse,
+  UserUpdateParams,
+  UserUpdateResponse,
+  Users,
+} from './resources/users';
 import { Experimental } from './resources/experimental/experimental';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
@@ -940,7 +948,9 @@ export declare namespace Fragment {
     Users as Users,
     type User as User,
     type UserCreateResponse as UserCreateResponse,
+    type UserUpdateResponse as UserUpdateResponse,
     type UserListResponse as UserListResponse,
     type UserCreateParams as UserCreateParams,
+    type UserUpdateParams as UserUpdateParams,
   };
 }
