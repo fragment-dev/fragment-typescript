@@ -49,6 +49,8 @@ export {
   Users,
   type User,
   type UserCreateResponse,
+  type UserUpdateResponse,
   type UserListResponse,
   type UserCreateParams,
+  type UserUpdateParams,
 } from './users';

@@ -106,9 +106,11 @@ Types:
 
 - <code><a href="./src/resources/users.ts">User</a></code>
 - <code><a href="./src/resources/users.ts">UserCreateResponse</a></code>
+- <code><a href="./src/resources/users.ts">UserUpdateResponse</a></code>
 - <code><a href="./src/resources/users.ts">UserListResponse</a></code>
 
 Methods:
 
 - <code title="post /users">client.users.<a href="./src/resources/users.ts">create</a>({ ...params }) -> UserCreateResponse</code>
+- <code title="patch /users/{user_ref}">client.users.<a href="./src/resources/users.ts">update</a>(userRef, { ...params }) -> UserUpdateResponse</code>
 - <code title="get /users">client.users.<a href="./src/resources/users.ts">list</a>() -> UserListResponse</code>
