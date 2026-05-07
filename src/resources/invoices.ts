@@ -2337,6 +2337,12 @@ export namespace InvoiceSearchParams {
    */
   export interface Filter {
     /**
+     * Filter by invoice creation timestamp. When both `after` and `before` are
+     * provided, results must fall in the range.
+     */
+    created?: Filter.Created;
+
+    /**
      * Filter by invoice status. `open` returns invoices with non-zero clearing account
      * balances.
      */
@@ -2362,6 +2368,22 @@ export namespace InvoiceSearchParams {
   }
 
   export namespace Filter {
+    /**
+     * Filter by invoice creation timestamp. When both `after` and `before` are
+     * provided, results must fall in the range.
+     */
+    export interface Created {
+      /**
+       * Returns invoices created at or after the timestamp. ISO 8601 datetime.
+       */
+      after?: string;
+
+      /**
+       * Returns invoices created at or before the timestamp. ISO 8601 datetime.
+       */
+      before?: string;
+    }
+
     /**
      * Tag-based filter criteria. When both `any` and `all` are provided, results must
      * match every entry in `all` AND at least one entry in `any`.
