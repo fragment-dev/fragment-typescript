@@ -50,6 +50,7 @@ Types:
 - <code><a href="./src/resources/invoices.ts">InvoiceRetrieveResponse</a></code>
 - <code><a href="./src/resources/invoices.ts">InvoiceUpdateResponse</a></code>
 - <code><a href="./src/resources/invoices.ts">InvoiceListResponse</a></code>
+- <code><a href="./src/resources/invoices.ts">InvoiceCreateBatchGetResponse</a></code>
 - <code><a href="./src/resources/invoices.ts">InvoiceListHistoryResponse</a></code>
 - <code><a href="./src/resources/invoices.ts">InvoiceSearchResponse</a></code>
 
@@ -59,6 +60,7 @@ Methods:
 - <code title="get /invoices/{id}">client.invoices.<a href="./src/resources/invoices.ts">retrieve</a>(id) -> InvoiceRetrieveResponse</code>
 - <code title="patch /invoices/{id}">client.invoices.<a href="./src/resources/invoices.ts">update</a>(id, { ...params }) -> InvoiceUpdateResponse</code>
 - <code title="get /invoices">client.invoices.<a href="./src/resources/invoices.ts">list</a>() -> InvoiceListResponse</code>
+- <code title="post /invoices/batch-get">client.invoices.<a href="./src/resources/invoices.ts">createBatchGet</a>({ ...params }) -> InvoiceCreateBatchGetResponse</code>
 - <code title="get /invoices/{id}/history">client.invoices.<a href="./src/resources/invoices.ts">listHistory</a>(id) -> InvoiceListHistoryResponse</code>
 - <code title="post /invoices/search">client.invoices.<a href="./src/resources/invoices.ts">search</a>({ ...params }) -> InvoiceSearchResponse</code>
 

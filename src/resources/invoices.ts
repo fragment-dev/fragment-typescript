@@ -74,6 +74,23 @@ export class Invoices extends APIResource {
   }
 
   /**
+   * Retrieves multiple invoices.
+   *
+   * @example
+   * ```ts
+   * const response = await client.invoices.createBatchGet({
+   *   ids: ['string'],
+   * });
+   * ```
+   */
+  createBatchGet(
+    body: InvoiceCreateBatchGetParams,
+    options?: RequestOptions,
+  ): APIPromise<InvoiceCreateBatchGetResponse> {
+    return this._client.post('/invoices/batch-get', { body, ...options });
+  }
+
+  /**
    * Retrieves the version history of an invoice.
    *
    * @example
@@ -949,6 +966,525 @@ export interface InvoiceListResponse {
    * List of invoices.
    */
   data: Array<Invoice>;
+}
+
+/**
+ * Result of a batch invoice retrieval.
+ */
+export interface InvoiceCreateBatchGetResponse {
+  /**
+   * Result of a batch invoice retrieval.
+   */
+  data: InvoiceCreateBatchGetResponse.Data;
+}
+
+export namespace InvoiceCreateBatchGetResponse {
+  /**
+   * Result of a batch invoice retrieval.
+   */
+  export interface Data {
+    /**
+     * Invoices that were found, in request order.
+     */
+    invoices: Array<Data.Invoice>;
+
+    /**
+     * Ids from the request that did not match any invoice.
+     */
+    not_found: Array<string>;
+  }
+
+  export namespace Data {
+    /**
+     * Invoice with balance details.
+     */
+    export interface Invoice extends InvoicesAPI.Invoice {
+      /**
+       * Invoice-level balances by currency.
+       */
+      balances: Array<Invoice.Balance>;
+
+      /**
+       * Payments allocated to the invoice.
+       */
+      payments: Array<Invoice.Payment>;
+
+      /**
+       * Users involved in the invoice.
+       */
+      users: Array<Invoice.User>;
+    }
+
+    export namespace Invoice {
+      export interface Balance {
+        /**
+         * ISO 4217 or crypto currency code.
+         */
+        currency: string;
+
+        /**
+         * Net balance breakdown.
+         */
+        net: Balance.Net;
+
+        /**
+         * Payins balance breakdown.
+         */
+        payins: Balance.Payins;
+
+        /**
+         * Payouts balance breakdown.
+         */
+        payouts: Balance.Payouts;
+      }
+
+      export namespace Balance {
+        /**
+         * Net balance breakdown.
+         */
+        export interface Net {
+          /**
+           * Actual amount as a string in the smallest currency unit, such as cents for USD.
+           */
+          actual: string;
+
+          /**
+           * Expected amount as a string in the smallest currency unit, such as cents for
+           * USD.
+           */
+          expected: string;
+
+          /**
+           * Remaining amount as a string in the smallest currency unit, such as cents for
+           * USD.
+           */
+          remaining: string;
+        }
+
+        /**
+         * Payins balance breakdown.
+         */
+        export interface Payins {
+          /**
+           * Actual amount as a string in the smallest currency unit, such as cents for USD.
+           */
+          actual: string;
+
+          /**
+           * Expected amount as a string in the smallest currency unit, such as cents for
+           * USD.
+           */
+          expected: string;
+
+          /**
+           * Remaining amount as a string in the smallest currency unit, such as cents for
+           * USD.
+           */
+          remaining: string;
+        }
+
+        /**
+         * Payouts balance breakdown.
+         */
+        export interface Payouts {
+          /**
+           * Actual amount as a string in the smallest currency unit, such as cents for USD.
+           */
+          actual: string;
+
+          /**
+           * Expected amount as a string in the smallest currency unit, such as cents for
+           * USD.
+           */
+          expected: string;
+
+          /**
+           * Remaining amount as a string in the smallest currency unit, such as cents for
+           * USD.
+           */
+          remaining: string;
+        }
+      }
+
+      /**
+       * A payment allocated to the invoice.
+       */
+      export interface Payment {
+        /**
+         * Amount allocated as a string in the smallest currency unit, such as cents for
+         * USD.
+         */
+        amount: string;
+
+        /**
+         * ISO 4217 or crypto currency code.
+         */
+        currency:
+          | 'ADA'
+          | 'BTC'
+          | 'DAI'
+          | 'ETH'
+          | 'SOL'
+          | 'USDC'
+          | 'USDT'
+          | 'USDG'
+          | 'EURC'
+          | 'CADC'
+          | 'CADT'
+          | 'XLM'
+          | 'UNI'
+          | 'BCH'
+          | 'LTC'
+          | 'AAVE'
+          | 'LINK'
+          | 'MATIC'
+          | 'PTS'
+          | 'AED'
+          | 'AFN'
+          | 'ALL'
+          | 'AMD'
+          | 'ANG'
+          | 'AOA'
+          | 'ARS'
+          | 'AUD'
+          | 'AWG'
+          | 'AZN'
+          | 'BAM'
+          | 'BBD'
+          | 'BDT'
+          | 'BGN'
+          | 'BHD'
+          | 'BIF'
+          | 'BMD'
+          | 'BND'
+          | 'BOB'
+          | 'BRL'
+          | 'BSD'
+          | 'BTN'
+          | 'BWP'
+          | 'BYR'
+          | 'BZD'
+          | 'CAD'
+          | 'CDF'
+          | 'CHF'
+          | 'CLP'
+          | 'CNY'
+          | 'COP'
+          | 'CRC'
+          | 'CUC'
+          | 'CUP'
+          | 'CVE'
+          | 'CZK'
+          | 'DJF'
+          | 'DKK'
+          | 'DOP'
+          | 'DZD'
+          | 'EGP'
+          | 'ERN'
+          | 'ETB'
+          | 'EUR'
+          | 'FJD'
+          | 'FKP'
+          | 'GBP'
+          | 'GEL'
+          | 'GGP'
+          | 'GHS'
+          | 'GIP'
+          | 'GMD'
+          | 'GNF'
+          | 'GTQ'
+          | 'GYD'
+          | 'HKD'
+          | 'HNL'
+          | 'HRK'
+          | 'HTG'
+          | 'HUF'
+          | 'IDR'
+          | 'ILS'
+          | 'IMP'
+          | 'INR'
+          | 'IQD'
+          | 'IRR'
+          | 'ISK'
+          | 'JMD'
+          | 'JOD'
+          | 'JPY'
+          | 'KES'
+          | 'KGS'
+          | 'KHR'
+          | 'KMF'
+          | 'KPW'
+          | 'KRW'
+          | 'KWD'
+          | 'KYD'
+          | 'KZT'
+          | 'LAK'
+          | 'LBP'
+          | 'LKR'
+          | 'LRD'
+          | 'LSL'
+          | 'LYD'
+          | 'MAD'
+          | 'MDL'
+          | 'MGA'
+          | 'MKD'
+          | 'MMK'
+          | 'MNT'
+          | 'MOP'
+          | 'MUR'
+          | 'MVR'
+          | 'MWK'
+          | 'MXN'
+          | 'MYR'
+          | 'MZN'
+          | 'NAD'
+          | 'NGN'
+          | 'NIO'
+          | 'NOK'
+          | 'NPR'
+          | 'NZD'
+          | 'OMR'
+          | 'PAB'
+          | 'PEN'
+          | 'PGK'
+          | 'PHP'
+          | 'PKR'
+          | 'PLN'
+          | 'PYG'
+          | 'QAR'
+          | 'RON'
+          | 'RSD'
+          | 'RUB'
+          | 'RWF'
+          | 'SAR'
+          | 'SBD'
+          | 'SCR'
+          | 'SDG'
+          | 'SEK'
+          | 'SGD'
+          | 'SHP'
+          | 'SLL'
+          | 'SOS'
+          | 'SPL'
+          | 'SRD'
+          | 'SVC'
+          | 'SYP'
+          | 'STN'
+          | 'SZL'
+          | 'THB'
+          | 'TJS'
+          | 'TMT'
+          | 'TND'
+          | 'TOP'
+          | 'TRY'
+          | 'TTD'
+          | 'TVD'
+          | 'TWD'
+          | 'TZS'
+          | 'UAH'
+          | 'UGX'
+          | 'USD'
+          | 'UYU'
+          | 'UZS'
+          | 'VEF'
+          | 'VND'
+          | 'VUV'
+          | 'WST'
+          | 'XAF'
+          | 'XCD'
+          | 'XOF'
+          | 'XPF'
+          | 'YER'
+          | 'ZAR'
+          | 'ZMW'
+          | 'LOGICAL'
+          | 'CUSTOM';
+
+        /**
+         * Timestamp when the parent transaction was posted. Uses ISO 8601 format.
+         */
+        posted: string;
+
+        /**
+         * Transaction the payment is applied to.
+         */
+        transaction: Payment.Transaction;
+
+        /**
+         * Type of the payment.
+         */
+        type: 'payin' | 'payout';
+
+        /**
+         * User associated with the payment.
+         */
+        user: Payment.User;
+      }
+
+      export namespace Payment {
+        /**
+         * Transaction the payment is applied to.
+         */
+        export interface Transaction {
+          /**
+           * FRAGMENT generated unique ID.
+           */
+          id: string;
+
+          /**
+           * User-provided unique ID.
+           */
+          external_id: string;
+
+          /**
+           * Tags from the parent transaction.
+           */
+          tags: Array<Transaction.Tag>;
+        }
+
+        export namespace Transaction {
+          /**
+           * A key-value tag pair.
+           */
+          export interface Tag {
+            /**
+             * Tag key.
+             */
+            key: string;
+
+            /**
+             * Tag value.
+             */
+            value: string;
+          }
+        }
+
+        /**
+         * User associated with the payment.
+         */
+        export interface User {
+          /**
+           * FRAGMENT generated unique ID.
+           */
+          id: string;
+
+          /**
+           * User-provided unique ID.
+           */
+          external_id: string;
+        }
+      }
+
+      export interface User {
+        /**
+         * User-provided unique external ID.
+         */
+        id: string;
+
+        /**
+         * Per-currency balance breakdown for the user.
+         */
+        balances: Array<User.Balance>;
+
+        /**
+         * User-provided unique ID.
+         */
+        external_id: string;
+      }
+
+      export namespace User {
+        export interface Balance {
+          /**
+           * ISO 4217 or crypto currency code.
+           */
+          currency: string;
+
+          /**
+           * Net balance breakdown.
+           */
+          net: Balance.Net;
+
+          /**
+           * Payins balance breakdown.
+           */
+          payins: Balance.Payins;
+
+          /**
+           * Payouts balance breakdown.
+           */
+          payouts: Balance.Payouts;
+        }
+
+        export namespace Balance {
+          /**
+           * Net balance breakdown.
+           */
+          export interface Net {
+            /**
+             * Actual amount as a string in the smallest currency unit, such as cents for USD.
+             */
+            actual: string;
+
+            /**
+             * Expected amount as a string in the smallest currency unit, such as cents for
+             * USD.
+             */
+            expected: string;
+
+            /**
+             * Remaining amount as a string in the smallest currency unit, such as cents for
+             * USD.
+             */
+            remaining: string;
+          }
+
+          /**
+           * Payins balance breakdown.
+           */
+          export interface Payins {
+            /**
+             * Actual amount as a string in the smallest currency unit, such as cents for USD.
+             */
+            actual: string;
+
+            /**
+             * Expected amount as a string in the smallest currency unit, such as cents for
+             * USD.
+             */
+            expected: string;
+
+            /**
+             * Remaining amount as a string in the smallest currency unit, such as cents for
+             * USD.
+             */
+            remaining: string;
+          }
+
+          /**
+           * Payouts balance breakdown.
+           */
+          export interface Payouts {
+            /**
+             * Actual amount as a string in the smallest currency unit, such as cents for USD.
+             */
+            actual: string;
+
+            /**
+             * Expected amount as a string in the smallest currency unit, such as cents for
+             * USD.
+             */
+            expected: string;
+
+            /**
+             * Remaining amount as a string in the smallest currency unit, such as cents for
+             * USD.
+             */
+            remaining: string;
+          }
+        }
+      }
+    }
+  }
 }
 
 export interface InvoiceListHistoryResponse {
@@ -2319,6 +2855,13 @@ export namespace InvoiceUpdateParams {
   }
 }
 
+export interface InvoiceCreateBatchGetParams {
+  /**
+   * Invoice ids to retrieve. Up to 200 per request.
+   */
+  ids: Array<string>;
+}
+
 export interface InvoiceSearchParams {
   /**
    * Filter criteria for the search.
@@ -2344,7 +2887,8 @@ export namespace InvoiceSearchParams {
 
     /**
      * Filter by invoice status. `open` returns invoices with non-zero clearing account
-     * balances.
+     * balances. Pagination is disabled when this filter is set; any `page_info`
+     * provided in the request is ignored.
      */
     status?: 'open';
 
@@ -2359,6 +2903,14 @@ export namespace InvoiceSearchParams {
      * have at least one allocated transaction matching the specified tags.
      */
     transaction_tags?: Filter.TransactionTags;
+
+    /**
+     * Returns invoices where at least one line item user, optionally restricted to
+     * users matching `user_tags`, has a per-invoice net remaining balance satisfying
+     * `net_remaining_balance` on any currency. Pagination is disabled when this filter
+     * is set; any `page_info` provided in the request is ignored.
+     */
+    user_tag_and_balance?: Filter.UserTagAndBalance;
 
     /**
      * Line item user filter criteria. When both `any` and `all` are provided, results
@@ -2490,6 +3042,122 @@ export namespace InvoiceSearchParams {
     }
 
     /**
+     * Returns invoices where at least one line item user, optionally restricted to
+     * users matching `user_tags`, has a per-invoice net remaining balance satisfying
+     * `net_remaining_balance` on any currency. Pagination is disabled when this filter
+     * is set; any `page_info` provided in the request is ignored.
+     */
+    export interface UserTagAndBalance {
+      /**
+       * Numeric comparator for the per-user net remaining balance on the invoice.
+       * Multiple keys combine with AND logic.
+       */
+      net_remaining_balance: UserTagAndBalance.NetRemainingBalance;
+
+      /**
+       * Tag-based filter criteria. When both `any` and `all` are provided, results must
+       * match every entry in `all` AND at least one entry in `any`.
+       */
+      user_tags?: UserTagAndBalance.UserTags;
+    }
+
+    export namespace UserTagAndBalance {
+      /**
+       * Numeric comparator for the per-user net remaining balance on the invoice.
+       * Multiple keys combine with AND logic.
+       */
+      export interface NetRemainingBalance {
+        /**
+         * Equal to. Decimal integer string in the smallest currency unit, such as cents
+         * for USD.
+         */
+        eq?: string;
+
+        /**
+         * Strictly greater than. Decimal integer string in the smallest currency unit,
+         * such as cents for USD.
+         */
+        gt?: string;
+
+        /**
+         * Greater than or equal to. Decimal integer string in the smallest currency unit,
+         * such as cents for USD.
+         */
+        gte?: string;
+
+        /**
+         * Strictly less than. Decimal integer string in the smallest currency unit, such
+         * as cents for USD.
+         */
+        lt?: string;
+
+        /**
+         * Less than or equal to. Decimal integer string in the smallest currency unit,
+         * such as cents for USD.
+         */
+        lte?: string;
+
+        /**
+         * Not equal to. Decimal integer string in the smallest currency unit, such as
+         * cents for USD.
+         */
+        ne?: string;
+      }
+
+      /**
+       * Tag-based filter criteria. When both `any` and `all` are provided, results must
+       * match every entry in `all` AND at least one entry in `any`.
+       */
+      export interface UserTags {
+        /**
+         * Returns users matching every specified tag, using AND logic.
+         */
+        all?: Array<UserTags.All>;
+
+        /**
+         * Returns users matching at least one of the specified tags, using OR logic.
+         */
+        any?: Array<UserTags.Any>;
+      }
+
+      export namespace UserTags {
+        /**
+         * A tag filter.
+         */
+        export interface All {
+          /**
+           * Tag key to filter on. Must be an exact match; wildcards are not supported.
+           */
+          key: string;
+
+          /**
+           * Tag value pattern to filter on. Supports wildcards: `*` matches any characters,
+           * `?` matches a single character. Use `\*` or `\?` to match literal asterisks or
+           * question marks. Use `*` to match any value for the given key.
+           */
+          value: string;
+        }
+
+        /**
+         * A tag filter.
+         */
+        export interface Any {
+          /**
+           * Tag key to filter on. Must be an exact match; wildcards are not supported.
+           */
+          key: string;
+
+          /**
+           * Tag value pattern to filter on. Supports wildcards: `*` matches any characters,
+           * `?` matches a single character. Use `\*` or `\?` to match literal asterisks or
+           * question marks. Use `*` to match any value for the given key.
+           */
+          value: string;
+        }
+      }
+    }
+
+    /**
      * Line item user filter criteria. When both `any` and `all` are provided, results
      * must match every entry in `all` AND at least one entry in `any`.
      */
@@ -2560,10 +3228,12 @@ export declare namespace Invoices {
     type InvoiceRetrieveResponse as InvoiceRetrieveResponse,
     type InvoiceUpdateResponse as InvoiceUpdateResponse,
     type InvoiceListResponse as InvoiceListResponse,
+    type InvoiceCreateBatchGetResponse as InvoiceCreateBatchGetResponse,
     type InvoiceListHistoryResponse as InvoiceListHistoryResponse,
     type InvoiceSearchResponse as InvoiceSearchResponse,
     type InvoiceCreateParams as InvoiceCreateParams,
     type InvoiceUpdateParams as InvoiceUpdateParams,
+    type InvoiceCreateBatchGetParams as InvoiceCreateBatchGetParams,
     type InvoiceSearchParams as InvoiceSearchParams,
   };
 }
