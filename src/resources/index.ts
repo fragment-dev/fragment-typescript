@@ -15,10 +15,12 @@ export {
   type InvoiceRetrieveResponse,
   type InvoiceUpdateResponse,
   type InvoiceListResponse,
+  type InvoiceCreateBatchGetResponse,
   type InvoiceListHistoryResponse,
   type InvoiceSearchResponse,
   type InvoiceCreateParams,
   type InvoiceUpdateParams,
+  type InvoiceCreateBatchGetParams,
   type InvoiceSearchParams,
 } from './invoices';
 export {

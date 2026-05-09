@@ -26,6 +26,8 @@ import {
 } from './resources/external-accounts';
 import {
   Invoice,
+  InvoiceCreateBatchGetParams,
+  InvoiceCreateBatchGetResponse,
   InvoiceCreateParams,
   InvoiceCreateResponse,
   InvoiceListHistoryResponse,
@@ -911,10 +913,12 @@ export declare namespace Fragment {
     type InvoiceRetrieveResponse as InvoiceRetrieveResponse,
     type InvoiceUpdateResponse as InvoiceUpdateResponse,
     type InvoiceListResponse as InvoiceListResponse,
+    type InvoiceCreateBatchGetResponse as InvoiceCreateBatchGetResponse,
     type InvoiceListHistoryResponse as InvoiceListHistoryResponse,
     type InvoiceSearchResponse as InvoiceSearchResponse,
     type InvoiceCreateParams as InvoiceCreateParams,
     type InvoiceUpdateParams as InvoiceUpdateParams,
+    type InvoiceCreateBatchGetParams as InvoiceCreateBatchGetParams,
     type InvoiceSearchParams as InvoiceSearchParams,
   };
 
