@@ -26,6 +26,8 @@ import {
 } from './resources/external-accounts';
 import {
   Invoice,
+  InvoiceCreateBatchGetParams,
+  InvoiceCreateBatchGetResponse,
   InvoiceCreateParams,
   InvoiceCreateResponse,
   InvoiceListHistoryResponse,
@@ -45,7 +47,6 @@ import {
   ProductRetrieveResponse,
   Products,
 } from './resources/products';
-import { Role, RoleCreateParams, RoleCreateResponse, RoleListResponse, Roles } from './resources/roles';
 import {
   Transaction,
   TransactionCreateParams,
@@ -62,7 +63,15 @@ import {
   TransactionUpdateResponse,
   Transactions,
 } from './resources/transactions';
-import { User, UserCreateParams, UserCreateResponse, UserListResponse, Users } from './resources/users';
+import {
+  User,
+  UserCreateParams,
+  UserCreateResponse,
+  UserListResponse,
+  UserUpdateParams,
+  UserUpdateResponse,
+  Users,
+} from './resources/users';
 import { Experimental } from './resources/experimental/experimental';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
@@ -217,6 +226,18 @@ export class Fragment {
     this.maxRetries = options.maxRetries ?? 2;
     this.fetch = options.fetch ?? Shims.getDefaultFetch();
     this.#encoder = Opts.FallbackEncoder;
+
+    const customHeadersEnv = readEnv('FRAGMENT_CUSTOM_HEADERS');
+    if (customHeadersEnv) {
+      const parsed: Record<string, string> = {};
+      for (const line of customHeadersEnv.split('\n')) {
+        const colon = line.indexOf(':');
+        if (colon >= 0) {
+          parsed[line.substring(0, colon).trim()] = line.substring(colon + 1).trim();
+        }
+      }
+      options.defaultHeaders = { ...parsed, ...options.defaultHeaders };
+    }
 
     this._options = options;
 
@@ -856,10 +877,6 @@ export class Fragment {
    */
   products: API.Products = new API.Products(this);
   /**
-   * Role management operations
-   */
-  roles: API.Roles = new API.Roles(this);
-  /**
    * Transaction sync operations
    */
   transactions: API.Transactions = new API.Transactions(this);
@@ -873,7 +890,6 @@ Fragment.Experimental = Experimental;
 Fragment.ExternalAccounts = ExternalAccounts;
 Fragment.Invoices = Invoices;
 Fragment.Products = Products;
-Fragment.Roles = Roles;
 Fragment.Transactions = Transactions;
 Fragment.Users = Users;
 
@@ -897,10 +913,12 @@ export declare namespace Fragment {
     type InvoiceRetrieveResponse as InvoiceRetrieveResponse,
     type InvoiceUpdateResponse as InvoiceUpdateResponse,
     type InvoiceListResponse as InvoiceListResponse,
+    type InvoiceCreateBatchGetResponse as InvoiceCreateBatchGetResponse,
     type InvoiceListHistoryResponse as InvoiceListHistoryResponse,
     type InvoiceSearchResponse as InvoiceSearchResponse,
     type InvoiceCreateParams as InvoiceCreateParams,
     type InvoiceUpdateParams as InvoiceUpdateParams,
+    type InvoiceCreateBatchGetParams as InvoiceCreateBatchGetParams,
     type InvoiceSearchParams as InvoiceSearchParams,
   };
 
@@ -911,14 +929,6 @@ export declare namespace Fragment {
     type ProductRetrieveResponse as ProductRetrieveResponse,
     type ProductListResponse as ProductListResponse,
     type ProductCreateParams as ProductCreateParams,
-  };
-
-  export {
-    Roles as Roles,
-    type Role as Role,
-    type RoleCreateResponse as RoleCreateResponse,
-    type RoleListResponse as RoleListResponse,
-    type RoleCreateParams as RoleCreateParams,
   };
 
   export {
@@ -942,7 +952,9 @@ export declare namespace Fragment {
     Users as Users,
     type User as User,
     type UserCreateResponse as UserCreateResponse,
+    type UserUpdateResponse as UserUpdateResponse,
     type UserListResponse as UserListResponse,
     type UserCreateParams as UserCreateParams,
+    type UserUpdateParams as UserUpdateParams,
   };
 }

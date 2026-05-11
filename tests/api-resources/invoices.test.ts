@@ -141,6 +141,23 @@ describe('resource invoices', () => {
   });
 
   // Mock server tests are disabled
+  test.skip('createBatchGet: only required params', async () => {
+    const responsePromise = client.invoices.createBatchGet({ ids: ['string'] });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('createBatchGet: required and optional params', async () => {
+    const response = await client.invoices.createBatchGet({ ids: ['string'] });
+  });
+
+  // Mock server tests are disabled
   test.skip('listHistory', async () => {
     const responsePromise = client.invoices.listHistory('inv_1234567890');
     const rawResponse = await responsePromise.asResponse();
@@ -168,6 +185,7 @@ describe('resource invoices', () => {
   test.skip('search: required and optional params', async () => {
     const response = await client.invoices.search({
       filter: {
+        created: { after: '2026-01-01T00:00:00Z', before: '2026-02-01T00:00:00Z' },
         status: 'open',
         tags: {
           all: [{ key: 'department', value: 'engineering' }],
@@ -176,6 +194,20 @@ describe('resource invoices', () => {
         transaction_tags: {
           all: [{ key: 'department', value: 'engineering' }],
           any: [{ key: 'department', value: 'eng*' }],
+        },
+        user_tag_and_balance: {
+          net_remaining_balance: {
+            eq: 'eq',
+            gt: '0',
+            gte: 'gte',
+            lt: 'lt',
+            lte: 'lte',
+            ne: 'ne',
+          },
+          user_tags: {
+            all: [{ key: 'department', value: 'engineering' }],
+            any: [{ key: 'department', value: 'eng*' }],
+          },
         },
         users: { all: [{ id: 'user_abc123' }], any: [{ id: 'user_abc123' }] },
       },

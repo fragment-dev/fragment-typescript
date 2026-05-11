@@ -15,10 +15,12 @@ export {
   type InvoiceRetrieveResponse,
   type InvoiceUpdateResponse,
   type InvoiceListResponse,
+  type InvoiceCreateBatchGetResponse,
   type InvoiceListHistoryResponse,
   type InvoiceSearchResponse,
   type InvoiceCreateParams,
   type InvoiceUpdateParams,
+  type InvoiceCreateBatchGetParams,
   type InvoiceSearchParams,
 } from './invoices';
 export {
@@ -29,13 +31,6 @@ export {
   type ProductListResponse,
   type ProductCreateParams,
 } from './products';
-export {
-  Roles,
-  type Role,
-  type RoleCreateResponse,
-  type RoleListResponse,
-  type RoleCreateParams,
-} from './roles';
 export {
   Transactions,
   type Transaction,
@@ -56,6 +51,8 @@ export {
   Users,
   type User,
   type UserCreateResponse,
+  type UserUpdateResponse,
   type UserListResponse,
   type UserCreateParams,
+  type UserUpdateParams,
 } from './users';

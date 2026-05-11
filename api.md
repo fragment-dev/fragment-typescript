@@ -50,6 +50,7 @@ Types:
 - <code><a href="./src/resources/invoices.ts">InvoiceRetrieveResponse</a></code>
 - <code><a href="./src/resources/invoices.ts">InvoiceUpdateResponse</a></code>
 - <code><a href="./src/resources/invoices.ts">InvoiceListResponse</a></code>
+- <code><a href="./src/resources/invoices.ts">InvoiceCreateBatchGetResponse</a></code>
 - <code><a href="./src/resources/invoices.ts">InvoiceListHistoryResponse</a></code>
 - <code><a href="./src/resources/invoices.ts">InvoiceSearchResponse</a></code>
 
@@ -59,6 +60,7 @@ Methods:
 - <code title="get /invoices/{id}">client.invoices.<a href="./src/resources/invoices.ts">retrieve</a>(id) -> InvoiceRetrieveResponse</code>
 - <code title="patch /invoices/{id}">client.invoices.<a href="./src/resources/invoices.ts">update</a>(id, { ...params }) -> InvoiceUpdateResponse</code>
 - <code title="get /invoices">client.invoices.<a href="./src/resources/invoices.ts">list</a>() -> InvoiceListResponse</code>
+- <code title="post /invoices/batch-get">client.invoices.<a href="./src/resources/invoices.ts">createBatchGet</a>({ ...params }) -> InvoiceCreateBatchGetResponse</code>
 - <code title="get /invoices/{id}/history">client.invoices.<a href="./src/resources/invoices.ts">listHistory</a>(id) -> InvoiceListHistoryResponse</code>
 - <code title="post /invoices/search">client.invoices.<a href="./src/resources/invoices.ts">search</a>({ ...params }) -> InvoiceSearchResponse</code>
 
@@ -76,19 +78,6 @@ Methods:
 - <code title="post /products">client.products.<a href="./src/resources/products.ts">create</a>({ ...params }) -> ProductCreateResponse</code>
 - <code title="get /products/{code}">client.products.<a href="./src/resources/products.ts">retrieve</a>(code) -> ProductRetrieveResponse</code>
 - <code title="get /products">client.products.<a href="./src/resources/products.ts">list</a>() -> ProductListResponse</code>
-
-# Roles
-
-Types:
-
-- <code><a href="./src/resources/roles.ts">Role</a></code>
-- <code><a href="./src/resources/roles.ts">RoleCreateResponse</a></code>
-- <code><a href="./src/resources/roles.ts">RoleListResponse</a></code>
-
-Methods:
-
-- <code title="post /roles">client.roles.<a href="./src/resources/roles.ts">create</a>({ ...params }) -> RoleCreateResponse</code>
-- <code title="get /roles">client.roles.<a href="./src/resources/roles.ts">list</a>() -> RoleListResponse</code>
 
 # Transactions
 
@@ -119,9 +108,11 @@ Types:
 
 - <code><a href="./src/resources/users.ts">User</a></code>
 - <code><a href="./src/resources/users.ts">UserCreateResponse</a></code>
+- <code><a href="./src/resources/users.ts">UserUpdateResponse</a></code>
 - <code><a href="./src/resources/users.ts">UserListResponse</a></code>
 
 Methods:
 
 - <code title="post /users">client.users.<a href="./src/resources/users.ts">create</a>({ ...params }) -> UserCreateResponse</code>
+- <code title="patch /users/{user_ref}">client.users.<a href="./src/resources/users.ts">update</a>(userRef, { ...params }) -> UserUpdateResponse</code>
 - <code title="get /users">client.users.<a href="./src/resources/users.ts">list</a>() -> UserListResponse</code>
