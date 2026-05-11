@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.24.0 (2026-05-11)
+
+Full Changelog: [v0.23.0...v0.24.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.23.0...v0.24.0)
+
+### Features
+
+* **api:** update SDK from prod (0d21d5e0241765ab00b0717afa6a1280095c6f48) ([66fa5f9](https://github.com/fragment-dev/fragment-typescript/commit/66fa5f9844b423bbf91333297c6ef01cda72aee3))
+* **api:** update SDK from prod (17bbf460799f7618f1944ae357e4f938f5ee938b) ([8324612](https://github.com/fragment-dev/fragment-typescript/commit/8324612fd0e2c13c420617dff0412d20f5d6be14))
+* **api:** update SDK from prod (4795160449221a9c539ee8c984b67abf7788eb4a) ([a4cf06c](https://github.com/fragment-dev/fragment-typescript/commit/a4cf06cb8c839c3188a1055ea109dc70c9f3633a))
+* **api:** update SDK from prod (4b2fefcc88c5abaff3f807215871667cc45f02a6) ([2e01605](https://github.com/fragment-dev/fragment-typescript/commit/2e01605dcdf8b3195acc560422b958e23dafb462))
+* **api:** update SDK from prod (c004456fd46659f5e324046a0f48c3a17080674d) ([61e9fc5](https://github.com/fragment-dev/fragment-typescript/commit/61e9fc5b58320f413768a54c865fc0d5d84e474f))
+* **api:** update SDK from prod (ef6408ab1de5e08aa5572eea668bd66c501901af) ([c0f3d5f](https://github.com/fragment-dev/fragment-typescript/commit/c0f3d5f41058264e6571a7ac39627f6e829d270b))
+* support setting headers via env ([f48de1d](https://github.com/fragment-dev/fragment-typescript/commit/f48de1d06b3f645524a16aee4a481705fed6f644))
+
+
+### Chores
+
+* **format:** run eslint and prettier separately ([7f44851](https://github.com/fragment-dev/fragment-typescript/commit/7f44851a08bde49b5d095c11cfe7b923aefdadda))
+* **formatter:** run prettier and eslint separately ([c7d172c](https://github.com/fragment-dev/fragment-typescript/commit/c7d172cdf393597473d78b36f5275dac50ff48b7))
+* **internal:** codegen related update ([3d8b80d](https://github.com/fragment-dev/fragment-typescript/commit/3d8b80d22b3dad3c2efafb5870d90770c6740144))
+* redact api-key headers in debug logs ([2aef557](https://github.com/fragment-dev/fragment-typescript/commit/2aef55713b0ecece6c975f23ac92508ad7ccc703))
+
 ## 0.23.0 (2026-04-23)
 
 Full Changelog: [v0.22.0...v0.23.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.22.0...v0.23.0)
