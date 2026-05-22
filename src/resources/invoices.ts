@@ -3118,6 +3118,11 @@ export namespace InvoiceSearchParams {
          * Returns users matching at least one of the specified tags, using OR logic.
          */
         any?: Array<UserTags.Any>;
+
+        /**
+         * Returns users that do not match any of the specified tags.
+         */
+        not_any?: Array<UserTags.NotAny>;
       }
 
       export namespace UserTags {
@@ -3142,6 +3147,23 @@ export namespace InvoiceSearchParams {
          * A tag filter.
          */
         export interface Any {
+          /**
+           * Tag key to filter on. Must be an exact match; wildcards are not supported.
+           */
+          key: string;
+
+          /**
+           * Tag value pattern to filter on. Supports wildcards: `*` matches any characters,
+           * `?` matches a single character. Use `\*` or `\?` to match literal asterisks or
+           * question marks. Use `*` to match any value for the given key.
+           */
+          value: string;
+        }
+
+        /**
+         * A tag filter.
+         */
+        export interface NotAny {
           /**
            * Tag key to filter on. Must be an exact match; wildcards are not supported.
            */

@@ -207,6 +207,7 @@ describe('resource invoices', () => {
           user_tags: {
             all: [{ key: 'department', value: 'engineering' }],
             any: [{ key: 'department', value: 'eng*' }],
+            not_any: [{ key: 'department', value: 'eng*' }],
           },
         },
         users: { all: [{ id: 'user_abc123' }], any: [{ id: 'user_abc123' }] },
