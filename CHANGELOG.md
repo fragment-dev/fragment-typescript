@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.25.0 (2026-05-22)
+
+Full Changelog: [v0.24.0...v0.25.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.24.0...v0.25.0)
+
+### Features
+
+* **api:** update SDK from prod (376fc6d9bc88e2b5a067720bc99571c3c336ba96) ([99ab19e](https://github.com/fragment-dev/fragment-typescript/commit/99ab19e0301b6b7ac6a2d4fa7227cb172b2014fc))
+* **api:** update SDK from prod (5b480c85c495e2ff9421fdcaaeceaeb1072d0a48) ([33287de](https://github.com/fragment-dev/fragment-typescript/commit/33287de49b7ab79bca920c656965bb31ad37bc5a))
+
+
+### Bug Fixes
+
+* **typescript:** upgrade tsc-multi so that it works with Node 26 ([7bde5aa](https://github.com/fragment-dev/fragment-typescript/commit/7bde5aae33224fa3f441ea659de4e360e6318f2b))
+
+
+### Chores
+
+* **tests:** remove redundant File import ([d3b70e2](https://github.com/fragment-dev/fragment-typescript/commit/d3b70e256ce632b0cf0e29bc2784402d0c39a264))
+
 ## 0.24.0 (2026-05-11)
 
 Full Changelog: [v0.23.0...v0.24.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.23.0...v0.24.0)
