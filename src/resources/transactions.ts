@@ -152,7 +152,7 @@ export interface Transaction {
 
   /**
    * Transaction amount, as a string in the smallest currency unit, such as cents for
-   * USD. Can be positive or negative.
+   * USD.
    */
   amount: string;
 
@@ -397,8 +397,8 @@ export namespace Transaction {
    */
   export interface Allocation {
     /**
-     * Allocated amount, as a positive string in the smallest currency unit, such as
-     * cents for USD.
+     * Allocated amount, as a non-negative string in the smallest currency unit, such
+     * as cents for USD.
      */
     amount: string;
 
@@ -540,8 +540,8 @@ export namespace TransactionSearchAllocationsResponse {
     id: string;
 
     /**
-     * Allocated amount, as a positive string in the smallest currency unit, such as
-     * cents for USD.
+     * Allocated amount, as a non-negative string in the smallest currency unit, such
+     * as cents for USD.
      */
     amount: string;
 
@@ -618,7 +618,7 @@ export interface TransactionCreateParams {
 
   /**
    * Transaction amount, as a string in the smallest currency unit, such as cents for
-   * USD. Can be positive or negative.
+   * USD.
    */
   amount: string;
 
@@ -844,8 +844,8 @@ export namespace TransactionCreateParams {
    */
   export interface Allocation {
     /**
-     * Allocation amount, as a positive string in the smallest currency unit, such as
-     * cents for USD.
+     * Allocation amount, as a non-negative string in the smallest currency unit, such
+     * as cents for USD.
      */
     amount: string;
 
@@ -936,8 +936,8 @@ export namespace TransactionUpdateParams {
      */
     export interface Create {
       /**
-       * Allocation amount, as a positive string in the smallest currency unit, such as
-       * cents for USD.
+       * Allocation amount, as a non-negative string in the smallest currency unit, such
+       * as cents for USD.
        */
       amount: string;
 
@@ -980,8 +980,8 @@ export namespace TransactionUpdateParams {
       id: string;
 
       /**
-       * Updated allocation amount, as a positive string in the smallest currency unit,
-       * such as cents for USD.
+       * Updated allocation amount, as a non-negative string in the smallest currency
+       * unit, such as cents for USD.
        */
       amount: string;
     }
