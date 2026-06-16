@@ -186,6 +186,7 @@ describe('resource invoices', () => {
     const response = await client.invoices.search({
       filter: {
         created: { after: '2026-01-01T00:00:00Z', before: '2026-02-01T00:00:00Z' },
+        modified: { after: '2026-01-01T00:00:00Z', before: '2026-02-01T00:00:00Z' },
         status: 'open',
         tags: {
           all: [{ key: 'department', value: 'engineering' }],
