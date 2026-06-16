@@ -2886,6 +2886,12 @@ export namespace InvoiceSearchParams {
     created?: Filter.Created;
 
     /**
+     * Filter by invoice last modified timestamp. When both `after` and `before` are
+     * provided, results must fall in the range.
+     */
+    modified?: Filter.Modified;
+
+    /**
      * Filter by invoice status. `open` returns invoices with non-zero clearing account
      * balances. Pagination is disabled when this filter is set; any `page_info`
      * provided in the request is ignored.
@@ -2932,6 +2938,22 @@ export namespace InvoiceSearchParams {
 
       /**
        * Returns invoices created at or before the timestamp. ISO 8601 datetime.
+       */
+      before?: string;
+    }
+
+    /**
+     * Filter by invoice last modified timestamp. When both `after` and `before` are
+     * provided, results must fall in the range.
+     */
+    export interface Modified {
+      /**
+       * Returns invoices last modified at or after the timestamp. ISO 8601 datetime.
+       */
+      after?: string;
+
+      /**
+       * Returns invoices last modified at or before the timestamp. ISO 8601 datetime.
        */
       before?: string;
     }

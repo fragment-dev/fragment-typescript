@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.26.0 (2026-06-16)
+
+Full Changelog: [v0.25.0...v0.26.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.25.0...v0.26.0)
+
+### Features
+
+* **api:** update SDK from prod (702a2898835986a88a6021a9a0eae7bed78938cf) ([820dae9](https://github.com/fragment-dev/fragment-typescript/commit/820dae9cdc57e293b1ebfae13992242af90f948b))
+
+
+### Bug Fixes
+
+* **client:** send content-type header for requests with an omitted optional body ([1182ea2](https://github.com/fragment-dev/fragment-typescript/commit/1182ea2edf35c3c9adbea5a1fe3b7f3446475b89))
+
 ## 0.25.0 (2026-05-22)
 
 Full Changelog: [v0.24.0...v0.25.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.24.0...v0.25.0)
