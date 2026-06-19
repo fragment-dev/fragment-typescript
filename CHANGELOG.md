@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.27.0 (2026-06-19)
+
+Full Changelog: [v0.26.0...v0.27.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.26.0...v0.27.0)
+
+### Features
+
+* **api:** update SDK from prod (201d13fc6454e4ee9e9a53d3bc9e0b5020480d43) ([514a2b9](https://github.com/fragment-dev/fragment-typescript/commit/514a2b9ec01e1cfb57e532a8ddcbdec58f0d861e))
+
 ## 0.26.0 (2026-06-16)
 
 Full Changelog: [v0.25.0...v0.26.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.25.0...v0.26.0)

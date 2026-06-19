@@ -155,6 +155,7 @@ describe('resource transactions', () => {
     const response = await client.transactions.search({
       filter: {
         account: { any: [{ id: 'ext_account_YWJjMTIz', external_id: 'acct_external_123' }] },
+        reconciliation_status: 'unreconciled',
         tags: {
           all: [{ key: 'department', value: 'engineering' }],
           any: [{ key: 'department', value: 'eng*' }],

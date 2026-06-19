@@ -1105,6 +1105,16 @@ export namespace TransactionSearchParams {
     account?: Filter.Account;
 
     /**
+     * Filter by reconciliation status. `reconciled` returns transactions where
+     * unallocated_amount is 0. `unreconciled` returns transactions where
+     * unallocated_amount is not 0. Omit for all transactions. Because the status is
+     * applied after the search, a page can return fewer results than the requested
+     * limit while a next cursor is still present. Paginate until the next cursor is
+     * absent.
+     */
+    reconciliation_status?: 'reconciled' | 'unreconciled';
+
+    /**
      * Tag-based filter criteria. When both `any` and `all` are provided, results must
      * match every entry in `all` AND at least one entry in `any`.
      */
@@ -1117,7 +1127,8 @@ export namespace TransactionSearchParams {
      */
     export interface Account {
       /**
-       * Match transactions belonging to any of these accounts, using OR logic.
+       * Match transactions belonging to any of these accounts, using OR logic. Provide
+       * at most 100 accounts.
        */
       any: Array<Account.Any>;
     }
