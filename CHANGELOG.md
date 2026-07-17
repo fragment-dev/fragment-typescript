@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.28.0 (2026-07-17)
+
+Full Changelog: [v0.27.0...v0.28.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.27.0...v0.28.0)
+
+### Features
+
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([9f564fd](https://github.com/fragment-dev/fragment-typescript/commit/9f564fd178237b5a12d0a57e74ad917779e34de7))
+
+
+### Bug Fixes
+
+* **ci:** bump @arethetypeswrong/cli to ^0.18.0 and run CI workflows on Node 24 ([3282f3f](https://github.com/fragment-dev/fragment-typescript/commit/3282f3f2ef0466ccdb96478eec4a9bf01216827c))
+
 ## 0.27.0 (2026-06-19)
 
 Full Changelog: [v0.26.0...v0.27.0](https://github.com/fragment-dev/fragment-typescript/compare/v0.26.0...v0.27.0)
